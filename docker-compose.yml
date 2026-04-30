@@ -1,0 +1,19 @@
+services:
+  server:
+    build:
+      context: server
+    ports:
+      - "8080:8080"
+    environment:
+      DB_PATH: /data/progress.sqlite
+      WALKTHROUGHS_DIR: /walkthroughs
+      STATIC_DIR: /static
+      LISTEN_ADDR: ":8080"
+    volumes:
+      - server-data:/data
+      - ./walkthroughs:/walkthroughs:ro
+      - ./webapp/build:/static:ro
+    restart: unless-stopped
+
+volumes:
+  server-data:

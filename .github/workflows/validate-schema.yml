@@ -1,0 +1,35 @@
+name: Validate Walkthrough Schema
+
+on:
+  pull_request:
+    paths:
+      - 'walkthroughs/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli
+
+      - name: Validate all walkthrough JSON files
+        run: |
+          SCHEMA="walkthroughs/walkthrough.schema.json"
+          FAILED=0
+          while IFS= read -r -d '' file; do
+            echo "Validating: $file"
+            if ! ajv validate -s "$SCHEMA" -d "$file" --strict=false; then
+              echo "❌ Failed: $file"
+              FAILED=1
+            else
+              echo "✅ OK: $file"
+            fi
+          done < <(find walkthroughs -name "*.json" ! -name "walkthrough.schema.json" -print0)
+          exit $FAILED

@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: walkthrough-server
+  namespace: walkthroughs
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: walkthroughs.YOUR_DOMAIN   # replace with your actual hostname
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: walkthrough-server
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - walkthroughs.YOUR_DOMAIN
+      secretName: walkthrough-tls

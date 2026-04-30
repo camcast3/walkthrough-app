@@ -1,0 +1,90 @@
+{
+  "$schema": "../walkthrough.schema.json",
+  "id": "dark-souls-remastered-main",
+  "game": "Dark Souls Remastered",
+  "title": "Main Story Walkthrough",
+  "author": "Fextralife",
+  "source_url": "https://fextralife.com/dark-souls-remastered-walkthrough/",
+  "attribution": "This walkthrough was pulled from Fextralife (fextralife.com) and processed for a cleaner reading experience. All credit for the original content goes to the Fextralife community.",
+  "created_at": "2026-04-30",
+  "sections": [
+    {
+      "id": "undead-asylum",
+      "title": "Undead Asylum",
+      "steps": [
+        {
+          "id": "step-001",
+          "type": "step",
+          "text": "Pick up the **Dungeon Cell Key** from the corpse near the starting cell.",
+          "note": "It's on the body right next to where you start."
+        },
+        {
+          "id": "step-002",
+          "type": "step",
+          "text": "Unlock the cell door and head upstairs."
+        },
+        {
+          "id": "step-003",
+          "type": "collectible",
+          "text": "Pick up the **Straight Sword Hilt** from the corpse on the steps.",
+          "note": "Missable if you rush past — it's on the right side of the staircase."
+        },
+        {
+          "id": "step-004",
+          "type": "step",
+          "text": "Grab the **Estus Flask** from the altar in the large room."
+        },
+        {
+          "id": "step-005",
+          "type": "warning",
+          "text": "Do NOT fight the Asylum Demon head-on your first encounter. Run past it through the fog gate on the left.",
+          "note": "You can come back to fight it properly after getting your starting weapon."
+        },
+        {
+          "id": "step-006",
+          "type": "step",
+          "text": "Drop down to the fog gate room and pick up your **starting gift** and **Humanity** if applicable."
+        },
+        {
+          "id": "step-007",
+          "type": "boss",
+          "text": "**BOSS: Asylum Demon** — Attack from behind after the plunge attack. Use the plunging attack from the ledge for massive damage.",
+          "note": "Reward: Big Pilgrim's Key"
+        },
+        {
+          "id": "step-008",
+          "type": "step",
+          "text": "Use the Big Pilgrim's Key to exit the Asylum. Watch the cutscene."
+        }
+      ]
+    },
+    {
+      "id": "firelink-shrine",
+      "title": "Firelink Shrine",
+      "steps": [
+        {
+          "id": "step-009",
+          "type": "step",
+          "text": "Talk to **Kingseeker Frampt** (if he appears) — not required, just lore."
+        },
+        {
+          "id": "step-010",
+          "type": "collectible",
+          "text": "Grab the **Humanity** and **Twin Humanities** from the corpses near the well.",
+          "note": "One is by the well, the other is behind the well arch."
+        },
+        {
+          "id": "step-011",
+          "type": "note",
+          "text": "Firelink Shrine is your main hub. You can warp back here by resting at the bonfire.",
+          "note": "The NPC Anastacia of Astora is imprisoned below the bonfire — she is the Fire Keeper."
+        },
+        {
+          "id": "step-012",
+          "type": "step",
+          "text": "Decide your next area: **Undead Burg** (recommended first) or **New Londo Ruins** (dangerous)."
+        }
+      ]
+    }
+  ]
+}

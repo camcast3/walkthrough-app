@@ -1,0 +1,17 @@
+node_modules/
+.svelte-kit/
+build/
+dist/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.db
+
+# Go
+server/walkthrough-server
+server/*.exe
+
+# OS
+.DS_Store
+Thumbs.db
