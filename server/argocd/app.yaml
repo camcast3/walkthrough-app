@@ -1,7 +1,9 @@
-# Apply this once to bootstrap ArgoCD management of the app:
-#   kubectl apply -f server/argocd/app.yaml -n argocd
+# Add this to the-basement repo at:
+#   kubernetes/platform/argocd/apps/walkthrough-app.yaml
 #
-# After that, ArgoCD watches server/k8s/ on main and syncs automatically.
+# The root app-of-apps will pick it up automatically.
+# No manual kubectl apply needed.
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -12,7 +14,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/YOUR_GITHUB_USER/walkthrough-app   # replace with your repo URL
+    repoURL: https://github.com/camcast3/walkthrough-app.git
     targetRevision: main
     path: server/k8s
   destination:
@@ -24,4 +26,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - ServerSideApply=true   # required for Argo Rollouts CRDs
+      - ServerSideApply=true

@@ -1,23 +1,28 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
+	"time"
 	"walkthrough-server/handlers"
+	"walkthrough-server/source"
 	"walkthrough-server/store"
+	"walkthrough-server/upstream"
 )
 
 func main() {
 	addr := flag.String("addr", ":8080", "listen address")
 	dbPath := flag.String("db", "/data/progress.sqlite", "path to SQLite database file")
-	walkthroughsDir := flag.String("walkthroughs", "/walkthroughs", "path to walkthrough JSON directory")
+	walkthroughsDir := flag.String("walkthroughs", "/walkthroughs", "path to walkthrough JSON directory (file mode)")
 	staticDir := flag.String("static", "/static", "path to built webapp static files")
 	flag.Parse()
 
-	// Allow env var overrides for k8s configmap/secret usage
+	// Allow env var overrides
 	if v := os.Getenv("DB_PATH"); v != "" {
 		*dbPath = v
 	}
@@ -42,9 +47,92 @@ func main() {
 	}
 	defer db.Close()
 
+	// APP_MODE determines the operating mode:
+	//   "server" — fetches walkthroughs from GitHub, serves as authoritative source
+	//   "client" — fetches walkthroughs from a remote server, syncs progress upstream
+	//   (default) — reads walkthroughs from local filesystem (docker-compose dev)
+	appMode := os.Getenv("APP_MODE")
+
+	var src source.WalkthroughSource
+	var progressSync *upstream.ProgressSync
+
+	switch appMode {
+	case "server":
+		repo := os.Getenv("GITHUB_REPO")
+		if repo == "" {
+			log.Fatal("APP_MODE=server requires GITHUB_REPO (e.g. owner/repo)")
+		}
+		parts := strings.SplitN(repo, "/", 2)
+		if len(parts) != 2 {
+			log.Fatalf("GITHUB_REPO must be in owner/repo format, got: %s", repo)
+		}
+
+		branch := envOrDefault("GITHUB_BRANCH", "main")
+		ghPath := envOrDefault("GITHUB_PATH", "walkthroughs")
+		interval := parseDuration(os.Getenv("GITHUB_REFRESH_INTERVAL"), 5*time.Minute)
+		cacheDir := envOrDefault("GITHUB_CACHE_DIR", filepath.Dir(*dbPath))
+
+		ghSrc := source.NewGitHubSource(source.GitHubConfig{
+			Owner:    parts[0],
+			Repo:     parts[1],
+			Path:     ghPath,
+			Branch:   branch,
+			Token:    os.Getenv("GITHUB_TOKEN"),
+			Interval: interval,
+			CacheDir: cacheDir,
+		})
+		ghSrc.Start(context.Background())
+		defer ghSrc.Close()
+		src = ghSrc
+
+		log.Printf("  mode:   server (github: %s/%s @ %s, refresh %s)", parts[0], parts[1], branch, interval)
+
+	case "client":
+		serverURL := os.Getenv("REMOTE_SERVER_URL")
+		if serverURL == "" {
+			log.Fatal("APP_MODE=client requires REMOTE_SERVER_URL")
+		}
+		serverURL = strings.TrimRight(serverURL, "/")
+
+		interval := parseDuration(os.Getenv("REMOTE_REFRESH_INTERVAL"), 10*time.Minute)
+		cacheDir := envOrDefault("REMOTE_CACHE_DIR", filepath.Dir(*dbPath))
+
+		remoteSrc := source.NewRemoteSource(source.RemoteConfig{
+			ServerURL: serverURL,
+			Interval:  interval,
+			CacheDir:  cacheDir,
+		})
+		remoteSrc.Start(context.Background())
+		defer remoteSrc.Close()
+		src = remoteSrc
+
+		// Start progress sync (pushes local changes upstream)
+		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
+		progressSync = upstream.NewProgressSync(serverURL, db, syncInterval)
+		progressSync.Start(context.Background())
+		defer progressSync.Close()
+
+		// Pull latest progress from server on startup
+		go func() {
+			metas, _ := remoteSrc.List()
+			ids := make([]string, len(metas))
+			for i, m := range metas {
+				ids[i] = m.ID
+			}
+			progressSync.PullAll(context.Background(), ids)
+		}()
+
+		log.Printf("  mode:   client (server: %s, refresh %s)", serverURL, interval)
+
+	default:
+		src = source.NewFileSource(*walkthroughsDir)
+		log.Printf("  mode:   file (%s)", *walkthroughsDir)
+	}
+
 	h := &handlers.Handler{
-		DB:              db,
-		WalkthroughsDir: *walkthroughsDir,
+		DB:     db,
+		Source: src,
+		Sync:   progressSync,
 	}
 
 	mux := http.NewServeMux()
@@ -59,13 +147,26 @@ func main() {
 	mux.Handle("/", spaHandler(*staticDir))
 
 	log.Printf("walkthrough-server listening on %s", *addr)
-	log.Printf("  walkthroughs: %s", *walkthroughsDir)
-	log.Printf("  static:       %s", *staticDir)
-	log.Printf("  db:           %s", *dbPath)
+	log.Printf("  static: %s", *staticDir)
+	log.Printf("  db:     %s", *dbPath)
 
 	if err := http.ListenAndServe(*addr, corsMiddleware(mux)); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
+}
+
+func envOrDefault(key, defaultVal string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return defaultVal
+}
+
+func parseDuration(s string, defaultVal time.Duration) time.Duration {
+	if d, err := time.ParseDuration(s); err == nil && d > 0 {
+		return d
+	}
+	return defaultVal
 }
 
 // spaHandler serves static files and falls back to index.html for unknown paths.

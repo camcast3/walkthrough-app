@@ -2,18 +2,18 @@ package handlers
 
 import (
 	"encoding/json"
-	"io/fs"
 	"net/http"
-	"os"
-	"path/filepath"
-	"strings"
 	"time"
+	"walkthrough-server/source"
 	"walkthrough-server/store"
+	"walkthrough-server/upstream"
 )
 
 type Handler struct {
-	DB              *store.DB
-	WalkthroughsDir string // path to the /walkthroughs directory from the repo
+	DB     *store.DB
+	Source source.WalkthroughSource
+	// Sync is non-nil in client mode; signals upstream sync on progress changes.
+	Sync *upstream.ProgressSync
 }
 
 // respondJSON writes a JSON response with the given status code.
@@ -29,40 +29,16 @@ func respondError(w http.ResponseWriter, status int, msg string) {
 }
 
 // ListWalkthroughs handles GET /api/walkthroughs
-// Scans WalkthroughsDir for *.json files and returns metadata.
 func (h *Handler) ListWalkthroughs(w http.ResponseWriter, r *http.Request) {
-	var metas []store.WalkthroughMeta
-
-	err := filepath.WalkDir(h.WalkthroughsDir, func(path string, d fs.DirEntry, err error) error {
-		if err != nil || d.IsDir() {
-			return nil
-		}
-		if strings.HasSuffix(d.Name(), ".json") && d.Name() != "walkthrough.schema.json" {
-			data, readErr := os.ReadFile(path)
-			if readErr != nil {
-				return nil
-			}
-			meta, parseErr := store.ParseMetaFromJSON(data)
-			if parseErr != nil || meta.ID == "" {
-				return nil
-			}
-			metas = append(metas, *meta)
-		}
-		return nil
-	})
+	metas, err := h.Source.List()
 	if err != nil {
 		respondError(w, http.StatusInternalServerError, "failed to list walkthroughs")
 		return
-	}
-
-	if metas == nil {
-		metas = []store.WalkthroughMeta{}
 	}
 	respondJSON(w, http.StatusOK, metas)
 }
 
 // GetWalkthrough handles GET /api/walkthroughs/{id}
-// Finds the JSON file whose top-level "id" matches and returns the full content.
 func (h *Handler) GetWalkthrough(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	if id == "" {
@@ -70,32 +46,15 @@ func (h *Handler) GetWalkthrough(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var found []byte
-	_ = filepath.WalkDir(h.WalkthroughsDir, func(path string, d fs.DirEntry, err error) error {
-		if found != nil || err != nil || d.IsDir() {
-			return nil
-		}
-		if strings.HasSuffix(d.Name(), ".json") && d.Name() != "walkthrough.schema.json" {
-			data, readErr := os.ReadFile(path)
-			if readErr != nil {
-				return nil
-			}
-			meta, parseErr := store.ParseMetaFromJSON(data)
-			if parseErr == nil && meta.ID == id {
-				found = data
-			}
-		}
-		return nil
-	})
-
-	if found == nil {
+	data, err := h.Source.Get(id)
+	if err != nil {
 		respondError(w, http.StatusNotFound, "walkthrough not found")
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	_, _ = w.Write(found)
+	_, _ = w.Write(data)
 }
 
 // GetProgress handles GET /api/progress/{id}
@@ -144,5 +103,11 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, "failed to save progress")
 		return
 	}
+
+	// In client mode, queue for upstream sync
+	if h.Sync != nil {
+		h.Sync.MarkDirty(id)
+	}
+
 	respondJSON(w, http.StatusOK, record)
 }

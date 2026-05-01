@@ -5,10 +5,10 @@ metadata:
   namespace: walkthroughs
 spec:
   parentRefs:
-    - name: YOUR_GATEWAY_NAME         # name of your Cilium Gateway resource
-      namespace: YOUR_GATEWAY_NAMESPACE  # namespace where the Gateway lives (e.g. kube-system)
+    - name: cilium-gateway
+      namespace: kube-system
   hostnames:
-    - "walkthroughs.YOUR_DOMAIN"
+    - walkthroughs.local.negativezone.cc
   rules:
     - matches:
         - path:
