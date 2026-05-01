@@ -1,6 +1,11 @@
 /**
  * Gamepad navigation for the walkthrough viewer.
  *
+ * Power-optimised: polling only runs when a gamepad is connected and the page
+ * is visible.  Uses setTimeout (~15 fps) instead of requestAnimationFrame so
+ * the browser can coalesce timers during idle and the CPU can sleep between
+ * ticks — a significant battery saving on handhelds like the ROG Ally.
+ *
  * Button mapping (standard gamepad layout):
  *   0 = A (South) — check/uncheck focused step
  *   1 = B (East)  — navigate back
@@ -36,23 +41,62 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	15: 'next-section'
 };
 
+const POLL_INTERVAL_MS = 66; // ~15 fps — responsive enough for button presses
+
 export class GamepadNavigator {
-	private rafId: number | null = null;
+	private timerId: ReturnType<typeof setTimeout> | null = null;
 	private buttonStates: Map<number, ButtonState> = new Map();
 	private onAction: (action: GamepadAction) => void;
+	private gamepadCount = 0;
 
 	constructor(onAction: (action: GamepadAction) => void) {
 		this.onAction = onAction;
 	}
 
 	start(): void {
-		this.poll();
+		window.addEventListener('gamepadconnected', this.onGamepadConnected);
+		window.addEventListener('gamepaddisconnected', this.onGamepadDisconnected);
+		document.addEventListener('visibilitychange', this.onVisibilityChange);
+
+		// If a gamepad is already connected (e.g. page reload), start polling
+		this.gamepadCount = (navigator.getGamepads?.() ?? []).filter(Boolean).length;
+		if (this.gamepadCount > 0) this.startPolling();
 	}
 
 	stop(): void {
-		if (this.rafId !== null) {
-			cancelAnimationFrame(this.rafId);
-			this.rafId = null;
+		this.stopPolling();
+		window.removeEventListener('gamepadconnected', this.onGamepadConnected);
+		window.removeEventListener('gamepaddisconnected', this.onGamepadDisconnected);
+		document.removeEventListener('visibilitychange', this.onVisibilityChange);
+	}
+
+	private onGamepadConnected = (): void => {
+		this.gamepadCount++;
+		if (this.gamepadCount === 1 && !document.hidden) this.startPolling();
+	};
+
+	private onGamepadDisconnected = (): void => {
+		this.gamepadCount = Math.max(0, this.gamepadCount - 1);
+		if (this.gamepadCount === 0) this.stopPolling();
+	};
+
+	private onVisibilityChange = (): void => {
+		if (document.hidden) {
+			this.stopPolling();
+		} else if (this.gamepadCount > 0) {
+			this.startPolling();
+		}
+	};
+
+	private startPolling(): void {
+		if (this.timerId !== null) return;
+		this.poll();
+	}
+
+	private stopPolling(): void {
+		if (this.timerId !== null) {
+			clearTimeout(this.timerId);
+			this.timerId = null;
 		}
 	}
 
@@ -76,6 +120,6 @@ export class GamepadNavigator {
 				this.buttonStates.set(idx, { pressed: isPressed, wasPressed: isPressed });
 			}
 		}
-		this.rafId = requestAnimationFrame(this.poll);
+		this.timerId = setTimeout(this.poll, POLL_INTERVAL_MS);
 	};
 }

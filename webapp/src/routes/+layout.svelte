@@ -38,7 +38,7 @@
 		position: relative;
 	}
 
-	/* Animated gradient mesh background */
+	/* Static gradient mesh background (no animation — saves GPU/battery on handhelds) */
 	:global(body)::before {
 		content: '';
 		position: fixed;
@@ -48,22 +48,6 @@
 			radial-gradient(ellipse 80% 60% at 20% 20%, rgba(124,106,247,0.08) 0%, transparent 60%),
 			radial-gradient(ellipse 60% 80% at 80% 80%, rgba(84,214,106,0.05) 0%, transparent 50%),
 			radial-gradient(ellipse 70% 50% at 60% 10%, rgba(238,90,90,0.04) 0%, transparent 50%);
-		animation: meshShift 20s ease-in-out infinite alternate;
-	}
-
-	@keyframes meshShift {
-		0% {
-			background:
-				radial-gradient(ellipse 80% 60% at 20% 20%, rgba(124,106,247,0.08) 0%, transparent 60%),
-				radial-gradient(ellipse 60% 80% at 80% 80%, rgba(84,214,106,0.05) 0%, transparent 50%),
-				radial-gradient(ellipse 70% 50% at 60% 10%, rgba(238,90,90,0.04) 0%, transparent 50%);
-		}
-		100% {
-			background:
-				radial-gradient(ellipse 80% 60% at 40% 40%, rgba(124,106,247,0.06) 0%, transparent 60%),
-				radial-gradient(ellipse 60% 80% at 60% 60%, rgba(84,214,106,0.07) 0%, transparent 50%),
-				radial-gradient(ellipse 70% 50% at 30% 80%, rgba(238,90,90,0.05) 0%, transparent 50%);
-		}
 	}
 
 	/* Heading font */
@@ -86,9 +70,6 @@
 
 	/* Respect reduced motion */
 	@media (prefers-reduced-motion: reduce) {
-		:global(body)::before {
-			animation: none;
-		}
 		:global(*) {
 			animation-duration: 0.01ms !important;
 			transition-duration: 0.01ms !important;

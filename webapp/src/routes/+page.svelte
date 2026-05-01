@@ -117,7 +117,6 @@
 		padding: 0.75rem 1rem;
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
-		backdrop-filter: blur(8px);
 	}
 
 	.banner.warning {
@@ -150,8 +149,6 @@
 		align-items: center;
 		gap: 1rem;
 		background: rgba(20, 20, 36, 0.7);
-		backdrop-filter: blur(12px);
-		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid rgba(124,106,247,0.12);
 		border-radius: 16px;
 		padding: 1.1rem 1rem 1.1rem 1.25rem;
