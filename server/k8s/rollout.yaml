@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/YOUR_GITHUB_USER/walkthrough-server:latest
+          image: ghcr.io/camcast3/walkthrough-server:c9d231ca523f454765900ef0933679d9fd0f2eb2
           ports:
             - containerPort: 8080
           env:
