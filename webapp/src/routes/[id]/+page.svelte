@@ -213,6 +213,26 @@
 		{/each}
 	</nav>
 
+	<!-- Legend -->
+	<details class="legend">
+		<summary class="legend-toggle">Step type legend</summary>
+		<ul class="legend-list" aria-label="Step type legend">
+			{#each Object.entries(TYPE_ICON) as [type, icon]}
+				<li class="legend-item">
+					<span class="type-badge type-{type}" aria-hidden="true">{icon}</span>
+					<span class="legend-label">
+						<strong>{TYPE_LABEL[type]}</strong>
+						{#if type === 'step'} — checkable action{/if}
+						{#if type === 'note'} — tip or info (not checkable){/if}
+						{#if type === 'warning'} — do not miss / be careful{/if}
+						{#if type === 'collectible'} — missable item or trophy{/if}
+						{#if type === 'boss'} — boss fight{/if}
+					</span>
+				</li>
+			{/each}
+		</ul>
+	</details>
+
 	<!-- Steps list -->
 	<main class="steps-list" aria-label="Steps for {currentSection?.title}">
 		{#each currentSection?.steps ?? [] as step, i (step.id)}
@@ -475,6 +495,54 @@
 		border-radius: 8px;
 		max-height: 200px;
 		object-fit: cover;
+	}
+
+	/* ── Legend ── */
+	.legend {
+		margin: 0.5rem 0.75rem 0;
+		border: 1px solid #2a2a44;
+		border-radius: 10px;
+		background: #13131f;
+	}
+
+	.legend-toggle {
+		padding: 0.55rem 0.9rem;
+		font-size: 0.78rem;
+		color: #8888aa;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+	}
+
+	.legend-toggle::-webkit-details-marker { display: none; }
+
+	.legend[open] .legend-toggle {
+		border-bottom: 1px solid #2a2a44;
+		color: #a89df7;
+	}
+
+	.legend-list {
+		list-style: none;
+		padding: 0.6rem 0.9rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.2rem;
+	}
+
+	.legend-item {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.legend-label {
+		font-size: 0.78rem;
+		color: #9898b8;
+		line-height: 1.3;
+	}
+
+	.legend-label strong {
+		color: #c8c8e0;
 	}
 
 	/* ── Attribution ── */

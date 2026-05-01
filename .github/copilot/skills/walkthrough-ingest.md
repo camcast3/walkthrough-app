@@ -30,12 +30,17 @@ A single valid JSON file matching the schema. Output the JSON in a code block wi
 
 3. **Break content into sections** that map to major game areas, chapters, or phases. Each section needs a unique slug `id` and a human-readable `title`.
 
-4. **Classify each step** using the correct `type`:
-   - `step` — a standard checkable action the player takes
-   - `note` — informational text, tips, lore. NOT checkable.
-   - `warning` — something the player must not miss or must be careful about
-   - `collectible` — a missable item, trophy, achievement trigger
-   - `boss` — a boss fight. Include the boss name in bold in the `text` field.
+4. **Classify each step** using the correct `type` and understand its icon in the app:
+
+   | Icon | Type | Meaning |
+   |------|------|---------|
+   | `✓`  | `step` | A standard checkable action the player takes |
+   | `ℹ`  | `note` | Informational text, tips, lore. **NOT checkable.** |
+   | `⚠`  | `warning` | Something the player must not miss or must be careful about |
+   | `◆`  | `collectible` | A missable item, trophy, or achievement trigger |
+   | `☠`  | `boss` | A boss fight. Include the boss name in bold in the `text` field. |
+
+   These icons are the canonical legend displayed in the webapp. Use only these five `type` values — no others are valid.
 
 5. **Keep step text concise.** Each step should be one action or one piece of information. Split long paragraphs into multiple steps. Use **bold** for item names, boss names, and key locations.
 
