@@ -1,0 +1,867 @@
+{
+  "$schema": "../walkthrough.schema.json",
+  "id": "the-legend-of-heroes-trails-of-cold-steel-ii-main",
+  "game": "The Legend of Heroes: Trails of Cold Steel II",
+  "title": "Main Story Walkthrough",
+  "author": "Neoseeker",
+  "source_url": "https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/walkthrough",
+  "attribution": "This walkthrough was pulled from Neoseeker (https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/walkthrough) and processed for a cleaner reading experience. All credit for the original content goes to Neoseeker.",
+  "created_at": "2026-05-01",
+  "sections": [
+    {
+      "id": "prologue-part-a",
+      "title": "Prologue Part A: Eisengard Mountain Range (November 29)",
+      "steps": [
+        {
+          "id": "pro-a-001",
+          "type": "note",
+          "text": "Begin a new game and select your difficulty. If you have clear save data from the first game, you can transfer it for bonuses (extra Sepith, items, and attacks depending on Rean's level and rank)."
+        },
+        {
+          "id": "pro-a-002",
+          "type": "step",
+          "text": "Watch the introduction sequence which recaps the end of the first game.",
+          "note": "Contains spoilers for the first game."
+        },
+        {
+          "id": "pro-a-003",
+          "type": "step",
+          "text": "After gaining control of Rean, open the navigation menu (Square button) to see your next objective."
+        },
+        {
+          "id": "pro-a-004",
+          "type": "step",
+          "text": "Head downhill and check the shining object to obtain Rean's equipment."
+        },
+        {
+          "id": "pro-a-005",
+          "type": "step",
+          "text": "Open the menu and equip your **Master Quartz** in the Orbment system."
+        },
+        {
+          "id": "pro-a-006",
+          "type": "step",
+          "text": "Encounter and fight your first monster. Sneak up on enemies or stun them to gain a battle advantage (bonus turns, reduced enemy HP).",
+          "note": "After your victory, the Monster Notes system is introduced — defeating monsters fills out your enemy database."
+        },
+        {
+          "id": "pro-a-007",
+          "type": "step",
+          "text": "Proceed down the canyon, fighting a few more enemies along the way."
+        },
+        {
+          "id": "pro-a-008",
+          "type": "boss",
+          "text": "**BOSS: Magic Knight Ortheim** — Keep attacking until its HP drops to a trigger point, ending the fight automatically.",
+          "note": "This is a scripted battle; just keep dealing damage until the scene triggers."
+        }
+      ]
+    },
+    {
+      "id": "prologue-part-b",
+      "title": "Prologue Part B: Ymir Village & Canyon (November 30)",
+      "steps": [
+        {
+          "id": "pro-b-001",
+          "type": "note",
+          "text": "You are now in Rean's home village, **Ymir**. Red markers indicate main objective events; green markers are side quest events."
+        },
+        {
+          "id": "pro-b-002",
+          "type": "step",
+          "text": "Talk to **Celine** and **Elise** for character profiles."
+        },
+        {
+          "id": "pro-b-003",
+          "type": "collectible",
+          "text": "Visit **Ploval's General Store** to get the first volume of **Gambler Jack**.",
+          "note": "Part of the book collection — don't miss this."
+        },
+        {
+          "id": "pro-b-004",
+          "type": "step",
+          "text": "Speak with every NPC, especially those with a red exclamation mark."
+        },
+        {
+          "id": "pro-b-005",
+          "type": "step",
+          "text": "Proceed outside Ymir through **Ymir Canyon**."
+        },
+        {
+          "id": "pro-b-006",
+          "type": "step",
+          "text": "Navigate through the canyon, fighting monsters and opening all treasure chests."
+        },
+        {
+          "id": "pro-b-007",
+          "type": "step",
+          "text": "Complete the canyon section to trigger story events leading into Act 1."
+        },
+        {
+          "id": "pro-b-008",
+          "type": "note",
+          "text": "Remember to check treasure chests in all new areas, use the Orbment system for healing and combat support, and speak to all villagers and check stores for books and useful items."
+        }
+      ]
+    },
+    {
+      "id": "act-1-part-1",
+      "title": "Act 1 - Part 1: Ymir",
+      "steps": [
+        {
+          "id": "a1p1-001",
+          "type": "note",
+          "text": "You now have access to **Quick Travel** via the navigation menu."
+        },
+        {
+          "id": "a1p1-002",
+          "type": "step",
+          "text": "Head to the general store and talk to **Raio** (shopkeeper on the right). This introduces weapon synthesis and unlocking Orbment Slots."
+        },
+        {
+          "id": "a1p1-003",
+          "type": "step",
+          "text": "Talk to **Camillia** to unlock the item trading function (works like the pawn shop from the previous game).",
+          "note": "On a second playthrough, Camillia lets you trade Zemurian Ore Shards for 50 U-Materials."
+        },
+        {
+          "id": "a1p1-004",
+          "type": "step",
+          "text": "Find **Luke** near the wrecked station. He gives you **Tear Balms**."
+        },
+        {
+          "id": "a1p1-005",
+          "type": "collectible",
+          "text": "Find the first **Leaf** in the northwest corner of Ymir Valley 1."
+        },
+        {
+          "id": "a1p1-006",
+          "type": "collectible",
+          "text": "Find the second **Leaf** in the upper southeast corner of Ymir Valley 2, near a treasure chest."
+        },
+        {
+          "id": "a1p1-007",
+          "type": "step",
+          "text": "Once prepared, leave for **Ymir Canyon** and proceed toward **Lunaria Nature Park**."
+        }
+      ]
+    },
+    {
+      "id": "act-1-part-2",
+      "title": "Act 1 - Part 2: Nord Highlands (December 5)",
+      "steps": [
+        {
+          "id": "a1p2-001",
+          "type": "step",
+          "text": "Leave Ymir through Ymir Valley."
+        },
+        {
+          "id": "a1p2-002",
+          "type": "step",
+          "text": "Select two Class VII members and a guest (**Claire** or **Toval**) for your party."
+        },
+        {
+          "id": "a1p2-003",
+          "type": "step",
+          "text": "Traverse **Nord Highlands - South**, using the map to collect all treasure chests."
+        },
+        {
+          "id": "a1p2-004",
+          "type": "step",
+          "text": "Proceed southwest to **Zender Gate**. You'll receive a horse here."
+        },
+        {
+          "id": "a1p2-005",
+          "type": "collectible",
+          "text": "Speak to **Marx** at the Mess Hall inside Zender Gate for the **Potato Croquette** recipe.",
+          "note": "Also check for new weapons here."
+        },
+        {
+          "id": "a1p2-006",
+          "type": "step",
+          "text": "Find classmates: **Beryl** (Mess Hall), **Mint** (outside Zender Gate)."
+        },
+        {
+          "id": "a1p2-007",
+          "type": "step",
+          "text": "Leave Zender Gate and head northeast to **Nord Settlement**."
+        },
+        {
+          "id": "a1p2-008",
+          "type": "boss",
+          "text": "**BOSS: Jaegers** — These enemies can revive allies and hit hard. Use buffs and S-Crafts.",
+          "note": "Focus fire on one Jaeger at a time to prevent revives."
+        },
+        {
+          "id": "a1p2-009",
+          "type": "step",
+          "text": "Complete side quest: **Highlands Hunt** — Simple kill quest in the Highlands."
+        },
+        {
+          "id": "a1p2-010",
+          "type": "step",
+          "text": "Complete side quest: **Foaling Around** — Help find a missing horse. Starts near sheep, horse moves NW, chase until it returns to the Settlement."
+        },
+        {
+          "id": "a1p2-011",
+          "type": "collectible",
+          "text": "Hidden quest: **Zats Amore** — Found in Zender Gate's weapon shop.",
+          "note": "Easy to miss — speak to the shop owner specifically."
+        },
+        {
+          "id": "a1p2-012",
+          "type": "step",
+          "text": "Explore the optional dungeon: **Aria Shrine** in Nord Highlands – East for bonus AP."
+        },
+        {
+          "id": "a1p2-013",
+          "type": "collectible",
+          "text": "Hidden quest: **Azuki's Adventure** — Found at the goods store back in Ymir.",
+          "note": "Must return to Ymir to find this hidden quest."
+        }
+      ]
+    },
+    {
+      "id": "act-1-part-3",
+      "title": "Act 1 - Part 3: Return to Ymir & Divine Knight Battle",
+      "steps": [
+        {
+          "id": "a1p3-001",
+          "type": "step",
+          "text": "Return to Ymir with your party after completing Nord events."
+        },
+        {
+          "id": "a1p3-002",
+          "type": "step",
+          "text": "Follow the story progress and complete main chapter events in Ymir."
+        },
+        {
+          "id": "a1p3-003",
+          "type": "warning",
+          "text": "Complete all available side content before triggering the Loa Erebonius battle — this is a point of no return for Act 1."
+        },
+        {
+          "id": "a1p3-004",
+          "type": "step",
+          "text": "Enter the Ymir lodge and complete preparations. Save before the fight."
+        },
+        {
+          "id": "a1p3-005",
+          "type": "note",
+          "text": "For bonus AP, defeat the Shrine boss and try to win the race before proceeding."
+        },
+        {
+          "id": "a1p3-006",
+          "type": "boss",
+          "text": "**BOSS: Loa Erebonius (Divine Knight Battle)** — Control Valimar with support from Alisa, Elliot, and Laura.",
+          "note": "Target the glowing body part (head, body, or arms). Use Elliot for healing, Alisa for buffs, Laura for damage. Heal frequently with the Spirit command."
+        },
+        {
+          "id": "a1p3-007",
+          "type": "note",
+          "text": "Use the Analyze function during the fight to add Loa Erebonius to your Battle Notebook. Watch for Unbalance chances to use Rush or Burst attacks."
+        },
+        {
+          "id": "a1p3-008",
+          "type": "step",
+          "text": "Watch the cutscenes after defeating Loa Erebonius. The story progresses to the Intermission."
+        }
+      ]
+    },
+    {
+      "id": "intermission",
+      "title": "Intermission Chapter",
+      "steps": [
+        {
+          "id": "int-001",
+          "type": "step",
+          "text": "Visit each room marked with a red exclamation mark to trigger story scenes."
+        },
+        {
+          "id": "int-002",
+          "type": "step",
+          "text": "Visit **Scarlet** in the South Area (Southeast Room)."
+        },
+        {
+          "id": "int-003",
+          "type": "step",
+          "text": "Visit **Vulcan** in the South Area (Northeast Room)."
+        },
+        {
+          "id": "int-004",
+          "type": "step",
+          "text": "Visit **Bleublanc** at the Dining Table (Center)."
+        },
+        {
+          "id": "int-005",
+          "type": "step",
+          "text": "Visit **Xeno & Leonidas** in the North Area (Southeast Room)."
+        },
+        {
+          "id": "int-006",
+          "type": "step",
+          "text": "Visit **McBurn** in the North Area (Northeast Room)."
+        },
+        {
+          "id": "int-007",
+          "type": "step",
+          "text": "Visit **Duvalie** in the North Area (Southwest Room)."
+        },
+        {
+          "id": "int-008",
+          "type": "step",
+          "text": "Visit **Altina** in the North Area (Northwest Room)."
+        },
+        {
+          "id": "int-009",
+          "type": "step",
+          "text": "Go to the second floor (North) to the guest room. Knock on the door for a cutscene.",
+          "note": "Rean gains Spirit Unification here."
+        },
+        {
+          "id": "int-010",
+          "type": "step",
+          "text": "Go downstairs to your room (South Area, Southwest corner)."
+        },
+        {
+          "id": "int-011",
+          "type": "step",
+          "text": "Examine the air ducts by the flower vase to progress."
+        },
+        {
+          "id": "int-012",
+          "type": "step",
+          "text": "Crawl through the air duct and prepare for combat."
+        },
+        {
+          "id": "int-013",
+          "type": "step",
+          "text": "Defeat the **Alliance Forces Soldiers** (HP: 9,600 each). Use Alfin's arts for efficient damage.",
+          "note": "Use Rean's Autumn Leaf Cutter to cancel enemy arts."
+        },
+        {
+          "id": "int-014",
+          "type": "collectible",
+          "text": "West room: Pick up a **Celestial Balm**."
+        },
+        {
+          "id": "int-015",
+          "type": "collectible",
+          "text": "East room: Pick up an **Orange Cape**."
+        },
+        {
+          "id": "int-016",
+          "type": "step",
+          "text": "Continue forward to the Orbment Charging Station at the southern end to heal up."
+        },
+        {
+          "id": "int-017",
+          "type": "boss",
+          "text": "**BOSS: Duvalie (HP: 85,316) & Bleublanc (HP: 96,640)** — You only need to bring ONE boss below 50% HP to win.",
+          "note": "Use an S-Craft for heavy damage. Scan both bosses with Analyze for notebook completion."
+        }
+      ]
+    },
+    {
+      "id": "act-2-part-1",
+      "title": "Act 2 - Part 1: Celdic",
+      "steps": [
+        {
+          "id": "a2p1-001",
+          "type": "note",
+          "text": "You are now on the **Courageous** airship. Check the quest list at the terminal and set up your party. **Millium** is mandatory for this Act."
+        },
+        {
+          "id": "a2p1-002",
+          "type": "step",
+          "text": "If you recruited **Becky** earlier, she acts as a shop for trading items on the Courageous."
+        },
+        {
+          "id": "a2p1-003",
+          "type": "note",
+          "text": "Combine an **Attack 2** and **Action 2** quartz with 20 U-Materials to craft an **Ex-Orb** for Valimar. There are two tough mech battles this Act."
+        },
+        {
+          "id": "a2p1-004",
+          "type": "step",
+          "text": "Travel to **Celdic** (new destination added)."
+        },
+        {
+          "id": "a2p1-005",
+          "type": "collectible",
+          "text": "Talk to **Becky** at Celdic House to have her join the Courageous (+2 AP bonus).",
+          "note": "Easy to miss — grants Academic Points."
+        },
+        {
+          "id": "a2p1-006",
+          "type": "step",
+          "text": "Accept and clear all available quests in town.",
+          "note": "Some quests have time limits before progression locks them out."
+        },
+        {
+          "id": "a2p1-007",
+          "type": "warning",
+          "text": "Complete all side quests before advancing the main story — some quests lock out on progression."
+        },
+        {
+          "id": "a2p1-008",
+          "type": "boss",
+          "text": "**BOSS: Celdic Region Boss** — Check elemental weaknesses with Analyze or Battle Scope. Use crafts and arts strategically.",
+          "note": "Keep characters healthy and prepare buffs before engaging."
+        }
+      ]
+    },
+    {
+      "id": "act-2-part-2",
+      "title": "Act 2 - Part 2: Roer",
+      "steps": [
+        {
+          "id": "a2p2-001",
+          "type": "step",
+          "text": "Speak to **Celine** on Courageous 3F to update her profile."
+        },
+        {
+          "id": "a2p2-002",
+          "type": "collectible",
+          "text": "Talk to **Alfin** to receive the **Medal of Charity**."
+        },
+        {
+          "id": "a2p2-003",
+          "type": "step",
+          "text": "Play **Blade** with friends to raise Link EXP (affects combat teamwork)."
+        },
+        {
+          "id": "a2p2-004",
+          "type": "step",
+          "text": "Travel to **Roer** and engage in available main scenario and side quests."
+        },
+        {
+          "id": "a2p2-005",
+          "type": "collectible",
+          "text": "Visit **Schwarzdrache Fortress** via the Nortia Highway for an optional event (+2 AP).",
+          "note": "Must be done BEFORE proceeding to Sachsen Iron Mine."
+        },
+        {
+          "id": "a2p2-006",
+          "type": "warning",
+          "text": "Before proceeding to **Sachsen Iron Mine**, make sure you have visited Schwarzdrache Fortress and completed all available quests."
+        },
+        {
+          "id": "a2p2-007",
+          "type": "step",
+          "text": "Complete side quest: **Creeping for Creeps** at the Phoenix Wings in Ymir (mini-boss fight required for max AP)."
+        },
+        {
+          "id": "a2p2-008",
+          "type": "boss",
+          "text": "**BOSS: Divine Knight Battle (Valimar)** — Optimize orbments before this fight. Exploit elemental weaknesses, break guards, and use S-Crafts and Overdrive at critical moments."
+        }
+      ]
+    },
+    {
+      "id": "act-2-part-3",
+      "title": "Act 2 - Part 3: Legram & Bareahard (December 23)",
+      "steps": [
+        {
+          "id": "a2p3-001",
+          "type": "step",
+          "text": "After regaining control on December 23, speak to **Towa** twice at the bridge of the Courageous."
+        },
+        {
+          "id": "a2p3-002",
+          "type": "step",
+          "text": "Visit the 4th floor and talk to **Emily** and **Alan** in the training facility to update profiles."
+        },
+        {
+          "id": "a2p3-003",
+          "type": "collectible",
+          "text": "Interact with **Dorothee** on the 2nd floor for the **Pasta** recipe."
+        },
+        {
+          "id": "a2p3-004",
+          "type": "step",
+          "text": "Play **Blade** card games with allies to raise Link EXP."
+        },
+        {
+          "id": "a2p3-005",
+          "type": "step",
+          "text": "Complete side quest: **The Sweetest of Challenges** in Legram."
+        },
+        {
+          "id": "a2p3-006",
+          "type": "step",
+          "text": "Complete side quest: **Gone Air** in Legram."
+        },
+        {
+          "id": "a2p3-007",
+          "type": "step",
+          "text": "Complete side quest: **Kreuzen for a Bruisin'** in Legram."
+        },
+        {
+          "id": "a2p3-008",
+          "type": "step",
+          "text": "After completing **The Duke's Arrest**, the **Bareahard Stopover** quest starts automatically."
+        },
+        {
+          "id": "a2p3-009",
+          "type": "step",
+          "text": "Go to **Albarea Mansion** and enter the Annex for a key scene (visit Jusis as part of story progression)."
+        },
+        {
+          "id": "a2p3-010",
+          "type": "step",
+          "text": "Head to the **Bareahard Airport** and return to the Courageous to advance the story."
+        },
+        {
+          "id": "a2p3-011",
+          "type": "step",
+          "text": "Challenge the two cryptids at **Nortia Highway 2** and **Eisengard Mountain 2**.",
+          "note": "Optional but gives good rewards."
+        },
+        {
+          "id": "a2p3-012",
+          "type": "boss",
+          "text": "**BOSS: Spirit Shrine Trial** — Battle against a Magic Knight or cryptid. Bring Emma for shrine trials (required for plot)."
+        }
+      ]
+    },
+    {
+      "id": "act-2-part-4",
+      "title": "Act 2 - Part 4: Spirit Shrines & Preparation",
+      "steps": [
+        {
+          "id": "a2p4-001",
+          "type": "collectible",
+          "text": "Purchase **Curry Recipe Book** and **Mixed Grill** from Fortnum Books (Christie's Galleria 2F) in Bareahard."
+        },
+        {
+          "id": "a2p4-002",
+          "type": "collectible",
+          "text": "Visit **Arseid Mansion** for **Gambler Jack Reprint #13** and **Gambler Jack Reprint #14**.",
+          "note": "Part of the book collection."
+        },
+        {
+          "id": "a2p4-003",
+          "type": "collectible",
+          "text": "Hidden Quest: **Father's Pocket Watch** — Start at Jackass' Repair Shop in Roer (Alisa must be in party).",
+          "note": "Missable hidden quest."
+        },
+        {
+          "id": "a2p4-004",
+          "type": "step",
+          "text": "Continue through **Spirit Shrine** quests. Each shrine trial culminates in a boss fight."
+        },
+        {
+          "id": "a2p4-005",
+          "type": "boss",
+          "text": "**BOSS: Magic Knight Heavy Ruby** — Spirit Shrine boss. Use Emma's arts and exploit weaknesses."
+        },
+        {
+          "id": "a2p4-006",
+          "type": "boss",
+          "text": "**BOSS: Magic Knight Isra-Zeriel** — Spirit Shrine boss. Keep party healed and use Overdrive."
+        },
+        {
+          "id": "a2p4-007",
+          "type": "boss",
+          "text": "**BOSS: Grianos-Aura** — Final shrine boss, a powered-up version after Vita's memory scene.",
+          "note": "Strongest shrine boss. Prepare your best gear and quartz."
+        },
+        {
+          "id": "a2p4-008",
+          "type": "warning",
+          "text": "After obtaining all crystals from the shrines, a forced event triggers leading to **Liberating Trista**. Complete all remaining side content NOW."
+        },
+        {
+          "id": "a2p4-009",
+          "type": "note",
+          "text": "At the act's end, you face two consecutive party battles. Sara is unavailable; two guest characters assist. Ensure your party is well-equipped — focus on attackers like Rean, Laura, Gaius, and Millium."
+        }
+      ]
+    },
+    {
+      "id": "finale",
+      "title": "Finale: Infernal Castle & Trista Liberation",
+      "steps": [
+        {
+          "id": "fin-001",
+          "type": "warning",
+          "text": "This is the final stretch of the main story. Make sure all party members are well-equipped and stocked with healing items before proceeding."
+        },
+        {
+          "id": "fin-002",
+          "type": "step",
+          "text": "Enter the **Infernal Castle** — 1st Stratum: Hit the switch near the sealed door to open it."
+        },
+        {
+          "id": "fin-003",
+          "type": "step",
+          "text": "Continue to the stairs. Hit the switch at the end to create a bridge, then cross it."
+        },
+        {
+          "id": "fin-004",
+          "type": "note",
+          "text": "Bring **Laura** in your party for a profile note at the end of the 1st stratum fight."
+        },
+        {
+          "id": "fin-005",
+          "type": "step",
+          "text": "Complete the 1st Stratum battle and proceed upward."
+        },
+        {
+          "id": "fin-006",
+          "type": "step",
+          "text": "2nd Stratum: Strike the \"eye\" to open the way forward. Continue north, then east/south."
+        },
+        {
+          "id": "fin-007",
+          "type": "note",
+          "text": "**Fie** must be in your party for the 2nd Stratum end fight (profile note)."
+        },
+        {
+          "id": "fin-008",
+          "type": "step",
+          "text": "Complete the 2nd Stratum battle."
+        },
+        {
+          "id": "fin-009",
+          "type": "step",
+          "text": "3rd Stratum: Hit the switch near the sealed door. Defeat **Nosferatu** behind the door."
+        },
+        {
+          "id": "fin-010",
+          "type": "note",
+          "text": "Navigation tip: Take left, right, center, then center again to avoid triggering enemy fights on the barrier paths."
+        },
+        {
+          "id": "fin-011",
+          "type": "step",
+          "text": "Cross the external corridor and climb to the top of the 3rd Stratum."
+        },
+        {
+          "id": "fin-012",
+          "type": "boss",
+          "text": "**BOSS: Bleublanc, Duvalie & Balancing Clowns** — First of the gauntlet battles at the top."
+        },
+        {
+          "id": "fin-013",
+          "type": "boss",
+          "text": "**BOSS: Xeno & Leonidas** — Second gauntlet battle. Focus one target at a time."
+        },
+        {
+          "id": "fin-014",
+          "type": "boss",
+          "text": "**BOSS: McBurn** — Extremely powerful. Use your best S-Crafts and keep HP topped off.",
+          "note": "McBurn hits incredibly hard. Buff defense and use Overdrive for burst healing."
+        },
+        {
+          "id": "fin-015",
+          "type": "boss",
+          "text": "**BOSS: Crow Armbrust (Ground Battle)** — Crow is agile with strong crafts and S-Craft \"Arcadia's Gale\". Keep HP high and use defense/speed buffs.",
+          "note": "Debuff Crow and hit him with your own S-Crafts when his guard is down."
+        },
+        {
+          "id": "fin-016",
+          "type": "boss",
+          "text": "**BOSS: Ordine (Divine Knight Battle — Valimar vs. Ordine)** — Target the glowing weak point (head, body, or arms). Unbalance Ordine for follow-up attacks.",
+          "note": "Guard when Ordine telegraphs S-Craft moves. Use Spirit command for healing. Use EX Arts when Ordine is stunned."
+        },
+        {
+          "id": "fin-017",
+          "type": "boss",
+          "text": "**BOSS: Vermillion Apocalypse (Phase 1)** — Backline/reserve party handles this phase. Manage healing and buffs carefully."
+        },
+        {
+          "id": "fin-018",
+          "type": "boss",
+          "text": "**BOSS: Vermillion Apocalypse (Phase 2)** — Your main party takes over. Use strongest S-Crafts; buffs and debuffs are essential.",
+          "note": "Save Overdrive for critical healing or burst damage moments."
+        },
+        {
+          "id": "fin-019",
+          "type": "step",
+          "text": "Watch the conclusion cutscenes after defeating the Vermillion Apocalypse."
+        }
+      ]
+    },
+    {
+      "id": "divertissement",
+      "title": "Divertissement: Crossbell (Lloyd & Rixia)",
+      "steps": [
+        {
+          "id": "div-001",
+          "type": "note",
+          "text": "You now play as **Lloyd Bannings** and **Rixia Mao** in Crossbell. Only two party members are available — leveling up and collecting quartz is crucial. There are no shops."
+        },
+        {
+          "id": "div-002",
+          "type": "note",
+          "text": "Recommended quartz to farm: Defense 3, Hit 2, Water, Impede 1-2, Action 3, HP 2/3, Attack 3. Use Lloyd's S-Craft (Raging Sun) during Sepith-Up turns for fast farming."
+        },
+        {
+          "id": "div-003",
+          "type": "step",
+          "text": "Start in **Geofront E**. Head to the north room and examine the computer terminal for the Crossbell Times."
+        },
+        {
+          "id": "div-004",
+          "type": "step",
+          "text": "Head west down the hallway. Fight the mini-boss (slimes) at the door.",
+          "note": "Slimes may drop useful quartz."
+        },
+        {
+          "id": "div-005",
+          "type": "collectible",
+          "text": "Southwest corner: Open chest for **Celestial Balm EX**."
+        },
+        {
+          "id": "div-006",
+          "type": "step",
+          "text": "Return north and take the east corridor to the end. Enter the air duct."
+        },
+        {
+          "id": "div-007",
+          "type": "collectible",
+          "text": "Open chest in the air duct for **EP Charge IV**."
+        },
+        {
+          "id": "div-008",
+          "type": "step",
+          "text": "Descend the nearby stairs. Two switches are here: one north, one south."
+        },
+        {
+          "id": "div-009",
+          "type": "collectible",
+          "text": "Go left of the north switch and climb down the ladder to a monster chest. Defeat the monster for a **Grail Locket**."
+        },
+        {
+          "id": "div-010",
+          "type": "step",
+          "text": "Flip the **north switch** (moves a ladder) and then the **south switch** (lowers a bridge)."
+        },
+        {
+          "id": "div-011",
+          "type": "step",
+          "text": "Head upstairs via the northwest ladder, then move all the way south to the southeast area."
+        },
+        {
+          "id": "div-012",
+          "type": "collectible",
+          "text": "Descend the ladder and enter the west-side air duct. Find **Seven Dragon Armor** in a chest."
+        },
+        {
+          "id": "div-013",
+          "type": "step",
+          "text": "Continue using switches to lower bridges and move ladders as you proceed deeper into Geofront E."
+        },
+        {
+          "id": "div-014",
+          "type": "step",
+          "text": "Reach the **Central Computer Room** at the end of the dungeon."
+        },
+        {
+          "id": "div-015",
+          "type": "boss",
+          "text": "**BOSS: Central Computer Room Battle** — Ensure Lloyd and Rixia are fully healed and equipped before engaging.",
+          "note": "This is a tough fight with only two characters. Use all available healing items and craft combos."
+        }
+      ]
+    },
+    {
+      "id": "epilogue",
+      "title": "Epilogue: Reverie Corridor",
+      "steps": [
+        {
+          "id": "epi-001",
+          "type": "note",
+          "text": "The **Reverie Corridor** is accessed from the Old Schoolhouse. It consists of 16 randomly ordered, elemental-themed floors (Earth, Water, Fire, Wind). All playable characters are available."
+        },
+        {
+          "id": "epi-002",
+          "type": "note",
+          "text": "Every 4th floor (4, 8, 12, 16) features a boss battle. Defeating them gives **Zemurian Ore Shards**. The layout reshuffles if you leave, but defeated bosses do NOT respawn."
+        },
+        {
+          "id": "epi-003",
+          "type": "step",
+          "text": "Enter the Reverie Corridor and begin clearing floors. Use **Analyze** on all new enemies for Notebook completion."
+        },
+        {
+          "id": "epi-004",
+          "type": "note",
+          "text": "All characters can use Overdrive regardless of link status. EXP gained for Links is tripled in this dungeon."
+        },
+        {
+          "id": "epi-005",
+          "type": "step",
+          "text": "Clear floors 1-3 and collect all treasure chests."
+        },
+        {
+          "id": "epi-006",
+          "type": "boss",
+          "text": "**BOSS: Volglyph (Floor 4 — Earth-themed)** — First corridor boss. Rewards Zemurian Ore Shard.",
+          "note": "Use Wind-element arts for weakness exploitation."
+        },
+        {
+          "id": "epi-007",
+          "type": "step",
+          "text": "Clear floors 5-7 and collect all treasure chests."
+        },
+        {
+          "id": "epi-008",
+          "type": "boss",
+          "text": "**BOSS: Lindbaum (Floor 8 — Water-themed)** — Second corridor boss. Rewards Zemurian Ore Shard.",
+          "note": "Use Fire-element arts for weakness exploitation."
+        },
+        {
+          "id": "epi-009",
+          "type": "step",
+          "text": "Clear floors 9-11 and collect all treasure chests."
+        },
+        {
+          "id": "epi-010",
+          "type": "boss",
+          "text": "**BOSS: Agnagarn (Floor 12 — Fire-themed)** — Third corridor boss. Rewards Zemurian Ore Shard.",
+          "note": "Use Water-element arts for weakness exploitation."
+        },
+        {
+          "id": "epi-011",
+          "type": "step",
+          "text": "Clear floors 13-15 and collect all treasure chests."
+        },
+        {
+          "id": "epi-012",
+          "type": "boss",
+          "text": "**BOSS: Heidrun (Floor 16 — Wind-themed)** — Fourth and final corridor boss. Rewards Zemurian Ore Shard.",
+          "note": "Use Earth-element arts for weakness exploitation."
+        },
+        {
+          "id": "epi-013",
+          "type": "step",
+          "text": "After clearing floor 16, proceed to the **Boundless Cathedral**."
+        },
+        {
+          "id": "epi-014",
+          "type": "warning",
+          "text": "Save before entering the Boundless Cathedral — this is the final boss with no return."
+        },
+        {
+          "id": "epi-015",
+          "type": "boss",
+          "text": "**BOSS: Loa Luciferia (True Final Boss)** — The ultimate test. Ensure your party is fully equipped with the best gear, quartz, and healing items.",
+          "note": "Use Overdrive liberally, keep buffs active at all times, and save S-Crafts for critical moments."
+        },
+        {
+          "id": "epi-016",
+          "type": "step",
+          "text": "Defeat Loa Luciferia and watch the ending. Congratulations on completing the game!"
+        },
+        {
+          "id": "epi-017",
+          "type": "note",
+          "text": "**Phantasmal Mirrors**: You can equip special items purchased in the corridor that transform party members into guest characters (Crow, Vita, Lloyd, Rixia, or Altina) for battle."
+        }
+      ]
+    }
+  ]
+}
