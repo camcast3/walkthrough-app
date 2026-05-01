@@ -382,6 +382,24 @@
 		position: relative;
 	}
 
+	.progress-bar-fill::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+		animation: shimmer 2s infinite;
+	}
+
+	:global(body[data-power-save]) .progress-bar-fill::after {
+		animation: none;
+		display: none;
+	}
+
+	@keyframes shimmer {
+		0% { transform: translateX(-100%); }
+		100% { transform: translateX(100%); }
+	}
+
 	/* ── Section tabs ── */
 	.section-tabs {
 		display: flex;
@@ -433,9 +451,16 @@
 		border-radius: 14px;
 		padding: 0.9rem 1rem;
 		background: rgba(20, 20, 36, 0.6);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 		border: 2px solid transparent;
 		transition: border-color 0.2s, background 0.2s, opacity 0.3s, transform 0.15s, box-shadow 0.2s;
 		cursor: default;
+	}
+
+	:global(body[data-power-save]) .step-card {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.step-card.checkable {
@@ -579,6 +604,13 @@
 		border: 1px solid rgba(42, 42, 68, 0.6);
 		border-radius: 12px;
 		background: rgba(14, 14, 24, 0.6);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	:global(body[data-power-save]) .legend {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.legend-toggle {
@@ -746,6 +778,9 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
+		.progress-bar-fill::after {
+			animation: none;
+		}
 		.stale-overlay, .stale-card {
 			animation: none;
 		}

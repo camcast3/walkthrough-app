@@ -117,6 +117,11 @@
 		padding: 0.75rem 1rem;
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
+		backdrop-filter: blur(8px);
+	}
+
+	:global(body[data-power-save]) .banner {
+		backdrop-filter: none;
 	}
 
 	.banner.warning {
@@ -149,12 +154,19 @@
 		align-items: center;
 		gap: 1rem;
 		background: rgba(20, 20, 36, 0.7);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid rgba(124,106,247,0.12);
 		border-radius: 16px;
 		padding: 1.1rem 1rem 1.1rem 1.25rem;
 		cursor: pointer;
 		transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
 		-webkit-tap-highlight-color: transparent;
+	}
+
+	:global(body[data-power-save]) .card {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.card:hover,

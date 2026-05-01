@@ -14,6 +14,8 @@ type Handler struct {
 	Source source.WalkthroughSource
 	// Sync is non-nil in client mode; signals upstream sync on progress changes.
 	Sync *upstream.ProgressSync
+	// AppMode is the server's operating mode ("server", "client", or "").
+	AppMode string
 }
 
 // respondJSON writes a JSON response with the given status code.
@@ -26,6 +28,13 @@ func respondJSON(w http.ResponseWriter, status int, v any) {
 // respondError writes a JSON error message.
 func respondError(w http.ResponseWriter, status int, msg string) {
 	respondJSON(w, status, map[string]string{"error": msg})
+}
+
+// GetConfig handles GET /api/config — exposes non-sensitive runtime settings to the webapp.
+func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
+	respondJSON(w, http.StatusOK, map[string]string{
+		"appMode": h.AppMode,
+	})
 }
 
 // ListWalkthroughs handles GET /api/walkthroughs
