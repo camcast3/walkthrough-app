@@ -1,7 +1,7 @@
 # Steam Deck Setup (Bazzite)
 
 ## Prerequisites
-- Your walkthrough server is deployed and accessible (see [server README](../server/README.md))
+- Your walkthrough server is deployed and accessible (see [Kubernetes setup](../README.md#deploying-to-kubernetes))
 - You have the server URL (e.g. `https://walkthroughs.yourdomain.com` or a LAN IP like `http://192.168.1.x:8080`)
 
 ## First-time setup (Desktop Mode)
