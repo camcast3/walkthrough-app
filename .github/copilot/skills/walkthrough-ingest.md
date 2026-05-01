@@ -1,7 +1,7 @@
 # Walkthrough Ingestion Skill
 
 ## Description
-Converts any online game walkthrough into the standardized walkthrough JSON format used by the Walkthrough Checklist App. The output is a valid JSON file ready to commit to the `/walkthroughs/` directory.
+Converts any online game walkthrough into the standardized walkthrough JSON format used by the Walkthrough Checklist App. The output is a valid JSON file committed to the `/walkthroughs/` directory.
 
 ## When to use
 Use this skill when you want to add a new walkthrough to the app. Provide either:
@@ -18,8 +18,26 @@ The user will provide one of:
 2. Raw walkthrough text (pasted content)
 3. Both
 
+### Fetching content from URLs
+
+Many walkthrough sites (Neoseeker, IGN, GameFAQs, etc.) are behind Cloudflare bot protection and will return 403 or a JavaScript challenge page. When a direct fetch fails:
+
+1. **Use `web_search`** to find the walkthrough's table of contents and chapter structure. Search for: `"<site name> <game> walkthrough table of contents chapters"`
+2. **Search each section** for detailed step-by-step content. Search for: `"<site name> <game> walkthrough <section name> steps boss items"`
+3. **Combine the results** into a comprehensive walkthrough. Don't skip sections — make multiple search queries to cover the full game.
+4. **For very long games** (60+ chapters), prioritize getting the structure right for all sections but focus detailed steps on the first major story arc. You can note remaining sections need expansion.
+
+The goal is to produce a useful walkthrough even when the site can't be scraped directly. Use all available search results and cross-reference multiple sources if needed, but always attribute to the original source the user provided.
+
 ### Output
-A single valid JSON file matching the schema. Output the JSON in a code block with the suggested file path as a comment above it.
+
+Create the JSON file directly in the repository at the correct path:
+- Create the directory: `walkthroughs/<game-slug>/`
+- Create the file: `walkthroughs/<game-slug>/main-walkthrough.json`
+- Validate the JSON (correct IDs, types, structure)
+- Commit with a descriptive message
+
+Do NOT just output a code block — actually create the file and commit it.
 
 ### Rules
 
@@ -51,22 +69,30 @@ A single valid JSON file matching the schema. Output the JSON in a code block wi
 
 8. **`created_at`** should be today's date in `YYYY-MM-DD` format.
 
-9. **Validate your output** mentally against the schema before presenting it:
-   - All required fields present
-   - All `id` fields are lowercase slugs with no spaces
+9. **Validate your output** against the schema before committing:
+   - All required fields present (`id`, `game`, `title`, `author`, `source_url`, `attribution`, `created_at`, `sections`)
+   - All `id` fields match pattern: `^[a-z0-9]+(-[a-z0-9]+)*$`
    - `source_url` is a valid URI
    - `sections` array has at least one entry
    - Each `steps` array has at least one entry
+   - Step `type` is one of: `step`, `note`, `warning`, `collectible`, `boss`
+   - `$schema` is set to the correct relative path (e.g., `../walkthrough.schema.json` or `../../walkthrough.schema.json` depending on depth)
+
+10. **Be thorough.** A good walkthrough has:
+    - At least 50+ steps for a full-length RPG
+    - Boss fights called out with HP and strategy tips when available
+    - Collectibles and missables clearly marked
+    - Warnings before point-of-no-return moments
 
 ### Example prompt
 > "Please convert this walkthrough: https://example.com/game-walkthrough"
 
-### Example output
+### Example output structure
 
-```
-// Suggested path: walkthroughs/example-game/main-walkthrough.json
+```json
+// Created at: walkthroughs/example-game/main-walkthrough.json
 {
-  "$schema": "../../walkthrough.schema.json",
+  "$schema": "../walkthrough.schema.json",
   "id": "example-game-main",
   "game": "Example Game",
   "title": "Main Story Walkthrough",
