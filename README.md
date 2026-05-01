@@ -1,4 +1,4 @@
-﻿# Walkthrough Checklist App
+# Walkthrough Checklist App
 
 A touch and controller-optimized PWA for game walkthroughs. Works on Steam Deck, ROG Ally (Bazzite), and Windows PC. Syncs progress to a self-hosted server when online; works fully offline via service worker.
 
@@ -6,11 +6,12 @@ A touch and controller-optimized PWA for game walkthroughs. Works on Steam Deck,
 
 ```
 .github/copilot/skills/   Copilot walkthrough ingestion skill
-.github/workflows/        CI: schema validation + k8s deploy
+.github/workflows/        CI: schema validation + build/push image + update manifests
 walkthroughs/             Curated walkthrough JSON files
 webapp/                   SvelteKit PWA (TypeScript)
 server/                   Go sync server
-server/k8s/               Kubernetes manifests
+server/k8s/               Kubernetes manifests (synced by ArgoCD)
+server/argocd/            ArgoCD Application manifest (bootstrap only)
 docs/                     Device setup guides
 ```
 
@@ -18,59 +19,69 @@ docs/                     Device setup guides
 
 ## Deploying to Kubernetes
 
-The CI/CD pipeline (`.github/workflows/deploy.yml`) builds the webapp, bakes it into a Docker image alongside the Go server, and deploys to your cluster on every push to `main`.
+### Cluster prerequisites
 
-### Prerequisites
+| Component | Role |
+|---|---|
+| **ArgoCD** | GitOps — watches `server/k8s/` on `main` and applies changes automatically |
+| **Argo Rollouts** | Replaces standard Deployments; `Recreate` strategy used (required for RWO PVC) |
+| **Cilium Gateway API** | Ingress via `HTTPRoute` — no nginx ingress needed |
+| **Rook Ceph** | Block storage for the SQLite PVC (`storageClassName: rook-ceph-block`) |
 
-- A Kubernetes cluster with:
-  - **nginx ingress controller** (`ingress-nginx`)
-  - **cert-manager** (for TLS) — or remove the `tls` block from `server/k8s/ingress.yaml` if terminating TLS elsewhere
-  - A default **StorageClass** that supports `ReadWriteOnce` (for the SQLite PVC)
-- A GitHub repository with Actions enabled
-- `kubectl` access to your cluster from your local machine
+### One-time setup
 
-### One-time cluster setup
+**1. Customise the manifests** (three placeholders to fill in):
 
-1. **Create the namespace:**
-   ```bash
-   kubectl create namespace walkthroughs
-   ```
+| File | Placeholder | What to set |
+|---|---|---|
+| `server/k8s/rollout.yaml` | `YOUR_GITHUB_USER` | Your GitHub username or org |
+| `server/k8s/httproute.yaml` | `YOUR_GATEWAY_NAME` / `YOUR_GATEWAY_NAMESPACE` | Name and namespace of your Cilium `Gateway` resource |
+| `server/k8s/httproute.yaml` | `YOUR_DOMAIN` | e.g. `walkthroughs.example.com` |
+| `server/argocd/app.yaml` | `YOUR_GITHUB_USER` | Same as above — used to set the repo URL |
 
-2. **Edit the ingress hostname** in `server/k8s/ingress.yaml`:
-   ```yaml
-   host: walkthroughs.YOUR_DOMAIN   # replace with your actual domain
-   ```
-   and the matching `tls.hosts` entry.
+**2. Allow GitHub Actions to push commits back** (needed for manifest updates):
+- Repo **Settings → Actions → General → Workflow permissions → Read and write permissions**
 
-3. **Edit the image name** in `server/k8s/deployment.yaml`:
-   ```yaml
-   image: ghcr.io/YOUR_GITHUB_USER/walkthrough-server:latest
-   ```
-   Replace `YOUR_GITHUB_USER` with your GitHub username or organisation.
+**3. Bootstrap ArgoCD** (one-time, from your local machine):
+```bash
+kubectl apply -f server/argocd/app.yaml -n argocd
+```
+ArgoCD will create the `walkthroughs` namespace, apply all manifests under `server/k8s/`, and begin watching the repo.
 
-4. **Add the `KUBECONFIG` secret to GitHub:**
-   - Base64-encode your kubeconfig: `base64 -w0 ~/.kube/config`
-   - Go to **Settings → Secrets and variables → Actions → New repository secret**
-   - Name: `KUBECONFIG`, value: the base64 string
+**4. Enable Argo Rollouts kubectl plugin** (optional, for manual promotion):
+```bash
+kubectl argo rollouts get rollout walkthrough-server -n walkthroughs --watch
+```
 
-5. Push to `main`. The workflow will:
-   - Build the SvelteKit webapp
-   - Build and push the Docker image to `ghcr.io`
-   - Apply the k8s manifests (namespace, PVC, ConfigMap, Deployment, Service, Ingress)
-   - Roll out the new image and wait for readiness
+### How CI/CD works
+
+On every push to `main` the workflow (`.github/workflows/deploy.yml`):
+1. Builds the SvelteKit webapp
+2. Builds and pushes the Docker image to `ghcr.io` (tagged with the commit SHA)
+3. Generates a fresh `walkthrough-configmap.yaml` from `walkthroughs/` (no cluster access needed)
+4. Updates the image tag in `server/k8s/rollout.yaml`
+5. Commits those two files back to `main` with `[skip ci]`
+
+ArgoCD detects the new commit and syncs — triggering a Rollout with `Recreate` strategy.
+
+> **No `KUBECONFIG` secret required.** The ConfigMap is rendered with `kubectl --dry-run=client` (local only). ArgoCD handles all cluster operations.
 
 ### Kubernetes manifests
 
-| File | Purpose |
-|---|---|
-| `server/k8s/deployment.yaml` | Single-replica Deployment; mounts PVC for SQLite and a ConfigMap for walkthrough JSONs |
-| `server/k8s/service.yaml` | ClusterIP Service on port 80 → container 8080 |
-| `server/k8s/ingress.yaml` | nginx Ingress with TLS (cert-manager annotation optional) |
-| `server/k8s/pvc.yaml` | 1 Gi `ReadWriteOnce` PVC for `progress.sqlite` |
+| File | Kind | Purpose |
+|---|---|---|
+| `server/k8s/rollout.yaml` | `argoproj.io/v1alpha1/Rollout` | App workload; `Recreate` strategy for RWO PVC |
+| `server/k8s/service.yaml` | `Service` | ClusterIP on port 80 → container 8080 |
+| `server/k8s/httproute.yaml` | `gateway.networking.k8s.io/v1/HTTPRoute` | Cilium Gateway API routing |
+| `server/k8s/pvc.yaml` | `PersistentVolumeClaim` | 1 Gi `rook-ceph-block` volume for SQLite |
+| `server/k8s/walkthrough-configmap.yaml` | `ConfigMap` | Walkthrough JSONs — generated by CI |
+| `server/argocd/app.yaml` | `argoproj.io/v1alpha1/Application` | ArgoCD bootstrap (apply once manually) |
 
 ### Updating walkthroughs
 
-Walkthrough JSON files in `walkthroughs/` are deployed as a Kubernetes ConfigMap (`walkthrough-files`) on every CI run. To add a new walkthrough, commit a JSON file to `walkthroughs/<game>/` and push — no image rebuild needed.
+Add a JSON file to `walkthroughs/<game>/` and push to `main`. CI regenerates `walkthrough-configmap.yaml` and commits it — ArgoCD applies the updated ConfigMap on the next sync (no image rebuild).
+
+> **ConfigMap size limit:** Kubernetes ConfigMaps are limited to 1 MB. If your walkthrough collection grows large, move to a persistent volume or object storage instead.
 
 ---
 

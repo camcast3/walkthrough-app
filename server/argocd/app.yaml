@@ -1,0 +1,27 @@
+# Apply this once to bootstrap ArgoCD management of the app:
+#   kubectl apply -f server/argocd/app.yaml -n argocd
+#
+# After that, ArgoCD watches server/k8s/ on main and syncs automatically.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: walkthrough-app
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/YOUR_GITHUB_USER/walkthrough-app   # replace with your repo URL
+    targetRevision: main
+    path: server/k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: walkthroughs
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true   # required for Argo Rollouts CRDs
