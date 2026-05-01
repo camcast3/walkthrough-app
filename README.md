@@ -30,21 +30,44 @@ docs/                     Device setup guides
 
 ### One-time setup
 
-**1. Add the Application to your app-of-apps:**
+**1. Create a workloads app-of-apps** (if it doesn't exist yet).
 
-Copy `server/argocd/app.yaml` into `the-basement` repo at:
+Add `kubernetes/platform/argocd/apps/workloads.yaml` to `the-basement`:
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: workloads
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/camcast3/the-basement.git
+    targetRevision: main
+    path: kubernetes/apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
 ```
-kubernetes/platform/argocd/apps/walkthrough-app.yaml
+
+**2. Add the walkthrough app.**
+
+Copy `server/argocd/app.yaml` into `the-basement` at:
+```
+kubernetes/apps/walkthrough-app.yaml
 ```
 
-The root app will pick it up and ArgoCD creates the `walkthroughs` namespace automatically.
+> **Why `kubernetes/apps/` instead of `kubernetes/platform/argocd/apps/`?**
+> Platform apps (cilium, cert-manager, rook-ceph) live in `argocd/apps/`.
+> User workloads get their own `kubernetes/apps/` directory so they stay separate.
 
-Alternatively, bootstrap manually (one-time):
-```bash
-kubectl apply -f server/argocd/app.yaml -n argocd
-```
-
-**2. Allow GitHub Actions to push commits back** (needed for manifest updates):
+**3. Allow GitHub Actions to push commits back** (needed for manifest updates):
 - Repo **Settings → Actions → General → Workflow permissions → Read and write permissions**
 
 ### How CI/CD works
