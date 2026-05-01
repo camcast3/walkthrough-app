@@ -1,14 +1,8 @@
-# ArgoCD Application for walkthrough-app
+# ArgoCD Application — apply once to register this repo:
+#   kubectl apply -f server/argocd/app.yaml -n argocd
 #
-# Add this to the-basement repo at:
-#   kubernetes/apps/walkthrough-app.yaml
-#
-# NOT in kubernetes/platform/argocd/apps/ — that's for platform
-# infrastructure. User workloads go in kubernetes/apps/.
-#
-# You also need a workloads app-of-apps in the-basement at:
-#   kubernetes/platform/argocd/apps/workloads.yaml
-# (see README for the manifest)
+# After that, ArgoCD watches server/k8s/ on main and syncs automatically.
+# No need to add anything to the-basement — this app manages itself.
 
 apiVersion: argoproj.io/v1alpha1
 kind: Application

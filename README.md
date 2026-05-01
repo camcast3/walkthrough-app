@@ -30,44 +30,14 @@ docs/                     Device setup guides
 
 ### One-time setup
 
-**1. Create a workloads app-of-apps** (if it doesn't exist yet).
-
-Add `kubernetes/platform/argocd/apps/workloads.yaml` to `the-basement`:
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: workloads
-  namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-spec:
-  project: default
-  source:
-    repoURL: https://github.com/camcast3/the-basement.git
-    targetRevision: main
-    path: kubernetes/apps
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: argocd
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
+**1. Register with ArgoCD** (run once from any machine with cluster access):
+```bash
+kubectl apply -f server/argocd/app.yaml -n argocd
 ```
 
-**2. Add the walkthrough app.**
+ArgoCD will create the `walkthroughs` namespace, apply all manifests in `server/k8s/`, and watch this repo for changes going forward. No need to add anything to `the-basement`.
 
-Copy `server/argocd/app.yaml` into `the-basement` at:
-```
-kubernetes/apps/walkthrough-app.yaml
-```
-
-> **Why `kubernetes/apps/` instead of `kubernetes/platform/argocd/apps/`?**
-> Platform apps (cilium, cert-manager, rook-ceph) live in `argocd/apps/`.
-> User workloads get their own `kubernetes/apps/` directory so they stay separate.
-
-**3. Allow GitHub Actions to push commits back** (needed for manifest updates):
+**2. Allow GitHub Actions to push commits back** (needed for manifest updates):
 - Repo **Settings → Actions → General → Workflow permissions → Read and write permissions**
 
 ### How CI/CD works
