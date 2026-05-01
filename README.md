@@ -56,7 +56,7 @@ ArgoCD detects the new commit and syncs — triggering a Rollout with `Recreate`
 
 | File | Kind | Purpose |
 |---|---|---|
-| `server/k8s/rollout.yaml` | `argoproj.io/v1alpha1/Rollout` | App workload; `Recreate` strategy for RWO PVC |
+| `server/k8s/rollout.yaml` | `argoproj.io/v1alpha1/Rollout` | App workload; canary with maxSurge=0 for RWO PVC |
 | `server/k8s/service.yaml` | `Service` | ClusterIP on port 80 → container 8080 |
 | `server/k8s/httproute.yaml` | `gateway.networking.k8s.io/v1/HTTPRoute` | Cilium Gateway API routing |
 | `server/k8s/pvc.yaml` | `PersistentVolumeClaim` | 1 Gi `rook-ceph-block` volume for SQLite + cache |

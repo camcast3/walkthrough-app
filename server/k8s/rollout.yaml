@@ -7,9 +7,11 @@ metadata:
     app: walkthrough-server
 spec:
   replicas: 1
-  # Recreate is required — the RWO Rook Ceph PVC can only be mounted by one pod at a time.
+  # Canary with maxSurge=0 ensures old pod is killed before new pod starts (recreate behavior for RWO PVC).
   strategy:
-    recreate: {}
+    canary:
+      maxSurge: "0"
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: walkthrough-server
