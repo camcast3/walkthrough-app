@@ -190,7 +190,7 @@
 			<span class="wt-title">{wt.title}</span>
 		</div>
 		<div class="progress-info" aria-label="{checkedCount} of {totalCheckable} steps done">
-			<span class="progress-frac">{checkedCount}/{totalCheckable}</span>
+			<span class="progress-frac">{checkedCount}<span class="progress-sep">/</span>{totalCheckable}</span>
 		</div>
 	</header>
 
@@ -259,11 +259,15 @@
 				<div class="step-icon-col">
 					<span class="type-badge type-{step.type}" aria-hidden="true">{TYPE_ICON[step.type]}</span>
 					{#if isCheckable}
-						<span class="check-box" aria-hidden="true">{isChecked ? '☑' : '☐'}</span>
+						<span class="custom-check" class:is-checked={isChecked} aria-hidden="true">
+							<svg viewBox="0 0 20 20" fill="none">
+								<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
+								<polyline class="check-mark" points="5,10 9,14 15,6" />
+							</svg>
+						</span>
 					{/if}
 				</div>
 				<div class="step-body">
-					<!-- Render markdown-like bold using a simple replace -->
 					<p class="step-text">{@html step.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
 					{#if step.note}
 						<p class="step-note">{step.note}</p>
@@ -298,11 +302,13 @@
 		align-items: center;
 		gap: 0.75rem;
 		padding: 0.75rem 1rem;
-		background: #0f0f1a;
+		background: rgba(10, 10, 20, 0.85);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
 		position: sticky;
 		top: 0;
 		z-index: 10;
-		border-bottom: 1px solid #2a2a44;
+		border-bottom: 1px solid rgba(124,106,247,0.1);
 	}
 
 	.back-btn {
@@ -310,12 +316,15 @@
 		line-height: 1;
 		color: #7c6af7;
 		flex-shrink: 0;
-		padding: 0.2rem 0.4rem;
-		border-radius: 8px;
-		transition: background 0.15s;
+		padding: 0.2rem 0.5rem;
+		border-radius: 10px;
+		transition: background 0.2s, transform 0.15s;
 	}
 
-	.back-btn:hover { background: rgba(124,106,247,0.15); }
+	.back-btn:hover {
+		background: rgba(124,106,247,0.12);
+		transform: translateX(-2px);
+	}
 
 	.header-text {
 		flex: 1;
@@ -325,16 +334,18 @@
 	}
 
 	.game-title {
-		font-size: 0.95rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1rem;
 		font-weight: 600;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: #f0f0ff;
 	}
 
 	.wt-title {
 		font-size: 0.75rem;
-		color: #8888aa;
+		color: #6a6a8a;
 	}
 
 	.progress-info {
@@ -342,21 +353,46 @@
 	}
 
 	.progress-frac {
-		font-size: 0.85rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 0.95rem;
+		font-weight: 600;
 		font-variant-numeric: tabular-nums;
-		color: #9898b8;
+		color: #a89df7;
+	}
+
+	.progress-sep {
+		color: #3a3a5c;
+		margin: 0 1px;
 	}
 
 	/* ── Progress bar ── */
 	.progress-bar-track {
 		height: 3px;
-		background: #2a2a44;
+		background: rgba(42, 42, 68, 0.5);
+		position: relative;
+		overflow: hidden;
 	}
 
 	.progress-bar-fill {
 		height: 100%;
-		background: linear-gradient(90deg, #7c6af7, #a89df7);
-		transition: width 0.3s ease;
+		background: linear-gradient(90deg, #7c6af7, #a89df7, #54d66a);
+		background-size: 200% 100%;
+		transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+		box-shadow: 0 0 8px rgba(124,106,247,0.5);
+		position: relative;
+	}
+
+	.progress-bar-fill::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+		animation: shimmer 2s infinite;
+	}
+
+	@keyframes shimmer {
+		0% { transform: translateX(-100%); }
+		100% { transform: translateX(100%); }
 	}
 
 	/* ── Section tabs ── */
@@ -366,7 +402,7 @@
 		overflow-x: auto;
 		scrollbar-width: none;
 		padding: 0 0.5rem;
-		border-bottom: 1px solid #2a2a44;
+		border-bottom: 1px solid rgba(42, 42, 68, 0.6);
 	}
 
 	.section-tabs::-webkit-scrollbar { display: none; }
@@ -375,18 +411,25 @@
 		background: none;
 		border: none;
 		border-bottom: 2px solid transparent;
-		color: #8888aa;
-		padding: 0.75rem 0.9rem;
+		color: #6a6a8a;
+		padding: 0.8rem 1rem;
 		font-size: 0.82rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-weight: 500;
 		cursor: pointer;
 		white-space: nowrap;
-		transition: color 0.15s, border-color 0.15s;
+		transition: color 0.2s, border-color 0.2s, text-shadow 0.2s;
 		flex-shrink: 0;
+	}
+
+	.section-tab:hover {
+		color: #a89df7;
 	}
 
 	.section-tab.active {
 		color: #a89df7;
 		border-bottom-color: #7c6af7;
+		text-shadow: 0 0 10px rgba(124,106,247,0.4);
 	}
 
 	/* ── Steps ── */
@@ -400,11 +443,13 @@
 	.step-card {
 		display: flex;
 		gap: 0.75rem;
-		border-radius: 12px;
+		border-radius: 14px;
 		padding: 0.9rem 1rem;
-		background: #1a1a2e;
+		background: rgba(20, 20, 36, 0.6);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 		border: 2px solid transparent;
-		transition: border-color 0.15s, background 0.15s, opacity 0.15s;
+		transition: border-color 0.2s, background 0.2s, opacity 0.3s, transform 0.15s, box-shadow 0.2s;
 		cursor: default;
 	}
 
@@ -415,61 +460,106 @@
 
 	.step-card.checkable:hover,
 	.step-card.focused {
-		border-color: #7c6af7;
-		background: #1f1f38;
+		border-color: rgba(124,106,247,0.5);
+		background: rgba(26, 26, 50, 0.8);
+		box-shadow: 0 0 16px rgba(124,106,247,0.1);
+	}
+
+	.step-card.checkable:active {
+		transform: scale(0.99);
 	}
 
 	.step-card.checked {
-		opacity: 0.55;
-		border-color: #3a3a5c;
+		opacity: 0.5;
+		border-color: rgba(58, 58, 92, 0.4);
 	}
 
 	.step-card.checked .step-text {
 		text-decoration: line-through;
-		text-decoration-color: #666688;
+		text-decoration-color: rgba(124,106,247,0.4);
 	}
 
 	/* Type-specific accents */
-	.step-card.type-warning { border-left: 3px solid #ff9f43; }
-	.step-card.type-collectible { border-left: 3px solid #54d66a; }
-	.step-card.type-boss { border-left: 3px solid #ee5a5a; }
+	.step-card.type-warning {
+		border-left: 3px solid #ff9f43;
+		box-shadow: inset 3px 0 12px -6px rgba(255,159,67,0.15);
+	}
+	.step-card.type-collectible {
+		border-left: 3px solid #54d66a;
+		box-shadow: inset 3px 0 12px -6px rgba(84,214,106,0.15);
+	}
+	.step-card.type-boss {
+		border-left: 3px solid #ee5a5a;
+		box-shadow: inset 3px 0 12px -6px rgba(238,90,90,0.15);
+	}
 	.step-card.type-note {
-		background: rgba(124,106,247,0.07);
-		border-color: rgba(124,106,247,0.15);
+		background: rgba(124,106,247,0.05);
+		border-color: rgba(124,106,247,0.12);
 	}
 
 	.step-icon-col {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 0.3rem;
+		gap: 0.4rem;
 		flex-shrink: 0;
 		padding-top: 0.1rem;
 	}
 
 	.type-badge {
 		font-size: 0.75rem;
-		width: 22px;
-		height: 22px;
-		border-radius: 6px;
+		width: 24px;
+		height: 24px;
+		border-radius: 7px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 	}
 
-	.type-step { background: rgba(124,106,247,0.2); color: #a89df7; }
-	.type-note { background: rgba(124,106,247,0.1); color: #7c6af7; }
-	.type-warning { background: rgba(255,159,67,0.2); color: #ff9f43; }
-	.type-collectible { background: rgba(84,214,106,0.2); color: #54d66a; }
-	.type-boss { background: rgba(238,90,90,0.2); color: #ee5a5a; }
+	.type-step { background: rgba(124,106,247,0.15); color: #a89df7; }
+	.type-note { background: rgba(124,106,247,0.08); color: #7c6af7; }
+	.type-warning { background: rgba(255,159,67,0.15); color: #ff9f43; }
+	.type-collectible { background: rgba(84,214,106,0.15); color: #54d66a; }
+	.type-boss { background: rgba(238,90,90,0.15); color: #ee5a5a; }
 
-	.check-box {
-		font-size: 1rem;
-		color: #666688;
-		line-height: 1;
+	/* Custom checkbox */
+	.custom-check {
+		display: block;
+		width: 20px;
+		height: 20px;
 	}
 
-	.step-card.checked .check-box { color: #7c6af7; }
+	.custom-check svg {
+		width: 100%;
+		height: 100%;
+	}
+
+	.check-bg {
+		stroke: #3a3a5c;
+		stroke-width: 1.5;
+		fill: rgba(10,10,20,0.5);
+		transition: stroke 0.2s, fill 0.2s;
+	}
+
+	.custom-check.is-checked .check-bg {
+		stroke: #7c6af7;
+		fill: rgba(124,106,247,0.15);
+	}
+
+	.check-mark {
+		stroke: #3a3a5c;
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 20;
+		stroke-dashoffset: 20;
+		transition: stroke-dashoffset 0.3s ease, stroke 0.2s;
+	}
+
+	.custom-check.is-checked .check-mark {
+		stroke-dashoffset: 0;
+		stroke: #7c6af7;
+	}
 
 	.step-body {
 		flex: 1;
@@ -485,45 +575,53 @@
 	.step-note {
 		margin-top: 0.4rem;
 		font-size: 0.8rem;
-		color: #777799;
+		color: #6a6a8a;
 		line-height: 1.4;
 	}
 
 	.step-img {
 		margin-top: 0.6rem;
 		width: 100%;
-		border-radius: 8px;
+		border-radius: 10px;
 		max-height: 200px;
 		object-fit: cover;
+		border: 1px solid rgba(42,42,68,0.5);
 	}
 
 	/* ── Legend ── */
 	.legend {
 		margin: 0.5rem 0.75rem 0;
-		border: 1px solid #2a2a44;
-		border-radius: 10px;
-		background: #13131f;
+		border: 1px solid rgba(42, 42, 68, 0.6);
+		border-radius: 12px;
+		background: rgba(14, 14, 24, 0.6);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
 	}
 
 	.legend-toggle {
-		padding: 0.55rem 0.9rem;
+		padding: 0.6rem 1rem;
 		font-size: 0.78rem;
-		color: #8888aa;
+		color: #6a6a8a;
 		cursor: pointer;
 		list-style: none;
 		user-select: none;
+		transition: color 0.2s;
+	}
+
+	.legend-toggle:hover {
+		color: #a89df7;
 	}
 
 	.legend-toggle::-webkit-details-marker { display: none; }
 
 	.legend[open] .legend-toggle {
-		border-bottom: 1px solid #2a2a44;
+		border-bottom: 1px solid rgba(42,42,68,0.5);
 		color: #a89df7;
 	}
 
 	.legend-list {
 		list-style: none;
-		padding: 0.6rem 0.9rem;
+		padding: 0.6rem 1rem;
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem 1.2rem;
@@ -537,7 +635,7 @@
 
 	.legend-label {
 		font-size: 0.78rem;
-		color: #9898b8;
+		color: #8888aa;
 		line-height: 1.3;
 	}
 
@@ -549,9 +647,9 @@
 	.attribution {
 		margin: 2rem 1rem 0;
 		padding: 1rem;
-		border-top: 1px solid #2a2a44;
+		border-top: 1px solid rgba(42,42,68,0.5);
 		font-size: 0.78rem;
-		color: #666688;
+		color: #555577;
 		line-height: 1.5;
 	}
 
@@ -559,42 +657,65 @@
 		display: inline-block;
 		margin-top: 0.4rem;
 		color: #7c6af7;
-		text-decoration: underline;
+		text-decoration: none;
+		transition: color 0.2s, text-shadow 0.2s;
+	}
+
+	.source-link:hover {
+		color: #a89df7;
+		text-shadow: 0 0 8px rgba(124,106,247,0.3);
 	}
 
 	/* ── Stale overlay ── */
 	.stale-overlay {
 		position: fixed;
 		inset: 0;
-		background: rgba(0,0,0,0.6);
+		background: rgba(0,0,0,0.7);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		z-index: 100;
 		padding: 1rem;
+		animation: fadeIn 0.2s ease;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
 	}
 
 	.stale-card {
-		background: #1a1a2e;
-		border: 1px solid #3a3a5c;
-		border-radius: 16px;
+		background: rgba(20, 20, 36, 0.95);
+		border: 1px solid rgba(124,106,247,0.2);
+		border-radius: 20px;
 		padding: 2rem 1.5rem;
 		max-width: 380px;
 		width: 100%;
 		text-align: center;
+		box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 30px rgba(124,106,247,0.08);
+		animation: slideUp 0.3s ease;
 	}
 
-	.stale-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+	@keyframes slideUp {
+		from { transform: translateY(20px); opacity: 0; }
+		to { transform: translateY(0); opacity: 1; }
+	}
+
+	.stale-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
 
 	.stale-card h2 {
-		font-size: 1.15rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1.3rem;
 		font-weight: 700;
 		margin-bottom: 0.6rem;
+		color: #f0f0ff;
 	}
 
 	.stale-desc {
 		font-size: 0.88rem;
-		color: #9898b8;
+		color: #8888aa;
 		line-height: 1.5;
 		margin-bottom: 1.25rem;
 	}
@@ -606,29 +727,50 @@
 	}
 
 	.btn-primary {
-		background: #7c6af7;
+		background: linear-gradient(135deg, #7c6af7, #6a58e5);
 		color: #fff;
 		border: none;
-		border-radius: 10px;
-		padding: 0.8rem 1rem;
+		border-radius: 12px;
+		padding: 0.85rem 1rem;
 		font-size: 0.95rem;
 		font-weight: 600;
 		cursor: pointer;
-		transition: background 0.15s;
+		transition: transform 0.15s, box-shadow 0.2s;
+		box-shadow: 0 4px 16px rgba(124,106,247,0.3);
 	}
 
-	.btn-primary:hover { background: #6a58e5; }
+	.btn-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 20px rgba(124,106,247,0.4);
+	}
+
+	.btn-primary:active { transform: scale(0.98); }
 
 	.btn-ghost {
 		background: transparent;
-		color: #9898b8;
-		border: 1px solid #3a3a5c;
-		border-radius: 10px;
-		padding: 0.75rem 1rem;
+		color: #8888aa;
+		border: 1px solid rgba(58, 58, 92, 0.5);
+		border-radius: 12px;
+		padding: 0.8rem 1rem;
 		font-size: 0.9rem;
 		cursor: pointer;
-		transition: border-color 0.15s;
+		transition: border-color 0.2s, color 0.2s;
 	}
 
-	.btn-ghost:hover { border-color: #666688; }
+	.btn-ghost:hover {
+		border-color: rgba(124,106,247,0.3);
+		color: #a89df7;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.progress-bar-fill::after {
+			animation: none;
+		}
+		.stale-overlay, .stale-card {
+			animation: none;
+		}
+		.check-mark {
+			transition: none;
+		}
+	}
 </style>

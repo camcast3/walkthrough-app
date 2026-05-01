@@ -7,17 +7,18 @@
 
 	// Per-walkthrough progress percentages loaded from IndexedDB
 	let progressMap = $state<Record<string, number>>({});
+	let loaded = $state(false);
 
 	onMount(async () => {
 		const results: Record<string, number> = {};
 		for (const wt of data.walkthroughs) {
 			const record = await loadProgress(wt.id);
 			if (record) {
-				// We don't have section data here — just show step count
 				results[wt.id] = record.checkedSteps.length;
 			}
 		}
 		progressMap = results;
+		loaded = true;
 	});
 
 	const STEP_TYPE_ICONS: Record<string, string> = {
@@ -36,7 +37,8 @@
 
 <div class="page">
 	<header class="hero">
-		<h1>🎮 Walkthroughs</h1>
+		<div class="hero-icon" aria-hidden="true">🎮</div>
+		<h1 class="hero-title">Walkthroughs</h1>
 		<p class="subtitle">Select a walkthrough to continue</p>
 	</header>
 
@@ -53,9 +55,9 @@
 		</div>
 	{:else}
 		<ul class="list" role="list">
-			{#each data.walkthroughs as wt (wt.id)}
+			{#each data.walkthroughs as wt, idx (wt.id)}
 				{@const checked = progressMap[wt.id] ?? 0}
-				<li>
+				<li class="card-wrapper" style="--delay: {idx * 60}ms" class:visible={loaded}>
 					<a href="/{wt.id}" class="card" aria-label="{wt.game} — {wt.title}">
 						<div class="card-body">
 							<span class="game-name">{wt.game}</span>
@@ -64,6 +66,7 @@
 						</div>
 						{#if checked > 0}
 							<div class="progress-chip" aria-label="{checked} steps completed">
+								<span class="chip-glow"></span>
 								{checked} ✓
 							</div>
 						{/if}
@@ -84,31 +87,42 @@
 
 	.hero {
 		text-align: center;
-		padding: 2rem 0 1.5rem;
+		padding: 2.5rem 0 2rem;
 	}
 
-	.hero h1 {
-		font-size: 2rem;
+	.hero-icon {
+		font-size: 3rem;
+		margin-bottom: 0.5rem;
+		filter: drop-shadow(0 0 12px rgba(124,106,247,0.4));
+	}
+
+	.hero-title {
+		font-size: 2.4rem;
 		font-weight: 700;
-		letter-spacing: -0.5px;
+		background: linear-gradient(135deg, #a89df7 0%, #7c6af7 40%, #54d66a 100%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
 	}
 
 	.subtitle {
-		margin-top: 0.4rem;
-		color: #8888aa;
+		margin-top: 0.5rem;
+		color: #6a6a8a;
 		font-size: 0.95rem;
+		letter-spacing: 0.3px;
 	}
 
 	.banner {
-		border-radius: 10px;
+		border-radius: 12px;
 		padding: 0.75rem 1rem;
 		margin-bottom: 1rem;
 		font-size: 0.9rem;
+		backdrop-filter: blur(8px);
 	}
 
 	.banner.warning {
-		background: rgba(255, 180, 0, 0.12);
-		border: 1px solid rgba(255, 180, 0, 0.3);
+		background: rgba(255, 180, 0, 0.08);
+		border: 1px solid rgba(255, 180, 0, 0.25);
 		color: #ffd060;
 	}
 
@@ -119,86 +133,132 @@
 		gap: 0.75rem;
 	}
 
+	.card-wrapper {
+		opacity: 0;
+		transform: translateY(12px);
+		transition: opacity 0.4s ease, transform 0.4s ease;
+		transition-delay: var(--delay);
+	}
+
+	.card-wrapper.visible {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
 	.card {
 		display: flex;
 		align-items: center;
 		gap: 1rem;
-		background: #1a1a2e;
-		border: 1px solid #2a2a44;
-		border-radius: 14px;
+		background: rgba(20, 20, 36, 0.7);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid rgba(124,106,247,0.12);
+		border-radius: 16px;
 		padding: 1.1rem 1rem 1.1rem 1.25rem;
 		cursor: pointer;
-		transition: border-color 0.15s, background 0.15s;
+		transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
 		-webkit-tap-highlight-color: transparent;
 	}
 
 	.card:hover,
 	.card:focus-visible {
-		border-color: #7c6af7;
-		background: #1f1f35;
+		border-color: rgba(124,106,247,0.5);
+		background: rgba(26, 26, 50, 0.85);
+		box-shadow: 0 0 20px rgba(124,106,247,0.12), inset 0 1px 0 rgba(255,255,255,0.03);
+		transform: translateY(-1px);
+	}
+
+	.card:active {
+		transform: scale(0.98);
 	}
 
 	.card-body {
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		gap: 0.2rem;
+		gap: 0.25rem;
 		min-width: 0;
 	}
 
 	.game-name {
-		font-size: 1.05rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1.15rem;
 		font-weight: 600;
 		white-space: nowrap;
 		overflow: hidden;
 		text-overflow: ellipsis;
+		color: #f0f0ff;
 	}
 
 	.wt-title {
 		font-size: 0.85rem;
-		color: #9898b8;
+		color: #8888aa;
 	}
 
 	.author {
 		font-size: 0.78rem;
-		color: #666688;
+		color: #555577;
 	}
 
 	.progress-chip {
-		background: rgba(124, 106, 247, 0.2);
-		border: 1px solid rgba(124, 106, 247, 0.4);
+		position: relative;
+		background: rgba(124, 106, 247, 0.15);
+		border: 1px solid rgba(124, 106, 247, 0.35);
 		color: #a89df7;
 		border-radius: 20px;
-		padding: 0.2rem 0.6rem;
+		padding: 0.25rem 0.7rem;
 		font-size: 0.78rem;
 		white-space: nowrap;
 		flex-shrink: 0;
+		overflow: hidden;
+	}
+
+	.chip-glow {
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		box-shadow: inset 0 0 8px rgba(124,106,247,0.3);
+		pointer-events: none;
 	}
 
 	.chevron {
-		color: #444466;
-		font-size: 1.4rem;
+		color: #3a3a5c;
+		font-size: 1.5rem;
 		flex-shrink: 0;
 		line-height: 1;
+		transition: color 0.2s, transform 0.2s;
+	}
+
+	.card:hover .chevron {
+		color: #7c6af7;
+		transform: translateX(2px);
 	}
 
 	.empty {
 		text-align: center;
-		color: #666688;
+		color: #555577;
 		padding: 3rem 1rem;
 	}
 
 	.empty .hint {
 		margin-top: 0.75rem;
 		font-size: 0.85rem;
-		color: #555577;
+		color: #444466;
 	}
 
 	.empty code {
-		background: #2a2a44;
+		background: rgba(42, 42, 68, 0.6);
 		padding: 0.1rem 0.4rem;
 		border-radius: 4px;
 		font-size: 0.82rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.card-wrapper {
+			opacity: 1;
+			transform: none;
+			transition: none;
+		}
 	}
 </style>
 
