@@ -1,0 +1,558 @@
+{
+  "$schema": "../walkthrough.schema.json",
+  "id": "tales-of-berseria-main",
+  "game": "Tales of Berseria",
+  "title": "Main Story Walkthrough",
+  "author": "Symph (Neoseeker)",
+  "source_url": "https://www.neoseeker.com/tales-of-berseria/walkthrough",
+  "attribution": "This walkthrough was pulled from Neoseeker (neoseeker.com), authored by Symph, and processed for a cleaner reading experience. All credit for the original content goes to Symph and the Neoseeker community.",
+  "created_at": "2026-05-01",
+  "sections": [
+    {
+      "id": "prologue",
+      "title": "Prologue",
+      "steps": [
+        {
+          "id": "step-001",
+          "type": "note",
+          "text": "The game opens with a flashback introducing Velvet and her village of Aball. Follow the tutorial prompts."
+        },
+        {
+          "id": "step-002",
+          "type": "step",
+          "text": "Complete the tutorial battle against the daemon in Velvet's prison cell.",
+          "note": "Use Break Soul when prompted to learn Velvet's Therionization mechanic."
+        },
+        {
+          "id": "step-003",
+          "type": "step",
+          "text": "Follow Seres through the prison hallways after escaping the cell."
+        },
+        {
+          "id": "step-004",
+          "type": "step",
+          "text": "Defeat the guards in the initial corridor encounters.",
+          "note": "These are easy fights to practice basic combos."
+        }
+      ]
+    },
+    {
+      "id": "titania-1",
+      "title": "Titania (1st Visit)",
+      "steps": [
+        {
+          "id": "step-005",
+          "type": "boss",
+          "text": "**BOSS: Seres** — HP: 2,200. Guard to gain Souls, then counterattack.",
+          "note": "Reward: Prodigy's Glacite. This is a tutorial boss — you can't lose."
+        },
+        {
+          "id": "step-006",
+          "type": "step",
+          "text": "Exit the room after the battle and follow the linear path. Open the chest for Velvet's basic gear."
+        },
+        {
+          "id": "step-007",
+          "type": "step",
+          "text": "Equip Velvet via the party menu.",
+          "note": "Check all equipment slots — weapon, armor, and accessories."
+        },
+        {
+          "id": "step-008",
+          "type": "collectible",
+          "text": "Collect the **Battle Boots** from the last cell in the northwest.",
+          "note": "Check all cells for items."
+        },
+        {
+          "id": "step-009",
+          "type": "collectible",
+          "text": "Pick up the **Sage** from the storage room to the south."
+        },
+        {
+          "id": "step-010",
+          "type": "collectible",
+          "text": "Grab the **Life Bottle** from the eastern cell block."
+        },
+        {
+          "id": "step-011",
+          "type": "collectible",
+          "text": "Find the **Void Ring** upstairs in the northeast area."
+        },
+        {
+          "id": "step-012",
+          "type": "step",
+          "text": "Head upstairs and south to encounter exorcist enemies. Defeat them to progress."
+        },
+        {
+          "id": "step-013",
+          "type": "boss",
+          "text": "**BOSS: Red-Eyed Swordsman (Rokurou)** — HP: 2,843. Only need to drop HP to 50%.",
+          "note": "Seres assists. Reward: Sharpshooter's Ventite."
+        },
+        {
+          "id": "step-014",
+          "type": "step",
+          "text": "Defeat the three guards after the boss fight."
+        },
+        {
+          "id": "step-015",
+          "type": "collectible",
+          "text": "Collect **320 Gald** from the chest after ascending the ladder."
+        },
+        {
+          "id": "step-016",
+          "type": "step",
+          "text": "Watch the concluding cutscenes and exit the prison."
+        }
+      ]
+    },
+    {
+      "id": "figahl-icecaps",
+      "title": "Figahl Icecaps",
+      "steps": [
+        {
+          "id": "step-017",
+          "type": "step",
+          "text": "After the story scenes, Velvet wakes on the Figahl Icecaps. Defeat the **Werewolf** and **Eagle** in the opening battle.",
+          "note": "Use Therionization — it makes these fights trivial."
+        },
+        {
+          "id": "step-018",
+          "type": "collectible",
+          "text": "Pick up the **Life Bottle** from the chest on the upper level."
+        },
+        {
+          "id": "step-019",
+          "type": "collectible",
+          "text": "Collect **Rosemary** from the field pickup nearby."
+        },
+        {
+          "id": "step-020",
+          "type": "collectible",
+          "text": "Open the chest for **320 Gald** shortly after waking up."
+        },
+        {
+          "id": "step-021",
+          "type": "note",
+          "text": "You'll receive a tutorial about **Katz Boxes** — collect shiny Katz Souls on the map to unlock them."
+        },
+        {
+          "id": "step-022",
+          "type": "collectible",
+          "text": "Open the first **Katz Box** for the **Ten-Gallon Hat** accessory.",
+          "note": "Cosmetic only — equip via the fashion menu."
+        },
+        {
+          "id": "step-023",
+          "type": "step",
+          "text": "Continue north. After the cutscene with the Laphicet lookalike, head right."
+        },
+        {
+          "id": "step-024",
+          "type": "collectible",
+          "text": "Collect **Sage** by climbing the vines before heading to town."
+        },
+        {
+          "id": "step-025",
+          "type": "step",
+          "text": "Descend and advance to reach **Hellawes**."
+        }
+      ]
+    },
+    {
+      "id": "hellawes-1",
+      "title": "Hellawes (1st Visit)",
+      "steps": [
+        {
+          "id": "step-026",
+          "type": "note",
+          "text": "Velvet, Rokurou, and Magilou start in a warehouse on the docks. Explore the town for items and story."
+        },
+        {
+          "id": "step-027",
+          "type": "collectible",
+          "text": "Pick up **480 Gald** and a **Life Bottle** in the starting warehouse."
+        },
+        {
+          "id": "step-028",
+          "type": "collectible",
+          "text": "Open the chest in the southeast dock corner for the **Fire Ring**.",
+          "note": "Equip this immediately — it provides fire resistance."
+        },
+        {
+          "id": "step-029",
+          "type": "collectible",
+          "text": "Grab the **Life Bottle** from the north part of the docks."
+        },
+        {
+          "id": "step-030",
+          "type": "collectible",
+          "text": "Find **Lavender** on the northern rooftops.",
+          "note": "Stat boost item — save for later or use now."
+        },
+        {
+          "id": "step-031",
+          "type": "collectible",
+          "text": "Collect **Amber Garment** and **Blood Blade** from near the northern rooftops."
+        },
+        {
+          "id": "step-032",
+          "type": "collectible",
+          "text": "Pick up **Verbana** near the merchant's guild archway."
+        },
+        {
+          "id": "step-033",
+          "type": "collectible",
+          "text": "Find the **Amber Fragment** in the chest behind the inn."
+        },
+        {
+          "id": "step-034",
+          "type": "step",
+          "text": "Visit the tavern to hear about **Victoria** (Abbey member)."
+        },
+        {
+          "id": "step-035",
+          "type": "step",
+          "text": "Talk to Rokurou to officially add him to your active party."
+        },
+        {
+          "id": "step-036",
+          "type": "note",
+          "text": "Magilou temporarily leaves — she can be found in the tavern but won't rejoin yet."
+        },
+        {
+          "id": "step-037",
+          "type": "step",
+          "text": "Purchase equipment upgrades from the shop if needed."
+        },
+        {
+          "id": "step-038",
+          "type": "step",
+          "text": "Exit Hellawes toward **Beardsley** when ready."
+        }
+      ]
+    },
+    {
+      "id": "beardsley",
+      "title": "Beardsley",
+      "steps": [
+        {
+          "id": "step-039",
+          "type": "step",
+          "text": "Arrive in Beardsley and explore the village for items and story events."
+        },
+        {
+          "id": "step-040",
+          "type": "step",
+          "text": "Talk to NPCs (green exclamation marks) for information about **Hadlow Hollow**."
+        },
+        {
+          "id": "step-041",
+          "type": "step",
+          "text": "Stock up on supplies at the shop before heading into the cave."
+        },
+        {
+          "id": "step-042",
+          "type": "step",
+          "text": "Exit toward **Hadlow Hollow** when ready."
+        }
+      ]
+    },
+    {
+      "id": "hadlow-hollow",
+      "title": "Hadlow Hollow",
+      "steps": [
+        {
+          "id": "step-043",
+          "type": "step",
+          "text": "Enter Hadlow Hollow and fight through the daemon-infested cave."
+        },
+        {
+          "id": "step-044",
+          "type": "warning",
+          "text": "Explore all side paths before progressing — several chests are easy to miss in the dark."
+        },
+        {
+          "id": "step-045",
+          "type": "step",
+          "text": "Follow the linear cave path, defeating enemies and collecting items along the way."
+        },
+        {
+          "id": "step-046",
+          "type": "step",
+          "text": "Rescue **Laphicet** (the Malak boy) in the depths of the cave.",
+          "note": "He joins your party after this scene."
+        },
+        {
+          "id": "step-047",
+          "type": "step",
+          "text": "Exit Hadlow Hollow and return to Hellawes."
+        }
+      ]
+    },
+    {
+      "id": "hellawes-2",
+      "title": "Hellawes (2nd Visit)",
+      "steps": [
+        {
+          "id": "step-048",
+          "type": "warning",
+          "text": "Prepare your party before entering the city — a boss fight is triggered upon arrival."
+        },
+        {
+          "id": "step-049",
+          "type": "boss",
+          "text": "**BOSS: Teresa** — HP: 6,664. Supported by two tethered Malakhim.",
+          "note": "Focus on defeating the Malakhim first — they boost Teresa's stats. Use Velvet to corner her."
+        },
+        {
+          "id": "step-050",
+          "type": "step",
+          "text": "After defeating Teresa, watch the story cutscenes."
+        },
+        {
+          "id": "step-051",
+          "type": "step",
+          "text": "Restock at shops and rest at the inn for skits.",
+          "note": "Rest twice to trigger all available skits."
+        },
+        {
+          "id": "step-052",
+          "type": "step",
+          "text": "Exit Hellawes toward **West Laban Tunnel**."
+        }
+      ]
+    },
+    {
+      "id": "west-laban-tunnel",
+      "title": "West Laban Tunnel",
+      "steps": [
+        {
+          "id": "step-053",
+          "type": "step",
+          "text": "Enter the West Laban Tunnel and fight through enemy encounters."
+        },
+        {
+          "id": "step-054",
+          "type": "step",
+          "text": "Explore side paths for treasure chests — the tunnel has several branches."
+        },
+        {
+          "id": "step-055",
+          "type": "step",
+          "text": "Progress through the tunnel to reach the exit toward **Burnack Plateau**."
+        }
+      ]
+    },
+    {
+      "id": "burnack-plateau",
+      "title": "Burnack Plateau",
+      "steps": [
+        {
+          "id": "step-056",
+          "type": "step",
+          "text": "Cross the open plateau area, fighting enemies along the paths."
+        },
+        {
+          "id": "step-057",
+          "type": "note",
+          "text": "This is a good area to grind levels if you're underleveled for upcoming fights."
+        },
+        {
+          "id": "step-058",
+          "type": "step",
+          "text": "Explore side paths for collectibles and Katz Boxes."
+        },
+        {
+          "id": "step-059",
+          "type": "step",
+          "text": "Continue east toward **Vortigern**."
+        }
+      ]
+    },
+    {
+      "id": "vortigern",
+      "title": "Vortigern",
+      "steps": [
+        {
+          "id": "step-060",
+          "type": "step",
+          "text": "Board the pirate ship **Van Eltia** and meet the crew."
+        },
+        {
+          "id": "step-061",
+          "type": "step",
+          "text": "Watch cutscenes introducing **Eizen** and the crew.",
+          "note": "Eizen permanently joins the party after these scenes."
+        },
+        {
+          "id": "step-062",
+          "type": "step",
+          "text": "Explore the ship for items and talk to all party members for skits."
+        },
+        {
+          "id": "step-063",
+          "type": "step",
+          "text": "Set sail toward **Port Zekson**."
+        }
+      ]
+    },
+    {
+      "id": "port-zekson",
+      "title": "Port Zekson",
+      "steps": [
+        {
+          "id": "step-064",
+          "type": "step",
+          "text": "Arrive at Port Zekson and explore the port town."
+        },
+        {
+          "id": "step-065",
+          "type": "step",
+          "text": "Talk to NPCs and gather information about the **Abbey's** presence."
+        },
+        {
+          "id": "step-066",
+          "type": "step",
+          "text": "Visit shops to upgrade equipment for the party."
+        },
+        {
+          "id": "step-067",
+          "type": "step",
+          "text": "Rest at the inn for available skits."
+        },
+        {
+          "id": "step-068",
+          "type": "step",
+          "text": "Exit toward **Danann Highway** when ready."
+        }
+      ]
+    },
+    {
+      "id": "danann-highway",
+      "title": "Danann Highway",
+      "steps": [
+        {
+          "id": "step-069",
+          "type": "step",
+          "text": "Traverse the highway fighting enemies along the road."
+        },
+        {
+          "id": "step-070",
+          "type": "step",
+          "text": "Explore side paths and open fields for hidden chests."
+        },
+        {
+          "id": "step-071",
+          "type": "step",
+          "text": "Continue along the highway toward **Loegres**, the capital city."
+        }
+      ]
+    },
+    {
+      "id": "loegres-1",
+      "title": "Loegres (1st Visit)",
+      "steps": [
+        {
+          "id": "step-072",
+          "type": "note",
+          "text": "Loegres is the capital of the Holy Midgand Empire. Many shops, side events, and story triggers here."
+        },
+        {
+          "id": "step-073",
+          "type": "step",
+          "text": "Explore the city and talk to NPCs for information about **Artorius** and the Abbey."
+        },
+        {
+          "id": "step-074",
+          "type": "step",
+          "text": "Visit the guild to unlock **Bloodwing Quests** (bounty board side quests).",
+          "note": "These provide good rewards and unlock over time."
+        },
+        {
+          "id": "step-075",
+          "type": "step",
+          "text": "Upgrade equipment at the Loegres shops — they have significantly better gear."
+        },
+        {
+          "id": "step-076",
+          "type": "step",
+          "text": "Rest at the inn and watch all available skits."
+        },
+        {
+          "id": "step-077",
+          "type": "step",
+          "text": "Head to the **Barona Catacombs** when story objectives are set."
+        }
+      ]
+    },
+    {
+      "id": "barona-catacombs",
+      "title": "Barona Catacombs",
+      "steps": [
+        {
+          "id": "step-078",
+          "type": "step",
+          "text": "Enter the catacombs and navigate the underground passages."
+        },
+        {
+          "id": "step-079",
+          "type": "warning",
+          "text": "The catacombs have dead-end paths with strong enemies — save frequently."
+        },
+        {
+          "id": "step-080",
+          "type": "step",
+          "text": "Explore all branches for treasure chests and equipment."
+        },
+        {
+          "id": "step-081",
+          "type": "step",
+          "text": "Reach the deepest chamber and complete the story objective."
+        },
+        {
+          "id": "step-082",
+          "type": "step",
+          "text": "Return to Loegres after completing the catacombs."
+        }
+      ]
+    },
+    {
+      "id": "loegres-villa",
+      "title": "Loegres Villa",
+      "steps": [
+        {
+          "id": "step-083",
+          "type": "step",
+          "text": "Infiltrate the **Loegres Villa** as part of the main story."
+        },
+        {
+          "id": "step-084",
+          "type": "step",
+          "text": "Navigate through the villa corridors, defeating guards along the way."
+        },
+        {
+          "id": "step-085",
+          "type": "warning",
+          "text": "Search all rooms before progressing — several contain missable equipment and items."
+        },
+        {
+          "id": "step-086",
+          "type": "step",
+          "text": "Reach the main hall and trigger the story confrontation."
+        },
+        {
+          "id": "step-087",
+          "type": "boss",
+          "text": "**BOSS: Oscar Dragonia** — Prepare for a tough fight with an exorcist-class enemy.",
+          "note": "Use Laphicet for healing support. Break Soul when Oscar staggers."
+        },
+        {
+          "id": "step-088",
+          "type": "step",
+          "text": "Watch the post-battle cutscenes and regroup with the party."
+        }
+      ]
+    }
+  ]
+}
