@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'server/**'
+      - 'webapp/**'
+      - 'walkthroughs/**'
+      - '.github/workflows/deploy.yml'
+      - '!server/k8s/**'
+      - '!server/argocd/**'
 
 env:
   REGISTRY: ghcr.io
