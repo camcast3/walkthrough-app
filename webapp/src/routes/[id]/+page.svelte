@@ -62,14 +62,18 @@
 		return undefined;
 	}
 
-	/** Cycles to the next available HLTB mode. */
+	/** Cycles to the next available HLTB mode. Only acts when ≥2 modes are available. */
 	function cycleHltbMode() {
-		hltbMode = hltbNextMode;
+		if (hltbAvailableModes.length >= 2) {
+			hltbMode = hltbNextMode;
+		}
 	}
 
-	/** The next mode that clicking the toggle will switch to. */
-	const hltbNextMode = $derived(
-		hltbAvailableModes[(hltbAvailableModes.indexOf(hltbMode) + 1) % hltbAvailableModes.length]
+	/** The next mode that clicking the toggle will switch to. Defaults to 'main_story' when no modes are available. */
+	const hltbNextMode = $derived<HltbMode>(
+		hltbAvailableModes.length > 0
+			? hltbAvailableModes[(hltbAvailableModes.indexOf(hltbMode) + 1) % hltbAvailableModes.length]
+			: 'main_story'
 	);
 
 	const hltbTotalHours = $derived(resolveHltbHours(hltbMode));
