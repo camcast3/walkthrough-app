@@ -63,13 +63,19 @@
 							<span class="game-name">{wt.game}</span>
 							<span class="wt-title">{wt.title}</span>
 							<span class="author">by {wt.author}</span>
-							{#if wt.hltb?.main_story != null || wt.hltb?.completionist != null}
+							{#if wt.hltb?.main_story != null || wt.hltb?.main_story_sides != null || wt.hltb?.completionist != null}
 								<span class="hltb-meta" aria-label="HowLongToBeat time estimates">
 									⏱
 									{#if wt.hltb.main_story != null}
 										<span title="Main Story">{formatHours(wt.hltb.main_story)}</span>
 									{/if}
-									{#if wt.hltb.main_story != null && wt.hltb.completionist != null}
+									{#if wt.hltb.main_story != null && wt.hltb.main_story_sides != null}
+										<span class="hltb-sep">·</span>
+									{/if}
+									{#if wt.hltb.main_story_sides != null}
+										<span title="Main + Sides">{formatHours(wt.hltb.main_story_sides)} +Sides</span>
+									{/if}
+									{#if (wt.hltb.main_story != null || wt.hltb.main_story_sides != null) && wt.hltb.completionist != null}
 										<span class="hltb-sep">·</span>
 									{/if}
 									{#if wt.hltb.completionist != null}

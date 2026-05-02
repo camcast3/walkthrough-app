@@ -21,6 +21,7 @@ export interface WalkthroughSection {
 
 export interface HltbData {
 	main_story?: number;
+	main_story_sides?: number;
 	completionist?: number;
 }
 

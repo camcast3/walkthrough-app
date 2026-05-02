@@ -52,7 +52,12 @@
         "main_story": {
           "type": "number",
           "minimum": 0,
-          "description": "Hours to finish the main story (HowLongToBeat 'Main Story')"
+          "description": "Hours to finish the main story only (HowLongToBeat 'Main Story')"
+        },
+        "main_story_sides": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Hours for main story plus side quests (HowLongToBeat 'Main + Sides')"
         },
         "completionist": {
           "type": "number",

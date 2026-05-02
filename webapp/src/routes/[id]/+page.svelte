@@ -20,31 +20,52 @@
 	let showSteps = $state(false);
 	let tabsEl: HTMLElement | null = null;
 
-	// ── HLTB time mode: 'main_story' or 'completionist' ──────────────────────
-	/** Minimum difference in hours between main_story and completionist to show the toggle. */
+	// ── HLTB time mode: 'main_story', 'main_story_sides', or 'completionist' ──
+	/** Minimum difference in hours between any two HLTB times to show the toggle. */
 	const MIN_HLTB_DIFFERENCE_HOURS = 0.5;
 
-	/** Whether the walkthrough has both HLTB times and they differ enough to show a toggle. */
-	const hltbHasToggle = $derived(
-		wt.hltb?.main_story != null &&
-		wt.hltb?.completionist != null &&
-		Math.abs((wt.hltb.main_story ?? 0) - (wt.hltb.completionist ?? 0)) >= MIN_HLTB_DIFFERENCE_HOURS
+	type HltbMode = 'main_story' | 'main_story_sides' | 'completionist';
+
+	const HLTB_MODE_LABELS: Record<HltbMode, string> = {
+		main_story: 'Story',
+		main_story_sides: '+Sides',
+		completionist: '100%'
+	};
+
+	const HLTB_MODE_FINISH_LABELS: Record<HltbMode, string> = {
+		main_story: 'to finish',
+		main_story_sides: 'with sides',
+		completionist: 'to 100%'
+	};
+
+	/** Ordered list of HLTB modes that have a value in this walkthrough. */
+	const hltbAvailableModes = $derived(
+		(['main_story', 'main_story_sides', 'completionist'] as HltbMode[]).filter(
+			(m) => wt.hltb?.[m] != null
+		)
 	);
-	type HltbMode = 'main_story' | 'completionist';
+
+	/** Whether there are at least 2 HLTB modes available to toggle between. */
+	const hltbHasToggle = $derived(hltbAvailableModes.length >= 2);
+
 	let hltbMode = $state<HltbMode>('main_story');
 
 	/**
 	 * Resolves the active HLTB total hours based on the selected mode.
-	 * Fallback priority: completionist mode → main_story → completionist fallback.
+	 * Falls back to the first available mode if the selected one has no value.
 	 */
 	function resolveHltbHours(mode: HltbMode): number | undefined {
-		if (mode === 'completionist' && wt.hltb?.completionist != null) {
-			return wt.hltb.completionist;
+		if (wt.hltb?.[mode] != null) return wt.hltb[mode];
+		for (const m of ['main_story', 'main_story_sides', 'completionist'] as HltbMode[]) {
+			if (wt.hltb?.[m] != null) return wt.hltb[m];
 		}
-		if (wt.hltb?.main_story != null) {
-			return wt.hltb.main_story;
-		}
-		return wt.hltb?.completionist;
+		return undefined;
+	}
+
+	/** Cycles to the next available HLTB mode. */
+	function cycleHltbMode() {
+		const idx = hltbAvailableModes.indexOf(hltbMode);
+		hltbMode = hltbAvailableModes[(idx + 1) % hltbAvailableModes.length];
 	}
 
 	const hltbTotalHours = $derived(resolveHltbHours(hltbMode));
@@ -337,16 +358,17 @@
 				{:else if progressPct > 0}
 					~{timeRemainingLabel} remaining
 				{:else}
-					~{timeRemainingLabel} to {hltbMode === 'completionist' ? '100%' : 'finish'}
+					~{timeRemainingLabel} {HLTB_MODE_FINISH_LABELS[hltbMode]}
 				{/if}
 			</span>
 			{#if hltbHasToggle}
+				{@const nextMode = hltbAvailableModes[(hltbAvailableModes.indexOf(hltbMode) + 1) % hltbAvailableModes.length]}
 				<button
 					class="hltb-toggle"
-					onclick={() => { hltbMode = hltbMode === 'main_story' ? 'completionist' : 'main_story'; }}
-					aria-label="Currently showing {hltbMode === 'main_story' ? 'main story' : '100%'} estimate. Switch to {hltbMode === 'main_story' ? `100% (${formatHours(wt.hltb!.completionist!)})` : `main story (${formatHours(wt.hltb!.main_story!)})`}"
+					onclick={cycleHltbMode}
+					aria-label="Showing {HLTB_MODE_LABELS[hltbMode]} estimate ({timeRemainingLabel}). Switch to {HLTB_MODE_LABELS[nextMode]}"
 				>
-					{hltbMode === 'main_story' ? 'Story' : '100%'} ⇄
+					{HLTB_MODE_LABELS[hltbMode]} ⇄
 				</button>
 			{/if}
 		</div>
