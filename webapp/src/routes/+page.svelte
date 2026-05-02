@@ -73,7 +73,7 @@
 										<span class="hltb-sep">·</span>
 									{/if}
 									{#if wt.hltb.main_story_sides != null}
-										<span title="Main + Sides">{formatHours(wt.hltb.main_story_sides)} {HLTB_MODE_LABELS.main_story_sides}</span>
+										<span title="Main Story + Sides">{formatHours(wt.hltb.main_story_sides)} {HLTB_MODE_LABELS.main_story_sides}</span>
 									{/if}
 									{#if (wt.hltb.main_story != null || wt.hltb.main_story_sides != null) && wt.hltb.completionist != null}
 										<span class="hltb-sep">·</span>
