@@ -70,9 +70,10 @@ func (h *Handler) GetWalkthrough(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) ListCheckouts(w http.ResponseWriter, r *http.Request) {
 	ids, err := h.DB.ListCheckoutIDs()
 	if err != nil {
-		respondError(w, http.StatusInternalServerError, "db error")
+		respondError(w, http.StatusInternalServerError, "failed to list checkouts: database unavailable")
 		return
 	}
+	// An empty list is valid — it means no walkthroughs are currently checked out.
 	respondJSON(w, http.StatusOK, ids)
 }
 

@@ -98,9 +98,15 @@ func main() {
 		cacheDir := envOrDefault("REMOTE_CACHE_DIR", filepath.Dir(*dbPath))
 
 		remoteSrc := source.NewRemoteSource(source.RemoteConfig{
-			ServerURL:    serverURL,
-			Interval:     interval,
-			CacheDir:     cacheDir,
+			ServerURL: serverURL,
+			Interval:  interval,
+			CacheDir:  cacheDir,
+			// CheckedOutFn governs which walkthrough *content* is prefetched and cached
+			// locally on each refresh cycle. It does NOT affect progress sync — progress
+			// records are synced independently via ProgressSync regardless of checkout
+			// status, and PullAll on startup covers the full walkthrough catalog.
+			// The checkout list is re-evaluated on every refresh (default every 10 min,
+			// controlled by REMOTE_REFRESH_INTERVAL).
 			CheckedOutFn: db.ListCheckoutIDs,
 		})
 		remoteSrc.Start(context.Background())

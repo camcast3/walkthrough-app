@@ -126,7 +126,11 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 	}
 
 	// If a checkout filter is configured, only prefetch checked-out walkthroughs.
-	// All walkthroughs remain discoverable via List(); only content fetching is filtered.
+	// The checkout list is re-evaluated on every refresh cycle, so newly checked-out
+	// walkthroughs will be downloaded on the next cycle (interval set by
+	// REMOTE_REFRESH_INTERVAL, default 10 min). Walkthroughs that are unchecked
+	// between cycles keep their cached copy until it is evicted by the next refresh.
+	// All walkthroughs remain discoverable via List(); only content prefetching is filtered.
 	checkedOut := map[string]bool{}
 	if s.CheckedOutFn != nil {
 		ids, fnErr := s.CheckedOutFn()
