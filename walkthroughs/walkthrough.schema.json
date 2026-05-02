@@ -53,7 +53,7 @@
   "$defs": {
     "section": {
       "type": "object",
-      "required": ["id", "title", "steps"],
+      "required": ["id", "title"],
       "additionalProperties": false,
       "properties": {
         "id": {
@@ -61,10 +61,40 @@
           "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
         },
         "title": { "type": "string" },
+        "content": {
+          "type": "string",
+          "description": "Full walkthrough prose in Markdown. Embed milestone checkpoints with <!-- checkpoint: <id> | <label> --> markers."
+        },
+        "checkpoints": {
+          "type": "array",
+          "description": "Milestone checkpoints referenced in the content field. Each checkpoint id must appear in a <!-- checkpoint: id | label --> marker in content.",
+          "items": { "$ref": "#/$defs/checkpoint" }
+        },
         "steps": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/step" }
+          "items": { "$ref": "#/$defs/step" },
+          "description": "Granular checkable action items. Optional when content is provided."
+        }
+      },
+      "anyOf": [
+        { "required": ["content"] },
+        { "required": ["steps"] }
+      ]
+    },
+    "checkpoint": {
+      "type": "object",
+      "required": ["id", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Unique checkpoint slug, used in <!-- checkpoint: id | label --> markers"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable milestone label, e.g. 'Reached Firelink Shrine'"
         }
       }
     },

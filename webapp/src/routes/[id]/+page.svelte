@@ -5,6 +5,7 @@
 	import { syncProgress, timeAgo } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import type { SyncStatus } from '$lib/types.js';
+	import { marked } from 'marked';
 
 	let { data }: { data: PageData } = $props();
 	const wt = $derived(data.walkthrough);
@@ -16,18 +17,21 @@
 	let syncStatus = $state<SyncStatus>({ online: false, lastSynced: null, stale: false, remoteUpdatedAt: null });
 	let showStalePrompt = $state(false);
 	let remoteRecord = $state<{ checkedSteps: string[]; updatedAt: string } | null>(null);
+	let showSteps = $state(false);
+
+	// ── Helpers ────────────────────────────────────────────────────────────────
+	function isCheckableId(id: string): boolean {
+		for (const s of wt.sections) {
+			for (const step of (s.steps ?? [])) if (step.id === id && step.type !== 'note') return true;
+			for (const cp of (s.checkpoints ?? [])) if (cp.id === id) return true;
+		}
+		return false;
+	}
 
 	// ── Derived ────────────────────────────────────────────────────────────────
 	const totalCheckable = $derived(countCheckableSteps(wt.sections));
-	const checkedCount = $derived([...checkedSteps].filter(id => {
-		// Only count checkable steps
-		for (const s of wt.sections) for (const step of s.steps) if (step.id === id && step.type !== 'note') return true;
-		return false;
-	}).length);
-	const progressPct = $derived(computeProgress(new Set([...checkedSteps].filter(id => {
-		for (const s of wt.sections) for (const step of s.steps) if (step.id === id && step.type !== 'note') return true;
-		return false;
-	})), totalCheckable));
+	const checkedCount = $derived([...checkedSteps].filter(isCheckableId).length);
+	const progressPct = $derived(computeProgress(new Set([...checkedSteps].filter(isCheckableId)), totalCheckable));
 
 	const currentSection = $derived(wt.sections[currentSectionIdx]);
 
@@ -58,6 +62,47 @@
 				showStalePrompt = true;
 			}
 		});
+	}
+
+	// ── Toggle checkpoint ──────────────────────────────────────────────────────
+	async function toggleCheckpoint(cpId: string) {
+		const next = new Set(checkedSteps);
+		if (next.has(cpId)) next.delete(cpId);
+		else next.add(cpId);
+		checkedSteps = next;
+		const record = await saveProgress(wt.id, checkedSteps);
+		syncProgress(wt.id, record).then((status) => {
+			syncStatus = status;
+			if (status.stale && status.remoteUpdatedAt) {
+				remoteRecord = null;
+				showStalePrompt = true;
+			}
+		});
+	}
+
+	// ── Markdown rendering with checkpoint placeholders ───────────────────────
+	const CHECKPOINT_RE = /<!--\s*checkpoint:\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
+	const CHECKPOINT_PLACEHOLDER = '___CHECKPOINT___';
+
+	function renderContentHtml(content: string): string {
+		const checkpoints: { id: string; label: string }[] = [];
+		const withPlaceholders = content.replace(CHECKPOINT_RE, (_match, id, label) => {
+			checkpoints.push({ id, label: label?.trim() || id });
+			return `\n\n${CHECKPOINT_PLACEHOLDER}${checkpoints.length - 1}\n\n`;
+		});
+
+		let html = marked.parse(withPlaceholders, { async: false }) as string;
+
+		checkpoints.forEach((cp, idx) => {
+			const placeholder = `${CHECKPOINT_PLACEHOLDER}${idx}`;
+			const placeholderInP = new RegExp(`<p>${placeholder}</p>`, 'g');
+			const placeholderBare = new RegExp(placeholder, 'g');
+			const replacement = `<div class="checkpoint-slot" data-checkpoint-id="${cp.id}" data-checkpoint-label="${cp.label.replace(/"/g, '&quot;')}"></div>`;
+			html = html.replace(placeholderInP, replacement);
+			html = html.replace(placeholderBare, replacement);
+		});
+
+		return html;
 	}
 
 	// ── Stale prompt ──────────────────────────────────────────────────────────
@@ -120,6 +165,40 @@
 	}
 
 	// ── Lifecycle ─────────────────────────────────────────────────────────────
+	let contentEl: HTMLElement | null = null;
+
+	function bindCheckpointSlots() {
+		if (!contentEl) return;
+		const slots = contentEl.querySelectorAll<HTMLElement>('.checkpoint-slot');
+		slots.forEach((slot) => {
+			const cpId = slot.dataset.checkpointId!;
+			const cpLabel = slot.dataset.checkpointLabel!;
+			const isChecked = checkedSteps.has(cpId);
+
+			slot.innerHTML = `
+				<button class="checkpoint-btn ${isChecked ? 'is-checked' : ''}" aria-label="Milestone: ${cpLabel}" role="checkbox" aria-checked="${isChecked}">
+					<span class="checkpoint-check" aria-hidden="true">
+						<svg viewBox="0 0 20 20" fill="none">
+							<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
+							<polyline class="check-mark ${isChecked ? 'checked' : ''}" points="5,10 9,14 15,6" />
+						</svg>
+					</span>
+					<span class="checkpoint-flag" aria-hidden="true">🏁</span>
+					<span class="checkpoint-label">${cpLabel}</span>
+				</button>`;
+
+			const btn = slot.querySelector('button')!;
+			btn.onclick = () => toggleCheckpoint(cpId);
+		});
+	}
+
+	$effect(() => {
+		// Re-bind checkpoints whenever checked state or section changes
+		void checkedSteps;
+		void currentSectionIdx;
+		tick().then(bindCheckpointSlots);
+	});
+
 	onMount(async () => {
 		const record = await loadProgress(wt.id);
 		if (record) checkedSteps = new Set(record.checkedSteps);
@@ -233,52 +312,115 @@
 		</ul>
 	</details>
 
-	<!-- Steps list -->
-	<main class="steps-list" aria-label="Steps for {currentSection?.title}">
-		{#each currentSection?.steps ?? [] as step, i (step.id)}
-			{@const isCheckable = step.type !== 'note'}
-			{@const isChecked = checkedSteps.has(step.id)}
-			{@const isFocused = i === focusedStepIdx}
-			<div
-				class="step-card"
-				class:checkable={isCheckable}
-				class:checked={isChecked}
-				class:focused={isFocused}
-				class:type-note={step.type === 'note'}
-				class:type-warning={step.type === 'warning'}
-				class:type-collectible={step.type === 'collectible'}
-				class:type-boss={step.type === 'boss'}
-				role={isCheckable ? 'checkbox' : undefined}
-				aria-checked={isCheckable ? isChecked : undefined}
-				aria-label="{TYPE_LABEL[step.type]}: {step.text}"
-				tabindex={isCheckable ? 0 : undefined}
-				use:stepAction={i}
-				onclick={() => toggleStep(step.id, step.type)}
-				onkeydown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleStep(step.id, step.type); }}}
-			>
-				<div class="step-icon-col">
-					<span class="type-badge type-{step.type}" aria-hidden="true">{TYPE_ICON[step.type]}</span>
-					{#if isCheckable}
-						<span class="custom-check" class:is-checked={isChecked} aria-hidden="true">
-							<svg viewBox="0 0 20 20" fill="none">
-								<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
-								<polyline class="check-mark" points="5,10 9,14 15,6" />
-							</svg>
-						</span>
-					{/if}
+	<!-- Section content -->
+	{#if currentSection?.content}
+		<!-- Prose mode: full walkthrough text with embedded checkpoints -->
+		<div class="prose-container" bind:this={contentEl}>
+			{@html renderContentHtml(currentSection.content)}
+		</div>
+
+		<!-- Collapsible granular steps -->
+		{#if currentSection.steps && currentSection.steps.length > 0}
+			<details class="steps-toggle" bind:open={showSteps}>
+				<summary class="steps-toggle-btn">
+					<span class="steps-toggle-icon">{showSteps ? '▼' : '▶'}</span>
+					Detailed steps ({currentSection.steps.filter(s => s.type !== 'note').length} checkable)
+				</summary>
+				<main class="steps-list" aria-label="Detailed steps for {currentSection?.title}">
+					{#each currentSection.steps as step, i (step.id)}
+						{@const isCheckable = step.type !== 'note'}
+						{@const isChecked = checkedSteps.has(step.id)}
+						{@const isFocused = i === focusedStepIdx}
+						<div
+							class="step-card"
+							class:checkable={isCheckable}
+							class:checked={isChecked}
+							class:focused={isFocused}
+							class:type-note={step.type === 'note'}
+							class:type-warning={step.type === 'warning'}
+							class:type-collectible={step.type === 'collectible'}
+							class:type-boss={step.type === 'boss'}
+							role={isCheckable ? 'checkbox' : undefined}
+							aria-checked={isCheckable ? isChecked : undefined}
+							aria-label="{TYPE_LABEL[step.type]}: {step.text}"
+							tabindex={isCheckable ? 0 : undefined}
+							use:stepAction={i}
+							onclick={() => toggleStep(step.id, step.type)}
+							onkeydown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleStep(step.id, step.type); }}}
+						>
+							<div class="step-icon-col">
+								<span class="type-badge type-{step.type}" aria-hidden="true">{TYPE_ICON[step.type]}</span>
+								{#if isCheckable}
+									<span class="custom-check" class:is-checked={isChecked} aria-hidden="true">
+										<svg viewBox="0 0 20 20" fill="none">
+											<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
+											<polyline class="check-mark" points="5,10 9,14 15,6" />
+										</svg>
+									</span>
+								{/if}
+							</div>
+							<div class="step-body">
+								<p class="step-text">{@html step.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+								{#if step.note}
+									<p class="step-note">{step.note}</p>
+								{/if}
+								{#if step.image_url}
+									<img class="step-img" src={step.image_url} alt="Screenshot for this step" loading="lazy" />
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</main>
+			</details>
+		{/if}
+	{:else}
+		<!-- Classic mode: step list only -->
+		<main class="steps-list" aria-label="Steps for {currentSection?.title}">
+			{#each currentSection?.steps ?? [] as step, i (step.id)}
+				{@const isCheckable = step.type !== 'note'}
+				{@const isChecked = checkedSteps.has(step.id)}
+				{@const isFocused = i === focusedStepIdx}
+				<div
+					class="step-card"
+					class:checkable={isCheckable}
+					class:checked={isChecked}
+					class:focused={isFocused}
+					class:type-note={step.type === 'note'}
+					class:type-warning={step.type === 'warning'}
+					class:type-collectible={step.type === 'collectible'}
+					class:type-boss={step.type === 'boss'}
+					role={isCheckable ? 'checkbox' : undefined}
+					aria-checked={isCheckable ? isChecked : undefined}
+					aria-label="{TYPE_LABEL[step.type]}: {step.text}"
+					tabindex={isCheckable ? 0 : undefined}
+					use:stepAction={i}
+					onclick={() => toggleStep(step.id, step.type)}
+					onkeydown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleStep(step.id, step.type); }}}
+				>
+					<div class="step-icon-col">
+						<span class="type-badge type-{step.type}" aria-hidden="true">{TYPE_ICON[step.type]}</span>
+						{#if isCheckable}
+							<span class="custom-check" class:is-checked={isChecked} aria-hidden="true">
+								<svg viewBox="0 0 20 20" fill="none">
+									<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
+									<polyline class="check-mark" points="5,10 9,14 15,6" />
+								</svg>
+							</span>
+						{/if}
+					</div>
+					<div class="step-body">
+						<p class="step-text">{@html step.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+						{#if step.note}
+							<p class="step-note">{step.note}</p>
+						{/if}
+						{#if step.image_url}
+							<img class="step-img" src={step.image_url} alt="Screenshot for this step" loading="lazy" />
+						{/if}
+					</div>
 				</div>
-				<div class="step-body">
-					<p class="step-text">{@html step.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
-					{#if step.note}
-						<p class="step-note">{step.note}</p>
-					{/if}
-					{#if step.image_url}
-						<img class="step-img" src={step.image_url} alt="Screenshot for this step" loading="lazy" />
-					{/if}
-				</div>
-			</div>
-		{/each}
-	</main>
+			{/each}
+		</main>
+	{/if}
 
 	<!-- Attribution -->
 	<footer class="attribution">
@@ -775,6 +917,205 @@
 	.btn-ghost:hover {
 		border-color: rgba(124,106,247,0.3);
 		color: #a89df7;
+	}
+
+	/* ── Prose container ── */
+	.prose-container {
+		padding: 1rem 1rem 0.5rem;
+		line-height: 1.75;
+		color: #d8d8e8;
+		font-size: 0.94rem;
+	}
+
+	.prose-container :global(h1),
+	.prose-container :global(h2),
+	.prose-container :global(h3) {
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		color: #f0f0ff;
+		margin-top: 1.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.prose-container :global(h1) { font-size: 1.6rem; }
+	.prose-container :global(h2) { font-size: 1.3rem; }
+	.prose-container :global(h3) { font-size: 1.1rem; }
+
+	.prose-container :global(p) {
+		margin: 0.75rem 0;
+	}
+
+	.prose-container :global(strong) {
+		color: #f0f0ff;
+	}
+
+	.prose-container :global(em) {
+		color: #a89df7;
+		font-style: italic;
+	}
+
+	.prose-container :global(ul),
+	.prose-container :global(ol) {
+		margin: 0.5rem 0;
+		padding-left: 1.5rem;
+	}
+
+	.prose-container :global(li) {
+		margin: 0.3rem 0;
+	}
+
+	.prose-container :global(blockquote) {
+		border-left: 3px solid rgba(124,106,247,0.4);
+		padding: 0.5rem 1rem;
+		margin: 0.75rem 0;
+		background: rgba(124,106,247,0.05);
+		border-radius: 0 8px 8px 0;
+		color: #a89df7;
+	}
+
+	.prose-container :global(code) {
+		background: rgba(42,42,68,0.6);
+		padding: 0.1rem 0.4rem;
+		border-radius: 4px;
+		font-size: 0.85rem;
+	}
+
+	.prose-container :global(hr) {
+		border: none;
+		border-top: 1px solid rgba(42,42,68,0.6);
+		margin: 1.5rem 0;
+	}
+
+	/* ── Checkpoint buttons (injected into prose) ── */
+	.prose-container :global(.checkpoint-slot) {
+		margin: 1rem 0;
+	}
+
+	.prose-container :global(.checkpoint-btn) {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		width: 100%;
+		background: rgba(124,106,247,0.06);
+		border: 2px solid rgba(124,106,247,0.2);
+		border-radius: 14px;
+		padding: 0.85rem 1rem;
+		cursor: pointer;
+		transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.prose-container :global(.checkpoint-btn:hover) {
+		border-color: rgba(124,106,247,0.5);
+		background: rgba(124,106,247,0.1);
+		box-shadow: 0 0 16px rgba(124,106,247,0.1);
+	}
+
+	.prose-container :global(.checkpoint-btn:active) {
+		transform: scale(0.99);
+	}
+
+	.prose-container :global(.checkpoint-btn.is-checked) {
+		border-color: rgba(84,214,106,0.4);
+		background: rgba(84,214,106,0.06);
+	}
+
+	.prose-container :global(.checkpoint-check) {
+		display: block;
+		width: 22px;
+		height: 22px;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.checkpoint-check svg) {
+		width: 100%;
+		height: 100%;
+	}
+
+	.prose-container :global(.checkpoint-check .check-bg) {
+		stroke: #3a3a5c;
+		stroke-width: 1.5;
+		fill: rgba(10,10,20,0.5);
+		transition: stroke 0.2s, fill 0.2s;
+	}
+
+	.prose-container :global(.checkpoint-btn.is-checked .check-bg) {
+		stroke: #54d66a;
+		fill: rgba(84,214,106,0.15);
+	}
+
+	.prose-container :global(.checkpoint-check .check-mark) {
+		stroke: #3a3a5c;
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 20;
+		stroke-dashoffset: 20;
+		transition: stroke-dashoffset 0.3s ease, stroke 0.2s;
+	}
+
+	.prose-container :global(.checkpoint-check .check-mark.checked) {
+		stroke-dashoffset: 0;
+		stroke: #54d66a;
+	}
+
+	.prose-container :global(.checkpoint-flag) {
+		font-size: 1.1rem;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.checkpoint-label) {
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1rem;
+		font-weight: 600;
+		color: #e8e8f0;
+	}
+
+	.prose-container :global(.checkpoint-btn.is-checked .checkpoint-label) {
+		color: #54d66a;
+	}
+
+	/* ── Steps toggle (collapsible) ── */
+	.steps-toggle {
+		margin: 0.5rem 0.75rem 0;
+		border: 1px solid rgba(42,42,68,0.6);
+		border-radius: 12px;
+		background: rgba(14,14,24,0.6);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+	}
+
+	:global(body[data-power-save]) .steps-toggle {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
+	}
+
+	.steps-toggle-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.75rem 1rem;
+		font-size: 0.85rem;
+		color: #8888aa;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+		transition: color 0.2s;
+	}
+
+	.steps-toggle-btn:hover {
+		color: #a89df7;
+	}
+
+	.steps-toggle-btn::-webkit-details-marker { display: none; }
+
+	.steps-toggle[open] .steps-toggle-btn {
+		border-bottom: 1px solid rgba(42,42,68,0.5);
+		color: #a89df7;
+	}
+
+	.steps-toggle-icon {
+		font-size: 0.7rem;
+		transition: transform 0.2s;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

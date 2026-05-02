@@ -16,7 +16,7 @@ Or paste raw text:
 Here is the walkthrough text: [paste the text]
 ```
 
-Copilot will output a JSON file matching the schema.
+Copilot will output a JSON file matching the schema — including full prose `content` with embedded milestone checkpoints plus granular `steps`.
 
 ## Step 2: Save the file
 
@@ -32,7 +32,10 @@ Example: `walkthroughs/elden-ring/main-walkthrough.json`
 Check that:
 - `attribution` field credits the original source
 - `id` is a unique slug (lowercase, hyphens only)
-- Sections and steps make sense
+- Sections have a `content` field with full walkthrough prose (not abbreviated)
+- Checkpoint markers (`<!-- checkpoint: id | label -->`) appear at major milestones in the content
+- The `checkpoints` array matches every marker in the content
+- Granular `steps` array provides a concise checklist alongside the prose
 - `type` values are correct (`step`, `note`, `warning`, `collectible`, `boss`)
 
 ## Step 4: Commit and push
@@ -52,6 +55,25 @@ All devices will get the new walkthrough on their next sync.
 ## Schema reference
 
 See [walkthrough.schema.json](../walkthroughs/walkthrough.schema.json) for the full schema.
+
+### Section content format
+
+Each section supports two complementary content modes:
+
+| Field | Purpose |
+|---|---|
+| `content` | Full walkthrough prose in Markdown with embedded `<!-- checkpoint: id \| label -->` markers |
+| `checkpoints` | Array of `{ id, label }` objects matching each checkpoint marker in content |
+| `steps` | Granular checkable action items (classic checklist) |
+
+Sections must have at least `content` or `steps` (or both). When both are present, the webapp shows the full prose as the primary view with steps in a collapsible panel.
+
+### Checkpoint syntax
+
+Inside the `content` markdown, embed milestones like:
+```
+<!-- checkpoint: boss-defeated | Defeated the First Boss -->
+```
 
 ### Step types
 
