@@ -67,7 +67,7 @@
 			} catch {
 				clearInterval(interval);
 			}
-		}, 600);
+		}, 1000);
 	}
 
 	const STEP_ICONS: Record<string, string> = {

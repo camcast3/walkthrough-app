@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net"
 	"net/http"
+	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -12,6 +14,9 @@ import (
 
 	"github.com/google/uuid"
 )
+
+// maxWalkthroughSize is the maximum number of bytes accepted from a remote URL.
+const maxWalkthroughSize = 4 << 20 // 4 MiB
 
 // stepStatus values used in IngestStep.
 const (
@@ -160,14 +165,17 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 
 	// ── Stage 1: Fetch ────────────────────────────────────────────────────────
 	job.updateStep(0, stepRunning, "Receiving walkthrough content…")
-	time.Sleep(300 * time.Millisecond)
 
 	var rawJSON []byte
 
 	input := strings.TrimSpace(job.Input)
 	if strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://") {
+		if err := validateIngestURL(input); err != nil {
+			fail(0, fmt.Sprintf("URL rejected: %v", err))
+			return
+		}
 		job.updateStep(0, stepRunning, fmt.Sprintf("Downloading from %s…", input))
-		resp, err := http.Get(input) //nolint:gosec // URL is user-provided for library ingest
+		resp, err := http.Get(input) //nolint:noctx // short-lived ingest request; context not required
 		if err != nil {
 			fail(0, fmt.Sprintf("HTTP request failed: %v", err))
 			return
@@ -177,7 +185,7 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 			fail(0, fmt.Sprintf("Remote returned HTTP %d", resp.StatusCode))
 			return
 		}
-		body, err := io.ReadAll(io.LimitReader(resp.Body, 4<<20)) // 4 MB limit
+		body, err := io.ReadAll(io.LimitReader(resp.Body, maxWalkthroughSize))
 		if err != nil {
 			fail(0, fmt.Sprintf("Failed to read response: %v", err))
 			return
@@ -192,7 +200,6 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 
 	// ── Stage 2: Parse ────────────────────────────────────────────────────────
 	job.updateStep(1, stepRunning, "Parsing walkthrough JSON…")
-	time.Sleep(200 * time.Millisecond)
 
 	meta, err := store.ParseMetaFromJSON(rawJSON)
 	if err != nil {
@@ -203,7 +210,6 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 
 	// ── Stage 3: Validate ─────────────────────────────────────────────────────
 	job.updateStep(2, stepRunning, "Validating required fields…")
-	time.Sleep(200 * time.Millisecond)
 
 	if err := validateWalkthrough(rawJSON, meta); err != nil {
 		fail(2, err.Error())
@@ -213,7 +219,6 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 
 	// ── Stage 4: Index ────────────────────────────────────────────────────────
 	job.updateStep(3, stepRunning, "Adding to walkthrough library…")
-	time.Sleep(150 * time.Millisecond)
 
 	if err := m.db.AddLocalWalkthrough(meta.ID, rawJSON); err != nil {
 		fail(3, fmt.Sprintf("Database error: %v", err))
@@ -255,6 +260,40 @@ func validateWalkthrough(data []byte, meta *store.WalkthroughMeta) error {
 		return fmt.Errorf("sections must be a non-empty array")
 	}
 
+	return nil
+}
+
+// validateIngestURL checks that a user-supplied URL is safe to fetch.
+// It rejects non-HTTP(S) schemes and private/loopback IP targets to prevent SSRF.
+func validateIngestURL(rawURL string) error {
+	u, err := url.Parse(rawURL)
+	if err != nil {
+		return fmt.Errorf("invalid URL: %v", err)
+	}
+	if u.Scheme != "http" && u.Scheme != "https" {
+		return fmt.Errorf("only http and https URLs are supported")
+	}
+
+	host := u.Hostname()
+	if host == "" {
+		return fmt.Errorf("URL has no host")
+	}
+
+	// Resolve the host and reject private/loopback addresses (SSRF protection).
+	addrs, err := net.LookupHost(host)
+	if err != nil {
+		// Resolution failure is non-fatal; let the HTTP client handle it.
+		return nil
+	}
+	for _, addrStr := range addrs {
+		ip := net.ParseIP(addrStr)
+		if ip == nil {
+			continue
+		}
+		if ip.IsLoopback() || ip.IsPrivate() || ip.IsLinkLocalUnicast() || ip.IsLinkLocalMulticast() {
+			return fmt.Errorf("URL resolves to a private or loopback address, which is not permitted")
+		}
+	}
 	return nil
 }
 

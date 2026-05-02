@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"net"
 	"net/http"
 	"strings"
 	"time"
@@ -231,10 +232,10 @@ func deviceIDFromRequest(r *http.Request) string {
 	if id := r.Header.Get("X-Device-ID"); id != "" {
 		return strings.TrimSpace(id)
 	}
-	// Strip port from RemoteAddr.
-	addr := r.RemoteAddr
-	if i := strings.LastIndex(addr, ":"); i >= 0 {
-		addr = addr[:i]
+	// Use net.SplitHostPort to correctly handle both IPv4 and IPv6 addresses.
+	host, _, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		return r.RemoteAddr
 	}
-	return addr
+	return host
 }
