@@ -35,6 +35,37 @@ export async function pullProgress(walkthroughId: string): Promise<ProgressRecor
 }
 
 /**
+ * Fetches the list of checked-out walkthrough IDs on this client.
+ * Returns an empty array when the server is unreachable or returns an error.
+ */
+export async function fetchCheckouts(): Promise<string[]> {
+	try {
+		const res = await fetch(`${API_BASE}/checkouts`);
+		if (!res.ok) return [];
+		return res.json();
+	} catch {
+		return [];
+	}
+}
+
+/**
+ * Checks out a walkthrough on this client.
+ * The server will cache the content locally for offline use.
+ */
+export async function checkout(walkthroughId: string): Promise<void> {
+	const res = await fetch(`${API_BASE}/checkouts/${walkthroughId}`, { method: 'PUT' });
+	if (!res.ok) throw new Error(`Failed to checkout walkthrough ${walkthroughId}`);
+}
+
+/**
+ * Checks in (removes) a walkthrough from this client's local cache.
+ */
+export async function checkin(walkthroughId: string): Promise<void> {
+	const res = await fetch(`${API_BASE}/checkouts/${walkthroughId}`, { method: 'DELETE' });
+	if (!res.ok) throw new Error(`Failed to checkin walkthrough ${walkthroughId}`);
+}
+
+/**
  * Syncs local progress with the remote server.
  * Returns a SyncStatus describing whether the local state is stale.
  *

@@ -2,7 +2,7 @@
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
-	import { syncProgress, timeAgo } from '$lib/sync.js';
+	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import type { SyncStatus } from '$lib/types.js';
 	import { marked } from 'marked';
@@ -19,6 +19,28 @@
 	let remoteRecord = $state<{ checkedSteps: string[]; updatedAt: string } | null>(null);
 	let showSteps = $state(false);
 	let tabsEl: HTMLElement | null = null;
+
+	// ── Checkout state ─────────────────────────────────────────────────────────
+	let isCheckedOut = $state(data.isCheckedOut ?? false);
+	let checkoutPending = $state(false);
+
+	async function toggleCheckout() {
+		if (checkoutPending) return;
+		checkoutPending = true;
+		try {
+			if (isCheckedOut) {
+				await checkin(wt.id);
+				isCheckedOut = false;
+			} else {
+				await checkout(wt.id);
+				isCheckedOut = true;
+			}
+		} catch {
+			// Action failed; state unchanged
+		} finally {
+			checkoutPending = false;
+		}
+	}
 
 	// ── HLTB time mode: 'main_story', 'main_story_sides', or 'completionist' ──
 	/** Ordered list of HLTB modes that have a value in this walkthrough. */
@@ -330,6 +352,25 @@
 		<div class="progress-info" aria-label="{checkedCount} of {totalCheckable} steps done">
 			<span class="progress-frac">{checkedCount}<span class="progress-sep">/</span>{totalCheckable}</span>
 		</div>
+		{#if data.appMode === 'client'}
+			<button
+				class="checkout-toggle"
+				class:checked-out={isCheckedOut}
+				class:pending={checkoutPending}
+				onclick={toggleCheckout}
+				disabled={checkoutPending}
+				aria-label={isCheckedOut ? 'Remove from device (checked out)' : 'Download for offline use'}
+				title={isCheckedOut ? 'Remove from device' : 'Download for offline use'}
+			>
+				{#if checkoutPending}
+					<span class="spinner" aria-hidden="true"></span>
+				{:else if isCheckedOut}
+					<span aria-hidden="true">✓</span>
+				{:else}
+					<span aria-hidden="true">⊕</span>
+				{/if}
+			</button>
+		{/if}
 	</header>
 
 	<!-- Progress bar -->
@@ -591,6 +632,60 @@
 
 	.progress-info {
 		flex-shrink: 0;
+	}
+
+	/* Checkout toggle button in the top bar */
+	.checkout-toggle {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		flex-shrink: 0;
+		border-radius: 50%;
+		border: 1px solid rgba(84, 214, 106, 0.3);
+		background: rgba(84, 214, 106, 0.06);
+		color: #54d66a;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: background 0.2s, border-color 0.2s, color 0.2s;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.checkout-toggle:hover {
+		background: rgba(84, 214, 106, 0.16);
+		border-color: rgba(84, 214, 106, 0.6);
+	}
+
+	.checkout-toggle.checked-out {
+		background: rgba(84, 214, 106, 0.18);
+		border-color: rgba(84, 214, 106, 0.5);
+		color: #54d66a;
+	}
+
+	.checkout-toggle.checked-out:hover {
+		background: rgba(220, 60, 60, 0.12);
+		border-color: rgba(220, 60, 60, 0.4);
+		color: #e05555;
+	}
+
+	.checkout-toggle.pending {
+		opacity: 0.6;
+		cursor: wait;
+	}
+
+	.spinner {
+		display: inline-block;
+		width: 0.9rem;
+		height: 0.9rem;
+		border: 2px solid currentColor;
+		border-top-color: transparent;
+		border-radius: 50%;
+		animation: spin 0.7s linear infinite;
+	}
+
+	@keyframes spin {
+		to { transform: rotate(360deg); }
 	}
 
 	.progress-frac {

@@ -5,9 +5,30 @@ import { error } from '@sveltejs/kit';
 
 export const load: PageLoad = async ({ params }) => {
 	try {
-		const walkthrough = await fetchWalkthrough(params.id) as Walkthrough;
-		return { walkthrough };
-	} catch {
+		const [walkthrough, configResult, checkoutsResult] = await Promise.allSettled([
+			fetchWalkthrough(params.id) as Promise<Walkthrough>,
+			fetch('/api/config').then((r) => (r.ok ? r.json() : {})),
+			fetch('/api/checkouts').then((r) => (r.ok ? r.json() : []))
+		]);
+
+		if (walkthrough.status === 'rejected') {
+			error(404, `Walkthrough "${params.id}" not found.`);
+		}
+
+		const config =
+			configResult.status === 'fulfilled'
+				? (configResult.value as { appMode?: string })
+				: {};
+		const checkedOutIds =
+			checkoutsResult.status === 'fulfilled' ? (checkoutsResult.value as string[]) : [];
+
+		return {
+			walkthrough: walkthrough.value,
+			appMode: (config.appMode as string) ?? '',
+			isCheckedOut: checkedOutIds.includes(params.id)
+		};
+	} catch (e) {
+		if (e && typeof e === 'object' && 'status' in e) throw e;
 		error(404, `Walkthrough "${params.id}" not found.`);
 	}
 };

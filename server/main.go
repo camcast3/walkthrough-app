@@ -98,9 +98,10 @@ func main() {
 		cacheDir := envOrDefault("REMOTE_CACHE_DIR", filepath.Dir(*dbPath))
 
 		remoteSrc := source.NewRemoteSource(source.RemoteConfig{
-			ServerURL: serverURL,
-			Interval:  interval,
-			CacheDir:  cacheDir,
+			ServerURL:    serverURL,
+			Interval:     interval,
+			CacheDir:     cacheDir,
+			CheckedOutFn: db.ListCheckoutIDs,
 		})
 		remoteSrc.Start(context.Background())
 		defer remoteSrc.Close()
@@ -144,6 +145,9 @@ func main() {
 	mux.HandleFunc("GET /api/walkthroughs/{id}", h.GetWalkthrough)
 	mux.HandleFunc("GET /api/progress/{id}", h.GetProgress)
 	mux.HandleFunc("PUT /api/progress/{id}", h.PutProgress)
+	mux.HandleFunc("GET /api/checkouts", h.ListCheckouts)
+	mux.HandleFunc("PUT /api/checkouts/{id}", h.PutCheckout)
+	mux.HandleFunc("DELETE /api/checkouts/{id}", h.DeleteCheckout)
 
 	// Serve static PWA files — fallback to index.html for SPA routing
 	mux.Handle("/", spaHandler(*staticDir))
@@ -188,7 +192,7 @@ func spaHandler(staticDir string) http.Handler {
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)
