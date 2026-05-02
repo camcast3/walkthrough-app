@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import type { PageData } from './$types.js';
 	import { submitIngest, fetchIngestJob, timeAgo } from '$lib/sync.js';
 	import type { IngestJob, DeviceActivity } from '$lib/sync.js';
@@ -21,6 +22,16 @@
 	// Devices
 	let devices = $state<DeviceActivity[]>(data.devices as DeviceActivity[]);
 
+	// Track the active polling interval so it can be cleared on destroy or completion.
+	let pollIntervalId: ReturnType<typeof setInterval> | null = null;
+
+	onDestroy(() => {
+		if (pollIntervalId !== null) {
+			clearInterval(pollIntervalId);
+			pollIntervalId = null;
+		}
+	});
+
 	async function handleIngestSubmit(e: SubmitEvent) {
 		e.preventDefault();
 		const input = ingestInput.trim();
@@ -29,6 +40,12 @@
 		ingestError = '';
 		submitting = true;
 		activeJob = null;
+
+		// Clear any existing poll before starting a new one.
+		if (pollIntervalId !== null) {
+			clearInterval(pollIntervalId);
+			pollIntervalId = null;
+		}
 
 		try {
 			const job = await submitIngest(input);
@@ -42,13 +59,16 @@
 	}
 
 	function pollJob(id: string) {
-		const interval = setInterval(async () => {
+		pollIntervalId = setInterval(async () => {
 			try {
 				const job = await fetchIngestJob(id);
 				activeJob = job;
 
 				if (job.status === 'done' || job.status === 'error') {
-					clearInterval(interval);
+					if (pollIntervalId !== null) {
+						clearInterval(pollIntervalId);
+						pollIntervalId = null;
+					}
 
 					// Prepend to recent jobs list.
 					recentJobs = [job, ...recentJobs.filter((j) => j.id !== job.id)].slice(0, 20);
@@ -65,7 +85,10 @@
 					}
 				}
 			} catch {
-				clearInterval(interval);
+				if (pollIntervalId !== null) {
+					clearInterval(pollIntervalId);
+					pollIntervalId = null;
+				}
 			}
 		}, 1000);
 	}

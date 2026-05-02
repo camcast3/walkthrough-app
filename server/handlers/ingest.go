@@ -22,12 +22,24 @@ const maxWalkthroughSize = 4 << 20 // 4 MiB
 // fetchTimeout is the maximum time allowed for a remote walkthrough download.
 const fetchTimeout = 30 * time.Second
 
+// ingestHTTPClient is used for all walkthrough download requests.
+// It enforces a response timeout independent of the request context.
+var ingestHTTPClient = &http.Client{Timeout: fetchTimeout}
+
 // stepStatus values used in IngestStep.
 const (
 	stepPending = "pending"
 	stepRunning = "running"
 	stepDone    = "done"
 	stepError   = "error"
+)
+
+// Pipeline step indices — kept in sync with the Steps slice initialised in Submit.
+const (
+	stepIdxFetch    = 0
+	stepIdxParse    = 1
+	stepIdxValidate = 2
+	stepIdxIndex    = 3
 )
 
 // IngestStep represents a single stage in the walkthrough ingest pipeline.
@@ -168,75 +180,75 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 	}
 
 	// ── Stage 1: Fetch ────────────────────────────────────────────────────────
-	job.updateStep(0, stepRunning, "Receiving walkthrough content…")
+	job.updateStep(stepIdxFetch, stepRunning, "Receiving walkthrough content…")
 
 	var rawJSON []byte
 
 	input := strings.TrimSpace(job.Input)
 	if strings.HasPrefix(input, "http://") || strings.HasPrefix(input, "https://") {
 		if err := validateIngestURL(input); err != nil {
-			fail(0, fmt.Sprintf("URL rejected: %v", err))
+			fail(stepIdxFetch, fmt.Sprintf("URL rejected: %v", err))
 			return
 		}
-		job.updateStep(0, stepRunning, fmt.Sprintf("Downloading from %s…", input))
+		job.updateStep(stepIdxFetch, stepRunning, fmt.Sprintf("Downloading from %s…", input))
 
 		ctx, cancel := context.WithTimeout(context.Background(), fetchTimeout)
 		defer cancel()
 		req, err := http.NewRequestWithContext(ctx, http.MethodGet, input, nil)
 		if err != nil {
-			fail(0, fmt.Sprintf("Failed to build request: %v", err))
+			fail(stepIdxFetch, fmt.Sprintf("Failed to build request: %v", err))
 			return
 		}
-		resp, err := http.DefaultClient.Do(req)
+		resp, err := ingestHTTPClient.Do(req)
 		if err != nil {
-			fail(0, fmt.Sprintf("HTTP request failed: %v", err))
+			fail(stepIdxFetch, fmt.Sprintf("HTTP request failed: %v", err))
 			return
 		}
 		defer resp.Body.Close()
 		if resp.StatusCode != http.StatusOK {
-			fail(0, fmt.Sprintf("Remote returned HTTP %d", resp.StatusCode))
+			fail(stepIdxFetch, fmt.Sprintf("Remote returned HTTP %d", resp.StatusCode))
 			return
 		}
 		body, err := io.ReadAll(io.LimitReader(resp.Body, maxWalkthroughSize))
 		if err != nil {
-			fail(0, fmt.Sprintf("Failed to read response: %v", err))
+			fail(stepIdxFetch, fmt.Sprintf("Failed to read response: %v", err))
 			return
 		}
 		rawJSON = body
-		job.updateStep(0, stepDone, fmt.Sprintf("Downloaded %d bytes", len(rawJSON)))
+		job.updateStep(stepIdxFetch, stepDone, fmt.Sprintf("Downloaded %d bytes", len(rawJSON)))
 	} else {
 		// Treat input as raw JSON
 		rawJSON = []byte(input)
-		job.updateStep(0, stepDone, fmt.Sprintf("Received %d bytes of JSON", len(rawJSON)))
+		job.updateStep(stepIdxFetch, stepDone, fmt.Sprintf("Received %d bytes of JSON", len(rawJSON)))
 	}
 
 	// ── Stage 2: Parse ────────────────────────────────────────────────────────
-	job.updateStep(1, stepRunning, "Parsing walkthrough JSON…")
+	job.updateStep(stepIdxParse, stepRunning, "Parsing walkthrough JSON…")
 
 	meta, err := store.ParseMetaFromJSON(rawJSON)
 	if err != nil {
-		fail(1, fmt.Sprintf("JSON parse error: %v", err))
+		fail(stepIdxParse, fmt.Sprintf("JSON parse error: %v", err))
 		return
 	}
-	job.updateStep(1, stepDone, fmt.Sprintf("Parsed: %q by %s", meta.Game, meta.Author))
+	job.updateStep(stepIdxParse, stepDone, fmt.Sprintf("Parsed: %q by %s", meta.Game, meta.Author))
 
 	// ── Stage 3: Validate ─────────────────────────────────────────────────────
-	job.updateStep(2, stepRunning, "Validating required fields…")
+	job.updateStep(stepIdxValidate, stepRunning, "Validating required fields…")
 
 	if err := validateWalkthrough(rawJSON, meta); err != nil {
-		fail(2, err.Error())
+		fail(stepIdxValidate, err.Error())
 		return
 	}
-	job.updateStep(2, stepDone, "All required fields present")
+	job.updateStep(stepIdxValidate, stepDone, "All required fields present")
 
 	// ── Stage 4: Index ────────────────────────────────────────────────────────
-	job.updateStep(3, stepRunning, "Adding to walkthrough library…")
+	job.updateStep(stepIdxIndex, stepRunning, "Adding to walkthrough library…")
 
 	if err := m.db.AddLocalWalkthrough(meta.ID, rawJSON); err != nil {
-		fail(3, fmt.Sprintf("Database error: %v", err))
+		fail(stepIdxIndex, fmt.Sprintf("Database error: %v", err))
 		return
 	}
-	job.updateStep(3, stepDone, fmt.Sprintf("Added %q to library", meta.ID))
+	job.updateStep(stepIdxIndex, stepDone, fmt.Sprintf("Added %q to library", meta.ID))
 
 	job.mu.Lock()
 	job.Status = stepDone
