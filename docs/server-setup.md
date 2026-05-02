@@ -43,7 +43,7 @@ The server polls the GitHub repo for walkthrough JSON files and serves them to c
 | Component | Role |
 |---|---|
 | **ArgoCD** | GitOps — watches `server/k8s/` on `main` and applies changes automatically |
-| **Argo Rollouts** | Replaces standard Deployments; `Recreate` strategy used (required for RWO PVC) |
+| **Argo Rollouts** | Replaces standard Deployments; canary strategy with maxSurge=0 for recreate behavior (required for RWO PVC) |
 | **Cilium Gateway API** | Ingress via `HTTPRoute` — no nginx ingress needed |
 | **Rook Ceph** | Block storage for the SQLite PVC (`storageClassName: rook-ceph-block`) |
 
@@ -61,13 +61,13 @@ ArgoCD will create the `walkthroughs` namespace, apply all manifests in `server/
 
 ### How CI/CD works
 
-On every push to `main` the workflow (`.github/workflows/deploy.yml`):
+On pushes to `main` that touch `server/**`, `webapp/**`, or the workflow file itself (excluding `server/k8s/**` and `server/argocd/**`), the workflow (`.github/workflows/deploy.yml`):
 1. Builds the multi-stage Docker image (SvelteKit webapp + Go server)
 2. Pushes the image to `ghcr.io/camcast3/walkthrough-server` (tagged with commit SHA)
 3. Updates the image tag in `server/k8s/rollout.yaml`
 4. Commits that change back to `main` with `[skip ci]`
 
-ArgoCD detects the new commit and syncs — triggering a Rollout with `Recreate` strategy.
+ArgoCD detects the new commit and syncs — triggering a Rollout (canary with maxSurge=0, which gives recreate behavior for the RWO PVC).
 
 > **No `KUBECONFIG` secret required.** ArgoCD handles all cluster operations. Walkthroughs are fetched at runtime from GitHub (no ConfigMaps).
 

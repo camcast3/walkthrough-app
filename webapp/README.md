@@ -39,11 +39,15 @@ The webapp is a single-page app with a service worker for offline support. It co
 
 ```
 src/
-├── lib/           Shared state, types, utilities
-│   ├── state.ts   Global app state (runes-based)
-│   └── types.ts   TypeScript type definitions
-├── routes/        SvelteKit pages and layouts
-└── app.html       HTML shell
+├── lib/             Shared state, types, utilities
+│   ├── assets/      Static assets (icons, images)
+│   ├── gamepad.ts   Gamepad API integration
+│   ├── index.ts     Barrel exports
+│   ├── state.ts     Global app state (runes-based)
+│   ├── sync.ts      Offline sync / service worker logic
+│   └── types.ts     TypeScript type definitions
+├── routes/          SvelteKit pages and layouts
+└── app.html         HTML shell
 ```
 
 ### Key features
@@ -62,7 +66,7 @@ src/
 
 ### Runtime
 - **[marked](https://github.com/markedjs/marked)** — Markdown → HTML rendering
-- **[idb-keyval](https://github.com/nicedoc/idb-keyval)** — IndexedDB key-value store for offline data
+- **[idb-keyval](https://github.com/jakearchibald/idb-keyval)** — IndexedDB key-value store for offline data
 
 ### Dev
 - **SvelteKit 2** / **Svelte 5** — component framework (runes mode)

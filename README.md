@@ -11,12 +11,12 @@ A touch and controller-optimized PWA for game walkthroughs. Works on Steam Deck,
 | **SvelteKit** | 2.x | PWA framework (Svelte 5, TypeScript 6) |
 | **Vite** | 8.x | Build tool / dev server |
 | **SQLite** | via `modernc.org/sqlite` | Pure-Go, no CGO required |
-| **Docker** | node:22-alpine / golang:1.26.2-alpine | Multi-stage build |
+| **Docker** | node:22-alpine / golang:1.26.2-alpine / alpine:3.23 | Multi-stage build |
 
 ## Repository layout
 
 ```
-.github/copilot/skills/   Copilot walkthrough pipeline skills (writer, reviewer, gamer, completionist)
+.github/copilot/skills/   Copilot walkthrough pipeline skills (writer, reviewer, gamer, completionist, ingest)
 .github/workflows/        CI: schema validation + build/push image + update manifests
 walkthroughs/             Curated walkthrough JSON files
 webapp/                   SvelteKit PWA (TypeScript, Svelte 5)

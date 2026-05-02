@@ -24,10 +24,10 @@ If you want to run the sync server locally on Windows for development:
 cd server
 go build -o walkthrough-server.exe .
 .\walkthrough-server.exe `
-  -db C:\walkthrough-data\progress.sqlite `
-  -walkthroughs ..\walkthroughs `
-  -static ..\webapp\build `
-  -addr :8080
+  --db C:\walkthrough-data\progress.sqlite `
+  --walkthroughs ..\walkthroughs `
+  --static ..\webapp\build `
+  --addr :8080
 ```
 
 To auto-start on login, create a Task Scheduler task:
