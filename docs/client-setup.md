@@ -14,36 +14,13 @@ A client fetches walkthroughs from the remote server and caches them locally for
 
 ---
 
-## Option 1: Browser only (recommended)
+## Option 1: Local client server (recommended for handhelds)
 
-The simplest setup — no local server needed. Just point a browser at your walkthrough server:
+Running a local client server gives you a dedicated background service that keeps walkthroughs synced even when the browser isn't open. This is the recommended setup for Steam Deck, ROG Ally, and other handhelds running Bazzite because it:
 
-1. Open **Chromium** or **Chrome** (recommended — best Gamepad API and controller support out of the box)
-2. Navigate to your server URL (e.g. `https://walkthroughs.yourdomain.com`)
-3. Install as a PWA: click the install icon in the address bar, or menu → **Install App**
-4. The service worker caches the app and walkthrough data for offline use after first load
-
-> **Why Chromium?** Chromium-based browsers (Chrome, Edge, Chromium) have the most complete Gamepad API implementation and support WebHID for low-latency controller input. Firefox supports the basic Gamepad API but lacks WebHID and may gate controller data behind user interaction. For handheld devices where controller navigation is primary, Chromium gives the best experience.
-
-This is the recommended approach for most users. The PWA works offline, syncs progress when back online, and uses minimal system resources.
-
-### Device-specific guides
-
-| Device | Guide |
-|---|---|
-| Steam Deck (Bazzite) | [steam-deck-setup.md](steam-deck-setup.md) |
-| ROG Ally (Bazzite) | [rog-ally-setup.md](rog-ally-setup.md) |
-| Windows PC | [windows-setup.md](windows-setup.md) |
-
----
-
-## Option 2: Local client server (advanced)
-
-Running a local client server gives you a dedicated background service that keeps walkthroughs synced even when the browser isn't open. This is useful if you want:
-
-- Background sync without the browser running
-- A local API endpoint for other tools
-- Full control over caching and sync intervals
+- Syncs walkthroughs in the background — data is always ready when you switch to the app mid-game
+- Works fully offline without needing to have opened the browser first
+- Gives you full control over caching and sync intervals
 
 > **Power note:** The Go server binary is lightweight (~15 MB, ~10-20 MB RAM at runtime). On handhelds, the overhead is negligible compared to the games you're running.
 
@@ -137,6 +114,27 @@ systemctl --user start walkthroughs.service
 ### On Windows
 
 See [windows-setup.md](windows-setup.md) for running the server locally on Windows.
+
+---
+
+## Option 2: Browser only (no local server)
+
+If you don't want to run a local server, you can access the app directly from your walkthrough server over the network. This is a simpler setup but requires the server to be reachable for the initial load:
+
+1. Open **Chromium** or **Chrome** (recommended — best Gamepad API and controller support out of the box)
+2. Navigate to your server URL (e.g. `https://walkthroughs.yourdomain.com`)
+3. Install as a PWA: click the install icon in the address bar, or menu → **Install App**
+4. The service worker caches the app and walkthrough data for offline use after first load
+
+> **Why Chromium?** Chromium-based browsers (Chrome, Edge, Chromium) have the most complete Gamepad API implementation and support WebHID for low-latency controller input. Firefox supports the basic Gamepad API but lacks WebHID and may gate controller data behind user interaction. For handheld devices where controller navigation is primary, Chromium gives the best experience.
+
+### Device-specific guides
+
+| Device | Guide |
+|---|---|
+| Steam Deck (Bazzite) | [steam-deck-setup.md](steam-deck-setup.md) |
+| ROG Ally (Bazzite) | [rog-ally-setup.md](rog-ally-setup.md) |
+| Windows PC | [windows-setup.md](windows-setup.md) |
 
 ---
 
