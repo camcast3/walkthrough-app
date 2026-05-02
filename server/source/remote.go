@@ -131,7 +131,7 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 	if s.CheckedOutFn != nil {
 		ids, fnErr := s.CheckedOutFn()
 		if fnErr != nil {
-			log.Printf("[remote-source] checkout list unavailable, skipping content prefetch: %v", fnErr)
+			log.Printf("[remote-source] checkout list unavailable, skipping content prefetch (metadata still updated; walkthroughs accessible on-demand): %v", fnErr)
 			// Still update the metadata list so the catalog stays current.
 			s.mu.Lock()
 			s.metas = metas

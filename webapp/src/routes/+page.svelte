@@ -77,7 +77,8 @@
 
 	{#if data.appMode === 'client'}
 		<div class="banner info" role="note">
-			<span>📡 Connected to server — select <strong>⊕</strong> to download a walkthrough for offline use.</span>
+			<span aria-hidden="true">📡</span>
+			<span> Connected to server — select <strong>⊕</strong> to download a walkthrough for offline use.</span>
 		</div>
 	{/if}
 
