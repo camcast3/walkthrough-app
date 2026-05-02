@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -17,6 +18,9 @@ import (
 
 // maxWalkthroughSize is the maximum number of bytes accepted from a remote URL.
 const maxWalkthroughSize = 4 << 20 // 4 MiB
+
+// fetchTimeout is the maximum time allowed for a remote walkthrough download.
+const fetchTimeout = 30 * time.Second
 
 // stepStatus values used in IngestStep.
 const (
@@ -175,7 +179,15 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 			return
 		}
 		job.updateStep(0, stepRunning, fmt.Sprintf("Downloading from %s…", input))
-		resp, err := http.Get(input) //nolint:noctx // short-lived ingest request; context not required
+
+		ctx, cancel := context.WithTimeout(context.Background(), fetchTimeout)
+		defer cancel()
+		req, err := http.NewRequestWithContext(ctx, http.MethodGet, input, nil)
+		if err != nil {
+			fail(0, fmt.Sprintf("Failed to build request: %v", err))
+			return
+		}
+		resp, err := http.DefaultClient.Do(req)
 		if err != nil {
 			fail(0, fmt.Sprintf("HTTP request failed: %v", err))
 			return
@@ -282,8 +294,9 @@ func validateIngestURL(rawURL string) error {
 	// Resolve the host and reject private/loopback addresses (SSRF protection).
 	addrs, err := net.LookupHost(host)
 	if err != nil {
-		// Resolution failure is non-fatal; let the HTTP client handle it.
-		return nil
+		// Treat resolution failures as errors — we don't permit fetching from
+		// unresolvable hosts, which also prevents DNS-rebinding attacks.
+		return fmt.Errorf("cannot resolve host %q: %v", host, err)
 	}
 	for _, addrStr := range addrs {
 		ip := net.ParseIP(addrStr)
