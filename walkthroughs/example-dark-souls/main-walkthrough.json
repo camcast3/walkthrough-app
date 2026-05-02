@@ -7,6 +7,11 @@
   "source_url": "https://fextralife.com/dark-souls-remastered-walkthrough/",
   "attribution": "This walkthrough was pulled from Fextralife (fextralife.com) and processed for a cleaner reading experience. All credit for the original content goes to the Fextralife community.",
   "created_at": "2026-04-30",
+  "hltb": {
+    "main_story": 25.5,
+    "main_story_sides": 43.0,
+    "completionist": 97.0
+  },
   "sections": [
     {
       "id": "undead-asylum",

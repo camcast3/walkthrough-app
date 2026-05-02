@@ -91,21 +91,30 @@ func (s *DB) PutProgress(r *ProgressRecord) error {
 
 // WalkthroughMeta holds the summary fields served at GET /api/walkthroughs.
 type WalkthroughMeta struct {
-	ID        string `json:"id"`
-	Game      string `json:"game"`
-	Title     string `json:"title"`
-	Author    string `json:"author"`
-	CreatedAt string `json:"created_at"`
+	ID        string       `json:"id"`
+	Game      string       `json:"game"`
+	Title     string       `json:"title"`
+	Author    string       `json:"author"`
+	CreatedAt string       `json:"created_at"`
+	Hltb      *HltbData    `json:"hltb,omitempty"`
+}
+
+// HltbData holds HowLongToBeat time estimates in hours.
+type HltbData struct {
+	MainStory      *float64 `json:"main_story,omitempty"`
+	MainStorySides *float64 `json:"main_story_sides,omitempty"`
+	Completionist  *float64 `json:"completionist,omitempty"`
 }
 
 // ParseMetaFromJSON extracts summary fields from a full walkthrough JSON.
 func ParseMetaFromJSON(data []byte) (*WalkthroughMeta, error) {
 	var m struct {
-		ID        string `json:"id"`
-		Game      string `json:"game"`
-		Title     string `json:"title"`
-		Author    string `json:"author"`
-		CreatedAt string `json:"created_at"`
+		ID        string    `json:"id"`
+		Game      string    `json:"game"`
+		Title     string    `json:"title"`
+		Author    string    `json:"author"`
+		CreatedAt string    `json:"created_at"`
+		Hltb      *HltbData `json:"hltb"`
 	}
 	if err := json.Unmarshal(data, &m); err != nil {
 		return nil, err
@@ -117,5 +126,6 @@ func ParseMetaFromJSON(data []byte) (*WalkthroughMeta, error) {
 		Title:     m.Title,
 		Author:    m.Author,
 		CreatedAt: m.CreatedAt,
+		Hltb:      m.Hltb,
 	}, nil
 }

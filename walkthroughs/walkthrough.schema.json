@@ -44,6 +44,28 @@
       "format": "uri",
       "description": "Optional: URL to a cover image for the game"
     },
+    "hltb": {
+      "type": "object",
+      "description": "Optional: HowLongToBeat time estimates for this game in hours",
+      "additionalProperties": false,
+      "properties": {
+        "main_story": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Hours to finish the main story only (HowLongToBeat 'Main Story')"
+        },
+        "main_story_sides": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Hours for main story plus side quests (HowLongToBeat 'Main + Sides')"
+        },
+        "completionist": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Hours to 100% / complete everything (HowLongToBeat 'Completionist')"
+        }
+      }
+    },
     "sections": {
       "type": "array",
       "minItems": 1,

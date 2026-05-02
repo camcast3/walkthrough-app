@@ -19,6 +19,12 @@ export interface WalkthroughSection {
 	steps?: WalkthroughStep[];
 }
 
+export interface HltbData {
+	main_story?: number;
+	main_story_sides?: number;
+	completionist?: number;
+}
+
 export interface Walkthrough {
 	id: string;
 	game: string;
@@ -28,6 +34,7 @@ export interface Walkthrough {
 	attribution: string;
 	created_at: string;
 	cover_image?: string;
+	hltb?: HltbData;
 	sections: WalkthroughSection[];
 }
 
@@ -38,6 +45,7 @@ export interface WalkthroughSummary {
 	author: string;
 	created_at: string;
 	cover_image?: string;
+	hltb?: HltbData;
 }
 
 /** Set of step IDs that have been checked off. */

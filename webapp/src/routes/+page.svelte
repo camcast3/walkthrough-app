@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
-	import { countCheckableSteps, computeProgress, loadProgress } from '$lib/state.js';
+	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FULL_TITLES } from '$lib/state.js';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -63,6 +63,26 @@
 							<span class="game-name">{wt.game}</span>
 							<span class="wt-title">{wt.title}</span>
 							<span class="author">by {wt.author}</span>
+							{#if wt.hltb?.main_story != null || wt.hltb?.main_story_sides != null || wt.hltb?.completionist != null}
+								<span class="hltb-meta" aria-label="HowLongToBeat time estimates">
+									⏱
+									{#if wt.hltb.main_story != null}
+										<span title="{HLTB_MODE_FULL_TITLES.main_story}">{formatHours(wt.hltb.main_story)}</span>
+									{/if}
+									{#if wt.hltb.main_story != null && wt.hltb.main_story_sides != null}
+										<span class="hltb-sep">·</span>
+									{/if}
+									{#if wt.hltb.main_story_sides != null}
+										<span title="{HLTB_MODE_FULL_TITLES.main_story_sides}">{formatHours(wt.hltb.main_story_sides)} {HLTB_MODE_LABELS.main_story_sides}</span>
+									{/if}
+									{#if (wt.hltb.main_story != null || wt.hltb.main_story_sides != null) && wt.hltb.completionist != null}
+										<span class="hltb-sep">·</span>
+									{/if}
+									{#if wt.hltb.completionist != null}
+										<span title="{HLTB_MODE_FULL_TITLES.completionist}">{formatHours(wt.hltb.completionist)} {HLTB_MODE_LABELS.completionist}</span>
+									{/if}
+								</span>
+							{/if}
 						</div>
 						{#if checked > 0}
 							<div class="progress-chip" aria-label="{checked} steps completed">
@@ -207,6 +227,19 @@
 	.author {
 		font-size: 0.78rem;
 		color: #555577;
+	}
+
+	.hltb-meta {
+		font-size: 0.75rem;
+		color: #3d7a4a;
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+		margin-top: 0.1rem;
+	}
+
+	.hltb-sep {
+		color: #3a3a5c;
 	}
 
 	.progress-chip {

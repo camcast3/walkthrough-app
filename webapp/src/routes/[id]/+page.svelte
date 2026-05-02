@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
-	import { loadProgress, saveProgress, countCheckableSteps, computeProgress } from '$lib/state.js';
+	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import type { SyncStatus } from '$lib/types.js';
@@ -19,6 +19,45 @@
 	let remoteRecord = $state<{ checkedSteps: string[]; updatedAt: string } | null>(null);
 	let showSteps = $state(false);
 	let tabsEl: HTMLElement | null = null;
+
+	// ── HLTB time mode: 'main_story', 'main_story_sides', or 'completionist' ──
+	/** Ordered list of HLTB modes that have a value in this walkthrough. */
+	const hltbAvailableModes = $derived(
+		HLTB_MODES.filter((m) => wt.hltb?.[m] != null)
+	);
+
+	/** Whether there are at least 2 HLTB modes available to toggle between. */
+	const hltbHasToggle = $derived(hltbAvailableModes.length >= 2);
+
+	let hltbMode = $state<HltbMode>('main_story');
+
+	/**
+	 * Resolves the active HLTB total hours based on the selected mode.
+	 * Falls back to the first available mode if the selected one has no value.
+	 */
+	function resolveHltbHours(mode: HltbMode): number | undefined {
+		if (wt.hltb?.[mode] != null) return wt.hltb[mode];
+		for (const m of HLTB_MODES) {
+			if (wt.hltb?.[m] != null) return wt.hltb[m];
+		}
+		return undefined;
+	}
+
+	/** Cycles to the next available HLTB mode. Only acts when ≥2 modes are available. */
+	function cycleHltbMode() {
+		if (hltbAvailableModes.length >= 2) {
+			hltbMode = hltbNextMode;
+		}
+	}
+
+	/** The next mode that clicking the toggle will switch to. Defaults to 'main_story' when no modes are available. */
+	const hltbNextMode = $derived<HltbMode>(
+		hltbAvailableModes.length > 0
+			? hltbAvailableModes[(hltbAvailableModes.indexOf(hltbMode) + 1) % hltbAvailableModes.length]
+			: 'main_story'
+	);
+
+	const hltbTotalHours = $derived(resolveHltbHours(hltbMode));
 
 	// Auto-scroll active tab into center view
 	$effect(() => {
@@ -50,6 +89,10 @@
 	const progressPct = $derived(computeProgress(new Set([...checkedSteps].filter(isCheckableId)), totalCheckable));
 
 	const currentSection = $derived(wt.sections[currentSectionIdx]);
+
+	// HLTB-derived: time remaining estimate
+	const timeRemainingHours = $derived(estimateTimeRemaining(hltbTotalHours, progressPct));
+	const timeRemainingLabel = $derived(timeRemainingHours != null ? formatHours(timeRemainingHours) : null);
 
 	// ── Step DOM refs ──────────────────────────────────────────────────────────
 	let stepRefs: HTMLElement[] = [];
@@ -293,6 +336,31 @@
 	<div class="progress-bar-track" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
 		<div class="progress-bar-fill" style="width: {progressPct}%"></div>
 	</div>
+
+	<!-- HLTB time remaining -->
+	{#if timeRemainingLabel != null}
+		<div class="hltb-bar" aria-label="Estimated time remaining based on HowLongToBeat data">
+			<span class="hltb-clock" aria-hidden="true">⏱</span>
+			<span class="hltb-label">
+				{#if progressPct >= 100}
+					Complete!
+				{:else if progressPct > 0}
+					~{timeRemainingLabel} remaining
+				{:else}
+					~{timeRemainingLabel} {HLTB_MODE_FINISH_LABELS[hltbMode]}
+				{/if}
+			</span>
+			{#if hltbHasToggle}
+				<button
+					class="hltb-toggle"
+					onclick={cycleHltbMode}
+					aria-label="Showing {HLTB_MODE_LABELS[hltbMode]} estimate ({timeRemainingLabel ?? ''}). Switch to {HLTB_MODE_LABELS[hltbNextMode]}"
+				>
+					{HLTB_MODE_LABELS[hltbMode]} ⇄
+				</button>
+			{/if}
+		</div>
+	{/if}
 
 	<!-- Section navigation -->
 	<div class="section-nav">
@@ -573,7 +641,45 @@
 		100% { transform: translateX(100%); }
 	}
 
-	/* ── Section tabs ── */
+	/* ── HLTB time bar ── */
+	.hltb-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.35rem 1rem;
+		background: rgba(10, 10, 20, 0.6);
+		border-bottom: 1px solid rgba(84, 214, 106, 0.1);
+		font-size: 0.78rem;
+		color: #54d66a;
+	}
+
+	.hltb-clock {
+		font-size: 0.85rem;
+		flex-shrink: 0;
+	}
+
+	.hltb-label {
+		flex: 1;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.hltb-toggle {
+		background: rgba(84, 214, 106, 0.08);
+		border: 1px solid rgba(84, 214, 106, 0.25);
+		color: #54d66a;
+		border-radius: 10px;
+		padding: 0.15rem 0.55rem;
+		font-size: 0.72rem;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: background 0.2s, border-color 0.2s;
+		line-height: 1.4;
+	}
+
+	.hltb-toggle:hover {
+		background: rgba(84, 214, 106, 0.16);
+		border-color: rgba(84, 214, 106, 0.5);
+	}
 	/* ── Section navigation ── */
 	.section-nav {
 		display: flex;
