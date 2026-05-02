@@ -22,13 +22,13 @@
 	// Devices
 	let devices = $state<DeviceActivity[]>(data.devices as DeviceActivity[]);
 
-	// Track the active polling interval so it can be cleared on destroy or completion.
-	let pollIntervalId: ReturnType<typeof setInterval> | null = null;
+	// Track the active polling timeout so it can be cleared on destroy or completion.
+	let pollTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
 	onDestroy(() => {
-		if (pollIntervalId !== null) {
-			clearInterval(pollIntervalId);
-			pollIntervalId = null;
+		if (pollTimeoutId !== null) {
+			clearTimeout(pollTimeoutId);
+			pollTimeoutId = null;
 		}
 	});
 
@@ -42,9 +42,9 @@
 		activeJob = null;
 
 		// Clear any existing poll before starting a new one.
-		if (pollIntervalId !== null) {
-			clearInterval(pollIntervalId);
-			pollIntervalId = null;
+		if (pollTimeoutId !== null) {
+			clearTimeout(pollTimeoutId);
+			pollTimeoutId = null;
 		}
 
 		try {
@@ -59,16 +59,13 @@
 	}
 
 	function pollJob(id: string) {
-		pollIntervalId = setInterval(async () => {
+		async function tick() {
 			try {
 				const job = await fetchIngestJob(id);
 				activeJob = job;
 
 				if (job.status === 'done' || job.status === 'error') {
-					if (pollIntervalId !== null) {
-						clearInterval(pollIntervalId);
-						pollIntervalId = null;
-					}
+					pollTimeoutId = null;
 
 					// Prepend to recent jobs list.
 					recentJobs = [job, ...recentJobs.filter((j) => j.id !== job.id)].slice(0, 20);
@@ -83,14 +80,16 @@
 							// Non-fatal
 						}
 					}
+					return;
 				}
 			} catch {
-				if (pollIntervalId !== null) {
-					clearInterval(pollIntervalId);
-					pollIntervalId = null;
-				}
+				// Transient network error — keep polling until the job reaches a
+				// terminal state rather than silently giving up.
 			}
-		}, 1000);
+			pollTimeoutId = setTimeout(tick, 1000);
+		}
+
+		pollTimeoutId = setTimeout(tick, 1000);
 	}
 
 	const STEP_ICONS: Record<string, string> = {

@@ -58,15 +58,20 @@ func (h *Handler) ListWalkthroughs(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Merge any locally-added walkthroughs (server mode ingest), deduplicating by ID.
+	// Merge any locally-added walkthroughs (server mode ingest).
+	// Local walkthroughs take precedence over the primary source so that the
+	// list and detail endpoints agree when an ingested walkthrough overrides an
+	// existing ID.
 	localMetas, err := h.DB.ListLocalWalkthroughs()
 	if err == nil && len(localMetas) > 0 {
-		existing := make(map[string]struct{}, len(metas))
-		for _, m := range metas {
-			existing[m.ID] = struct{}{}
+		idxByID := make(map[string]int, len(metas))
+		for i, m := range metas {
+			idxByID[m.ID] = i
 		}
 		for _, lm := range localMetas {
-			if _, dup := existing[lm.ID]; !dup {
+			if idx, dup := idxByID[lm.ID]; dup {
+				metas[idx] = lm // local overrides primary source
+			} else {
 				metas = append(metas, lm)
 			}
 		}

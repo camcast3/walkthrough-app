@@ -23,8 +23,18 @@ const maxWalkthroughSize = 4 << 20 // 4 MiB
 const fetchTimeout = 30 * time.Second
 
 // ingestHTTPClient is used for all walkthrough download requests.
-// It enforces a response timeout independent of the request context.
-var ingestHTTPClient = &http.Client{Timeout: fetchTimeout}
+// It enforces a response timeout and validates each redirect target against
+// the same SSRF rules as the initial URL so a public URL cannot redirect to
+// a private or loopback address.
+var ingestHTTPClient = &http.Client{
+	Timeout: fetchTimeout,
+	CheckRedirect: func(req *http.Request, via []*http.Request) error {
+		if err := validateIngestURL(req.URL.String()); err != nil {
+			return fmt.Errorf("redirect blocked: %w", err)
+		}
+		return nil
+	},
+}
 
 // stepStatus values used in IngestStep.
 const (
@@ -331,6 +341,7 @@ func (h *Handler) PostIngest(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	r.Body = http.MaxBytesReader(w, r.Body, maxWalkthroughSize)
 	var body struct {
 		URL     string `json:"url"`
 		Content string `json:"content"`
