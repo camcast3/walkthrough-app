@@ -89,7 +89,7 @@
 			pollTimeoutId = setTimeout(tick, 1000);
 		}
 
-		pollTimeoutId = setTimeout(tick, 1000);
+		tick(); // start immediately; subsequent polls are rescheduled inside tick()
 	}
 
 	const STEP_ICONS: Record<string, string> = {

@@ -209,6 +209,11 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 			fail(stepIdxFetch, fmt.Sprintf("Failed to build request: %v", err))
 			return
 		}
+		// SSRF mitigations applied before this point:
+		//   1. validateIngestURL (above) resolves the hostname and rejects loopback,
+		//      private, and link-local addresses.
+		//   2. ingestHTTPClient.CheckRedirect applies the same check to every
+		//      redirect so a public URL cannot chain to a private target.
 		resp, err := ingestHTTPClient.Do(req)
 		if err != nil {
 			fail(stepIdxFetch, fmt.Sprintf("HTTP request failed: %v", err))
