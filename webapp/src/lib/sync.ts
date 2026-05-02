@@ -1,7 +1,24 @@
 import type { ProgressRecord, SyncStatus, WalkthroughSummary } from './types.js';
+import { browser } from '$app/environment';
 
 const API_BASE = '/api';
 const STALE_THRESHOLD_MS = 60_000; // show warning if remote is >60s newer
+const DEVICE_ID_KEY = 'wt_device_id';
+
+/**
+ * Returns a stable per-browser device identifier, persisting it in localStorage.
+ * A new random UUID is generated on first use.
+ * Falls back to an empty string in non-browser (SSR) environments.
+ */
+export function getDeviceId(): string {
+	if (!browser) return '';
+	let id = localStorage.getItem(DEVICE_ID_KEY);
+	if (!id) {
+		id = crypto.randomUUID();
+		localStorage.setItem(DEVICE_ID_KEY, id);
+	}
+	return id;
+}
 
 export async function fetchWalkthroughs(): Promise<WalkthroughSummary[]> {
 	const res = await fetch(`${API_BASE}/walkthroughs`);
@@ -16,9 +33,13 @@ export async function fetchWalkthrough(id: string): Promise<unknown> {
 }
 
 export async function pushProgress(record: ProgressRecord): Promise<void> {
+	const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+	const deviceId = getDeviceId();
+	if (deviceId) headers['X-Device-ID'] = deviceId;
+
 	await fetch(`${API_BASE}/progress/${record.walkthroughId}`, {
 		method: 'PUT',
-		headers: { 'Content-Type': 'application/json' },
+		headers,
 		body: JSON.stringify(record)
 	});
 }
