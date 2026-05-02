@@ -1,4 +1,4 @@
-{
+﻿{
   "$schema": "../walkthrough.schema.json",
   "id": "the-legend-of-heroes-trails-of-cold-steel-ii-main",
   "game": "The Legend of Heroes: Trails of Cold Steel II",
@@ -11,6 +11,12 @@
     {
       "id": "prologue-part-a",
       "title": "Prologue Part A: Eisengard Mountain Range (November 29)",
+      "content": "## Prologue Part A: Eisengard Mountain Range\n\nThe game opens one month after the devastating events that concluded Trails of Cold Steel. Rean Schwarzer awakens alone in the frozen Eisengard Mountain Range with no memory of how he arrived. The snowy peaks stretch endlessly, and the only path leads downhill through a narrow canyon filled with monsters.\n\n### Game Start & New Game Bonuses\n\nBegin a new game and select your preferred difficulty setting. If you possess clear save data from the first Trails of Cold Steel, you can import it for substantial bonuses including extra Sepith, bonus items, additional S-Craft attacks, and stat boosts depending on Rean's final level and academic rank from the previous game. Platinum trophy hunters should note that at least two full playthroughs are required.\n\nThe introduction sequence provides a dramatic recap of the climax of the first game — the Noble Alliance's coup d'état, the awakening of the Vermillion Apocalypse, and Rean's desperate activation of Valimar the Ashen Knight. Be warned that this contains major spoilers for the first game's ending.\n\n<!-- checkpoint: prologue-a-start | Gained control of Rean -->\n\n### First Steps in Eisengard\n\nAfter gaining control of Rean, the game introduces the **Save System** and **Navigation Menu** (press Square/touchpad to see your current objective). Head downhill along the snowy path. You'll spot a glowing object on the ground — examine it to recover Rean's tachi sword and basic equipment.\n\nOpen the main menu and navigate to the **Orbment** screen. Equip your **Master Quartz** (likely Force or Domination depending on your import). The Master Quartz system provides passive bonuses and levels up as you gain AP in battle, unlocking new Arts at higher levels.\n\n### Combat Tutorial & Monster Notes\n\nContinue downhill until you encounter your first monster — a **Helm Scorpion**. The game teaches you the pre-emptive strike system: approach enemies from behind or stun them with a field attack (Circle button) to gain advantages in battle including bonus turns, reduced enemy HP, and favorable positioning.\n\nAfter your first victory, the **Monster Notes** system is introduced. Every unique enemy you defeat or analyze fills out your bestiary, which contributes to your overall completion rating. Make it a habit to analyze every new enemy type you encounter.\n\n<!-- checkpoint: prologue-a-combat | Completed first battle -->\n\n### Eisengard Mountain Path\n\nProceed through **Eisengard Range - Map 2**. Shortly after entering, you'll find your first treasure chest containing a **Tear Quartz** (heals HP in battle). Continue east, fighting groups of Helm Scorpions, Rolling Stones (boulder-type enemies weak to Wind arts), and Sky Gazers (flying enemies weak to Time arts).\n\nExplore any branching paths for additional treasure chests containing Sepith and healing items. The monsters here provide good early experience and help you refamiliarize yourself with the combat system's mechanics including turn bonuses, S-Craft timing, and the AT (Action Time) bar.\n\n<!-- checkpoint: prologue-a-boss | Reached Magic Knight Ortheim -->\n\n### Boss: Magic Knight Ortheim\n\nAt the end of the canyon, you'll encounter the imposing **Magic Knight Ortheim** — a massive arcane construct blocking your path. This is a scripted encounter designed to introduce boss mechanics.\n\n**Strategy:** Simply attack the Magic Knight and deal as much damage as possible. The fight ends automatically once its HP drops to approximately 50% (around 10,000 HP). Use Rean's crafts — **Arc Slash** for reliable damage and **Motivate** if you need healing. Don't worry about running out of resources; the scene triggers regardless of your performance.\n\nAfter dealing sufficient damage, a dramatic cutscene plays where **Toval Randonneur** (a Bracer from the first game), **Princess Alfin**, and **Elise Schwarzer** arrive to rescue Rean. The group defeats Ortheim together and makes their escape from the mountains, eventually arriving at the village of Ymir.",
+      "checkpoints": [
+        { "id": "prologue-a-start", "label": "Gained control of Rean" },
+        { "id": "prologue-a-combat", "label": "Completed first battle" },
+        { "id": "prologue-a-boss", "label": "Reached Magic Knight Ortheim" }
+      ],
       "steps": [
         {
           "id": "pro-a-001",
@@ -47,19 +53,31 @@
         {
           "id": "pro-a-007",
           "type": "step",
-          "text": "Proceed down the canyon, fighting a few more enemies along the way."
+          "text": "Proceed down the canyon, fighting enemies including Helm Scorpions, Rolling Stones, and Sky Gazers. Check side paths for treasure chests."
         },
         {
           "id": "pro-a-008",
+          "type": "collectible",
+          "text": "Treasure chest in Eisengard Range Map 2 contains a **Tear Quartz**.",
+          "note": "Found shortly after entering the second map area."
+        },
+        {
+          "id": "pro-a-009",
           "type": "boss",
-          "text": "**BOSS: Magic Knight Ortheim** — Keep attacking until its HP drops to a trigger point, ending the fight automatically.",
-          "note": "This is a scripted battle; just keep dealing damage until the scene triggers."
+          "text": "**BOSS: Magic Knight Ortheim** — Keep attacking until its HP drops to approximately 50% (~10,000 HP), ending the fight automatically.",
+          "note": "This is a scripted battle; just keep dealing damage until the scene triggers. Use Arc Slash and Motivate as needed."
         }
       ]
     },
     {
       "id": "prologue-part-b",
       "title": "Prologue Part B: Ymir Village & Canyon (November 30)",
+      "content": "## Prologue Part B: Ymir Village & Canyon\n\nAfter the harrowing escape from Eisengard, Rean and his companions arrive in **Ymir** — the picturesque hot spring village nestled in the mountains of northern Erebonia that serves as Rean's hometown. One month has passed since the October War, and Erebonia remains in chaos with the Noble Alliance controlling most of the empire.\n\n### Exploring Ymir Village\n\nYmir is a small but cozy village with several important locations. **Red markers** on the mini-map indicate main story objectives, while **green markers** denote optional events and side content. Take time to explore thoroughly — this village serves as your home base for the early chapters.\n\n<!-- checkpoint: prologue-b-village | Arrived in Ymir Village -->\n\n**Key Locations:**\n- **Rean's Family Home** — Speak with Elise and Celine for character profile updates\n- **Ploval's General Store** — Purchase items and pick up the first collectible book\n- **Phoenix Wings Inn** — Rest and speak with NPCs for world-building dialogue\n- **Hot Springs** — Story-relevant location that unlocks later\n- **Ymir Chapel** — Small shrine area with NPC dialogue\n\n### Character Interactions & Collectibles\n\nSpeak with **Celine** (the talking cat, your divine beast companion) and **Elise** (Rean's adoptive sister) for their character profiles. Both have updated dialogue reflecting the current political situation in Erebonia.\n\nVisit **Ploval's General Store** to purchase supplies and, critically, to obtain **Gambler Jack Vol. 1** — the first entry in an ongoing book collection that spans the entire game. These books are often missable, so always check stores in every new area.\n\nTalk to every NPC you encounter, especially those with red exclamation marks overhead. Village residents provide context about the civil war, the Noble Alliance's activities, and rumors about your missing classmates from Class VII.\n\n<!-- checkpoint: prologue-b-canyon-start | Entered Ymir Canyon -->\n\n### Ymir Canyon Exploration\n\nWhen ready, proceed north out of Ymir Village to enter **Ymir Canyon** — a winding natural passage through the mountains. The canyon features moderate-difficulty enemies including wolf-type monsters and flying Zazas.\n\n**Tips for Canyon Navigation:**\n- Fight every enemy group for experience and Monster Note completion\n- Open all treasure chests — they contain Sepith, healing items, and equipment\n- Practice Link Attacks with your party members to build Link EXP\n- Use the Orbment system for healing between battles if needed\n\nThe canyon is relatively linear but has a few side paths with bonus treasure. Enemies here provide good practice for the game's deeper combat mechanics including turn bonus manipulation and craft timing.\n\n<!-- checkpoint: prologue-b-canyon-complete | Completed Ymir Canyon -->\n\n### Canyon Boss & Story Progression\n\nAt the canyon's end, you'll face a **large wolf-type boss**. Use S-Crafts and Link Attacks for efficient damage. After the battle, story events trigger that set up the plot for Act 1 — Rean learns about the state of Erebonia, the scattered members of Class VII, and the urgent need to reunite his companions.\n\n**Important reminders before leaving this area:**\n- Check all treasure chests in the canyon\n- Speak to all villagers and check stores for books and items\n- Use the Orbment system for healing and combat support\n- Make sure all character profiles are updated",
+      "checkpoints": [
+        { "id": "prologue-b-village", "label": "Arrived in Ymir Village" },
+        { "id": "prologue-b-canyon-start", "label": "Entered Ymir Canyon" },
+        { "id": "prologue-b-canyon-complete", "label": "Completed Ymir Canyon" }
+      ],
       "steps": [
         {
           "id": "pro-b-001",
@@ -94,11 +112,17 @@
         },
         {
           "id": "pro-b-007",
+          "type": "boss",
+          "text": "**BOSS: Canyon Wolf Pack Leader** — Use S-Crafts and Link Attacks. Exploit elemental weaknesses for bonus damage.",
+          "note": "Not overly difficult but good practice for link mechanics."
+        },
+        {
+          "id": "pro-b-008",
           "type": "step",
           "text": "Complete the canyon section to trigger story events leading into Act 1."
         },
         {
-          "id": "pro-b-008",
+          "id": "pro-b-009",
           "type": "note",
           "text": "Remember to check treasure chests in all new areas, use the Orbment system for healing and combat support, and speak to all villagers and check stores for books and useful items."
         }
@@ -107,6 +131,12 @@
     {
       "id": "act-1-part-1",
       "title": "Act 1 - Part 1: Ymir",
+      "content": "## Act 1 - Part 1: Ymir\n\nWith the prologue complete, Act 1 begins properly in Ymir. The village now opens up with additional systems, shops, and optional activities. Your goal is to prepare for the journey to reunite with your scattered Class VII companions.\n\n### New Systems Unlocked\n\nSeveral important gameplay systems become available at the start of Act 1:\n\n<!-- checkpoint: a1p1-systems | Quick Travel and shops unlocked -->\n\n**Quick Travel** — Access the navigation menu to fast-travel between discovered locations within the current area. This saves considerable backtracking time.\n\n**Weapon Synthesis** — Visit the general store and speak with **Raio** (the shopkeeper on the right side). He introduces weapon upgrading and the ability to unlock new Orbment Slots using U-Materials. Upgrading weapons provides substantial stat boosts.\n\n**Item Trading** — Talk to **Camillia** to unlock the item trading function, similar to the pawn shop from the first game. On New Game+ (second playthrough), Camillia offers to trade Zemurian Ore Shards for 50 U-Materials — extremely valuable for upgrading.\n\n### NPC Interactions & Items\n\nExplore the expanded village thoroughly:\n\n- **Luke** (near the wrecked station) gives you **Tear Balms** — useful healing items for the early game\n- Check the **general store** for updated inventory including new quartz and accessories\n- Talk to returning NPCs for updated dialogue about the civil war situation\n\n<!-- checkpoint: a1p1-leaves | Collected both Leaves -->\n\n### Collectible: Red Leaves\n\nTwo **Red Leaves** are hidden in the Ymir Valley areas. These are collectibles that contribute to completion:\n\n1. **First Leaf** — Located in the **northwest corner of Ymir Valley 1**. Look for a sparkling spot off the main path.\n2. **Second Leaf** — Found in the **upper southeast corner of Ymir Valley 2**, near a treasure chest. The chest itself contains useful equipment.\n\n<!-- checkpoint: a1p1-departure | Ready to depart Ymir -->\n\n### Preparing for Departure\n\nOnce you've completed all available activities in Ymir, it's time to head out. Make sure you have:\n- Equipped the best available gear and quartz\n- Purchased healing items from the store\n- Saved your game\n\nLeave via **Ymir Canyon** heading toward **Lunaria Nature Park** to progress the story.",
+      "checkpoints": [
+        { "id": "a1p1-systems", "label": "Quick Travel and shops unlocked" },
+        { "id": "a1p1-leaves", "label": "Collected both Leaves" },
+        { "id": "a1p1-departure", "label": "Ready to depart Ymir" }
+      ],
       "steps": [
         {
           "id": "a1p1-001",
@@ -149,6 +179,13 @@
     {
       "id": "act-1-part-2",
       "title": "Act 1 - Part 2: Nord Highlands (December 5)",
+      "content": "## Act 1 - Part 2: Nord Highlands\n\nOn December 5th, Rean and his companions travel through a Spirit Path to the vast **Nord Highlands** — the nomadic grasslands from the first game. Your mission: locate and recruit the scattered members of Class VII, starting with Gaius Worzel.\n\n### Party Formation\n\nBefore departing Ymir, you'll select your party:\n- Choose **two Class VII members** from those available (Elliot, Machias, Fie)\n- Select one **guest character**: either **Claire Rieveldt** or **Toval Randonneur**\n\n<!-- checkpoint: a1p2-arrive-nord | Arrived in Nord Highlands -->\n\n**Guest choice matters:** Your guest's Link Level contributes to an accessory reward later. Toval provides a casting speed accessory, while Claire grants an accuracy/critical accessory. Choose based on your preferred playstyle.\n\n### Nord Highlands — South\n\nThe southern plains of Nord are expansive. Use your map frequently to track treasure chests and points of interest.\n\n**Enemies in this area:**\n- Winged Snakes (weak to Wind)\n- Grass Hoppers (weak to Fire)\n- Brutal Infants (weak to Earth)\n- Ostriches (fast, watch for ambushes)\n- Brutal Buffa (high HP, use crafts)\n- Thunder Loach/Thunder Quaker (weak to Earth, can inflict Seal)\n\n**Treasure Chests (South Highlands):**\n- Curia Balm, Marble Ring, EP Charge II, Ingenuity Quartz, Teara Balm, Cloud Shoes, Sepith Mass x200\n\n<!-- checkpoint: a1p2-zender-gate | Reached Zender Gate -->\n\n### Zender Gate\n\nProceed southwest to reach **Zender Gate** — the military fortress that controls access between the highlands and the border. After a story scene, you receive a **horse** that dramatically speeds up overworld traversal.\n\n**At Zender Gate:**\n- Speak to **Marx** at the Mess Hall for the **Potato Croquette recipe** (missable!)\n- Check the weapon shop for upgraded equipment (skip armor — better pieces found at Lake Lacrima)\n- Find classmate **Beryl** in the Mess Hall and **Mint** outside the gate\n- Stock up on healing items for the upcoming boss fight\n\n### Journey to Nord Settlement\n\nLeave Zender Gate heading northeast toward the **Nord Settlement**. Along the way, you'll be ambushed by enemy forces.\n\n<!-- checkpoint: a1p2-jaeger-battle | Defeated the Jaegers -->\n\n### Boss: Jaeger Ambush\n\n**Enemies:** Jaeger - Greatsword (~11,229 HP) and Jaeger - Rifle (~10,488 HP)\n\nThese Jaegers hit extremely hard (2,000–3,500 damage per attack) and can revive fallen allies. This is a significant difficulty spike from the prologue.\n\n**Strategy:**\n- Focus fire on one Jaeger at a time to prevent revives\n- Use buffs immediately (Claire's Brave Order or Toval's support)\n- Deploy S-Crafts aggressively — don't save them\n- Keep the party healed above 60% HP at all times\n- The Rifle Jaeger is slightly less durable — consider targeting it first\n\n**Drops:** Curia Balm, Reviving Balm, Teara Balm, EP Charge II\n\nAfter victory, **Gaius** joins your party permanently.\n\n<!-- checkpoint: a1p2-side-quests | Side quests available -->\n\n### Side Quests & Optional Content\n\nWith Gaius recruited, several side quests become available. Complete them all for maximum AP:\n\n**Highlands Hunt** — A straightforward monster elimination quest in the highlands. Track down and defeat the target monsters.\n\n**Foaling Around** — Help find a missing horse near the settlement. Start near the sheep, track the horse northwest, and chase it until it returns to the Settlement.\n\n**Hidden Quest: Zats Amore** — Found by speaking to the weapon shop owner in Zender Gate specifically. Easy to miss if you don't revisit the shop after Gaius joins.\n\n**Hidden Quest: Azuki's Adventure** — Located at the goods store back in Ymir. You must return to Ymir to find this quest, so don't forget!\n\n### Optional: Aria Shrine\n\nIn **Nord Highlands – East**, there's an optional dungeon called the **Aria Shrine**. This contains a powerful boss (recommended for higher-level parties) and awards bonus AP upon completion. The shrine boss drops rare materials useful for weapon synthesis.",
+      "checkpoints": [
+        { "id": "a1p2-arrive-nord", "label": "Arrived in Nord Highlands" },
+        { "id": "a1p2-zender-gate", "label": "Reached Zender Gate" },
+        { "id": "a1p2-jaeger-battle", "label": "Defeated the Jaegers" },
+        { "id": "a1p2-side-quests", "label": "Side quests available" }
+      ],
       "steps": [
         {
           "id": "a1p2-001",
@@ -158,12 +195,14 @@
         {
           "id": "a1p2-002",
           "type": "step",
-          "text": "Select two Class VII members and a guest (**Claire** or **Toval**) for your party."
+          "text": "Select two Class VII members and a guest (**Claire** or **Toval**) for your party.",
+          "note": "Guest Link Level affects a later accessory reward. Toval gives casting speed; Claire gives accuracy/critical."
         },
         {
           "id": "a1p2-003",
           "type": "step",
-          "text": "Traverse **Nord Highlands - South**, using the map to collect all treasure chests."
+          "text": "Traverse **Nord Highlands - South**, using the map to collect all treasure chests.",
+          "note": "Chests contain: Curia Balm, Marble Ring, EP Charge II, Ingenuity, Teara, Cloud Shoes, Sepith Mass x200."
         },
         {
           "id": "a1p2-004",
@@ -174,7 +213,7 @@
           "id": "a1p2-005",
           "type": "collectible",
           "text": "Speak to **Marx** at the Mess Hall inside Zender Gate for the **Potato Croquette** recipe.",
-          "note": "Also check for new weapons here."
+          "note": "Also check for new weapons here. Skip armor — better pieces at Lake Lacrima."
         },
         {
           "id": "a1p2-006",
@@ -189,13 +228,13 @@
         {
           "id": "a1p2-008",
           "type": "boss",
-          "text": "**BOSS: Jaegers** — These enemies can revive allies and hit hard. Use buffs and S-Crafts.",
-          "note": "Focus fire on one Jaeger at a time to prevent revives."
+          "text": "**BOSS: Jaegers** — Jaeger-Greatsword (~11,229 HP) and Jaeger-Rifle (~10,488 HP). Focus fire on one at a time to prevent revives. Use S-Crafts aggressively.",
+          "note": "These enemies hit for 2,000-3,500 damage. Keep HP above 60% at all times. Gaius joins after victory."
         },
         {
           "id": "a1p2-009",
           "type": "step",
-          "text": "Complete side quest: **Highlands Hunt** — Simple kill quest in the Highlands."
+          "text": "Complete side quest: **Highlands Hunt** — Monster elimination quest in the Highlands."
         },
         {
           "id": "a1p2-010",
@@ -206,12 +245,13 @@
           "id": "a1p2-011",
           "type": "collectible",
           "text": "Hidden quest: **Zats Amore** — Found in Zender Gate's weapon shop.",
-          "note": "Easy to miss — speak to the shop owner specifically."
+          "note": "Easy to miss — speak to the shop owner specifically after Gaius joins."
         },
         {
           "id": "a1p2-012",
           "type": "step",
-          "text": "Explore the optional dungeon: **Aria Shrine** in Nord Highlands – East for bonus AP."
+          "text": "Explore the optional dungeon: **Aria Shrine** in Nord Highlands – East for bonus AP.",
+          "note": "Contains a powerful boss and rare material drops."
         },
         {
           "id": "a1p2-013",
@@ -224,6 +264,12 @@
     {
       "id": "act-1-part-3",
       "title": "Act 1 - Part 3: Return to Ymir & Divine Knight Battle",
+      "content": "## Act 1 - Part 3: Return to Ymir & Divine Knight Battle\n\nWith Gaius and the other Class VII members regrouped, the party returns to Ymir for the climactic conclusion of Act 1. This section culminates in your first full Divine Knight battle — a mech-on-mech clash that introduces one of Cold Steel II's signature combat systems.\n\n### Returning to Ymir\n\nAfter completing all available content in the Nord Highlands, travel back to Ymir. New story scenes trigger automatically upon arrival, advancing the plot toward the inevitable confrontation.\n\n<!-- checkpoint: a1p3-return | Returned to Ymir -->\n\n### Final Preparations\n\nBefore triggering the Loa Erebonius battle, complete all remaining side content:\n\n- **Aria Shrine Boss** — If not already defeated, this optional boss grants bonus AP\n- **Horse Racing** — Try to win the race at Zender Gate for additional rewards\n- **Any remaining side quests** — Check the quest log for incomplete entries\n- **Equipment check** — Ensure all party members have optimal gear and quartz\n\nVisit the Ymir lodge and complete your preparations. **Save before the fight** — there's no going back after this point.\n\n<!-- checkpoint: a1p3-point-of-no-return | Point of no return (save here) -->\n\n### Divine Knight Battle: Loa Erebonius\n\nThe **Loa Erebonius** is a massive arcane construct — a corrupted Divine Knight that towers over the battlefield. You control **Valimar** (Rean's Ashen Knight) with support from chosen pilot allies (typically Alisa, Elliot, and Laura).\n\n**Divine Knight Combat Mechanics:**\n- **Targeting System** — You must target specific body parts (Head, Body, Arms). The glowing part indicates vulnerability.\n- **Break System** — Hitting the correct vulnerable part builds toward a \"Break\" state where you can unleash devastating Rush or Burst attacks.\n- **Support Commands** — Your pilot allies provide healing (Spirit command), buffs, and additional damage.\n- **Guard** — Essential for surviving the boss's powerful attacks. Guard when you see charge-up animations.\n\n<!-- checkpoint: a1p3-loa-defeated | Defeated Loa Erebonius -->\n\n**Strategy for Loa Erebonius (~116,000 HP):**\n\n1. **Opening Phase** — Use the Analyze function immediately to register Loa Erebonius in your Battle Notebook. Probe each body part with normal attacks to find the vulnerable area (look for 2-3 stars).\n\n2. **Attack Pattern Recognition:**\n   - If the boss raises an arm → Target that arm\n   - If it charges/rears back → Target the body\n   - If it telegraphs a special move → Guard immediately\n\n3. **Support Pilot Roles:**\n   - **Elliot** — Best for healing with the Spirit command. Use when Valimar's HP drops below 60%\n   - **Alisa** — Provides attack buffs and ranged support damage\n   - **Laura** — Maximum burst damage during Break states\n\n4. **Key Techniques:**\n   - Use \"Morning Moon\" (Valimar's counter craft) against telegraphed body attacks\n   - Save your EX Art for when Loa Erebonius enters Break state\n   - Watch for Unbalance chances — these allow Rush (multi-hit) or Burst (single massive hit) attacks\n   - Keep HP above 50% at all times; the boss has one-shot potential on lower difficulties\n\n5. **Final Phase** — Below 30% HP, Loa Erebonius becomes more aggressive. Use Spirit command liberally and finish with Valimar's S-Craft if available.\n\n### Post-Battle\n\nAfter defeating Loa Erebonius, dramatic cutscenes play revealing major plot developments. The story progresses to the **Intermission Chapter**, transitioning the narrative to a very different setting.",
+      "checkpoints": [
+        { "id": "a1p3-return", "label": "Returned to Ymir" },
+        { "id": "a1p3-point-of-no-return", "label": "Point of no return (save here)" },
+        { "id": "a1p3-loa-defeated", "label": "Defeated Loa Erebonius" }
+      ],
       "steps": [
         {
           "id": "a1p3-001",
@@ -253,8 +299,8 @@
         {
           "id": "a1p3-006",
           "type": "boss",
-          "text": "**BOSS: Loa Erebonius (Divine Knight Battle)** — Control Valimar with support from Alisa, Elliot, and Laura.",
-          "note": "Target the glowing body part (head, body, or arms). Use Elliot for healing, Alisa for buffs, Laura for damage. Heal frequently with the Spirit command."
+          "text": "**BOSS: Loa Erebonius (Divine Knight Battle, ~116,000 HP)** — Control Valimar with support from Alisa, Elliot, and Laura.",
+          "note": "Target the glowing body part (head, body, or arms). Use Elliot for healing, Alisa for buffs, Laura for damage. Guard when the boss telegraphs powerful attacks."
         },
         {
           "id": "a1p3-007",
@@ -271,6 +317,13 @@
     {
       "id": "intermission",
       "title": "Intermission Chapter",
+      "content": "## Intermission Chapter: Aboard the Pantagruel\n\nThe Intermission is a dramatic shift in perspective. Rean finds himself aboard the **Pantagruel** — the Noble Alliance's massive flying battleship. Captured and surrounded by enemies, this chapter is primarily exploration and story-focused, culminating in a daring escape sequence.\n\n### Exploring the Pantagruel\n\nYou control Rean alone initially. The ship has two main areas (South and North) connected by corridors. Visit every room marked with a **red exclamation mark** to trigger mandatory story scenes with the ship's notable occupants.\n\n<!-- checkpoint: int-exploration | Explored all rooms -->\n\n**South Area:**\n- **Southeast Room** — Meet **Scarlet**, the Noble Alliance's flame-wielding enforcer. She provides insight into the Alliance's motivations.\n- **Northeast Room** — Encounter **Vulcan**, a powerful brawler and one of the Alliance's heavy hitters.\n\n**Central Area:**\n- **Dining Table** — Speak with **Bleublanc** (the Phantom Thief). His theatrical manner hides genuine intelligence about the political situation.\n\n**North Area:**\n- **Southeast Room** — Find **Xeno & Leonidas**, the jaeger duo. They respect strength and offer combat-related dialogue.\n- **Northeast Room** — Meet **McBurn**, the Blazing Demon. He's arguably the most powerful fighter on the ship and speaks cryptically about otherworldly matters.\n- **Southwest Room** — Encounter **Duvalie** (the Swift). Proud and competitive, she serves as a key opponent later.\n- **Northwest Room** — Speak with **Altina Orion**, the mysterious puppet-like girl who monitors Rean on behalf of the Ironbloods.\n\n<!-- checkpoint: int-spirit-unification | Gained Spirit Unification -->\n\n### Key Story Events\n\n**Second Floor (North) — Guest Room:** Go upstairs and knock on the guest room door. A critical cutscene plays where Rean gains the **Spirit Unification** ability — this powerful technique temporarily boosts all stats dramatically and becomes essential for later boss fights.\n\n**Your Room (South Area, Southwest):** Return to Rean's assigned quarters. Examine the flower vase near the air ducts to discover an escape route.\n\n### The Escape\n\nCrawl through the air duct system to begin your escape from the Pantagruel. From here, combat resumes — prepare your equipment and quartz before engaging enemies.\n\n<!-- checkpoint: int-escape-start | Began escape sequence -->\n\n**First Combat: Alliance Forces Soldiers (HP: 9,600 each)**\n- Use Rean's **Autumn Leaf Cutter** to cancel enemy arts (interrupts their casting)\n- Princess Alfin joins with healing arts — use her for EP-efficient damage\n- These soldiers are not too dangerous individually but can overwhelm if you let them cast freely\n\n**Collectibles During Escape:**\n- **West Room** — Celestial Balm (full party HP recovery item)\n- **East Room** — Orange Cape (accessory with defensive bonuses)\n\nProgress through the corridors, defeating Alliance soldiers as you go. Use the **Orbment Charging Station** at the southern end to fully heal before the boss fight.\n\n<!-- checkpoint: int-boss-defeated | Defeated Duvalie and Bleublanc -->\n\n### Boss: Duvalie & Bleublanc\n\n**Duvalie (HP: 85,316)** — Fast physical attacker with devastating sword techniques. Uses \"Radiant Butterfly\" for AoE damage.\n\n**Bleublanc (HP: 96,640)** — Illusion specialist who can inflict Confuse and uses delayed arts. Less durable than Duvalie.\n\n**Victory Condition:** You only need to bring **ONE** boss below 50% HP to win the fight.\n\n**Strategy:**\n- Focus all damage on a single target (Duvalie is recommended — lower HP)\n- Open with an S-Craft for immediate massive damage\n- Use Analyze on both bosses for Battle Notebook completion before focusing damage\n- Guard when Bleublanc telegraphs his illusion arts\n- If Rean has Spirit Unification available, activate it for the burst damage phase",
+      "checkpoints": [
+        { "id": "int-exploration", "label": "Explored all rooms" },
+        { "id": "int-spirit-unification", "label": "Gained Spirit Unification" },
+        { "id": "int-escape-start", "label": "Began escape sequence" },
+        { "id": "int-boss-defeated", "label": "Defeated Duvalie and Bleublanc" }
+      ],
       "steps": [
         {
           "id": "int-001",
@@ -358,13 +411,19 @@
           "id": "int-017",
           "type": "boss",
           "text": "**BOSS: Duvalie (HP: 85,316) & Bleublanc (HP: 96,640)** — You only need to bring ONE boss below 50% HP to win.",
-          "note": "Use an S-Craft for heavy damage. Scan both bosses with Analyze for notebook completion."
+          "note": "Focus all damage on Duvalie (lower HP). Open with an S-Craft. Scan both bosses with Analyze for notebook completion."
         }
       ]
     },
     {
       "id": "act-2-part-1",
       "title": "Act 2 - Part 1: Celdic",
+      "content": "## Act 2 - Part 1: Celdic\n\nAct 2 begins aboard the **Courageous** — the Thors Military Academy's legendary airship, now serving as Class VII's mobile headquarters. Your objective is to liberate Erebonian cities from Noble Alliance control, starting with the market town of **Celdic**.\n\n### The Courageous\n\nBefore departing, take time to explore your new base of operations:\n\n<!-- checkpoint: a2p1-courageous | Boarded the Courageous -->\n\n- **Quest Terminal** — Check for available missions and track your AP progress\n- **Party Setup** — **Millium** is mandatory for this Act; choose your remaining slots carefully\n- **Orbment Station** — Adjust quartz loadouts for the upcoming battles\n- **Becky's Shop** — If you recruited Becky earlier, she acts as an item trader aboard ship\n\n**Important Crafting Tip:** Combine an **Attack 2** quartz and **Action 2** quartz with 20 U-Materials to create an **Ex-Orb** for Valimar. There are two difficult Divine Knight battles in Act 2, so this upgrade is highly recommended.\n\n### Arriving in Celdic\n\nTravel to **Celdic** from the airship's navigation console. The town has been under Noble Alliance occupation and the residents are struggling.\n\n<!-- checkpoint: a2p1-celdic-arrive | Arrived in Celdic -->\n\n**Key Activities in Town:**\n- Talk to **Becky** at Celdic House to have her join the Courageous crew (+2 AP bonus — easy to miss!)\n- Visit all shops for updated inventory (weapons, armor, accessories, and quartz)\n- Speak with every NPC for character notebook updates and world-building\n- Check for new fishing spots and recipe ingredients\n\n### Side Quests\n\nAccept and clear all available quests before advancing the main story. Some quests have time limits and will lock out upon progression:\n\n- Check the quest board at the guild for posted missions\n- Speak to NPCs with green markers for hidden quests\n- Look for **Red Moon Rose** and **Imperial Chronicle** volumes in stores and bookshelves\n\n<!-- checkpoint: a2p1-boss | Completed Celdic liberation -->\n\n### Boss: Celdic Region Battle\n\nThe liberation of Celdic culminates in a significant boss encounter.\n\n**Strategy:**\n- Use Analyze or Battle Scope to check elemental weaknesses\n- Apply buffs before engaging (Attack Up, Defense Up, Speed Up)\n- Use crafts and arts strategically — don't blow all CP on the first turn\n- Keep characters healthy; the boss can spike damage unexpectedly\n- Millium's defensive crafts provide excellent party protection",
+      "checkpoints": [
+        { "id": "a2p1-courageous", "label": "Boarded the Courageous" },
+        { "id": "a2p1-celdic-arrive", "label": "Arrived in Celdic" },
+        { "id": "a2p1-boss", "label": "Completed Celdic liberation" }
+      ],
       "steps": [
         {
           "id": "a2p1-001",
@@ -407,13 +466,19 @@
           "id": "a2p1-008",
           "type": "boss",
           "text": "**BOSS: Celdic Region Boss** — Check elemental weaknesses with Analyze or Battle Scope. Use crafts and arts strategically.",
-          "note": "Keep characters healthy and prepare buffs before engaging."
+          "note": "Keep characters healthy and prepare buffs before engaging. Millium's defensive crafts help greatly."
         }
       ]
     },
     {
       "id": "act-2-part-2",
       "title": "Act 2 - Part 2: Roer",
+      "content": "## Act 2 - Part 2: Roer\n\nThe industrial city of **Roer** — home to the Reinford Group and Alisa's family — is next on your liberation campaign. This section features both ground combat and a pivotal Divine Knight battle.\n\n### Courageous Preparations\n\nBefore traveling to Roer, take care of business aboard the Courageous:\n\n<!-- checkpoint: a2p2-prep | Completed Courageous preparations -->\n\n- Speak to **Celine** on 3F to update her profile\n- Talk to **Princess Alfin** to receive the **Medal of Charity** (valuable accessory)\n- Play **Blade** card games with allies to raise Link EXP — this directly affects combat teamwork effectiveness\n- Check shops for any new inventory\n\n### Roer City\n\nTravel to Roer via the airship navigation. The city is a sprawling industrial complex with multiple districts.\n\n<!-- checkpoint: a2p2-roer-arrive | Arrived in Roer -->\n\n**Main Story Progression:**\n- Follow the story markers through Roer's districts\n- Visit the Bracer Guild for progression events\n- Explore the R&D Lab and Factory areas as the story directs\n- Engage in available side quests throughout\n\n**Important Side Content:**\n\n**Schwarzdrache Fortress** — Travel via Nortia Highway to visit this fortress for an optional event worth +2 AP. This MUST be done before proceeding to Sachsen Iron Mine.\n\n**Creeping for Creeps** — Side quest available at Phoenix Wings in Ymir. Requires a mini-boss fight for maximum AP reward.\n\n<!-- checkpoint: a2p2-divine-knight | Completed Divine Knight battle -->\n\n### Divine Knight Battle (Valimar)\n\nThe Roer section culminates in a challenging Divine Knight battle. This is significantly harder than the Loa Erebonius fight from Act 1.\n\n**Preparation:**\n- Ensure Valimar's Ex-Orb is equipped (crafted earlier from Attack 2 + Action 2 + 20 U-Materials)\n- Optimize Valimar's orbment loadout for both offense and survivability\n\n**Strategy:**\n- Exploit elemental weaknesses when targeting body parts\n- Break the opponent's guard for critical damage windows\n- Use S-Crafts and Overdrive at critical moments for burst damage\n- Guard proactively when the enemy telegraphs heavy attacks\n- Heal with Spirit command whenever HP drops below 50%\n- Save EX Arts for Break state opportunities",
+      "checkpoints": [
+        { "id": "a2p2-prep", "label": "Completed Courageous preparations" },
+        { "id": "a2p2-roer-arrive", "label": "Arrived in Roer" },
+        { "id": "a2p2-divine-knight", "label": "Completed Divine Knight battle" }
+      ],
       "steps": [
         {
           "id": "a2p2-001",
@@ -454,13 +519,21 @@
         {
           "id": "a2p2-008",
           "type": "boss",
-          "text": "**BOSS: Divine Knight Battle (Valimar)** — Optimize orbments before this fight. Exploit elemental weaknesses, break guards, and use S-Crafts and Overdrive at critical moments."
+          "text": "**BOSS: Divine Knight Battle (Valimar)** — Optimize orbments before this fight. Exploit elemental weaknesses, break guards, and use S-Crafts and Overdrive at critical moments.",
+          "note": "Significantly harder than Act 1's mech battle. Ensure Ex-Orb is equipped."
         }
       ]
     },
     {
       "id": "act-2-part-3",
       "title": "Act 2 - Part 3: Legram & Bareahard (December 23)",
+      "content": "## Act 2 - Part 3: Legram & Bareahard\n\nOn December 23rd, the liberation campaign continues to the lakeside town of **Legram** (Laura's hometown) and the noble city of **Bareahard** (Jusis's territory). This section is rich with character development and multiple side quests.\n\n### Courageous Activities (December 23)\n\nAfter regaining control aboard the Courageous:\n\n<!-- checkpoint: a2p3-courageous | Completed December 23 preparations -->\n\n- Speak to **Towa** twice at the bridge for story updates and quest coordination\n- Visit the 4th floor training facility — talk to **Emily** and **Alan** to update their profiles\n- Interact with **Dorothee** on the 2nd floor to receive the **Pasta recipe** (cooking collectible)\n- Play **Blade** card games with allies for more Link EXP bonuses\n\n### Legram — Laura's Hometown\n\nLegram is a quaint lakeside town known for its swordsmanship tradition and the legendary Arseid family.\n\n<!-- checkpoint: a2p3-legram | Completed Legram quests -->\n\n**Side Quests in Legram:**\n\n1. **The Sweetest of Challenges** — A baking/cooking challenge quest that tests your recipe knowledge\n2. **Gone Air** — Investigation quest involving a missing airship or delivery. Follow NPC leads through town.\n3. **Kreuzen for a Bruisin'** — Combat-oriented quest likely involving monster hunting in the surrounding area\n\nComplete all three before advancing the main story for maximum AP.\n\n### Bareahard — The Duke's Territory\n\nAfter completing **The Duke's Arrest** story event, the **Bareahard Stopover** quest starts automatically, taking you to Jusis's home city.\n\n<!-- checkpoint: a2p3-bareahard | Visited Bareahard -->\n\n**Key Events:**\n- Visit the **Albarea Mansion** and enter the Annex for a pivotal scene with Jusis\n- Explore Bareahard's shops and speak with NPCs for updated dialogue\n- Check stores for books, recipes, and equipment upgrades\n\nAfterward, head to the **Bareahard Airport** and return to the Courageous to advance.\n\n### Optional Challenges\n\n**Cryptid Hunts:** Two powerful optional monsters can be challenged:\n- **Nortia Highway 2** — Cryptid boss with high rewards\n- **Eisengard Mountain 2** — Another cryptid encounter\n\nThese are tough fights but provide excellent gear and AP bonuses.\n\n<!-- checkpoint: a2p3-spirit-shrine | Completed Spirit Shrine trial -->\n\n### Spirit Shrine Trial\n\nAs part of the story progression, you'll enter a Spirit Shrine. Bring **Emma** for these trials as she's required for plot purposes.\n\n**Boss: Spirit Shrine Trial** — Battle against a Magic Knight or empowered guardian within the shrine. These fights test your mastery of elemental weaknesses and party coordination.",
+      "checkpoints": [
+        { "id": "a2p3-courageous", "label": "Completed December 23 preparations" },
+        { "id": "a2p3-legram", "label": "Completed Legram quests" },
+        { "id": "a2p3-bareahard", "label": "Visited Bareahard" },
+        { "id": "a2p3-spirit-shrine", "label": "Completed Spirit Shrine trial" }
+      ],
       "steps": [
         {
           "id": "a2p3-001",
@@ -516,18 +589,26 @@
           "id": "a2p3-011",
           "type": "step",
           "text": "Challenge the two cryptids at **Nortia Highway 2** and **Eisengard Mountain 2**.",
-          "note": "Optional but gives good rewards."
+          "note": "Optional but gives good rewards and bonus AP."
         },
         {
           "id": "a2p3-012",
           "type": "boss",
-          "text": "**BOSS: Spirit Shrine Trial** — Battle against a Magic Knight or cryptid. Bring Emma for shrine trials (required for plot)."
+          "text": "**BOSS: Spirit Shrine Trial** — Battle against a Magic Knight or cryptid. Bring Emma for shrine trials (required for plot).",
+          "note": "Use elemental weaknesses and keep party coordination tight."
         }
       ]
     },
     {
       "id": "act-2-part-4",
       "title": "Act 2 - Part 4: Spirit Shrines & Preparation",
+      "content": "## Act 2 - Part 4: Spirit Shrines & Final Preparation\n\nThis section revolves around completing the remaining **Spirit Shrine** trials scattered across Erebonia. Each shrine tests your party with powerful Magic Knight bosses, and clearing them all is essential for awakening Valimar's full potential. Afterward, the story barrels toward the Finale.\n\n### Collectibles & Hidden Quests\n\nBefore entering the shrines, gather important collectibles:\n\n<!-- checkpoint: a2p4-collectibles | Gathered all collectibles -->\n\n**Books & Recipes:**\n- **Curry Recipe Book** and **Mixed Grill** — Purchase from Fortnum Books (Christie's Galleria 2F) in Bareahard\n- **Gambler Jack Reprint #13** and **Gambler Jack Reprint #14** — Found at **Arseid Mansion** in Legram\n\n**Hidden Quest: Father's Pocket Watch** — Start this quest at Jackass' Repair Shop in Roer. **Alisa must be in your party** to trigger it. This is a missable hidden quest that provides significant AP and character development for Alisa.\n\n### The Spirit Shrines\n\nEach Spirit Shrine is an elemental dungeon ending with a powerful Magic Knight boss. Bring a balanced party with healing, buffing, and elemental coverage.\n\n<!-- checkpoint: a2p4-shrine-1 | Cleared first Spirit Shrine -->\n\n**General Shrine Tips:**\n- Explore thoroughly — treasure chests contain rare quartz and gear\n- Each shrine has elemental theming; bring quartz and arts that exploit the opposing element\n- Equip anti-status accessories (Petrify, Freeze, Burn resistance depending on shrine)\n- Stock up on Zeram Powders and Celestial Balms before each shrine\n\n### Boss: Magic Knight Heavy Ruby\n\nThe first major shrine boss. A fire-aspected knight with powerful AoE attacks.\n\n**Strategy:**\n- Use Water-element arts for weakness exploitation\n- Equip Burn-resistance accessories\n- Emma's AoE healing is invaluable here\n- Watch for the charge-up animation — Guard or use delay crafts to interrupt\n\n### Boss: Magic Knight Isra-Zeriel\n\nA more defensive shrine boss with high HP and guard mechanics.\n\n**Strategy:**\n- Keep the party healed at all times — this fight is a war of attrition\n- Use Overdrive for burst healing and damage during critical phases\n- Break its guard with repeated strikes to the same body part\n- Don't overcommit CP — keep reserves for emergency healing\n\n<!-- checkpoint: a2p4-shrine-final | Cleared all Spirit Shrines -->\n\n### Boss: Grianos-Aura\n\nThe final and most powerful shrine boss. This fight occurs after a Vita memory scene and represents a significant power spike.\n\n**Strategy:**\n- This is the strongest shrine boss — prepare your absolute best gear and quartz\n- Full party buffs are mandatory (Attack, Defense, Speed)\n- Use S-Crafts during Break windows for maximum damage\n- Have at least two characters capable of emergency healing\n- Overdrive liberally — don't save it for later\n\n<!-- checkpoint: a2p4-point-of-no-return | Point of no return for Act 2 -->\n\n### Final Warning: Point of No Return\n\nAfter obtaining all crystals from the shrines, a forced event triggers leading to **Liberating Trista** — the operation to free Thors Military Academy. Complete ALL remaining side content NOW:\n\n- All hidden quests\n- All book and recipe collections for this Act\n- Any remaining Blade matches for Link EXP\n- Cryptid hunts and optional bosses\n\n### Act 2 Final Battles\n\nThe act ends with two consecutive party battles. Note that **Sara is unavailable** and two guest characters assist instead. Ensure your primary party is well-equipped with a focus on strong attackers: Rean, Laura, Gaius, and Millium are recommended for their high damage output and survivability.",
+      "checkpoints": [
+        { "id": "a2p4-collectibles", "label": "Gathered all collectibles" },
+        { "id": "a2p4-shrine-1", "label": "Cleared first Spirit Shrine" },
+        { "id": "a2p4-shrine-final", "label": "Cleared all Spirit Shrines" },
+        { "id": "a2p4-point-of-no-return", "label": "Point of no return for Act 2" }
+      ],
       "steps": [
         {
           "id": "a2p4-001",
@@ -544,28 +625,31 @@
           "id": "a2p4-003",
           "type": "collectible",
           "text": "Hidden Quest: **Father's Pocket Watch** — Start at Jackass' Repair Shop in Roer (Alisa must be in party).",
-          "note": "Missable hidden quest."
+          "note": "Missable hidden quest worth significant AP."
         },
         {
           "id": "a2p4-004",
           "type": "step",
-          "text": "Continue through **Spirit Shrine** quests. Each shrine trial culminates in a boss fight."
+          "text": "Continue through **Spirit Shrine** quests. Each shrine trial culminates in a boss fight.",
+          "note": "Bring anti-status accessories and stock up on Zeram Powders and Celestial Balms."
         },
         {
           "id": "a2p4-005",
           "type": "boss",
-          "text": "**BOSS: Magic Knight Heavy Ruby** — Spirit Shrine boss. Use Emma's arts and exploit weaknesses."
+          "text": "**BOSS: Magic Knight Heavy Ruby** — Spirit Shrine boss. Use Water-element arts and exploit weaknesses. Equip Burn resistance.",
+          "note": "Watch for charge-up animations — Guard or use delay crafts."
         },
         {
           "id": "a2p4-006",
           "type": "boss",
-          "text": "**BOSS: Magic Knight Isra-Zeriel** — Spirit Shrine boss. Keep party healed and use Overdrive."
+          "text": "**BOSS: Magic Knight Isra-Zeriel** — Spirit Shrine boss. Keep party healed and use Overdrive for burst phases.",
+          "note": "War of attrition fight. Don't overcommit CP."
         },
         {
           "id": "a2p4-007",
           "type": "boss",
           "text": "**BOSS: Grianos-Aura** — Final shrine boss, a powered-up version after Vita's memory scene.",
-          "note": "Strongest shrine boss. Prepare your best gear and quartz."
+          "note": "Strongest shrine boss. Full party buffs mandatory. Use S-Crafts during Break windows."
         },
         {
           "id": "a2p4-008",
@@ -582,6 +666,14 @@
     {
       "id": "finale",
       "title": "Finale: Infernal Castle & Trista Liberation",
+      "content": "## Finale: Infernal Castle & Trista Liberation\n\nThe Finale is the game's climactic dungeon — the **Infernal Castle**, a towering arcane fortress that has risen from the earth near Trista. This multi-stratum dungeon culminates in a gauntlet of boss battles against the game's most powerful antagonists, followed by the final confrontation.\n\n### Pre-Dungeon Preparation\n\n<!-- checkpoint: fin-preparation | Entered Infernal Castle -->\n\n**Essential Preparations:**\n- Stock up on Zeram Powders, Celestial Balms, EP Charge IVs, and Reviving Balms\n- Equip status-prevention accessories (Faint, Sleep, Freeze, Confuse resistance)\n- Set Master Quartz for either strong healing/support (Emma, Alisa) or maximum damage (Rean, Laura)\n- Configure multiple party loadouts — you'll need different teams for different strata\n- **Save in a separate slot** before entering\n\n### 1st Stratum\n\nThe first level of the Infernal Castle introduces the dungeon's mechanics:\n\n- Hit the **switch** near the sealed door to open it\n- Continue to the stairs; hit the switch at the end to create a bridge, then cross\n- Fight through corridor enemies — use Analyze on all new types\n\n**Party Tip:** Bring **Laura** in your party for a character profile note at the end of the 1st Stratum fight.\n\n### 2nd Stratum\n\nThe second level features eye-based puzzle mechanics:\n\n- Strike the \"eye\" symbols on walls to open passages forward\n- Navigate: continue north, then east/south following the eye patterns\n- More powerful enemies appear here including Nosferatu variants\n\n**Party Tip:** **Fie** must be in your party for the 2nd Stratum end fight (profile note).\n\n<!-- checkpoint: fin-3rd-stratum | Reached 3rd Stratum -->\n\n### 3rd Stratum\n\nThe most complex level with multiple paths and barrier puzzles:\n\n- Hit the switch near the sealed door\n- Defeat **Nosferatu** behind the door (powerful undead enemy)\n- **Navigation puzzle:** Take left, right, center, then center again to avoid triggering enemy barrier fights\n- Cross the external corridor and climb to the top\n\n### Boss Gauntlet\n\nAt the top of the castle, you face a grueling series of consecutive boss battles. Heal between fights when possible.\n\n<!-- checkpoint: fin-gauntlet-start | Started boss gauntlet -->\n\n**BOSS 1: Bleublanc, Duvalie & Balancing Clowns**\n- Focus on taking out the Clowns first (they buff the main bosses)\n- Duvalie uses fast physical AoE; Bleublanc uses Confuse and delay arts\n- Equip Confuse-resistance accessories\n\n**BOSS 2: Xeno & Leonidas**\n- Xeno is fast with critical hits and delay; Leonidas uses heavy physical attacks with self-buffs\n- Focus one target at a time — recommend taking Xeno first (more dangerous due to speed)\n- Use ATS/ADF debuffs on both\n\n**BOSS 3: McBurn (The Blazing Demon)**\n- Extremely powerful hybrid attacker (physical and magic). Inflicts Burn.\n- Below 50% HP, he enters \"Blazing\" mode with massively boosted stats\n- Use Water-element arts (his weakness)\n- Save S-Crafts for his powered-up phase\n- Buff defense constantly and keep HP topped off — he can one-shot careless parties\n\n<!-- checkpoint: fin-crow-battle | Reached Crow confrontation -->\n\n### Boss: Crow Armbrust (Ground Battle)\n\nThe emotional confrontation with your former classmate. Crow is agile with strong crafts.\n\n**Strategy:**\n- Crow uses **Arcadia's Gale** (devastating S-Craft) when his CP is full\n- Debuff his speed and attack stats\n- Keep party HP high at all times — his crafts hit multiple targets\n- Use defense/speed buffs and hit him with your own S-Crafts during openings\n- Consider using Spirit Unification for Rean's burst damage\n\n### Boss: Ordine (Divine Knight Battle — Valimar vs. Ordine)\n\nThe climactic mech duel between Rean's Valimar and Crow's Ordine.\n\n**Strategy:**\n- Target the glowing weak point (cycles between head, body, and arms)\n- Guard when Ordine telegraphs S-Craft moves (specific animation cue)\n- Use Spirit command for healing between exchanges\n- Unbalance Ordine for Rush/Burst follow-up attacks\n- Use EX Arts when Ordine is in Break state for maximum damage\n\n<!-- checkpoint: fin-vermillion | Vermillion Apocalypse battle -->\n\n### Boss: Vermillion Apocalypse (Phase 1)\n\nYour backline/reserve party handles this initial phase.\n\n**Strategy:**\n- Manage healing and buffs carefully with your secondary team\n- Focus on survival and consistent damage\n- Don't panic — this phase has a reasonable HP threshold\n\n### Boss: Vermillion Apocalypse (Phase 2)\n\nYour main party takes over for the true final battle of the Finale.\n\n**Strategy:**\n- Use your strongest S-Crafts and Overdrive combos\n- Buffs and debuffs are absolutely essential (Attack Up, Defense Down on boss)\n- Save Overdrive for critical healing or burst damage moments\n- The boss has wide AoE attacks — spread your party when possible\n- Keep at least one character alive at all times with emergency items\n\nAfter defeating the Vermillion Apocalypse, watch the emotional conclusion cutscenes. The main story concludes, but the game continues with additional content.",
+      "checkpoints": [
+        { "id": "fin-preparation", "label": "Entered Infernal Castle" },
+        { "id": "fin-3rd-stratum", "label": "Reached 3rd Stratum" },
+        { "id": "fin-gauntlet-start", "label": "Started boss gauntlet" },
+        { "id": "fin-crow-battle", "label": "Reached Crow confrontation" },
+        { "id": "fin-vermillion", "label": "Vermillion Apocalypse battle" }
+      ],
       "steps": [
         {
           "id": "fin-001",
@@ -641,41 +733,44 @@
         {
           "id": "fin-012",
           "type": "boss",
-          "text": "**BOSS: Bleublanc, Duvalie & Balancing Clowns** — First of the gauntlet battles at the top."
+          "text": "**BOSS: Bleublanc, Duvalie & Balancing Clowns** — Take out Clowns first (they buff bosses). Equip Confuse resistance.",
+          "note": "Duvalie uses fast physical AoE; Bleublanc uses Confuse and delay arts."
         },
         {
           "id": "fin-013",
           "type": "boss",
-          "text": "**BOSS: Xeno & Leonidas** — Second gauntlet battle. Focus one target at a time."
+          "text": "**BOSS: Xeno & Leonidas** — Focus one target at a time. Take Xeno first (more dangerous due to speed).",
+          "note": "Use ATS/ADF debuffs on both. Leonidas buffs himself — dispel when possible."
         },
         {
           "id": "fin-014",
           "type": "boss",
-          "text": "**BOSS: McBurn** — Extremely powerful. Use your best S-Crafts and keep HP topped off.",
-          "note": "McBurn hits incredibly hard. Buff defense and use Overdrive for burst healing."
+          "text": "**BOSS: McBurn** — Extremely powerful. Use Water-element arts (his weakness). Save S-Crafts for his Blazing mode below 50% HP.",
+          "note": "McBurn hits incredibly hard. Buff defense constantly and use Overdrive for burst healing."
         },
         {
           "id": "fin-015",
           "type": "boss",
-          "text": "**BOSS: Crow Armbrust (Ground Battle)** — Crow is agile with strong crafts and S-Craft \"Arcadia's Gale\". Keep HP high and use defense/speed buffs.",
-          "note": "Debuff Crow and hit him with your own S-Crafts when his guard is down."
+          "text": "**BOSS: Crow Armbrust (Ground Battle)** — Crow is agile with strong crafts and S-Craft \"Arcadia's Gale\". Debuff his speed/attack. Keep HP high.",
+          "note": "Use Spirit Unification for Rean's burst damage. Hit with S-Crafts when his guard is down."
         },
         {
           "id": "fin-016",
           "type": "boss",
           "text": "**BOSS: Ordine (Divine Knight Battle — Valimar vs. Ordine)** — Target the glowing weak point (head, body, or arms). Unbalance Ordine for follow-up attacks.",
-          "note": "Guard when Ordine telegraphs S-Craft moves. Use Spirit command for healing. Use EX Arts when Ordine is stunned."
+          "note": "Guard when Ordine telegraphs S-Craft moves. Use Spirit command for healing. Use EX Arts when Ordine is in Break state."
         },
         {
           "id": "fin-017",
           "type": "boss",
-          "text": "**BOSS: Vermillion Apocalypse (Phase 1)** — Backline/reserve party handles this phase. Manage healing and buffs carefully."
+          "text": "**BOSS: Vermillion Apocalypse (Phase 1)** — Backline/reserve party handles this phase. Focus on survival and consistent damage.",
+          "note": "Manage healing and buffs carefully with your secondary team."
         },
         {
           "id": "fin-018",
           "type": "boss",
-          "text": "**BOSS: Vermillion Apocalypse (Phase 2)** — Your main party takes over. Use strongest S-Crafts; buffs and debuffs are essential.",
-          "note": "Save Overdrive for critical healing or burst damage moments."
+          "text": "**BOSS: Vermillion Apocalypse (Phase 2)** — Your main party takes over. Use strongest S-Crafts and Overdrive combos.",
+          "note": "Save Overdrive for critical healing or burst damage. Buffs and debuffs are absolutely essential."
         },
         {
           "id": "fin-019",
@@ -687,6 +782,13 @@
     {
       "id": "divertissement",
       "title": "Divertissement: Crossbell (Lloyd & Rixia)",
+      "content": "## Divertissement: Crossbell\n\nAfter the Finale's conclusion, the game shifts perspective entirely to **Crossbell** — a different nation featured in the Trails from Zero/Azure games. You play as **Lloyd Bannings** (a detective) and **Rixia Mao** (a combat performer) as they infiltrate **Geofront E**, Crossbell's underground maintenance tunnels.\n\n### Important Limitations\n\n<!-- checkpoint: div-start | Started Divertissement -->\n\n- Only **two party members** are available for the entire chapter\n- **No shops** exist — you must rely on found items and crafted quartz\n- Leveling up and collecting quartz from enemies/chests is crucial for survival\n- Lloyd handles healing and support; Rixia provides speed and burst damage\n\n**Recommended Quartz to Equip/Farm:**\n- Defense 3, Hit 2, Water, Impede 1-2, Action 3, HP 2/3, Attack 3\n- Use Lloyd's S-Craft (**Raging Sun**) during Sepith-Up bonus turns for efficient farming\n\n### Geofront E — Starting Area\n\nBegin in the central hub of Geofront E:\n\n1. Head to the **north room** and examine the computer terminal to read the Crossbell Times (world-building context)\n2. Proceed **west** down the hallway\n3. Fight the **mini-boss** (slime group) at the door — they may drop useful quartz\n\n<!-- checkpoint: div-puzzle-area | Reached switch puzzles -->\n\n### Southwest Exploration & Switch Puzzles\n\n**Southwest corner:** Open the chest for a **Celestial Balm EX** (full heal for both characters — save this for the boss).\n\nReturn north and take the **east corridor** to its end. Enter the **air duct** system. Open the chest inside for an **EP Charge IV**.\n\nDescend the nearby stairs to reach the switch puzzle area. Two switches are present: one north, one south.\n\n**Secret:** Before flipping switches, go left of the north switch and climb down the ladder. You'll find a **monster chest** — defeat the guardian for a **Grail Locket** (excellent accessory for this chapter).\n\n### Switch Puzzle Solution\n\n1. Flip the **north switch** (moves a ladder into position)\n2. Flip the **south switch** (lowers a bridge)\n3. Head upstairs via the northwest ladder\n4. Move all the way south to the southeast area\n5. Descend the ladder and enter the west-side air duct\n6. Find **Seven Dragon Armor** in a chest (powerful equipment for Rixia)\n\n<!-- checkpoint: div-deeper | Progressing through Geofront -->\n\n### Deeper Geofront\n\nContinue using switches to lower bridges and reposition ladders as you progress deeper into the facility. The enemies grow stronger — keep both characters healed and don't hesitate to use items.\n\n**Combat Tips for Two-Character Party:**\n- Lloyd's crafts provide healing, buffs, and area control\n- Rixia's speed allows her to act first — use this for pre-emptive buffs or burst damage\n- Use S-Crafts on tough enemy groups rather than saving them exclusively for the boss\n- Link Attacks trigger frequently with only two characters — exploit this\n\n<!-- checkpoint: div-boss | Reached Central Computer Room -->\n\n### Boss: Central Computer Room Battle\n\nThe final encounter takes place in the Central Computer Room at Geofront E's deepest point.\n\n**Preparation:**\n- Heal to full HP and EP at the terminal before entering\n- Equip your best gear (Seven Dragon Armor on Rixia, defensive accessories on Lloyd)\n- Have items ready — Celestial Balm EX, EP Charges, and any Reviving Balms\n\n**Strategy:**\n- This is a tough fight with only two characters — resource management is critical\n- Lloyd handles healing and debuffs; Rixia handles damage\n- Use S-Crafts for burst damage during vulnerable windows\n- Don't hesitate to use all remaining items — there's nothing to save them for after this fight\n- If one character falls, revive immediately — you cannot sustain with just one fighter\n\nAfter victory, the Divertissement concludes and control returns to Rean's story for the Epilogue.",
+      "checkpoints": [
+        { "id": "div-start", "label": "Started Divertissement" },
+        { "id": "div-puzzle-area", "label": "Reached switch puzzles" },
+        { "id": "div-deeper", "label": "Progressing through Geofront" },
+        { "id": "div-boss", "label": "Reached Central Computer Room" }
+      ],
       "steps": [
         {
           "id": "div-001",
@@ -712,7 +814,8 @@
         {
           "id": "div-005",
           "type": "collectible",
-          "text": "Southwest corner: Open chest for **Celestial Balm EX**."
+          "text": "Southwest corner: Open chest for **Celestial Balm EX**.",
+          "note": "Save this for the final boss — it fully heals both characters."
         },
         {
           "id": "div-006",
@@ -732,7 +835,8 @@
         {
           "id": "div-009",
           "type": "collectible",
-          "text": "Go left of the north switch and climb down the ladder to a monster chest. Defeat the monster for a **Grail Locket**."
+          "text": "Go left of the north switch and climb down the ladder to a monster chest. Defeat the monster for a **Grail Locket**.",
+          "note": "Excellent accessory for this chapter — don't miss it."
         },
         {
           "id": "div-010",
@@ -747,7 +851,8 @@
         {
           "id": "div-012",
           "type": "collectible",
-          "text": "Descend the ladder and enter the west-side air duct. Find **Seven Dragon Armor** in a chest."
+          "text": "Descend the ladder and enter the west-side air duct. Find **Seven Dragon Armor** in a chest.",
+          "note": "Powerful equipment for Rixia — equip immediately."
         },
         {
           "id": "div-013",
@@ -763,13 +868,21 @@
           "id": "div-015",
           "type": "boss",
           "text": "**BOSS: Central Computer Room Battle** — Ensure Lloyd and Rixia are fully healed and equipped before engaging.",
-          "note": "This is a tough fight with only two characters. Use all available healing items and craft combos."
+          "note": "Tough fight with only two characters. Use all available healing items and craft combos. Don't save items — there's nothing after this."
         }
       ]
     },
     {
       "id": "epilogue",
       "title": "Epilogue: Reverie Corridor",
+      "content": "## Epilogue: Reverie Corridor\n\nThe **Reverie Corridor** is the game's post-story dungeon — a massive, multi-layered labyrinth accessed through the **Old Schoolhouse** at Thors Academy. It serves as the ultimate challenge and contains the true final boss of the game.\n\n### Corridor Overview\n\n<!-- checkpoint: epi-enter | Entered Reverie Corridor -->\n\nThe Reverie Corridor consists of **16 randomly-ordered floors** with four elemental themes:\n- **Earth floors** — Brown/rocky aesthetic, earth-aspected enemies\n- **Water floors** — Blue/aquatic aesthetic, water-aspected enemies\n- **Fire floors** — Red/volcanic aesthetic, fire-aspected enemies\n- **Wind floors** — Green/airy aesthetic, wind-aspected enemies\n\n**Key Mechanics:**\n- All playable characters are available — use your full roster\n- Every 4th floor (4, 8, 12, 16) features a mandatory boss battle\n- Defeating bosses awards **Zemurian Ore Shards** (ultimate weapon materials)\n- The layout reshuffles if you leave, but **defeated bosses do NOT respawn**\n- All characters can use **Overdrive** regardless of Link status\n- Link EXP gained is **tripled** in this dungeon\n\n### Floors 1-4: Earth Theme\n\nClear through the first three floors systematically:\n- Use **Analyze** on every new enemy for Battle Notebook completion\n- Open all treasure chests — they contain endgame-quality gear and quartz\n- Exploit Wind-element weaknesses against Earth-aspected foes\n\n<!-- checkpoint: epi-boss-1 | Defeated Volglyph (Floor 4) -->\n\n**BOSS: Volglyph (Floor 4 — Earth-themed)**\n\nThe first corridor boss. A massive earth elemental with high defense.\n\n**Strategy:**\n- Use Wind-element arts for weakness exploitation\n- Break its earth barriers with repeated strikes\n- Keep party spread to avoid AoE ground attacks\n- Rewards: **Zemurian Ore Shard** (save these for ultimate weapons)\n\n### Floors 5-8: Water Theme\n\nWater-themed floors feature aquatic and ice-based enemies. Use Fire arts liberally.\n\n<!-- checkpoint: epi-boss-2 | Defeated Lindbaum (Floor 8) -->\n\n**BOSS: Lindbaum (Floor 8 — Water-themed)**\n\nA serpentine water boss with freezing attacks.\n\n**Strategy:**\n- Use Fire-element arts for weakness exploitation\n- Equip Freeze-resistance accessories\n- Watch for water-based AoE that can hit the entire party\n- Rewards: **Zemurian Ore Shard**\n\n### Floors 9-12: Fire Theme\n\nFire floors are aggressive with burn-inflicting enemies. Bring Water arts and Burn resistance.\n\n**BOSS: Agnagarn (Floor 12 — Fire-themed)**\n\nA blazing phoenix-like boss with devastating flame attacks.\n\n**Strategy:**\n- Use Water-element arts for weakness exploitation\n- Equip Burn-resistance on all party members\n- The boss can buff its own attack — debuff immediately when this happens\n- Rewards: **Zemurian Ore Shard**\n\n### Floors 13-16: Wind Theme\n\nThe final set of regular floors. Wind enemies are fast — bring Earth arts and speed-boosting quartz.\n\n<!-- checkpoint: epi-boss-4 | Defeated Heidrun (Floor 16) -->\n\n**BOSS: Heidrun (Floor 16 — Wind-themed)**\n\nThe fourth and final corridor boss. Extremely fast with evasion mechanics.\n\n**Strategy:**\n- Use Earth-element arts for weakness exploitation\n- Equip Hit-boosting quartz to counter its evasion\n- Watch for wind-based delays that can push your turns back\n- Rewards: **Zemurian Ore Shard**\n\n### Boundless Cathedral — True Final Boss\n\nAfter clearing floor 16, the path to the **Boundless Cathedral** opens. This is the final challenge.\n\n<!-- checkpoint: epi-final-boss | Entered Boundless Cathedral -->\n\n**SAVE BEFORE ENTERING — there is no return from this point.**\n\n**BOSS: Loa Luciferia (True Final Boss)**\n\nThe ultimate test of everything you've learned. Loa Luciferia is exponentially stronger than anything in the main story.\n\n**Preparation:**\n- Party level 120+ recommended\n- Equip Zemurian Ore weapons (crafted from Shards)\n- Max out Master Quartz levels\n- Full stock of best healing items\n- Status immunity accessories on all members\n\n**Phase 1 — Initial Assault:**\n- Loa Luciferia opens with debuffs and status ailments\n- Immediately buff your party (Attack, Defense, Speed)\n- Keep HP high — it uses powerful all-field arts\n\n**Phase 2 — Summons:**\n- The boss summons smaller orbs that heal it or use strong arts\n- Prioritize destroying summons with AoE S-Crafts\n- Don't let them accumulate or the boss becomes unkillable\n\n**Phase 3 — True Form:**\n- Devastating field-wipe attacks become common\n- Chain Overdrive with S-Crafts for burst damage\n- Use Arts Reflect/Aegis Shield to nullify magic attacks\n- Keep buffs active at ALL times\n- S-Break to interrupt the boss's most dangerous charges\n\n**Victory rewards powerful accessories and unlocks a trophy/achievement.**\n\n### Bonus: Phantasmal Mirrors\n\nSpecial items purchasable in the corridor allow you to transform party members into guest characters for battle — including **Crow**, **Vita**, **Lloyd**, **Rixia**, and **Altina**. These provide unique movesets and are fun for experimentation.\n\nCongratulations on completing The Legend of Heroes: Trails of Cold Steel II!",
+      "checkpoints": [
+        { "id": "epi-enter", "label": "Entered Reverie Corridor" },
+        { "id": "epi-boss-1", "label": "Defeated Volglyph (Floor 4)" },
+        { "id": "epi-boss-2", "label": "Defeated Lindbaum (Floor 8)" },
+        { "id": "epi-boss-4", "label": "Defeated Heidrun (Floor 16)" },
+        { "id": "epi-final-boss", "label": "Entered Boundless Cathedral" }
+      ],
       "steps": [
         {
           "id": "epi-001",
@@ -800,7 +913,7 @@
           "id": "epi-006",
           "type": "boss",
           "text": "**BOSS: Volglyph (Floor 4 — Earth-themed)** — First corridor boss. Rewards Zemurian Ore Shard.",
-          "note": "Use Wind-element arts for weakness exploitation."
+          "note": "Use Wind-element arts for weakness exploitation. Break its earth barriers with repeated strikes."
         },
         {
           "id": "epi-007",
@@ -811,7 +924,7 @@
           "id": "epi-008",
           "type": "boss",
           "text": "**BOSS: Lindbaum (Floor 8 — Water-themed)** — Second corridor boss. Rewards Zemurian Ore Shard.",
-          "note": "Use Fire-element arts for weakness exploitation."
+          "note": "Use Fire-element arts for weakness exploitation. Equip Freeze-resistance accessories."
         },
         {
           "id": "epi-009",
@@ -822,7 +935,7 @@
           "id": "epi-010",
           "type": "boss",
           "text": "**BOSS: Agnagarn (Floor 12 — Fire-themed)** — Third corridor boss. Rewards Zemurian Ore Shard.",
-          "note": "Use Water-element arts for weakness exploitation."
+          "note": "Use Water-element arts for weakness exploitation. Equip Burn-resistance on all party members."
         },
         {
           "id": "epi-011",
@@ -833,7 +946,7 @@
           "id": "epi-012",
           "type": "boss",
           "text": "**BOSS: Heidrun (Floor 16 — Wind-themed)** — Fourth and final corridor boss. Rewards Zemurian Ore Shard.",
-          "note": "Use Earth-element arts for weakness exploitation."
+          "note": "Use Earth-element arts for weakness exploitation. Equip Hit-boosting quartz to counter its evasion."
         },
         {
           "id": "epi-013",
@@ -848,8 +961,8 @@
         {
           "id": "epi-015",
           "type": "boss",
-          "text": "**BOSS: Loa Luciferia (True Final Boss)** — The ultimate test. Ensure your party is fully equipped with the best gear, quartz, and healing items.",
-          "note": "Use Overdrive liberally, keep buffs active at all times, and save S-Crafts for critical moments."
+          "text": "**BOSS: Loa Luciferia (True Final Boss)** — The ultimate test. Level 120+ recommended. Equip Zemurian Ore weapons and status immunity accessories.",
+          "note": "Three phases: Initial assault with debuffs, summoning phase (destroy orbs with AoE), and true form (use Overdrive chains and S-Break interrupts). Keep buffs active at all times."
         },
         {
           "id": "epi-016",

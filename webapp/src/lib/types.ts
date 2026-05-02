@@ -6,10 +6,17 @@ export interface WalkthroughStep {
 	image_url?: string;
 }
 
+export interface WalkthroughCheckpoint {
+	id: string;
+	label: string;
+}
+
 export interface WalkthroughSection {
 	id: string;
 	title: string;
-	steps: WalkthroughStep[];
+	content?: string;
+	checkpoints?: WalkthroughCheckpoint[];
+	steps?: WalkthroughStep[];
 }
 
 export interface Walkthrough {

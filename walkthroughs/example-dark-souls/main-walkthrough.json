@@ -11,78 +11,281 @@
     {
       "id": "undead-asylum",
       "title": "Undead Asylum",
+      "content": "# Undead Asylum\n\nThe Undead Asylum is the tutorial area of Dark Souls Remastered and the first location you will explore. It is a crumbling hilltop prison where the Undead are locked away to await the end of the world. Despite its brevity, the Asylum teaches you everything you need to know about Dark Souls: exploration, caution, combat timing, and the crushing weight of a boss encounter.\n\n<!-- checkpoint: cell-escape | Escape the Starting Cell -->\n\n## Escape the Starting Cell\n\nYou awaken in a dank cell deep within the Asylum. The opening cinematic has told you of the Undead prophecy and the Chosen Undead — that's you, though you don't look like much right now. Your cell is bare except for a corpse slumped against the far wall.\n\nLoot the **Dungeon Cell Key** from the corpse. This is your ticket out. Use it on the cell door and step into the corridor beyond. The hallway is lined with more cells, all sealed shut. A few hollowed prisoners claw at the bars but cannot reach you.\n\nProceed forward and up the short staircase. On the right side of the steps you'll find another corpse holding the **Straight Sword Hilt** — a broken weapon that deals pitiful damage, but it's all you have for now. Pick it up; you'll need something to swing.\n\nAt the top of the stairs you emerge into a small courtyard open to the sky. There is a **bonfire** here — your first. Light it and rest. This is Dark Souls' checkpoint system: resting refills your Estus Flask (once you have it), resets most enemies, and serves as your respawn point on death.\n\n<!-- checkpoint: first-bonfire | Light the First Bonfire -->\n\n## The Large Hall & First Demon Encounter\n\nFrom the bonfire courtyard, proceed through the large double doors ahead. You enter an enormous hall with a vaulted ceiling. The floor is littered with rubble and broken pillars.\n\nAs you move toward the center of the room, the **Asylum Demon** crashes down from above — a massive, bloated creature wielding a stone hammer the size of a wagon. With only the Straight Sword Hilt (or bare fists), you deal almost no damage to this beast.\n\n**Do NOT fight it.** Instead, look to the far-left wall. There is a small doorway — sprint toward it. The Demon's overhead slam has a long wind-up, so roll through its attack and dash through the door. A fog gate seals behind you, and you're safe.\n\nIf you are experienced and chose the **Black Firebombs** as your starting gift, you can actually kill the Asylum Demon here for the **Demon's Great Hammer** — but this is an advanced strategy not recommended for first-time players.\n\n<!-- checkpoint: oscar-encounter | Meet Oscar of Astora -->\n\n## The Refuge Hallway & Oscar of Astora\n\nBeyond the fog gate is a narrow hallway leading upward. Light the **second bonfire** partway up the corridor. Continue climbing the stairs.\n\n**Boulder Trap:** As you ascend the next staircase, a massive boulder rolls down toward you. Sprint back or dodge sideways. The boulder smashes through the wall behind you, revealing a hidden alcove.\n\nInside this alcove lies **Oscar, Knight of Astora** — mortally wounded and slumped against the wall. Speak with him. Oscar recognizes you as Undead and gifts you the **Estus Flask** (your primary healing item, refills at bonfires) and the **Undead Asylum F2 East Key**.\n\nOscar speaks of a prophecy: *\"Thou who art Undead, art chosen. In thine exodus from the Undead Asylum, maketh pilgrimage to the land of Ancient Lords.\"* He then slumps over. He will hollow later — if you return to this room after defeating the boss, he attacks on sight and drops the **Crest Shield**.\n\n<!-- checkpoint: retrieve-equipment | Retrieve Your Equipment -->\n\n## Retrieve Your Starting Equipment\n\nWith the F2 East Key in hand, proceed up past the boulder trap area. At the top of the stairs, unlock the gate on the right side. Beyond it is a narrow corridor lined with hollow soldiers — slow, shambling enemies that attack with broken swords.\n\nThese are your first real combat encounters. Practice your timing: raise your shield to block, then counter-attack. Or try rolling through their swings for backstab opportunities.\n\nAlong this upper walkway, you will find:\n\n- Your **class shield** on a corpse along the railing\n- Your **class weapon** at the end of the corridor (the weapon depends on what class you chose at character creation)\n- A few **Soul of a Lost Undead** items on scattered corpses\n\nThere are also **hollow archers** on elevated platforms. They fire slowly but can stagger you mid-fight. Prioritize closing the distance or using pillars as cover.\n\nEquip your weapon and shield immediately. You are now properly armed.\n\n<!-- checkpoint: fog-gate-return | Return to the Demon Arena -->\n\n## Return to the Demon Arena\n\nWith your real weapon equipped, it's time to face the Asylum Demon properly. Make your way back through the upper corridors until you reach a fog gate overlooking the large hall from above. You are now on a ledge directly above the Asylum Demon.\n\nBefore dropping down, ensure your Estus Flask is equipped and your weapon is two-handed (if you prefer damage over blocking). Take a breath. Step off the ledge.\n\n<!-- checkpoint: asylum-demon-boss | Boss: Asylum Demon -->\n\n## Boss Fight: Asylum Demon\n\n**Asylum Demon** is a large, slow creature with devastating but highly telegraphed attacks.\n\n### Plunging Attack\n\nAs you drop from the ledge, press your attack button (R1/RB) while falling. This executes a **plunging attack** that deals roughly 30-40% of the Demon's health in one strike. This is by far the most efficient opening.\n\n### Attack Patterns\n\n- **Overhead Slam:** The Demon raises its hammer high and crashes it down. Huge damage, but very slow. Roll sideways.\n- **Horizontal Sweep:** A wide arc in front of the Demon. Roll backward or toward its legs.\n- **Butt Slam (AoE):** The Demon leaps and lands on its backside, creating a shockwave. Sprint away when you see it jump.\n- **Fly & Slam:** At range, the Demon can briefly fly toward you and slam. Roll sideways on landing.\n\n### Strategy\n\nAfter the plunging attack, run behind the Demon and stay near its tail/legs. Most of its attacks swing in front, so the rear is safest. Get in 1-2 hits after each of its attack animations, then back off. Be patient — greed kills more players than the Demon itself.\n\nHeal with Estus when below 50% HP. You have 5 charges; that's more than enough if you play carefully.\n\n**Reward:** Defeating the Asylum Demon grants you the **Big Pilgrim's Key** and a large chunk of souls.\n\n<!-- checkpoint: exit-asylum | Exit the Asylum -->\n\n## Exit the Asylum\n\nWith the Big Pilgrim's Key, exit through the massive iron doors at the far end of the hall (opposite from where you first entered). A short path leads you outside to a cliff edge overlooking a vast landscape.\n\nStep forward onto the rocky promontory. After a moment, the **Giant Crow** swoops down, grasps you in its talons, and carries you away from the Asylum. A cinematic plays showing you soaring over the land of Lordran.\n\nYou are deposited at **Firelink Shrine** — the central hub of Dark Souls. The real journey begins now.\n\n*Note: You can return to the Undead Asylum later in the game by curling up in the crow's nest at Firelink Shrine. The return trip features new enemies, the Stray Demon boss, and additional loot including the Rusted Iron Ring.*",
+      "checkpoints": [
+        {
+          "id": "cell-escape",
+          "label": "Escape the Starting Cell"
+        },
+        {
+          "id": "first-bonfire",
+          "label": "Light the First Bonfire"
+        },
+        {
+          "id": "oscar-encounter",
+          "label": "Meet Oscar of Astora"
+        },
+        {
+          "id": "retrieve-equipment",
+          "label": "Retrieve Your Equipment"
+        },
+        {
+          "id": "fog-gate-return",
+          "label": "Return to the Demon Arena"
+        },
+        {
+          "id": "asylum-demon-boss",
+          "label": "Boss: Asylum Demon"
+        },
+        {
+          "id": "exit-asylum",
+          "label": "Exit the Asylum"
+        }
+      ],
       "steps": [
         {
-          "id": "step-001",
-          "type": "step",
-          "text": "Pick up the **Dungeon Cell Key** from the corpse near the starting cell.",
-          "note": "It's on the body right next to where you start."
-        },
-        {
-          "id": "step-002",
-          "type": "step",
-          "text": "Unlock the cell door and head upstairs."
-        },
-        {
-          "id": "step-003",
+          "id": "loot-cell-key",
           "type": "collectible",
-          "text": "Pick up the **Straight Sword Hilt** from the corpse on the steps.",
-          "note": "Missable if you rush past — it's on the right side of the staircase."
+          "text": "Pick up the **Dungeon Cell Key** from the corpse in your starting cell.",
+          "note": "It's on the body slumped against the far wall."
         },
         {
-          "id": "step-004",
+          "id": "escape-cell",
           "type": "step",
-          "text": "Grab the **Estus Flask** from the altar in the large room."
+          "text": "Use the key to unlock the cell door and exit into the corridor."
         },
         {
-          "id": "step-005",
+          "id": "loot-sword-hilt",
+          "type": "collectible",
+          "text": "Pick up the **Straight Sword Hilt** from the corpse on the right side of the staircase.",
+          "note": "A broken weapon — weak but better than bare fists."
+        },
+        {
+          "id": "light-first-bonfire",
+          "type": "step",
+          "text": "Light the **bonfire** in the small courtyard at the top of the stairs."
+        },
+        {
+          "id": "enter-large-hall",
+          "type": "step",
+          "text": "Pass through the large double doors into the main hall."
+        },
+        {
+          "id": "first-demon-encounter",
           "type": "warning",
-          "text": "Do NOT fight the Asylum Demon head-on your first encounter. Run past it through the fog gate on the left.",
-          "note": "You can come back to fight it properly after getting your starting weapon."
+          "text": "The **Asylum Demon** drops from the ceiling. Do NOT fight it — sprint to the far-left doorway and through the fog gate.",
+          "note": "You can kill it here with Black Firebombs for the Demon's Great Hammer, but this is an advanced tactic."
         },
         {
-          "id": "step-006",
+          "id": "light-second-bonfire",
           "type": "step",
-          "text": "Drop down to the fog gate room and pick up your **starting gift** and **Humanity** if applicable."
+          "text": "Light the **second bonfire** in the refuge hallway beyond the fog gate."
         },
         {
-          "id": "step-007",
+          "id": "boulder-trap",
+          "type": "warning",
+          "text": "A boulder rolls down the staircase as you ascend. Dodge sideways or sprint back to avoid it.",
+          "note": "The boulder breaks through the wall, revealing Oscar's alcove."
+        },
+        {
+          "id": "meet-oscar",
+          "type": "step",
+          "text": "Speak with **Oscar, Knight of Astora** in the revealed alcove. He gives you the **Estus Flask** and the **Undead Asylum F2 East Key**."
+        },
+        {
+          "id": "loot-estus-flask",
+          "type": "collectible",
+          "text": "Receive the **Estus Flask** from Oscar — your primary healing item (refills at bonfires, starts with 5 charges)."
+        },
+        {
+          "id": "loot-f2-key",
+          "type": "collectible",
+          "text": "Receive the **Undead Asylum F2 East Key** from Oscar."
+        },
+        {
+          "id": "unlock-upper-corridor",
+          "type": "step",
+          "text": "Use the F2 East Key to unlock the gate at the top of the stairs and proceed into the upper corridor."
+        },
+        {
+          "id": "fight-hollows",
+          "type": "step",
+          "text": "Defeat the **hollow soldiers** in the corridor. Practice blocking and counter-attacking."
+        },
+        {
+          "id": "loot-class-shield",
+          "type": "collectible",
+          "text": "Pick up your **class shield** from a corpse along the upper walkway railing."
+        },
+        {
+          "id": "loot-class-weapon",
+          "type": "collectible",
+          "text": "Pick up your **class weapon** at the end of the corridor.",
+          "note": "The weapon depends on your chosen starting class."
+        },
+        {
+          "id": "loot-souls-upper",
+          "type": "collectible",
+          "text": "Collect **Soul of a Lost Undead** items from corpses scattered along the upper walkway."
+        },
+        {
+          "id": "deal-with-archers",
+          "type": "note",
+          "text": "Watch for **hollow archers** on elevated platforms. Use pillars as cover or close the distance quickly."
+        },
+        {
+          "id": "equip-gear",
+          "type": "step",
+          "text": "Equip your class weapon and shield from the inventory menu."
+        },
+        {
+          "id": "return-to-arena",
+          "type": "step",
+          "text": "Navigate back through the upper corridors to the fog gate overlooking the large hall from above."
+        },
+        {
+          "id": "boss-asylum-demon",
           "type": "boss",
-          "text": "**BOSS: Asylum Demon** — Attack from behind after the plunge attack. Use the plunging attack from the ledge for massive damage.",
-          "note": "Reward: Big Pilgrim's Key"
+          "text": "**BOSS: Asylum Demon** — Drop from the ledge and press attack while falling for a devastating **plunging attack** (deals ~35% of its health). Stay behind the Demon, attack 1-2 times after each of its swings, and heal below 50% HP.",
+          "note": "Reward: Big Pilgrim's Key. Avoid greed — wait for openings after its overhead slam and horizontal sweep."
         },
         {
-          "id": "step-008",
+          "id": "loot-pilgrims-key",
+          "type": "collectible",
+          "text": "Receive the **Big Pilgrim's Key** upon defeating the Asylum Demon."
+        },
+        {
+          "id": "exit-asylum",
           "type": "step",
-          "text": "Use the Big Pilgrim's Key to exit the Asylum. Watch the cutscene."
+          "text": "Use the Big Pilgrim's Key to open the massive iron doors and walk to the cliff edge. The Giant Crow carries you to Firelink Shrine."
+        },
+        {
+          "id": "optional-return-oscar",
+          "type": "note",
+          "text": "Optional: Return to Oscar's alcove after the boss fight. He has hollowed and attacks on sight. Defeat him for the **Crest Shield**.",
+          "note": "This is missable if you leave the Asylum without returning."
         }
       ]
     },
     {
       "id": "firelink-shrine",
       "title": "Firelink Shrine",
+      "content": "# Firelink Shrine\n\nFirelink Shrine is the central hub of Dark Souls Remastered. Nestled among ancient ruins overlooking a flooded basin, it serves as your home base throughout the entire game. Multiple paths branch outward from here to the various regions of Lordran, and friendly NPCs gradually congregate at the Shrine as you progress.\n\nThe Shrine's bonfire is unique — it is tended by a **Fire Keeper**, which means it provides more Estus charges than a standard bonfire (10 instead of 5). This makes it an ideal place to return between expeditions.\n\n<!-- checkpoint: arrive-firelink | Arrive at Firelink Shrine -->\n\n## Arrival\n\nThe Giant Crow deposits you on a grassy cliff above the Shrine. Descend the short slope to find the **Firelink bonfire** — a crackling flame surrounded by ancient stonework. Rest here to set your spawn point and refill your Estus Flask (you now receive 10 charges thanks to the Fire Keeper).\n\nTake a moment to survey the area. Firelink Shrine is a ruined plaza built into a hillside, with stairways leading up and down in several directions. The sky is grey and overcast. The sound of distant bells and dripping water fills the air.\n\n<!-- checkpoint: meet-crestfallen | Meet the Crestfallen Warrior -->\n\n## NPCs at the Shrine\n\n### Crestfallen Warrior\n\nSitting on the stone steps near the bonfire is the **Crestfallen Warrior** — a cynical, world-weary Undead in chain mail. Speak with him for invaluable early-game guidance. He tells you about the two Bells of Awakening — one above in the Undead Church, one below in Blighttown — and warns you about the dangers ahead.\n\nHe's sarcastic and dismissive, but his information is accurate. Exhaust his dialogue on each visit; he updates his lines as you progress.\n\n### Anastacia of Astora (Fire Keeper)\n\nBelow the bonfire, accessible via a staircase behind and beneath the main platform, you'll find **Anastacia of Astora** imprisoned behind iron bars. She is the Fire Keeper who tends this bonfire. She cannot speak (her tongue was removed) but plays a vital role:\n\n- She keeps the Firelink bonfire lit\n- She can reinforce your Estus Flask if you bring her **Fire Keeper Souls** (found throughout the game)\n- If she dies, the Firelink bonfire goes dark until you avenge her\n\nDo NOT attack her. She is essential.\n\n### Petrus of Thorolund\n\nTo the right of the bonfire (when facing the cliff edge), descend a few steps to find **Petrus of Thorolund** — a portly cleric who serves as your first Miracle merchant. He sells basic miracles like **Heal** and offers to teach you about Covenants.\n\nHe later plays a role in the Rhea of Thorolund questline. For now, buy **Heal** if you're running a Faith build.\n\n### Other NPCs (Arrive Later)\n\nAs you progress through the game, additional NPCs will appear at Firelink Shrine:\n\n- **Knight Lautrec of Carim** — freed from Undead Parish, sits near the bonfire. Treacherous.\n- **Laurentius of the Great Swamp** — rescued from the Depths. Pyromancy trainer.\n- **Griggs of Vinheim** — rescued from Lower Undead Burg. Sorcery merchant.\n- **Siegmeyer of Catarina** — appears at various points in his questline.\n- **Kingseeker Frampt** — the primordial serpent, appears after ringing both Bells of Awakening.\n\n<!-- checkpoint: explore-items | Explore for Items -->\n\n## Item Locations\n\nFirelink Shrine contains a surprising number of useful items scattered across its various levels and ledges. Explore thoroughly before venturing onward.\n\n### Near the Bonfire\n\n- **Homeward Bone x6** — on a corpse between the bonfire and the elevator tower (leads to New Londo Ruins)\n- **Soul of a Lost Undead** — on a corpse near the cliff edge behind the bonfire\n\n### The Well & Surrounding Area\n\n- **Humanity** — on a corpse near the stone well to the left of the bonfire\n- **Twin Humanities** — behind the well arch, partially hidden in shadow\n- **Soul of a Lost Undead** — on a corpse on the ledge above the well (accessible from the aqueduct path)\n\n### Elevator Tower Area\n\n- **Binoculars** — on a corpse along the cliff edge near the elevator down to New Londo Ruins. Useful for scoping out areas from a distance.\n\n### The Graveyard (Southwest)\n\nDescending the slope past Petrus leads to the **Graveyard** — a dangerous area filled with skeletons that reassemble after being destroyed (unless you have a divine weapon). Despite the danger, several valuable items are here:\n\n- **Winged Spear** — on a corpse among the first few graves\n- **Soul items** — scattered on corpses throughout\n- **Zweihander** — a massive ultra-greatsword on a corpse near the large gravestone at the bottom of the hill\n- **Binoculars** — if you missed them near the elevator\n\n**Warning:** The skeletons here are far too strong for a new character. Grab items by sprinting in, looting, and sprinting out. Do NOT try to clear the graveyard at this stage.\n\n### New Londo Ruins (Below)\n\nThe elevator near the bonfire descends to New Londo Ruins. This flooded ghost city is extremely dangerous early on (ghosts are invincible without Transient Curses). However, just past the initial bridge you can find:\n\n- **Fire Keeper Soul** — on a corpse on a rooftop in the ruins. This can be given to Anastacia to upgrade your Estus Flask.\n\nGrab it and immediately return to the elevator. Do NOT explore further until much later in the game.\n\n<!-- checkpoint: understand-routes | Understand the Routes -->\n\n## Routes from Firelink Shrine\n\nFirelink Shrine connects to several areas. Understanding your options early prevents wasted time and frustration.\n\n### Undead Burg (Recommended First)\n\nClimb the staircase that leads up from the bonfire area, past the aqueduct waterway. This leads to the **Undead Burg** — the intended first area after the Asylum. Enemies here are manageable and the path leads logically toward the first Bell of Awakening.\n\n### New Londo Ruins (Dangerous — Later)\n\nTake the elevator down from the tower near the bonfire. New Londo Ruins is populated by ghosts that require **Transient Curses** to damage. This is a mid-to-late-game area.\n\n### The Catacombs (Dangerous — Later)\n\nDescend through the Graveyard and continue downhill. The Catacombs are the path to Nito and the second Bell of Awakening (Blighttown is actually the intended route to the second bell for new players).\n\n### Valley of Drakes (Requires Key)\n\nA locked gate near the New Londo elevator leads to the Valley of Drakes. You need the **Master Key** (starting gift or found later) to access this shortcut.\n\n<!-- checkpoint: level-up-prep | Prepare for Undead Burg -->\n\n## Preparing for Undead Burg\n\nBefore leaving Firelink Shrine, make sure you have:\n\n1. **Rested at the bonfire** — full 10 Estus charges\n2. **Equipped your best weapon and shield** from the Asylum\n3. **Spoken to the Crestfallen Warrior** — he confirms your path: \"There are actually two Bells of Awakening... one up above, in the Undead Church, and one far, far below, in the ruins at the base of Blighttown.\"\n4. **Collected nearby items** — at minimum the Humanity and Homeward Bones\n5. **Optionally purchased Heal from Petrus** — if running a Faith build\n\nWhen ready, ascend the stairs toward the aqueduct. The path to Undead Burg awaits.\n\n<!-- checkpoint: depart-firelink | Depart for Undead Burg -->\n\n## Lore Notes\n\nFirelink Shrine was once a place of great significance — a nexus where the First Flame was linked by past heroes. The bonfire here burns with unusual intensity because of Anastacia's sacrifice. The ruins suggest a once-grand structure, now eroded by untold centuries.\n\nThe name itself — \"Firelink\" — refers to the act of linking the First Flame, the central choice that defines the game's ending. Every Lord of Cinder before you began their journey from a place like this.\n\nAs you progress, watch how the Shrine changes: NPCs arrive and depart, the atmosphere shifts, and the consequences of your choices ripple outward from this quiet, grey hub at the center of the world.",
+      "checkpoints": [
+        {
+          "id": "arrive-firelink",
+          "label": "Arrive at Firelink Shrine"
+        },
+        {
+          "id": "meet-crestfallen",
+          "label": "Meet the Crestfallen Warrior"
+        },
+        {
+          "id": "explore-items",
+          "label": "Explore for Items"
+        },
+        {
+          "id": "understand-routes",
+          "label": "Understand the Routes"
+        },
+        {
+          "id": "level-up-prep",
+          "label": "Prepare for Undead Burg"
+        },
+        {
+          "id": "depart-firelink",
+          "label": "Depart for Undead Burg"
+        }
+      ],
       "steps": [
         {
-          "id": "step-009",
+          "id": "rest-at-firelink-bonfire",
           "type": "step",
-          "text": "Talk to **Kingseeker Frampt** (if he appears) — not required, just lore."
+          "text": "Rest at the **Firelink bonfire** to set your spawn point and refill Estus (10 charges from the Fire Keeper)."
         },
         {
-          "id": "step-010",
-          "type": "collectible",
-          "text": "Grab the **Humanity** and **Twin Humanities** from the corpses near the well.",
-          "note": "One is by the well, the other is behind the well arch."
+          "id": "talk-crestfallen-warrior",
+          "type": "step",
+          "text": "Talk to the **Crestfallen Warrior** sitting on the steps near the bonfire. He explains the two Bells of Awakening.",
+          "note": "Exhaust his dialogue — he gives critical guidance about where to go next."
         },
         {
-          "id": "step-011",
+          "id": "find-anastacia",
           "type": "note",
-          "text": "Firelink Shrine is your main hub. You can warp back here by resting at the bonfire.",
-          "note": "The NPC Anastacia of Astora is imprisoned below the bonfire — she is the Fire Keeper."
+          "text": "**Anastacia of Astora** (Fire Keeper) is imprisoned below the bonfire behind iron bars. She reinforces your Estus Flask with Fire Keeper Souls.",
+          "note": "Do NOT attack her — if she dies, the Firelink bonfire goes out."
         },
         {
-          "id": "step-012",
+          "id": "talk-petrus",
           "type": "step",
-          "text": "Decide your next area: **Undead Burg** (recommended first) or **New Londo Ruins** (dangerous)."
+          "text": "Speak with **Petrus of Thorolund** to the right of the bonfire (down a few steps). He sells miracles and explains Covenants.",
+          "note": "Buy Heal if you're a Faith build."
+        },
+        {
+          "id": "loot-homeward-bones",
+          "type": "collectible",
+          "text": "Pick up **Homeward Bone x6** from the corpse between the bonfire and the elevator tower."
+        },
+        {
+          "id": "loot-humanity-well",
+          "type": "collectible",
+          "text": "Grab the **Humanity** from the corpse near the stone well (left of the bonfire)."
+        },
+        {
+          "id": "loot-twin-humanities",
+          "type": "collectible",
+          "text": "Pick up **Twin Humanities** from behind the well arch, partially hidden in shadow."
+        },
+        {
+          "id": "loot-souls-cliff",
+          "type": "collectible",
+          "text": "Collect **Soul of a Lost Undead** from the corpse near the cliff edge behind the bonfire."
+        },
+        {
+          "id": "loot-binoculars",
+          "type": "collectible",
+          "text": "Grab the **Binoculars** from the corpse along the cliff edge near the New Londo elevator.",
+          "note": "Useful for scoping out areas and sniping with bows or spells."
+        },
+        {
+          "id": "graveyard-warning",
+          "type": "warning",
+          "text": "The **Graveyard** (southwest, past Petrus) has powerful skeletons that reassemble. Do NOT try to clear it at this stage.",
+          "note": "You can sprint in to grab the Winged Spear and Zweihander, then sprint out."
+        },
+        {
+          "id": "loot-winged-spear",
+          "type": "collectible",
+          "text": "Sprint into the Graveyard and grab the **Winged Spear** from a corpse among the first graves.",
+          "note": "Immediately run back — the skeletons will overwhelm you."
+        },
+        {
+          "id": "loot-zweihander",
+          "type": "collectible",
+          "text": "Optional: Sprint to the large gravestone at the bottom of the hill for the **Zweihander** (powerful ultra-greatsword).",
+          "note": "Very risky at low level. Consider coming back later."
+        },
+        {
+          "id": "new-londo-fire-keeper-soul",
+          "type": "collectible",
+          "text": "Take the elevator down to New Londo Ruins and grab the **Fire Keeper Soul** from the corpse on the rooftop just past the first bridge.",
+          "note": "Give this to Anastacia to upgrade your Estus Flask. Return to the elevator immediately after."
+        },
+        {
+          "id": "new-londo-warning",
+          "type": "warning",
+          "text": "Do NOT explore New Londo Ruins beyond the Fire Keeper Soul. Ghosts here require **Transient Curses** to damage and are deadly at low level."
+        },
+        {
+          "id": "prepare-undead-burg",
+          "type": "step",
+          "text": "Ensure you have: full 10 Estus, your best weapon and shield equipped, and nearby items collected."
+        },
+        {
+          "id": "head-to-undead-burg",
+          "type": "step",
+          "text": "Climb the staircase leading up from the bonfire area, past the aqueduct, to reach **Undead Burg** — the recommended first area.",
+          "note": "This is the path toward the first Bell of Awakening."
         }
       ]
     }

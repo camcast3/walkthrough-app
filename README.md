@@ -114,6 +114,23 @@ The server is available at `http://localhost:8080`.
 
 See [docs/adding-a-walkthrough.md](docs/adding-a-walkthrough.md) for the manual process, or use the **Copilot walkthrough ingestion skill** (`.github/copilot/skills/walkthrough-ingest.md`) to have Copilot convert any online walkthrough into the correct JSON format automatically.
 
+## Walkthrough format
+
+Each walkthrough section supports **two complementary content modes**:
+
+| Field | Purpose |
+|---|---|
+| `content` | Full walkthrough prose in Markdown with embedded milestone checkpoints |
+| `checkpoints` | Array of milestone markers (`id` + `label`) referenced in the prose |
+| `steps` | Granular checkable action items (classic checklist) |
+
+When a section has `content`, the app renders the full prose as the primary view with interactive 🏁 milestone checkpoints embedded inline. Granular `steps` appear in a collapsible "Detailed steps" panel. Sections without `content` render the classic step-only checklist.
+
+Milestone checkpoints are embedded in the Markdown prose using HTML comments:
+```
+<!-- checkpoint: boss-defeated | Defeated the First Boss -->
+```
+
 ## Step type legend
 
 | Icon | Type | Meaning |
