@@ -108,6 +108,16 @@ The server is available at `http://localhost:8080`.
 | Steam Deck (Bazzite) | [docs/steam-deck-setup.md](docs/steam-deck-setup.md) |
 | ROG Ally (Bazzite) | [docs/rog-ally-setup.md](docs/rog-ally-setup.md) |
 
+### Power-save mode
+
+Handheld devices (ROG Ally, Steam Deck) benefit from automatic power-save mode. When the server is running with `APP_MODE=client` (or is unreachable/offline), the webapp disables GPU-heavy effects:
+
+- Background mesh animations and progress bar shimmer
+- `backdrop-filter: blur()` on cards and UI elements
+- Gamepad polling reduced from 60fps to ~15fps (active only when a gamepad is connected and the page is visible)
+
+NAS/server deployments (`APP_MODE=server` or default) keep all visual effects enabled. The server exposes its mode via `GET /api/config` and the webapp reads it on load.
+
 ---
 
 ## Adding walkthroughs

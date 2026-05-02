@@ -27,6 +27,18 @@ Same steps as Steam Deck:
 1. Press the **Armoury Crate button** or use the task switcher
 2. Switch to the Walkthroughs app — game stays running
 
+## Power-save mode
+
+When the app connects to a server running in **client mode** (`APP_MODE=client`), it automatically enables power-save mode to reduce battery drain on the ROG Ally:
+
+- Background animations and shimmer effects are disabled
+- Backdrop blur effects on cards and UI elements are removed
+- Gamepad polling drops from 60fps to ~15fps (only active when a gamepad is connected and the page is visible)
+
+This happens automatically — no configuration needed on the device. If the server is unreachable (offline mode), power-save is also enabled by default.
+
+> **Tip:** If you're running the server locally on the ROG Ally itself, set `APP_MODE=client` so the webapp picks up power-save mode. NAS/server deployments default to full visual effects.
+
 ## Controller navigation
 
 Same as Steam Deck — the app uses the Gamepad API which works identically on ROG Ally:
