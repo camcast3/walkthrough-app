@@ -130,14 +130,16 @@ func main() {
 	}
 
 	h := &handlers.Handler{
-		DB:     db,
-		Source: src,
-		Sync:   progressSync,
+		DB:      db,
+		Source:  src,
+		Sync:    progressSync,
+		AppMode: appMode,
 	}
 
 	mux := http.NewServeMux()
 
 	// API routes
+	mux.HandleFunc("GET /api/config", h.GetConfig)
 	mux.HandleFunc("GET /api/walkthroughs", h.ListWalkthroughs)
 	mux.HandleFunc("GET /api/walkthroughs/{id}", h.GetWalkthrough)
 	mux.HandleFunc("GET /api/progress/{id}", h.GetProgress)

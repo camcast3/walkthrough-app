@@ -4,11 +4,25 @@
 
 	let { children } = $props();
 
-	onMount(() => {
+	onMount(async () => {
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('/sw.js').catch(() => {
 				// SW registration is best-effort; app works without it
 			});
+		}
+
+		// In client mode (e.g. ROG Ally) disable expensive GPU effects to save battery
+		try {
+			const res = await fetch('/api/config');
+			if (res.ok) {
+				const config = await res.json();
+				if (config.appMode === 'client') {
+					document.body.setAttribute('data-power-save', '');
+				}
+			}
+		} catch {
+			// Offline or unavailable — default to power-save to be safe
+			document.body.setAttribute('data-power-save', '');
 		}
 	});
 </script>
@@ -38,7 +52,7 @@
 		position: relative;
 	}
 
-	/* Animated gradient mesh background */
+	/* Gradient mesh background — animated by default, static in power-save mode */
 	:global(body)::before {
 		content: '';
 		position: fixed;
@@ -49,6 +63,10 @@
 			radial-gradient(ellipse 60% 80% at 80% 80%, rgba(84,214,106,0.05) 0%, transparent 50%),
 			radial-gradient(ellipse 70% 50% at 60% 10%, rgba(238,90,90,0.04) 0%, transparent 50%);
 		animation: meshShift 20s ease-in-out infinite alternate;
+	}
+
+	:global(body[data-power-save])::before {
+		animation: none;
 	}
 
 	@keyframes meshShift {

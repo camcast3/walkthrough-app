@@ -390,6 +390,11 @@
 		animation: shimmer 2s infinite;
 	}
 
+	:global(body[data-power-save]) .progress-bar-fill::after {
+		animation: none;
+		display: none;
+	}
+
 	@keyframes shimmer {
 		0% { transform: translateX(-100%); }
 		100% { transform: translateX(100%); }
@@ -451,6 +456,11 @@
 		border: 2px solid transparent;
 		transition: border-color 0.2s, background 0.2s, opacity 0.3s, transform 0.15s, box-shadow 0.2s;
 		cursor: default;
+	}
+
+	:global(body[data-power-save]) .step-card {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.step-card.checkable {
@@ -596,6 +606,11 @@
 		background: rgba(14, 14, 24, 0.6);
 		backdrop-filter: blur(8px);
 		-webkit-backdrop-filter: blur(8px);
+	}
+
+	:global(body[data-power-save]) .legend {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.legend-toggle {

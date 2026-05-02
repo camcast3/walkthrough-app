@@ -32,6 +32,18 @@
 2. Select **Switch → Walkthroughs** (or use the app switcher)
 3. Your game stays running in the background
 
+## Power-save mode
+
+When the app connects to a server running in **client mode** (`APP_MODE=client`), it automatically enables power-save mode to reduce battery drain on the Steam Deck:
+
+- Background animations and shimmer effects are disabled
+- Backdrop blur effects on cards and UI elements are removed
+- Gamepad polling drops from 60fps to ~15fps (only active when a gamepad is connected and the page is visible)
+
+This happens automatically — no configuration needed on the device. If the server is unreachable (offline mode), power-save is also enabled by default.
+
+> **Tip:** If you're running the server locally on the Steam Deck itself, set `APP_MODE=client` so the webapp picks up power-save mode. NAS/server deployments default to full visual effects.
+
 ## Controller navigation
 
 | Button | Action |

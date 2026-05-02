@@ -120,6 +120,10 @@
 		backdrop-filter: blur(8px);
 	}
 
+	:global(body[data-power-save]) .banner {
+		backdrop-filter: none;
+	}
+
 	.banner.warning {
 		background: rgba(255, 180, 0, 0.08);
 		border: 1px solid rgba(255, 180, 0, 0.25);
@@ -158,6 +162,11 @@
 		cursor: pointer;
 		transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
 		-webkit-tap-highlight-color: transparent;
+	}
+
+	:global(body[data-power-save]) .card {
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	.card:hover,
