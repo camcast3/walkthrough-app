@@ -101,9 +101,9 @@ type WalkthroughMeta struct {
 
 // HltbData holds HowLongToBeat time estimates in hours.
 type HltbData struct {
-	MainStory     *float64 `json:"main_story,omitempty"`
+	MainStory      *float64 `json:"main_story,omitempty"`
 	MainStorySides *float64 `json:"main_story_sides,omitempty"`
-	Completionist *float64 `json:"completionist,omitempty"`
+	Completionist  *float64 `json:"completionist,omitempty"`
 }
 
 // ParseMetaFromJSON extracts summary fields from a full walkthrough JSON.

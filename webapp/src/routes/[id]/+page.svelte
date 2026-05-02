@@ -64,9 +64,13 @@
 
 	/** Cycles to the next available HLTB mode. */
 	function cycleHltbMode() {
-		const idx = hltbAvailableModes.indexOf(hltbMode);
-		hltbMode = hltbAvailableModes[(idx + 1) % hltbAvailableModes.length];
+		hltbMode = hltbNextMode;
 	}
+
+	/** The next mode that clicking the toggle will switch to. */
+	const hltbNextMode = $derived(
+		hltbAvailableModes[(hltbAvailableModes.indexOf(hltbMode) + 1) % hltbAvailableModes.length]
+	);
 
 	const hltbTotalHours = $derived(resolveHltbHours(hltbMode));
 
@@ -362,11 +366,10 @@
 				{/if}
 			</span>
 			{#if hltbHasToggle}
-				{@const nextMode = hltbAvailableModes[(hltbAvailableModes.indexOf(hltbMode) + 1) % hltbAvailableModes.length]}
 				<button
 					class="hltb-toggle"
 					onclick={cycleHltbMode}
-					aria-label="Showing {HLTB_MODE_LABELS[hltbMode]} estimate ({timeRemainingLabel}). Switch to {HLTB_MODE_LABELS[nextMode]}"
+					aria-label="Showing {HLTB_MODE_LABELS[hltbMode]} estimate ({timeRemainingLabel}). Switch to {HLTB_MODE_LABELS[hltbNextMode]}"
 				>
 					{HLTB_MODE_LABELS[hltbMode]} ⇄
 				</button>
