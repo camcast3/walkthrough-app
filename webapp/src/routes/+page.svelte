@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
-	import { countCheckableSteps, computeProgress, loadProgress, formatHours } from '$lib/state.js';
+	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS } from '$lib/state.js';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -73,13 +73,13 @@
 										<span class="hltb-sep">·</span>
 									{/if}
 									{#if wt.hltb.main_story_sides != null}
-										<span title="Main + Sides">{formatHours(wt.hltb.main_story_sides)} +Sides</span>
+										<span title="Main + Sides">{formatHours(wt.hltb.main_story_sides)} {HLTB_MODE_LABELS.main_story_sides}</span>
 									{/if}
 									{#if (wt.hltb.main_story != null || wt.hltb.main_story_sides != null) && wt.hltb.completionist != null}
 										<span class="hltb-sep">·</span>
 									{/if}
 									{#if wt.hltb.completionist != null}
-										<span title="Completionist (100%)">{formatHours(wt.hltb.completionist)} 100%</span>
+										<span title="Completionist (100%)">{formatHours(wt.hltb.completionist)} {HLTB_MODE_LABELS.completionist}</span>
 									{/if}
 								</span>
 							{/if}

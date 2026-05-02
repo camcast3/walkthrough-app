@@ -67,3 +67,10 @@ export function estimateTimeRemaining(totalHours: number | undefined, progressPc
 	const remaining = totalHours * (1 - progressPct / 100);
 	return Math.max(0, remaining);
 }
+
+/** Human-readable short labels for each HLTB time category. */
+export const HLTB_MODE_LABELS = {
+	main_story: 'Story',
+	main_story_sides: '+Sides',
+	completionist: '100%'
+} as const;

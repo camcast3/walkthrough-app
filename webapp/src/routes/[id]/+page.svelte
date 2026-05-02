@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
-	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours } from '$lib/state.js';
+	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS } from '$lib/state.js';
 	import { syncProgress, timeAgo } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import type { SyncStatus } from '$lib/types.js';
@@ -21,16 +21,7 @@
 	let tabsEl: HTMLElement | null = null;
 
 	// ── HLTB time mode: 'main_story', 'main_story_sides', or 'completionist' ──
-	/** Minimum difference in hours between any two HLTB times to show the toggle. */
-	const MIN_HLTB_DIFFERENCE_HOURS = 0.5;
-
 	type HltbMode = 'main_story' | 'main_story_sides' | 'completionist';
-
-	const HLTB_MODE_LABELS: Record<HltbMode, string> = {
-		main_story: 'Story',
-		main_story_sides: '+Sides',
-		completionist: '100%'
-	};
 
 	const HLTB_MODE_FINISH_LABELS: Record<HltbMode, string> = {
 		main_story: 'to finish',
