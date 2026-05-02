@@ -1,9 +1,9 @@
-import type { ProgressRecord, SyncStatus } from './types.js';
+import type { ProgressRecord, SyncStatus, WalkthroughSummary } from './types.js';
 
 const API_BASE = '/api';
 const STALE_THRESHOLD_MS = 60_000; // show warning if remote is >60s newer
 
-export async function fetchWalkthroughs(): Promise<{ id: string; game: string; title: string; author: string; created_at: string }[]> {
+export async function fetchWalkthroughs(): Promise<WalkthroughSummary[]> {
 	const res = await fetch(`${API_BASE}/walkthroughs`);
 	if (!res.ok) throw new Error('Failed to fetch walkthroughs');
 	return res.json();

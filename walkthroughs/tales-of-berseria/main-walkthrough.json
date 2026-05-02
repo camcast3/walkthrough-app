@@ -7,6 +7,10 @@
   "source_url": "https://www.neoseeker.com/tales-of-berseria/walkthrough",
   "attribution": "This walkthrough was pulled from Neoseeker (neoseeker.com), authored by Symph, and processed for a cleaner reading experience. All credit for the original content goes to Symph and the Neoseeker community.",
   "created_at": "2026-05-01",
+  "hltb": {
+    "main_story": 50.5,
+    "completionist": 98.5
+  },
   "sections": [
     {
       "id": "prologue",

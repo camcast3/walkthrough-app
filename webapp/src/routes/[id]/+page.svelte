@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
-	import { loadProgress, saveProgress, countCheckableSteps, computeProgress } from '$lib/state.js';
+	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours } from '$lib/state.js';
 	import { syncProgress, timeAgo } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import type { SyncStatus } from '$lib/types.js';
@@ -19,6 +19,24 @@
 	let remoteRecord = $state<{ checkedSteps: string[]; updatedAt: string } | null>(null);
 	let showSteps = $state(false);
 	let tabsEl: HTMLElement | null = null;
+
+	// ── HLTB time mode: 'main_story' or 'completionist' ──────────────────────
+	/** Whether the walkthrough has both HLTB times and they differ enough to show a toggle. */
+	const hltbHasToggle = $derived(
+		wt.hltb?.main_story != null &&
+		wt.hltb?.completionist != null &&
+		Math.abs((wt.hltb.main_story ?? 0) - (wt.hltb.completionist ?? 0)) >= 0.5
+	);
+	type HltbMode = 'main_story' | 'completionist';
+	let hltbMode = $state<HltbMode>('main_story');
+
+	const hltbTotalHours = $derived<number | undefined>(
+		hltbMode === 'completionist' && wt.hltb?.completionist != null
+			? wt.hltb.completionist
+			: wt.hltb?.main_story != null
+				? wt.hltb.main_story
+				: wt.hltb?.completionist
+	);
 
 	// Auto-scroll active tab into center view
 	$effect(() => {
@@ -50,6 +68,10 @@
 	const progressPct = $derived(computeProgress(new Set([...checkedSteps].filter(isCheckableId)), totalCheckable));
 
 	const currentSection = $derived(wt.sections[currentSectionIdx]);
+
+	// HLTB-derived: time remaining estimate
+	const timeRemainingHours = $derived(estimateTimeRemaining(hltbTotalHours, progressPct));
+	const timeRemainingLabel = $derived(timeRemainingHours != null ? formatHours(timeRemainingHours) : null);
 
 	// ── Step DOM refs ──────────────────────────────────────────────────────────
 	let stepRefs: HTMLElement[] = [];
@@ -293,6 +315,32 @@
 	<div class="progress-bar-track" role="progressbar" aria-valuenow={progressPct} aria-valuemin={0} aria-valuemax={100}>
 		<div class="progress-bar-fill" style="width: {progressPct}%"></div>
 	</div>
+
+	<!-- HLTB time remaining -->
+	{#if timeRemainingLabel != null}
+		<div class="hltb-bar" aria-label="Estimated time remaining based on HowLongToBeat data">
+			<span class="hltb-clock" aria-hidden="true">⏱</span>
+			<span class="hltb-label">
+				{#if progressPct >= 100}
+					Complete!
+				{:else if progressPct > 0}
+					~{timeRemainingLabel} remaining
+				{:else}
+					~{timeRemainingLabel} to {hltbMode === 'completionist' ? '100%' : 'finish'}
+				{/if}
+			</span>
+			{#if hltbHasToggle}
+				<button
+					class="hltb-toggle"
+					onclick={() => { hltbMode = hltbMode === 'main_story' ? 'completionist' : 'main_story'; }}
+					aria-label="Switch to {hltbMode === 'main_story' ? 'completionist' : 'main story'} time estimate"
+					title="Toggle between main story ({formatHours(wt.hltb!.main_story!)}) and 100% ({formatHours(wt.hltb!.completionist!)}) estimates"
+				>
+					{hltbMode === 'main_story' ? 'Story' : '100%'} ⇄
+				</button>
+			{/if}
+		</div>
+	{/if}
 
 	<!-- Section navigation -->
 	<div class="section-nav">
@@ -573,7 +621,45 @@
 		100% { transform: translateX(100%); }
 	}
 
-	/* ── Section tabs ── */
+	/* ── HLTB time bar ── */
+	.hltb-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		padding: 0.35rem 1rem;
+		background: rgba(10, 10, 20, 0.6);
+		border-bottom: 1px solid rgba(84, 214, 106, 0.1);
+		font-size: 0.78rem;
+		color: #54d66a;
+	}
+
+	.hltb-clock {
+		font-size: 0.85rem;
+		flex-shrink: 0;
+	}
+
+	.hltb-label {
+		flex: 1;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.hltb-toggle {
+		background: rgba(84, 214, 106, 0.08);
+		border: 1px solid rgba(84, 214, 106, 0.25);
+		color: #54d66a;
+		border-radius: 10px;
+		padding: 0.15rem 0.55rem;
+		font-size: 0.72rem;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: background 0.2s, border-color 0.2s;
+		line-height: 1.4;
+	}
+
+	.hltb-toggle:hover {
+		background: rgba(84, 214, 106, 0.16);
+		border-color: rgba(84, 214, 106, 0.5);
+	}
 	/* ── Section navigation ── */
 	.section-nav {
 		display: flex;
