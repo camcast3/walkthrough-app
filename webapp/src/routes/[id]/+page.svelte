@@ -359,7 +359,7 @@
 				class:pending={checkoutPending}
 				onclick={toggleCheckout}
 				disabled={checkoutPending}
-				aria-label={isCheckedOut ? 'Remove from device (checked out)' : 'Download for offline use'}
+				aria-label={isCheckedOut ? 'Remove from device' : 'Download for offline use'}
 				title={isCheckedOut ? 'Remove from device' : 'Download for offline use'}
 			>
 				{#if checkoutPending}
