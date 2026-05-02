@@ -123,3 +123,77 @@ export function timeAgo(isoTimestamp: string): string {
 	if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
 	return `${days} day${days === 1 ? '' : 's'} ago`;
 }
+
+// ── Server management API ──────────────────────────────────────────────────────
+
+export interface IngestStep {
+	name: string;
+	label: string;
+	status: 'pending' | 'running' | 'done' | 'error';
+	message?: string;
+}
+
+export interface IngestJob {
+	id: string;
+	input: string;
+	status: 'running' | 'done' | 'error';
+	steps: IngestStep[];
+	walkthrough_id?: string;
+	error?: string;
+	started_at: string;
+	updated_at: string;
+}
+
+export interface DeviceActivity {
+	device_id: string;
+	last_seen: string;
+	walkthroughs: string[];
+}
+
+/**
+ * Submits a walkthrough URL or raw JSON for ingest on the server.
+ * Returns the created ingest job.
+ */
+export async function submitIngest(input: string): Promise<IngestJob> {
+	const isUrl = input.startsWith('http://') || input.startsWith('https://');
+	const body = isUrl ? { url: input } : { content: input };
+	const res = await fetch(`${API_BASE}/server/ingest`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(body)
+	});
+	if (!res.ok) {
+		const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+		throw new Error((err as { error: string }).error ?? 'Failed to submit ingest');
+	}
+	return res.json();
+}
+
+/** Fetches the current state of an ingest job by ID. */
+export async function fetchIngestJob(id: string): Promise<IngestJob> {
+	const res = await fetch(`${API_BASE}/server/ingest/${id}`);
+	if (!res.ok) throw new Error('Ingest job not found');
+	return res.json();
+}
+
+/** Lists all recent ingest jobs (newest first). */
+export async function fetchIngestJobs(): Promise<IngestJob[]> {
+	try {
+		const res = await fetch(`${API_BASE}/server/ingest`);
+		if (!res.ok) return [];
+		return res.json();
+	} catch {
+		return [];
+	}
+}
+
+/** Returns all known client devices and their walkthrough activity. */
+export async function fetchDevices(): Promise<DeviceActivity[]> {
+	try {
+		const res = await fetch(`${API_BASE}/server/devices`);
+		if (!res.ok) return [];
+		return res.json();
+	} catch {
+		return [];
+	}
+}

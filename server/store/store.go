@@ -46,6 +46,17 @@ func migrate(db *sql.DB) error {
 			walkthrough_id  TEXT PRIMARY KEY,
 			checked_out_at  TEXT NOT NULL
 		);
+		CREATE TABLE IF NOT EXISTS local_walkthroughs (
+			id       TEXT PRIMARY KEY,
+			data     TEXT NOT NULL,
+			added_at TEXT NOT NULL
+		);
+		CREATE TABLE IF NOT EXISTS device_activity (
+			device_id      TEXT NOT NULL,
+			walkthrough_id TEXT NOT NULL,
+			last_seen      TEXT NOT NULL,
+			PRIMARY KEY (device_id, walkthrough_id)
+		);
 	`)
 	return err
 }
@@ -181,4 +192,118 @@ func ParseMetaFromJSON(data []byte) (*WalkthroughMeta, error) {
 		CreatedAt: m.CreatedAt,
 		Hltb:      m.Hltb,
 	}, nil
+}
+
+// AddLocalWalkthrough stores a walkthrough JSON in the local database.
+func (s *DB) AddLocalWalkthrough(id string, data []byte) error {
+	_, err := s.db.Exec(
+		`INSERT INTO local_walkthroughs (id, data, added_at)
+		 VALUES (?, ?, ?)
+		 ON CONFLICT(id) DO UPDATE SET data = excluded.data, added_at = excluded.added_at`,
+		id,
+		string(data),
+		time.Now().UTC().Format(time.RFC3339),
+	)
+	return err
+}
+
+// GetLocalWalkthrough returns raw walkthrough JSON stored locally, or nil if not found.
+func (s *DB) GetLocalWalkthrough(id string) ([]byte, error) {
+	var data string
+	err := s.db.QueryRow(`SELECT data FROM local_walkthroughs WHERE id = ?`, id).Scan(&data)
+	if err == sql.ErrNoRows {
+		return nil, nil
+	}
+	if err != nil {
+		return nil, err
+	}
+	return []byte(data), nil
+}
+
+// ListLocalWalkthroughs returns metadata for all locally stored walkthroughs.
+func (s *DB) ListLocalWalkthroughs() ([]WalkthroughMeta, error) {
+	rows, err := s.db.Query(`SELECT data FROM local_walkthroughs ORDER BY added_at DESC`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var metas []WalkthroughMeta
+	for rows.Next() {
+		var data string
+		if err := rows.Scan(&data); err != nil {
+			return nil, err
+		}
+		meta, err := ParseMetaFromJSON([]byte(data))
+		if err != nil || meta == nil || meta.ID == "" {
+			continue
+		}
+		metas = append(metas, *meta)
+	}
+	if metas == nil {
+		metas = []WalkthroughMeta{}
+	}
+	return metas, rows.Err()
+}
+
+// DeviceActivity describes a client device and the walkthroughs it has interacted with.
+type DeviceActivity struct {
+	DeviceID     string    `json:"device_id"`
+	LastSeen     time.Time `json:"last_seen"`
+	Walkthroughs []string  `json:"walkthroughs"`
+}
+
+// RecordDeviceActivity records that a device was active on a specific walkthrough.
+func (s *DB) RecordDeviceActivity(deviceID, walkthroughID string) error {
+	_, err := s.db.Exec(
+		`INSERT INTO device_activity (device_id, walkthrough_id, last_seen)
+		 VALUES (?, ?, ?)
+		 ON CONFLICT(device_id, walkthrough_id) DO UPDATE SET last_seen = excluded.last_seen`,
+		deviceID,
+		walkthroughID,
+		time.Now().UTC().Format(time.RFC3339),
+	)
+	return err
+}
+
+// ListDeviceActivity returns all known devices and their associated walkthroughs.
+func (s *DB) ListDeviceActivity() ([]DeviceActivity, error) {
+	rows, err := s.db.Query(
+		`SELECT device_id, walkthrough_id, last_seen
+		 FROM device_activity
+		 ORDER BY device_id, last_seen DESC`,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	byDevice := make(map[string]*DeviceActivity)
+	var order []string
+
+	for rows.Next() {
+		var deviceID, walkthroughID, lastSeenStr string
+		if err := rows.Scan(&deviceID, &walkthroughID, &lastSeenStr); err != nil {
+			return nil, err
+		}
+		t, _ := time.Parse(time.RFC3339, lastSeenStr)
+		if _, exists := byDevice[deviceID]; !exists {
+			byDevice[deviceID] = &DeviceActivity{DeviceID: deviceID, LastSeen: t}
+			order = append(order, deviceID)
+		}
+		da := byDevice[deviceID]
+		da.Walkthroughs = append(da.Walkthroughs, walkthroughID)
+		if t.After(da.LastSeen) {
+			da.LastSeen = t
+		}
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	result := make([]DeviceActivity, 0, len(order))
+	for _, id := range order {
+		result = append(result, *byDevice[id])
+	}
+	return result, nil
 }

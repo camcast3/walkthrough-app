@@ -140,6 +140,7 @@ func main() {
 		Source:  src,
 		Sync:    progressSync,
 		AppMode: appMode,
+		Ingest:  handlers.NewIngestManager(db),
 	}
 
 	mux := http.NewServeMux()
@@ -153,6 +154,12 @@ func main() {
 	mux.HandleFunc("GET /api/checkouts", h.ListCheckouts)
 	mux.HandleFunc("PUT /api/checkouts/{id}", h.PutCheckout)
 	mux.HandleFunc("DELETE /api/checkouts/{id}", h.DeleteCheckout)
+
+	// Server-mode-only API routes (walkthrough library management)
+	mux.HandleFunc("POST /api/server/ingest", h.PostIngest)
+	mux.HandleFunc("GET /api/server/ingest", h.ListIngestJobs)
+	mux.HandleFunc("GET /api/server/ingest/{id}", h.GetIngestJob)
+	mux.HandleFunc("GET /api/server/devices", h.GetDevices)
 
 	// Serve static PWA files — fallback to index.html for SPA routing
 	mux.Handle("/", spaHandler(*staticDir))
@@ -197,7 +204,7 @@ func spaHandler(staticDir string) http.Handler {
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)

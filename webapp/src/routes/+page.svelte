@@ -82,6 +82,14 @@
 		</div>
 	{/if}
 
+	{#if data.appMode === 'server'}
+		<div class="banner server" role="note">
+			<span aria-hidden="true">🗂️</span>
+			<span> Running as library server. </span>
+			<a href="/server" class="manage-link">Manage Library →</a>
+		</div>
+	{/if}
+
 	{#if data.walkthroughs.length === 0}
 		<div class="empty">
 			<p>No walkthroughs available.</p>
@@ -209,6 +217,28 @@
 		background: rgba(84, 214, 106, 0.06);
 		border: 1px solid rgba(84, 214, 106, 0.2);
 		color: #80d490;
+	}
+
+	.banner.server {
+		background: rgba(124, 106, 247, 0.07);
+		border: 1px solid rgba(124, 106, 247, 0.22);
+		color: #a89df7;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+
+	.manage-link {
+		margin-left: auto;
+		color: #c8c0f8;
+		font-weight: 600;
+		font-size: 0.88rem;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+		flex-shrink: 0;
+	}
+	.manage-link:hover {
+		color: #ffffff;
 	}
 
 	.list {

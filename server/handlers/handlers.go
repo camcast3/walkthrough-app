@@ -3,6 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	"strings"
 	"time"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
@@ -16,6 +17,17 @@ type Handler struct {
 	Sync *upstream.ProgressSync
 	// AppMode is the server's operating mode ("server", "client", or "").
 	AppMode string
+	// Ingest manages walkthrough ingest jobs (server mode only).
+	Ingest *IngestManager
+}
+
+// requireServerMode writes a 403 error if the server is not in server mode and returns false.
+func (h *Handler) requireServerMode(w http.ResponseWriter) bool {
+	if h.AppMode != "server" {
+		respondError(w, http.StatusForbidden, "this endpoint is only available in server mode")
+		return false
+	}
+	return true
 }
 
 // respondJSON writes a JSON response with the given status code.
@@ -44,6 +56,21 @@ func (h *Handler) ListWalkthroughs(w http.ResponseWriter, r *http.Request) {
 		respondError(w, http.StatusInternalServerError, "failed to list walkthroughs")
 		return
 	}
+
+	// Merge any locally-added walkthroughs (server mode ingest), deduplicating by ID.
+	localMetas, err := h.DB.ListLocalWalkthroughs()
+	if err == nil && len(localMetas) > 0 {
+		existing := make(map[string]struct{}, len(metas))
+		for _, m := range metas {
+			existing[m.ID] = struct{}{}
+		}
+		for _, lm := range localMetas {
+			if _, dup := existing[lm.ID]; !dup {
+				metas = append(metas, lm)
+			}
+		}
+	}
+
 	respondJSON(w, http.StatusOK, metas)
 }
 
@@ -52,6 +79,15 @@ func (h *Handler) GetWalkthrough(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	if id == "" {
 		respondError(w, http.StatusBadRequest, "missing id")
+		return
+	}
+
+	// Check local DB first (covers walkthroughs added via ingest pipeline).
+	local, err := h.DB.GetLocalWalkthrough(id)
+	if err == nil && local != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		_, _ = w.Write(local)
 		return
 	}
 
@@ -161,10 +197,44 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// In server mode, record which device was active on this walkthrough.
+	if h.AppMode == "server" {
+		deviceID := deviceIDFromRequest(r)
+		_ = h.DB.RecordDeviceActivity(deviceID, id)
+	}
+
 	// In client mode, queue for upstream sync
 	if h.Sync != nil {
 		h.Sync.MarkDirty(id)
 	}
 
 	respondJSON(w, http.StatusOK, record)
+}
+
+// GetDevices handles GET /api/server/devices — returns all known client devices and their activity.
+func (h *Handler) GetDevices(w http.ResponseWriter, r *http.Request) {
+	if !h.requireServerMode(w) {
+		return
+	}
+
+	devices, err := h.DB.ListDeviceActivity()
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to list devices")
+		return
+	}
+	respondJSON(w, http.StatusOK, devices)
+}
+
+// deviceIDFromRequest returns a stable device identifier from the request.
+// It prefers the X-Device-ID header set by the client, falling back to the remote IP.
+func deviceIDFromRequest(r *http.Request) string {
+	if id := r.Header.Get("X-Device-ID"); id != "" {
+		return strings.TrimSpace(id)
+	}
+	// Strip port from RemoteAddr.
+	addr := r.RemoteAddr
+	if i := strings.LastIndex(addr, ":"); i >= 0 {
+		addr = addr[:i]
+	}
+	return addr
 }
