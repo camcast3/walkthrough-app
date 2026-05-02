@@ -82,6 +82,13 @@ export const HLTB_MODE_FINISH_LABELS = {
 	completionist: 'to 100%'
 } as const;
 
+/** Full descriptive titles for each HLTB time category, matching HLTB naming conventions. */
+export const HLTB_MODE_FULL_TITLES = {
+	main_story: 'Main Story',
+	main_story_sides: 'Main Story + Sides',
+	completionist: 'Completionist (100%)'
+} as const;
+
 /** Canonical ordered list of all HLTB time categories. */
 export const HLTB_MODES = ['main_story', 'main_story_sides', 'completionist'] as const;
 

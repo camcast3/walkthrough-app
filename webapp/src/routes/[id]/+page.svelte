@@ -354,7 +354,7 @@
 				<button
 					class="hltb-toggle"
 					onclick={cycleHltbMode}
-					aria-label="Showing {HLTB_MODE_LABELS[hltbMode]} estimate ({timeRemainingLabel}). Switch to {HLTB_MODE_LABELS[hltbNextMode]}"
+					aria-label="Showing {HLTB_MODE_LABELS[hltbMode]} estimate ({timeRemainingLabel ?? ''}). Switch to {HLTB_MODE_LABELS[hltbNextMode]}"
 				>
 					{HLTB_MODE_LABELS[hltbMode]} ⇄
 				</button>

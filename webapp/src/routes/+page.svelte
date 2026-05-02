@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
-	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS } from '$lib/state.js';
+	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FULL_TITLES } from '$lib/state.js';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -67,19 +67,19 @@
 								<span class="hltb-meta" aria-label="HowLongToBeat time estimates">
 									⏱
 									{#if wt.hltb.main_story != null}
-										<span title="Main Story">{formatHours(wt.hltb.main_story)}</span>
+										<span title="{HLTB_MODE_FULL_TITLES.main_story}">{formatHours(wt.hltb.main_story)}</span>
 									{/if}
 									{#if wt.hltb.main_story != null && wt.hltb.main_story_sides != null}
 										<span class="hltb-sep">·</span>
 									{/if}
 									{#if wt.hltb.main_story_sides != null}
-										<span title="Main Story + Sides">{formatHours(wt.hltb.main_story_sides)} {HLTB_MODE_LABELS.main_story_sides}</span>
+										<span title="{HLTB_MODE_FULL_TITLES.main_story_sides}">{formatHours(wt.hltb.main_story_sides)} {HLTB_MODE_LABELS.main_story_sides}</span>
 									{/if}
 									{#if (wt.hltb.main_story != null || wt.hltb.main_story_sides != null) && wt.hltb.completionist != null}
 										<span class="hltb-sep">·</span>
 									{/if}
 									{#if wt.hltb.completionist != null}
-										<span title="Completionist (100%)">{formatHours(wt.hltb.completionist)} {HLTB_MODE_LABELS.completionist}</span>
+										<span title="{HLTB_MODE_FULL_TITLES.completionist}">{formatHours(wt.hltb.completionist)} {HLTB_MODE_LABELS.completionist}</span>
 									{/if}
 								</span>
 							{/if}
