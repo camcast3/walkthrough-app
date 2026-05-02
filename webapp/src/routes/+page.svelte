@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FULL_TITLES } from '$lib/state.js';
+	import { checkout, checkin } from '$lib/sync.js';
 	import { onMount } from 'svelte';
 
 	let { data }: { data: PageData } = $props();
@@ -8,6 +9,11 @@
 	// Per-walkthrough progress percentages loaded from IndexedDB
 	let progressMap = $state<Record<string, number>>({});
 	let loaded = $state(false);
+
+	// Checkout state — mutable local copy so toggling updates immediately
+	let checkedOutSet = $state<Set<string>>(new Set(data.checkedOutIds));
+	// Track which walkthroughs are currently loading a checkout/checkin action
+	let checkoutPending = $state<Set<string>>(new Set());
 
 	onMount(async () => {
 		const results: Record<string, number> = {};
@@ -20,6 +26,27 @@
 		progressMap = results;
 		loaded = true;
 	});
+
+	async function toggleCheckout(event: MouseEvent, id: string) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (checkoutPending.has(id)) return;
+
+		checkoutPending = new Set([...checkoutPending, id]);
+		try {
+			if (checkedOutSet.has(id)) {
+				await checkin(id);
+				checkedOutSet = new Set([...checkedOutSet].filter((x) => x !== id));
+			} else {
+				await checkout(id);
+				checkedOutSet = new Set([...checkedOutSet, id]);
+			}
+		} catch {
+			// Action failed — state reverts (no optimistic update committed)
+		} finally {
+			checkoutPending = new Set([...checkoutPending].filter((x) => x !== id));
+		}
+	}
 
 	const STEP_TYPE_ICONS: Record<string, string> = {
 		step: '✓',
@@ -48,6 +75,13 @@
 		</div>
 	{/if}
 
+	{#if data.appMode === 'client'}
+		<div class="banner info" role="note">
+			<span aria-hidden="true">📡</span>
+			<span> Connected to server — select <strong>⊕</strong> to download a walkthrough for offline use.</span>
+		</div>
+	{/if}
+
 	{#if data.walkthroughs.length === 0}
 		<div class="empty">
 			<p>No walkthroughs available.</p>
@@ -57,6 +91,8 @@
 		<ul class="list" role="list">
 			{#each data.walkthroughs as wt, idx (wt.id)}
 				{@const checked = progressMap[wt.id] ?? 0}
+				{@const isCheckedOut = checkedOutSet.has(wt.id)}
+				{@const isPending = checkoutPending.has(wt.id)}
 				<li class="card-wrapper" style="--delay: {idx * 60}ms" class:visible={loaded}>
 					<a href="/{wt.id}" class="card" aria-label="{wt.game} — {wt.title}">
 						<div class="card-body">
@@ -89,6 +125,25 @@
 								<span class="chip-glow"></span>
 								{checked} ✓
 							</div>
+						{/if}
+						{#if data.appMode === 'client'}
+							<button
+								class="checkout-btn"
+								class:checked-out={isCheckedOut}
+								class:pending={isPending}
+								aria-label={isCheckedOut ? 'Remove from device' : 'Download for offline use'}
+								title={isCheckedOut ? 'Remove from device' : 'Download for offline use'}
+								onclick={(e) => toggleCheckout(e, wt.id)}
+								disabled={isPending}
+							>
+								{#if isPending}
+									<span class="spinner" aria-hidden="true"></span>
+								{:else if isCheckedOut}
+									<span aria-hidden="true">✓</span>
+								{:else}
+									<span aria-hidden="true">⊕</span>
+								{/if}
+							</button>
 						{/if}
 						<span class="chevron" aria-hidden="true">›</span>
 					</a>
@@ -148,6 +203,12 @@
 		background: rgba(255, 180, 0, 0.08);
 		border: 1px solid rgba(255, 180, 0, 0.25);
 		color: #ffd060;
+	}
+
+	.banner.info {
+		background: rgba(84, 214, 106, 0.06);
+		border: 1px solid rgba(84, 214, 106, 0.2);
+		color: #80d490;
 	}
 
 	.list {
@@ -274,6 +335,60 @@
 	.card:hover .chevron {
 		color: #7c6af7;
 		transform: translateX(2px);
+	}
+
+	/* Checkout / checkin button */
+	.checkout-btn {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		height: 2rem;
+		flex-shrink: 0;
+		border-radius: 50%;
+		border: 1px solid rgba(84, 214, 106, 0.3);
+		background: rgba(84, 214, 106, 0.06);
+		color: #54d66a;
+		font-size: 1.1rem;
+		cursor: pointer;
+		transition: background 0.2s, border-color 0.2s, color 0.2s;
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	.checkout-btn:hover {
+		background: rgba(84, 214, 106, 0.16);
+		border-color: rgba(84, 214, 106, 0.6);
+	}
+
+	.checkout-btn.checked-out {
+		background: rgba(84, 214, 106, 0.18);
+		border-color: rgba(84, 214, 106, 0.5);
+		color: #54d66a;
+	}
+
+	.checkout-btn.checked-out:hover {
+		background: rgba(220, 60, 60, 0.12);
+		border-color: rgba(220, 60, 60, 0.4);
+		color: #e05555;
+	}
+
+	.checkout-btn.pending {
+		opacity: 0.6;
+		cursor: wait;
+	}
+
+	.spinner {
+		display: inline-block;
+		width: 0.9rem;
+		height: 0.9rem;
+		border: 2px solid currentColor;
+		border-top-color: transparent;
+		border-radius: 50%;
+		animation: spin 0.7s linear infinite;
+	}
+
+	@keyframes spin {
+		to { transform: rotate(360deg); }
 	}
 
 	.empty {

@@ -101,23 +101,29 @@ func main() {
 			ServerURL: serverURL,
 			Interval:  interval,
 			CacheDir:  cacheDir,
+			// CheckedOutFn governs which walkthrough *content* is prefetched and cached
+			// locally on each refresh cycle. The checkout list is re-evaluated on every
+			// refresh (default every 10 min, controlled by REMOTE_REFRESH_INTERVAL).
+			CheckedOutFn: db.ListCheckoutIDs,
 		})
 		remoteSrc.Start(context.Background())
 		defer remoteSrc.Close()
 		src = remoteSrc
 
-		// Start progress sync (pushes local changes upstream)
+		// Start progress sync (pushes local changes upstream).
+		// IsCheckedOutFn ensures only checked-out walkthroughs have their progress
+		// pushed to or pulled from the remote server.
 		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
 		progressSync = upstream.NewProgressSync(serverURL, db, syncInterval)
+		progressSync.IsCheckedOutFn = db.IsCheckedOut
 		progressSync.Start(context.Background())
 		defer progressSync.Close()
 
-		// Pull latest progress from server on startup
+		// Pull latest progress from the remote server on startup — only for checked-out walkthroughs.
 		go func() {
-			metas, _ := remoteSrc.List()
-			ids := make([]string, len(metas))
-			for i, m := range metas {
-				ids[i] = m.ID
+			ids, err := db.ListCheckoutIDs()
+			if err != nil || len(ids) == 0 {
+				return
 			}
 			progressSync.PullAll(context.Background(), ids)
 		}()
@@ -144,6 +150,9 @@ func main() {
 	mux.HandleFunc("GET /api/walkthroughs/{id}", h.GetWalkthrough)
 	mux.HandleFunc("GET /api/progress/{id}", h.GetProgress)
 	mux.HandleFunc("PUT /api/progress/{id}", h.PutProgress)
+	mux.HandleFunc("GET /api/checkouts", h.ListCheckouts)
+	mux.HandleFunc("PUT /api/checkouts/{id}", h.PutCheckout)
+	mux.HandleFunc("DELETE /api/checkouts/{id}", h.DeleteCheckout)
 
 	// Serve static PWA files — fallback to index.html for SPA routing
 	mux.Handle("/", spaHandler(*staticDir))
@@ -188,7 +197,7 @@ func spaHandler(staticDir string) http.Handler {
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)

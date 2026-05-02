@@ -17,9 +17,10 @@ import (
 // RemoteSource fetches walkthroughs from another walkthrough-server instance.
 // Used in client mode — the handheld pulls content from the k8s server.
 type RemoteSource struct {
-	ServerURL string
-	Interval  time.Duration
-	CacheDir  string
+	ServerURL    string
+	Interval     time.Duration
+	CacheDir     string
+	CheckedOutFn func() ([]string, error)
 
 	mu     sync.RWMutex
 	metas  []store.WalkthroughMeta
@@ -29,9 +30,14 @@ type RemoteSource struct {
 }
 
 type RemoteConfig struct {
-	ServerURL string
-	Interval  time.Duration
-	CacheDir  string
+	ServerURL    string
+	Interval     time.Duration
+	CacheDir     string
+	// CheckedOutFn, if non-nil, returns the IDs of walkthroughs to prefetch and
+	// cache locally. Walkthroughs not in this list are still accessible on-demand
+	// but will not be proactively downloaded. When nil, all walkthroughs are
+	// prefetched (backward-compatible behaviour).
+	CheckedOutFn func() ([]string, error)
 }
 
 func NewRemoteSource(cfg RemoteConfig) *RemoteSource {
@@ -39,10 +45,11 @@ func NewRemoteSource(cfg RemoteConfig) *RemoteSource {
 		cfg.Interval = 10 * time.Minute
 	}
 	return &RemoteSource{
-		ServerURL: cfg.ServerURL,
-		Interval:  cfg.Interval,
-		CacheDir:  cfg.CacheDir,
-		byID:      make(map[string][]byte),
+		ServerURL:    cfg.ServerURL,
+		Interval:     cfg.Interval,
+		CacheDir:     cfg.CacheDir,
+		CheckedOutFn: cfg.CheckedOutFn,
+		byID:         make(map[string][]byte),
 	}
 }
 
@@ -118,9 +125,45 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 		return err
 	}
 
-	// Fetch full content for each walkthrough
+	// If a checkout filter is configured, only prefetch checked-out walkthroughs.
+	// The checkout list is re-evaluated on every refresh cycle, so newly checked-out
+	// walkthroughs will be downloaded on the next cycle (interval set by
+	// REMOTE_REFRESH_INTERVAL, default 10 min). Walkthroughs that are unchecked
+	// between cycles keep their cached copy until it is evicted by the next refresh.
+	// All walkthroughs remain discoverable via List(); only content prefetching is filtered.
+	checkedOut := map[string]bool{}
+	if s.CheckedOutFn != nil {
+		ids, fnErr := s.CheckedOutFn()
+		if fnErr != nil {
+			log.Printf("[remote-source] checkout list unavailable, skipping content prefetch (metadata still updated; walkthroughs accessible on-demand): %v", fnErr)
+			// Still update the metadata list so the catalog stays current.
+			s.mu.Lock()
+			s.metas = metas
+			s.mu.Unlock()
+			s.persistToDisk()
+			log.Printf("[remote-source] refreshed metadata: %d walkthroughs from %s (0 content prefetched)", len(metas), s.ServerURL)
+			return nil
+		}
+		for _, id := range ids {
+			checkedOut[id] = true
+		}
+	}
+
+	// Fetch full content for each walkthrough (or only checked-out ones).
 	newByID := make(map[string][]byte, len(metas))
 	for _, m := range metas {
+		// When a checkout filter is active, skip walkthroughs not checked out.
+		if s.CheckedOutFn != nil && !checkedOut[m.ID] {
+			// Preserve any already-cached content so existing offline copies remain.
+			s.mu.RLock()
+			existing := s.byID[m.ID]
+			s.mu.RUnlock()
+			if existing != nil {
+				newByID[m.ID] = existing
+			}
+			continue
+		}
+
 		// Reuse cached content if we already have it
 		s.mu.RLock()
 		existing := s.byID[m.ID]
@@ -145,7 +188,7 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 	s.mu.Unlock()
 
 	s.persistToDisk()
-	log.Printf("[remote-source] refreshed: %d walkthroughs from %s", len(newByID), s.ServerURL)
+	log.Printf("[remote-source] refreshed: %d walkthroughs listed, %d cached from %s", len(metas), len(newByID), s.ServerURL)
 	return nil
 }
 

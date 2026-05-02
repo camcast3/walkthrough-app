@@ -19,6 +19,11 @@ type ProgressSync struct {
 	DB        *store.DB
 	Interval  time.Duration
 
+	// IsCheckedOutFn, when non-nil, gates both push and pull to only operate on
+	// walkthroughs that are currently checked out. Progress for unchecked walkthroughs
+	// is neither sent to nor fetched from the remote server.
+	IsCheckedOutFn func(id string) (bool, error)
+
 	mu      sync.Mutex
 	pending map[string]struct{} // walkthrough IDs with unsent progress
 	cancel  context.CancelFunc
@@ -50,16 +55,30 @@ func (ps *ProgressSync) Close() {
 }
 
 // MarkDirty queues a walkthrough ID for upstream sync.
+// If IsCheckedOutFn is set, the walkthrough is only queued when it is checked out.
 func (ps *ProgressSync) MarkDirty(walkthroughID string) {
+	if ps.IsCheckedOutFn != nil {
+		ok, err := ps.IsCheckedOutFn(walkthroughID)
+		if err != nil || !ok {
+			return
+		}
+	}
 	ps.mu.Lock()
 	ps.pending[walkthroughID] = struct{}{}
 	ps.mu.Unlock()
 }
 
-// PullAll fetches progress for all known walkthroughs from the remote server
+// PullAll fetches progress for checked-out walkthroughs from the remote server
 // and updates local state if the remote is newer. Called on startup.
+// When IsCheckedOutFn is set, only walkthroughs that are currently checked out are pulled.
 func (ps *ProgressSync) PullAll(ctx context.Context, walkthroughIDs []string) {
 	for _, id := range walkthroughIDs {
+		if ps.IsCheckedOutFn != nil {
+			ok, err := ps.IsCheckedOutFn(id)
+			if err != nil || !ok {
+				continue
+			}
+		}
 		remote, err := ps.pullRemote(ctx, id)
 		if err != nil || remote == nil {
 			continue

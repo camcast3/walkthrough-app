@@ -66,7 +66,55 @@ func (h *Handler) GetWalkthrough(w http.ResponseWriter, r *http.Request) {
 	_, _ = w.Write(data)
 }
 
-// GetProgress handles GET /api/progress/{id}
+// ListCheckouts handles GET /api/checkouts — returns IDs of checked-out walkthroughs.
+// An empty list is a valid response and means no walkthroughs are currently checked out.
+func (h *Handler) ListCheckouts(w http.ResponseWriter, r *http.Request) {
+	ids, err := h.DB.ListCheckoutIDs()
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to retrieve checkout list")
+		return
+	}
+	respondJSON(w, http.StatusOK, ids)
+}
+
+// PutCheckout handles PUT /api/checkouts/{id} — checks out a walkthrough to this client.
+// It records the checkout in the DB and eagerly fetches the walkthrough content so it is
+// available offline immediately.
+func (h *Handler) PutCheckout(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	if id == "" {
+		respondError(w, http.StatusBadRequest, "missing id")
+		return
+	}
+
+	if err := h.DB.Checkout(id); err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to checkout")
+		return
+	}
+
+	// Eagerly fetch the content so it is cached locally for offline use.
+	// Ignore errors — the walkthrough may not be available right now.
+	_, _ = h.Source.Get(id)
+
+	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "status": "checked_out"})
+}
+
+// DeleteCheckout handles DELETE /api/checkouts/{id} — checks in a walkthrough.
+func (h *Handler) DeleteCheckout(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	if id == "" {
+		respondError(w, http.StatusBadRequest, "missing id")
+		return
+	}
+
+	if err := h.DB.Checkin(id); err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to checkin")
+		return
+	}
+
+	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "status": "checked_in"})
+}
+
 func (h *Handler) GetProgress(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 	record, err := h.DB.GetProgress(id)

@@ -41,7 +41,11 @@ func migrate(db *sql.DB) error {
 			walkthrough_id TEXT PRIMARY KEY,
 			checked_steps  TEXT NOT NULL DEFAULT '[]',
 			updated_at     TEXT NOT NULL
-		)
+		);
+		CREATE TABLE IF NOT EXISTS checkouts (
+			walkthrough_id  TEXT PRIMARY KEY,
+			checked_out_at  TEXT NOT NULL
+		);
 	`)
 	return err
 }
@@ -87,6 +91,55 @@ func (s *DB) PutProgress(r *ProgressRecord) error {
 		r.UpdatedAt.UTC().Format(time.RFC3339),
 	)
 	return err
+}
+
+// Checkout marks a walkthrough as checked out on this client.
+func (s *DB) Checkout(walkthroughID string) error {
+	_, err := s.db.Exec(
+		`INSERT INTO checkouts (walkthrough_id, checked_out_at)
+		 VALUES (?, ?)
+		 ON CONFLICT(walkthrough_id) DO NOTHING`,
+		walkthroughID,
+		time.Now().UTC().Format(time.RFC3339),
+	)
+	return err
+}
+
+// Checkin removes a walkthrough from the checkout list on this client.
+func (s *DB) Checkin(walkthroughID string) error {
+	_, err := s.db.Exec(`DELETE FROM checkouts WHERE walkthrough_id = ?`, walkthroughID)
+	return err
+}
+
+// ListCheckoutIDs returns the IDs of all walkthroughs currently checked out.
+func (s *DB) ListCheckoutIDs() ([]string, error) {
+	rows, err := s.db.Query(`SELECT walkthrough_id FROM checkouts ORDER BY checked_out_at`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var ids []string
+	for rows.Next() {
+		var id string
+		if err := rows.Scan(&id); err != nil {
+			return nil, err
+		}
+		ids = append(ids, id)
+	}
+	if ids == nil {
+		ids = []string{}
+	}
+	return ids, rows.Err()
+}
+
+// IsCheckedOut returns true if the given walkthrough is checked out.
+func (s *DB) IsCheckedOut(walkthroughID string) (bool, error) {
+	var count int
+	err := s.db.QueryRow(
+		`SELECT COUNT(*) FROM checkouts WHERE walkthrough_id = ?`, walkthroughID,
+	).Scan(&count)
+	return count > 0, err
 }
 
 // WalkthroughMeta holds the summary fields served at GET /api/walkthroughs.
