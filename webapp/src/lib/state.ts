@@ -74,3 +74,15 @@ export const HLTB_MODE_LABELS = {
 	main_story_sides: '+Sides',
 	completionist: '100%'
 } as const;
+
+/** Context labels describing what each HLTB mode means for time-remaining text. */
+export const HLTB_MODE_FINISH_LABELS = {
+	main_story: 'to finish',
+	main_story_sides: 'with sides',
+	completionist: 'to 100%'
+} as const;
+
+/** Canonical ordered list of all HLTB time categories. */
+export const HLTB_MODES = ['main_story', 'main_story_sides', 'completionist'] as const;
+
+export type HltbMode = (typeof HLTB_MODES)[number];

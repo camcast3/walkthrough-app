@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
-	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS } from '$lib/state.js';
+	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import type { SyncStatus } from '$lib/types.js';
@@ -21,19 +21,9 @@
 	let tabsEl: HTMLElement | null = null;
 
 	// ── HLTB time mode: 'main_story', 'main_story_sides', or 'completionist' ──
-	type HltbMode = 'main_story' | 'main_story_sides' | 'completionist';
-
-	const HLTB_MODE_FINISH_LABELS: Record<HltbMode, string> = {
-		main_story: 'to finish',
-		main_story_sides: 'with sides',
-		completionist: 'to 100%'
-	};
-
 	/** Ordered list of HLTB modes that have a value in this walkthrough. */
 	const hltbAvailableModes = $derived(
-		(['main_story', 'main_story_sides', 'completionist'] as HltbMode[]).filter(
-			(m) => wt.hltb?.[m] != null
-		)
+		HLTB_MODES.filter((m) => wt.hltb?.[m] != null)
 	);
 
 	/** Whether there are at least 2 HLTB modes available to toggle between. */
@@ -47,7 +37,7 @@
 	 */
 	function resolveHltbHours(mode: HltbMode): number | undefined {
 		if (wt.hltb?.[mode] != null) return wt.hltb[mode];
-		for (const m of ['main_story', 'main_story_sides', 'completionist'] as HltbMode[]) {
+		for (const m of HLTB_MODES) {
 			if (wt.hltb?.[m] != null) return wt.hltb[m];
 		}
 		return undefined;
