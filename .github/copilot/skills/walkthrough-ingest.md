@@ -1,10 +1,22 @@
-# Walkthrough Ingestion Skill
+# Walkthrough Ingestion Skill (Legacy — Use the Pipeline Instead)
+
+## ⚠️ Deprecated
+This skill does a single-pass ingest. For higher-quality walkthroughs, use the **4-agent pipeline** instead:
+
+1. **walkthrough-writer** — Creates the detailed draft from a trusted source
+2. **walkthrough-reviewer** — Validates the draft against the original source
+3. **walkthrough-gamer** — Reviews from a player's perspective
+4. **walkthrough-completionist** — Audits against the game's achievement list
+
+See [docs/adding-a-walkthrough.md](../../../docs/adding-a-walkthrough.md) for the full workflow.
+
+---
 
 ## Description
 Converts any online game walkthrough into the standardized walkthrough JSON format used by the Walkthrough Checklist App. The output preserves the **full original prose** with embedded milestone checkpoints plus granular step checklists. The result is committed to the `/walkthroughs/` directory.
 
 ## When to use
-Use this skill when you want to add a new walkthrough to the app. Provide either:
+Use this skill for quick, single-pass ingestion when the full pipeline is overkill. Provide either:
 - A URL to an online walkthrough page, or
 - Pasted raw text from a walkthrough
 

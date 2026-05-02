@@ -1,44 +1,118 @@
 # Adding a Walkthrough
 
-## Step 1: Use the Copilot skill
+## Overview
 
-Open GitHub Copilot (in VS Code, GitHub.com, or the CLI) and use the walkthrough-ingest skill:
+Walkthroughs are created through a **4-agent pipeline** that ensures quality and completeness. Each agent has a specific role and the walkthrough passes through all four before publication.
 
 ```
-@copilot Use the walkthrough-ingest skill. 
-Please convert this walkthrough: https://example.com/game-walkthrough
+Writer  →  Reviewer  →  Gamer  →  Completionist
 ```
 
-Or paste raw text:
+## The Pipeline
+
+### Agent 1: Writer
+**Skill:** `walkthrough-writer`
+
+The Writer creates the initial walkthrough draft from the user's **trusted source URL**. It does deep, multi-query research for each section and produces rich, detailed prose (8,000-25,000+ chars per section) with embedded checkpoints and granular steps.
+
+```
+@copilot Use the walkthrough-writer skill.
+Source: https://www.neoseeker.com/game-name/walkthrough
+Game: Example Game
+```
+
+The Writer will:
+- Map out all sections from the source
+- Do multiple web searches per section for comprehensive detail
+- Write full prose with day-by-day breakdowns, NPC visit order, chest locations, boss strategies, etc.
+- Embed `<!-- checkpoint: id | label -->` markers at milestones
+- Generate a detailed `steps` array for checklist tracking
+- Validate against the schema and save the file
+
+**Output:** A walkthrough JSON file in `walkthroughs/<game-slug>/main-walkthrough.json`
+
+---
+
+### Agent 2: Reviewer
+**Skill:** `walkthrough-reviewer`
+
+The Reviewer audits the draft **against the original trusted source only**. It does not compare against other walkthroughs or its own knowledge — the user's chosen source is the single source of truth.
+
+```
+@copilot Use the walkthrough-reviewer skill.
+Draft: walkthroughs/game-name/main-walkthrough.json
+Trusted source: https://www.neoseeker.com/game-name/walkthrough
+```
+
+The Reviewer checks:
+- Are ALL quests from the source present (main + side)?
+- Are NPC interactions and visit order correct?
+- Are item/chest locations preserved?
+- Are boss strategies complete?
+- Are missables and point-of-no-return warnings present?
+- Are character events and bonding content covered?
+
+**Output:** A section-by-section review with ✅ PASS / ⚠️ MINOR / ❌ MAJOR verdicts. Returns to Writer if major gaps found.
+
+---
+
+### Agent 3: Gamer
+**Skill:** `walkthrough-gamer`
+
+The Gamer reads the walkthrough as if they're **actually playing the game**. They care about usability, clarity, and not missing fun stuff.
+
+```
+@copilot Use the walkthrough-gamer skill.
+Walkthrough: walkthroughs/game-name/main-walkthrough.json
+```
+
+The Gamer checks:
+- Can I follow these directions without getting lost?
+- Do I know about all available side content right now?
+- Do boss strategies give me enough info to win?
+- Am I warned before every point of no return?
+- Does the guide flow well or is it overwhelming/sparse?
+
+**Output:** A review with 🔴 Blocker / 🟡 Annoyance / 🟢 Nice-to-have ratings. Returns to Writer if blockers found.
+
+---
+
+### Agent 4: Completionist
+**Skill:** `walkthrough-completionist`
+
+The Completionist cross-references the walkthrough against the **game's full achievement/trophy list** to ensure 100% completion is possible.
+
+```
+@copilot Use the walkthrough-completionist skill.
+Walkthrough: walkthroughs/game-name/main-walkthrough.json
+Game: Example Game
+```
+
+The Completionist checks:
+- Is every achievement/trophy addressed by the walkthrough?
+- Are missable achievements explicitly warned about with timing?
+- Are collectible achievements backed by individual item locations?
+- Are combat/challenge achievements supported by strategy tips?
+- Are NG+ or post-game achievements noted?
+
+**Output:** An achievement coverage report with ✅/⚠️/❌/🔒 ratings. Returns to Writer if missable achievements lack warnings.
+
+---
+
+## Quick single-pass alternative
+
+For simple walkthroughs or quick drafts, you can use the legacy single-pass ingest:
 
 ```
 @copilot Use the walkthrough-ingest skill.
-Here is the walkthrough text: [paste the text]
+Please convert this walkthrough: https://example.com/game-walkthrough
 ```
 
-Copilot will output a JSON file matching the schema — including full prose `content` with embedded milestone checkpoints plus granular `steps`.
+This skips the review pipeline. Best for short games or when you plan to manually review.
 
-## Step 2: Save the file
+## After the pipeline
 
-Save the output to:
-```
-walkthroughs/<game-slug>/<walkthrough-name>.json
-```
-
-Example: `walkthroughs/elden-ring/main-walkthrough.json`
-
-## Step 3: Review
-
-Check that:
-- `attribution` field credits the original source
-- `id` is a unique slug (lowercase, hyphens only)
-- Sections have a `content` field with full walkthrough prose (not abbreviated)
-- Checkpoint markers (`<!-- checkpoint: id | label -->`) appear at major milestones in the content
-- The `checkpoints` array matches every marker in the content
-- Granular `steps` array provides a concise checklist alongside the prose
-- `type` values are correct (`step`, `note`, `warning`, `collectible`, `boss`)
-
-## Step 4: Commit and push
+Once all four agents pass, commit and push:
 
 ```bash
 git add walkthroughs/
