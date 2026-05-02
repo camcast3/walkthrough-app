@@ -1,7 +1,7 @@
 # Windows PC Setup
 
 ## Prerequisites
-- Server is deployed to your k8s cluster and accessible from your PC
+- Server is deployed and accessible (see [server setup](server-setup.md))
 - You have the server URL
 
 ## Install as PWA (recommended)

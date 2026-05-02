@@ -39,7 +39,7 @@ go build -o walkthrough-server.exe .
 
 ## Operating modes
 
-The server supports three modes via the `APP_MODE` environment variable. See the [root README](../README.md#architecture-server-mode-vs-client-mode) for full details.
+The server supports three modes via the `APP_MODE` environment variable. See [docs/server-setup.md](../docs/server-setup.md) and [docs/client-setup.md](../docs/client-setup.md) for full details.
 
 | Mode | `APP_MODE` | Description |
 |---|---|---|
@@ -80,4 +80,4 @@ docker run -p 8080:8080 \
 
 ## Environment variables
 
-See the [root README](../README.md#architecture-server-mode-vs-client-mode) for the full environment variable reference.
+See [docs/server-setup.md](../docs/server-setup.md) for the full environment variable reference.
