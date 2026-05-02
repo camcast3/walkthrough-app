@@ -65,7 +65,10 @@
 				activeJob = job;
 
 				if (job.status === 'done' || job.status === 'error') {
-					pollTimeoutId = null;
+					if (pollTimeoutId !== null) {
+						clearTimeout(pollTimeoutId);
+						pollTimeoutId = null;
+					}
 
 					// Prepend to recent jobs list.
 					recentJobs = [job, ...recentJobs.filter((j) => j.id !== job.id)].slice(0, 20);
