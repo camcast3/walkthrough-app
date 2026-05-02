@@ -102,29 +102,28 @@ func main() {
 			Interval:  interval,
 			CacheDir:  cacheDir,
 			// CheckedOutFn governs which walkthrough *content* is prefetched and cached
-			// locally on each refresh cycle. It does NOT affect progress sync — progress
-			// records are synced independently via ProgressSync regardless of checkout
-			// status, and PullAll on startup covers the full walkthrough catalog.
-			// The checkout list is re-evaluated on every refresh (default every 10 min,
-			// controlled by REMOTE_REFRESH_INTERVAL).
+			// locally on each refresh cycle. The checkout list is re-evaluated on every
+			// refresh (default every 10 min, controlled by REMOTE_REFRESH_INTERVAL).
 			CheckedOutFn: db.ListCheckoutIDs,
 		})
 		remoteSrc.Start(context.Background())
 		defer remoteSrc.Close()
 		src = remoteSrc
 
-		// Start progress sync (pushes local changes upstream)
+		// Start progress sync (pushes local changes upstream).
+		// IsCheckedOutFn ensures only checked-out walkthroughs have their progress
+		// pushed to or pulled from the remote server.
 		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
 		progressSync = upstream.NewProgressSync(serverURL, db, syncInterval)
+		progressSync.IsCheckedOutFn = db.IsCheckedOut
 		progressSync.Start(context.Background())
 		defer progressSync.Close()
 
-		// Pull latest progress from server on startup
+		// Pull latest progress from the remote server on startup — only for checked-out walkthroughs.
 		go func() {
-			metas, _ := remoteSrc.List()
-			ids := make([]string, len(metas))
-			for i, m := range metas {
-				ids[i] = m.ID
+			ids, err := db.ListCheckoutIDs()
+			if err != nil || len(ids) == 0 {
+				return
 			}
 			progressSync.PullAll(context.Background(), ids)
 		}()

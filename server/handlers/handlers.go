@@ -67,13 +67,13 @@ func (h *Handler) GetWalkthrough(w http.ResponseWriter, r *http.Request) {
 }
 
 // ListCheckouts handles GET /api/checkouts — returns IDs of checked-out walkthroughs.
+// An empty list is a valid response and means no walkthroughs are currently checked out.
 func (h *Handler) ListCheckouts(w http.ResponseWriter, r *http.Request) {
 	ids, err := h.DB.ListCheckoutIDs()
 	if err != nil {
-		respondError(w, http.StatusInternalServerError, "failed to list checkouts: database unavailable")
+		respondError(w, http.StatusInternalServerError, "failed to retrieve checkout list")
 		return
 	}
-	// An empty list is valid — it means no walkthroughs are currently checked out.
 	respondJSON(w, http.StatusOK, ids)
 }
 
