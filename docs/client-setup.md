@@ -4,13 +4,20 @@ This guide covers setting up devices that connect to your walkthrough server —
 
 ## How client mode works
 
-A client fetches walkthroughs from the remote server and caches them locally for offline use. Progress is stored in a local SQLite database and synced bi-directionally with the server:
+A client connects to your walkthrough server, lets you browse the full walkthrough catalog, and **check out** the walkthroughs you want to use on this device. Here's the typical flow:
 
-- Fetches the walkthrough list and checked-out content from the server on a configurable interval (default: every 10 minutes)
-- Caches walkthrough data to disk so the app works fully offline
-- Pushes local progress changes upstream (default: every 30 seconds)
-- Pulls latest progress from the server on startup
-- Only syncs walkthroughs that are "checked out" on the device
+1. **Browse & check out** — Connect to the server and check out the walkthroughs you need. Content is downloaded and cached locally for offline use.
+2. **Play offline** — Use your walkthroughs without internet. Progress saves locally.
+3. **Sync when online** — When the device reconnects, progress automatically syncs to the server. Any progress made on other devices is pulled down too.
+4. **Check in when done** — When you're finished with a walkthrough, check it in. This stops the client from syncing progress for that walkthrough, reducing network traffic.
+
+Under the hood:
+
+- Fetches the walkthrough catalog from the server on a configurable interval (default: every 10 minutes)
+- Only downloads full content for checked-out walkthroughs (the rest are browsable metadata)
+- Caches checked-out walkthrough data to disk so the app works fully offline
+- Pushes local progress changes upstream (default: every 30 seconds) — only for checked-out walkthroughs
+- Pulls latest progress from the server on startup for checked-out walkthroughs
 
 ---
 
