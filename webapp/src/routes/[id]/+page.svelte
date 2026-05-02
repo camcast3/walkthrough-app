@@ -18,6 +18,22 @@
 	let showStalePrompt = $state(false);
 	let remoteRecord = $state<{ checkedSteps: string[]; updatedAt: string } | null>(null);
 	let showSteps = $state(false);
+	let tabsEl: HTMLElement | null = null;
+
+	// Auto-scroll active tab into center view
+	$effect(() => {
+		void currentSectionIdx;
+		tick().then(() => {
+			if (!tabsEl) return;
+			const activeTab = tabsEl.querySelector('.section-tab.active') as HTMLElement | null;
+			if (activeTab) {
+				const tabsRect = tabsEl.getBoundingClientRect();
+				const tabRect = activeTab.getBoundingClientRect();
+				const scrollLeft = tabsEl.scrollLeft + (tabRect.left - tabsRect.left) - (tabsRect.width / 2) + (tabRect.width / 2);
+				tabsEl.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+			}
+		});
+	});
 
 	// ── Helpers ────────────────────────────────────────────────────────────────
 	function isCheckableId(id: string): boolean {
@@ -278,19 +294,34 @@
 		<div class="progress-bar-fill" style="width: {progressPct}%"></div>
 	</div>
 
-	<!-- Section tabs -->
-	<nav class="section-tabs" aria-label="Sections">
-		{#each wt.sections as section, i (section.id)}
-			<button
-				class="section-tab"
-				class:active={i === currentSectionIdx}
-				onclick={() => { currentSectionIdx = i; focusedStepIdx = 0; }}
-				aria-current={i === currentSectionIdx ? 'true' : undefined}
-			>
-				{section.title}
-			</button>
-		{/each}
-	</nav>
+	<!-- Section navigation -->
+	<div class="section-nav">
+		<button
+			class="section-arrow"
+			onclick={() => { if (currentSectionIdx > 0) { currentSectionIdx--; focusedStepIdx = 0; } }}
+			disabled={currentSectionIdx === 0}
+			aria-label="Previous section"
+		>‹</button>
+		<nav class="section-tabs" bind:this={tabsEl} aria-label="Sections">
+			{#each wt.sections as section, i (section.id)}
+				<button
+					class="section-tab"
+					class:active={i === currentSectionIdx}
+					onclick={() => { currentSectionIdx = i; focusedStepIdx = 0; }}
+					aria-current={i === currentSectionIdx ? 'true' : undefined}
+				>
+					{section.title}
+				</button>
+			{/each}
+		</nav>
+		<button
+			class="section-arrow"
+			onclick={() => { if (currentSectionIdx < wt.sections.length - 1) { currentSectionIdx++; focusedStepIdx = 0; } }}
+			disabled={currentSectionIdx === wt.sections.length - 1}
+			aria-label="Next section"
+		>›</button>
+	</div>
+	<div class="section-counter">{currentSectionIdx + 1} / {wt.sections.length}</div>
 
 	<!-- Legend -->
 	<details class="legend">
@@ -543,13 +574,48 @@
 	}
 
 	/* ── Section tabs ── */
+	/* ── Section navigation ── */
+	.section-nav {
+		display: flex;
+		align-items: stretch;
+		border-bottom: 1px solid rgba(42, 42, 68, 0.6);
+	}
+
+	.section-arrow {
+		background: none;
+		border: none;
+		color: #7c6af7;
+		font-size: 1.6rem;
+		line-height: 1;
+		padding: 0.5rem 0.7rem;
+		cursor: pointer;
+		flex-shrink: 0;
+		transition: color 0.2s, background 0.2s, transform 0.15s;
+		display: flex;
+		align-items: center;
+	}
+
+	.section-arrow:hover:not(:disabled) {
+		background: rgba(124,106,247,0.1);
+		color: #a89df7;
+	}
+
+	.section-arrow:active:not(:disabled) {
+		transform: scale(0.9);
+	}
+
+	.section-arrow:disabled {
+		color: #2a2a44;
+		cursor: default;
+	}
+
 	.section-tabs {
 		display: flex;
 		gap: 0;
 		overflow-x: auto;
 		scrollbar-width: none;
-		padding: 0 0.5rem;
-		border-bottom: 1px solid rgba(42, 42, 68, 0.6);
+		flex: 1;
+		min-width: 0;
 	}
 
 	.section-tabs::-webkit-scrollbar { display: none; }
@@ -577,6 +643,16 @@
 		color: #a89df7;
 		border-bottom-color: #7c6af7;
 		text-shadow: 0 0 10px rgba(124,106,247,0.4);
+	}
+
+	.section-counter {
+		text-align: center;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: #555577;
+		padding: 0.3rem 0;
+		letter-spacing: 0.5px;
 	}
 
 	/* ── Steps ── */
