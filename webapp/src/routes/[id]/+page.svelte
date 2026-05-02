@@ -21,22 +21,33 @@
 	let tabsEl: HTMLElement | null = null;
 
 	// ── HLTB time mode: 'main_story' or 'completionist' ──────────────────────
+	/** Minimum difference in hours between main_story and completionist to show the toggle. */
+	const MIN_HLTB_DIFFERENCE_HOURS = 0.5;
+
 	/** Whether the walkthrough has both HLTB times and they differ enough to show a toggle. */
 	const hltbHasToggle = $derived(
 		wt.hltb?.main_story != null &&
 		wt.hltb?.completionist != null &&
-		Math.abs((wt.hltb.main_story ?? 0) - (wt.hltb.completionist ?? 0)) >= 0.5
+		Math.abs((wt.hltb.main_story ?? 0) - (wt.hltb.completionist ?? 0)) >= MIN_HLTB_DIFFERENCE_HOURS
 	);
 	type HltbMode = 'main_story' | 'completionist';
 	let hltbMode = $state<HltbMode>('main_story');
 
-	const hltbTotalHours = $derived<number | undefined>(
-		hltbMode === 'completionist' && wt.hltb?.completionist != null
-			? wt.hltb.completionist
-			: wt.hltb?.main_story != null
-				? wt.hltb.main_story
-				: wt.hltb?.completionist
-	);
+	/**
+	 * Resolves the active HLTB total hours based on the selected mode.
+	 * Fallback priority: completionist mode → main_story → completionist fallback.
+	 */
+	function resolveHltbHours(mode: HltbMode): number | undefined {
+		if (mode === 'completionist' && wt.hltb?.completionist != null) {
+			return wt.hltb.completionist;
+		}
+		if (wt.hltb?.main_story != null) {
+			return wt.hltb.main_story;
+		}
+		return wt.hltb?.completionist;
+	}
+
+	const hltbTotalHours = $derived(resolveHltbHours(hltbMode));
 
 	// Auto-scroll active tab into center view
 	$effect(() => {
@@ -333,8 +344,7 @@
 				<button
 					class="hltb-toggle"
 					onclick={() => { hltbMode = hltbMode === 'main_story' ? 'completionist' : 'main_story'; }}
-					aria-label="Switch to {hltbMode === 'main_story' ? 'completionist' : 'main story'} time estimate"
-					title="Toggle between main story ({formatHours(wt.hltb!.main_story!)}) and 100% ({formatHours(wt.hltb!.completionist!)}) estimates"
+					aria-label="Currently showing {hltbMode === 'main_story' ? 'main story' : '100%'} estimate. Switch to {hltbMode === 'main_story' ? `100% (${formatHours(wt.hltb!.completionist!)})` : `main story (${formatHours(wt.hltb!.main_story!)})`}"
 				>
 					{hltbMode === 'main_story' ? 'Story' : '100%'} ⇄
 				</button>
