@@ -9,10 +9,11 @@
  * Button mapping (standard gamepad layout):
  *   0 = A (South) — check/uncheck focused step
  *   1 = B (East)  — navigate back
+ *   2 = X (West)  — checkout / context action
  *   4 = LB        — previous section
  *   5 = RB        — next section
- *   12 = D-pad Up
- *   13 = D-pad Down
+ *   12 = D-pad Up   (repeat-on-hold)
+ *   13 = D-pad Down (repeat-on-hold)
  *   14 = D-pad Left  (previous section alias)
  *   15 = D-pad Right (next section alias)
  */
@@ -23,16 +24,31 @@ export type GamepadAction =
 	| 'prev-section'
 	| 'next-section'
 	| 'focus-up'
-	| 'focus-down';
+	| 'focus-down'
+	| 'checkout';
 
 interface ButtonState {
 	pressed: boolean;
 	wasPressed: boolean;
+	/** Timestamp (ms) when the button was first held down, or null if not held. */
+	heldSince: number | null;
+	/** Timestamp (ms) of the most recent repeat fire, or null. */
+	lastRepeat: number | null;
 }
+
+/** Buttons that fire repeat events while held (D-pad Up / Down for scrolling). */
+const REPEAT_BUTTONS = new Set([12, 13]);
+
+/** Delay before the first repeat fires (ms). */
+const HOLD_DELAY_MS = 400;
+
+/** Interval between subsequent repeat fires while held (ms). */
+const REPEAT_INTERVAL_MS = 100;
 
 const BUTTON_MAP: Record<number, GamepadAction> = {
 	0: 'check',
 	1: 'back',
+	2: 'checkout',
 	4: 'prev-section',
 	5: 'next-section',
 	12: 'focus-up',
@@ -102,6 +118,7 @@ export class GamepadNavigator {
 
 	private poll = (): void => {
 		const gamepads = navigator.getGamepads?.() ?? [];
+		const now = Date.now();
 		for (const gp of gamepads) {
 			if (!gp) continue;
 			for (const [btnIndex, action] of Object.entries(BUTTON_MAP)) {
@@ -109,15 +126,44 @@ export class GamepadNavigator {
 				const button = gp.buttons[idx];
 				if (!button) continue;
 
-				const state = this.buttonStates.get(idx) ?? { pressed: false, wasPressed: false };
+				const state = this.buttonStates.get(idx) ?? {
+					pressed: false,
+					wasPressed: false,
+					heldSince: null,
+					lastRepeat: null
+				};
 				const isPressed = button.pressed;
 
-				// Fire on the leading edge (press, not hold)
 				if (isPressed && !state.wasPressed) {
+					// Leading edge — fire immediately
 					this.onAction(action);
+					this.buttonStates.set(idx, {
+						pressed: true,
+						wasPressed: true,
+						heldSince: now,
+						lastRepeat: now
+					});
+				} else if (isPressed && state.wasPressed) {
+					// Held — fire repeats only for designated repeat buttons
+					if (REPEAT_BUTTONS.has(idx) && state.heldSince !== null) {
+						const held = now - state.heldSince;
+						if (held >= HOLD_DELAY_MS) {
+							const sinceRepeat = now - (state.lastRepeat ?? now);
+							if (sinceRepeat >= REPEAT_INTERVAL_MS) {
+								this.onAction(action);
+								this.buttonStates.set(idx, { ...state, lastRepeat: now });
+							}
+						}
+					}
+				} else if (!isPressed) {
+					// Released — reset state
+					this.buttonStates.set(idx, {
+						pressed: false,
+						wasPressed: false,
+						heldSince: null,
+						lastRepeat: null
+					});
 				}
-
-				this.buttonStates.set(idx, { pressed: isPressed, wasPressed: isPressed });
 			}
 		}
 		this.timerId = setTimeout(this.poll, POLL_INTERVAL_MS);
