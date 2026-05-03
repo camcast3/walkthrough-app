@@ -74,7 +74,10 @@ export async function fetchCheckouts(): Promise<string[]> {
  * The server will cache the content locally for offline use.
  */
 export async function checkout(walkthroughId: string): Promise<void> {
-	const res = await fetch(`${API_BASE}/checkouts/${walkthroughId}`, { method: 'PUT' });
+	const headers: Record<string, string> = {};
+	const deviceId = getDeviceId();
+	if (deviceId) headers['X-Device-ID'] = deviceId;
+	const res = await fetch(`${API_BASE}/checkouts/${walkthroughId}`, { method: 'PUT', headers });
 	if (!res.ok) throw new Error(`Failed to checkout walkthrough ${walkthroughId}`);
 }
 
@@ -82,7 +85,10 @@ export async function checkout(walkthroughId: string): Promise<void> {
  * Checks in (removes) a walkthrough from this client's local cache.
  */
 export async function checkin(walkthroughId: string): Promise<void> {
-	const res = await fetch(`${API_BASE}/checkouts/${walkthroughId}`, { method: 'DELETE' });
+	const headers: Record<string, string> = {};
+	const deviceId = getDeviceId();
+	if (deviceId) headers['X-Device-ID'] = deviceId;
+	const res = await fetch(`${API_BASE}/checkouts/${walkthroughId}`, { method: 'DELETE', headers });
 	if (!res.ok) throw new Error(`Failed to checkin walkthrough ${walkthroughId}`);
 }
 
@@ -169,6 +175,7 @@ export interface DeviceActivity {
 	device_id: string;
 	last_seen: string;
 	walkthroughs: string[];
+	checked_out: string[];
 }
 
 /**

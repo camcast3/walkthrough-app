@@ -264,3 +264,118 @@ func TestRecordListDeviceActivity(t *testing.T) {
 		t.Errorf("device2: expected 1 walkthrough, got %d", len(d2.Walkthroughs))
 	}
 }
+
+func TestRecordDeviceCheckout(t *testing.T) {
+	db := openTestDB(t)
+
+	if err := db.RecordDeviceCheckout("device1", "wt1"); err != nil {
+		t.Fatalf("RecordDeviceCheckout: %v", err)
+	}
+	if err := db.RecordDeviceCheckout("device1", "wt2"); err != nil {
+		t.Fatalf("RecordDeviceCheckout: %v", err)
+	}
+	if err := db.RecordDeviceCheckout("device2", "wt1"); err != nil {
+		t.Fatalf("RecordDeviceCheckout: %v", err)
+	}
+
+	devices, err := db.ListDeviceActivity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(devices) != 2 {
+		t.Fatalf("expected 2 devices, got %d", len(devices))
+	}
+
+	byID := make(map[string]DeviceActivity)
+	for _, d := range devices {
+		byID[d.DeviceID] = d
+	}
+
+	if d1, ok := byID["device1"]; !ok {
+		t.Error("device1 not found")
+	} else if len(d1.CheckedOut) != 2 {
+		t.Errorf("device1: expected 2 checked-out walkthroughs, got %d: %v", len(d1.CheckedOut), d1.CheckedOut)
+	}
+
+	if d2, ok := byID["device2"]; !ok {
+		t.Error("device2 not found")
+	} else if len(d2.CheckedOut) != 1 || d2.CheckedOut[0] != "wt1" {
+		t.Errorf("device2: expected [wt1] checked-out, got %v", d2.CheckedOut)
+	}
+}
+
+func TestRecordDeviceCheckin(t *testing.T) {
+	db := openTestDB(t)
+
+	if err := db.RecordDeviceCheckout("device1", "wt1"); err != nil {
+		t.Fatal(err)
+	}
+	if err := db.RecordDeviceCheckout("device1", "wt2"); err != nil {
+		t.Fatal(err)
+	}
+
+	// Check in wt1
+	if err := db.RecordDeviceCheckin("device1", "wt1"); err != nil {
+		t.Fatalf("RecordDeviceCheckin: %v", err)
+	}
+
+	devices, err := db.ListDeviceActivity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(devices) != 1 {
+		t.Fatalf("expected 1 device, got %d", len(devices))
+	}
+	if len(devices[0].CheckedOut) != 1 || devices[0].CheckedOut[0] != "wt2" {
+		t.Errorf("expected [wt2] after checkin of wt1, got %v", devices[0].CheckedOut)
+	}
+}
+
+func TestListDeviceActivity_CheckedOutEmpty(t *testing.T) {
+	db := openTestDB(t)
+
+	// Activity without checkouts
+	if err := db.RecordDeviceActivity("device1", "wt1"); err != nil {
+		t.Fatal(err)
+	}
+
+	devices, err := db.ListDeviceActivity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(devices) != 1 {
+		t.Fatalf("expected 1 device, got %d", len(devices))
+	}
+	if devices[0].CheckedOut == nil {
+		t.Error("CheckedOut should be empty slice, not nil")
+	}
+	if len(devices[0].CheckedOut) != 0 {
+		t.Errorf("expected no checkouts, got %v", devices[0].CheckedOut)
+	}
+}
+
+func TestListDeviceActivity_CheckoutOnlyDevice(t *testing.T) {
+	db := openTestDB(t)
+
+	// Checkout without any progress activity
+	if err := db.RecordDeviceCheckout("device-co", "wt1"); err != nil {
+		t.Fatal(err)
+	}
+
+	devices, err := db.ListDeviceActivity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(devices) != 1 {
+		t.Fatalf("expected 1 device, got %d", len(devices))
+	}
+	if devices[0].DeviceID != "device-co" {
+		t.Errorf("unexpected device id: %s", devices[0].DeviceID)
+	}
+	if len(devices[0].CheckedOut) != 1 || devices[0].CheckedOut[0] != "wt1" {
+		t.Errorf("expected checked_out=[wt1], got %v", devices[0].CheckedOut)
+	}
+	if len(devices[0].Walkthroughs) != 0 {
+		t.Errorf("expected no activity walkthroughs, got %v", devices[0].Walkthroughs)
+	}
+}

@@ -222,7 +222,7 @@
 			{:else}
 				<ul class="wt-list" role="list">
 					{#each walkthroughs as wt (wt.id)}
-						{@const checkingDevices = devices.filter((d) => d.walkthroughs.includes(wt.id))}
+						{@const checkingDevices = devices.filter((d) => d.checked_out?.includes(wt.id))}
 						<li class="wt-card">
 							<div class="wt-info">
 								<a href="/{wt.id}" class="wt-game">{wt.game}</a>
@@ -262,7 +262,18 @@
 								<span class="device-id">🖥 {dev.device_id}</span>
 								<span class="device-seen">last seen {timeAgo(dev.last_seen)}</span>
 							</div>
+							{#if dev.checked_out?.length}
+								<div class="device-section-label">Checked out</div>
+								<ul class="device-wts" role="list">
+									{#each dev.checked_out as id}
+										<li>
+											<a href="/{id}" class="device-wt-link">{walkthroughLabel(id)}</a>
+										</li>
+									{/each}
+								</ul>
+							{/if}
 							{#if dev.walkthroughs?.length}
+								<div class="device-section-label">Progress synced</div>
 								<ul class="device-wts" role="list">
 									{#each dev.walkthroughs as id}
 										<li>
@@ -670,6 +681,15 @@
 		flex-direction: column;
 		gap: 0.2rem;
 		padding-left: 1.5rem;
+	}
+
+	.device-section-label {
+		font-size: 0.72rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: #555577;
+		margin: 0.45rem 0 0.2rem;
 	}
 
 	.device-wts li::before {
