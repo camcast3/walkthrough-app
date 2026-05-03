@@ -222,7 +222,7 @@
 			{:else}
 				<ul class="wt-list" role="list">
 					{#each walkthroughs as wt (wt.id)}
-						{@const checkingDevices = devices.filter((d) => d.checked_out?.includes(wt.id))}
+						{@const devicesWithCheckout = devices.filter((d) => d.checked_out?.includes(wt.id))}
 						<li class="wt-card">
 							<div class="wt-info">
 								<a href="/{wt.id}" class="wt-game">{wt.game}</a>
@@ -230,10 +230,10 @@
 								<span class="wt-author">by {wt.author}</span>
 							</div>
 							<div class="wt-devices">
-								{#if checkingDevices.length === 0}
+								{#if devicesWithCheckout.length === 0}
 									<span class="no-device">no devices</span>
 								{:else}
-									{#each checkingDevices as dev}
+									{#each devicesWithCheckout as dev}
 										<span class="device-badge" title="Last seen {timeAgo(dev.last_seen)}">
 											🖥 {dev.device_id}
 										</span>
