@@ -117,7 +117,7 @@ func (s *DB) migrate() error {
 	}
 	for _, ddl := range tables {
 		if _, err := s.db.Exec(ddl); err != nil {
-			return fmt.Errorf("exec %q: %w", ddl[:40], err)
+			return fmt.Errorf("exec %q: %w", ddl[:min(len(ddl), 40)], err)
 		}
 	}
 	return nil
