@@ -131,7 +131,11 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		body.CacheDir = filepath.Clean(body.CacheDir)
 		fi, err := os.Stat(body.CacheDir)
 		if err != nil {
-			respondError(w, http.StatusBadRequest, "cacheDir is inaccessible: "+err.Error())
+			if os.IsNotExist(err) {
+				respondError(w, http.StatusBadRequest, "cacheDir does not exist — create it first")
+			} else {
+				respondError(w, http.StatusBadRequest, "cacheDir is inaccessible: "+err.Error())
+			}
 			return
 		}
 		if !fi.IsDir() {
