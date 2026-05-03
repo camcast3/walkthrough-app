@@ -32,9 +32,6 @@ test.describe('Home page', () => {
 			route.fulfill({ json: [] })
 		);
 		await page.goto('/');
-		// The page should render without a walkthrough list item
-		await expect(page.getByText('Test Game')).not.toBeVisible().catch(() => {
-			// acceptable if element doesn't exist at all
-		});
+		await expect(page.getByText('Test Game')).toHaveCount(0);
 	});
 });
