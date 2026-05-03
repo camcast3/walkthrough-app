@@ -491,6 +491,123 @@ func TestGetDevices_NonServerMode(t *testing.T) {
 	}
 }
 
+// ── Server checkout endpoints ─────────────────────────────────────────────────
+
+func TestPutServerCheckout_ServerMode(t *testing.T) {
+	h, _ := newTestHandler(t, "server")
+
+	req := httptest.NewRequest(http.MethodPut, "/api/server/checkouts/wt1", nil)
+	req.SetPathValue("id", "wt1")
+	req.Header.Set("X-Device-ID", "test-device")
+	w := httptest.NewRecorder()
+	h.PutServerCheckout(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	// Verify the checkout is recorded in the devices list.
+	devices, err := h.DB.ListDeviceActivity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(devices) != 1 {
+		t.Fatalf("expected 1 device, got %d", len(devices))
+	}
+	if devices[0].DeviceID != "test-device" {
+		t.Errorf("expected device-id=test-device, got %s", devices[0].DeviceID)
+	}
+	if len(devices[0].CheckedOut) != 1 || devices[0].CheckedOut[0] != "wt1" {
+		t.Errorf("expected checked_out=[wt1], got %v", devices[0].CheckedOut)
+	}
+}
+
+func TestPutServerCheckout_NonServerMode(t *testing.T) {
+	h, _ := newTestHandler(t, "client")
+
+	req := httptest.NewRequest(http.MethodPut, "/api/server/checkouts/wt1", nil)
+	req.SetPathValue("id", "wt1")
+	w := httptest.NewRecorder()
+	h.PutServerCheckout(w, req)
+
+	if w.Code != http.StatusForbidden {
+		t.Errorf("expected 403, got %d", w.Code)
+	}
+}
+
+func TestDeleteServerCheckout_ServerMode(t *testing.T) {
+	h, _ := newTestHandler(t, "server")
+
+	// First record a checkout.
+	if err := h.DB.RecordDeviceCheckout("test-device", "wt1"); err != nil {
+		t.Fatal(err)
+	}
+
+	req := httptest.NewRequest(http.MethodDelete, "/api/server/checkouts/wt1", nil)
+	req.SetPathValue("id", "wt1")
+	req.Header.Set("X-Device-ID", "test-device")
+	w := httptest.NewRecorder()
+	h.DeleteServerCheckout(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+
+	// Verify the checkout is removed.
+	devices, err := h.DB.ListDeviceActivity()
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(devices) != 0 {
+		t.Errorf("expected 0 devices after checkin, got %d: %+v", len(devices), devices)
+	}
+}
+
+func TestDeleteServerCheckout_NonServerMode(t *testing.T) {
+	h, _ := newTestHandler(t, "client")
+
+	req := httptest.NewRequest(http.MethodDelete, "/api/server/checkouts/wt1", nil)
+	req.SetPathValue("id", "wt1")
+	w := httptest.NewRecorder()
+	h.DeleteServerCheckout(w, req)
+
+	if w.Code != http.StatusForbidden {
+		t.Errorf("expected 403, got %d", w.Code)
+	}
+}
+
+func TestGetDevices_IncludesCheckedOut(t *testing.T) {
+	h, _ := newTestHandler(t, "server")
+
+	// Record both activity and checkouts for a device.
+	if err := h.DB.RecordDeviceActivity("device-y", "wt1"); err != nil {
+		t.Fatal(err)
+	}
+	if err := h.DB.RecordDeviceCheckout("device-y", "wt2"); err != nil {
+		t.Fatal(err)
+	}
+
+	req := httptest.NewRequest(http.MethodGet, "/api/server/devices", nil)
+	w := httptest.NewRecorder()
+	h.GetDevices(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d", w.Code)
+	}
+	var devices []store.DeviceActivity
+	decodeJSON(t, w, &devices)
+	if len(devices) != 1 {
+		t.Fatalf("expected 1 device, got %d", len(devices))
+	}
+	d := devices[0]
+	if len(d.Walkthroughs) != 1 || d.Walkthroughs[0] != "wt1" {
+		t.Errorf("expected walkthroughs=[wt1], got %v", d.Walkthroughs)
+	}
+	if len(d.CheckedOut) != 1 || d.CheckedOut[0] != "wt2" {
+		t.Errorf("expected checked_out=[wt2], got %v", d.CheckedOut)
+	}
+}
+
 // ── PostIngest ────────────────────────────────────────────────────────────────
 
 func TestPostIngest_ServerMode(t *testing.T) {

@@ -209,6 +209,8 @@ func main() {
 	mux.HandleFunc("GET /api/server/ingest", h.ListIngestJobs)
 	mux.HandleFunc("GET /api/server/ingest/{id}", h.GetIngestJob)
 	mux.HandleFunc("GET /api/server/devices", h.GetDevices)
+	mux.HandleFunc("PUT /api/server/checkouts/{id}", h.PutServerCheckout)
+	mux.HandleFunc("DELETE /api/server/checkouts/{id}", h.DeleteServerCheckout)
 
 	// Serve static PWA files — fallback to index.html for SPA routing
 	mux.Handle("/", spaHandler(*staticDir))

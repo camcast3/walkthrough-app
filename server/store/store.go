@@ -57,6 +57,12 @@ func migrate(db *sql.DB) error {
 			last_seen      TEXT NOT NULL,
 			PRIMARY KEY (device_id, walkthrough_id)
 		);
+		CREATE TABLE IF NOT EXISTS device_checkouts (
+			device_id      TEXT NOT NULL,
+			walkthrough_id TEXT NOT NULL,
+			checked_out_at TEXT NOT NULL,
+			PRIMARY KEY (device_id, walkthrough_id)
+		);
 	`)
 	return err
 }
@@ -251,6 +257,7 @@ type DeviceActivity struct {
 	DeviceID     string    `json:"device_id"`
 	LastSeen     time.Time `json:"last_seen"`
 	Walkthroughs []string  `json:"walkthroughs"`
+	CheckedOut   []string  `json:"checked_out"`
 }
 
 // RecordDeviceActivity records that a device was active on a specific walkthrough.
@@ -266,9 +273,13 @@ func (s *DB) RecordDeviceActivity(deviceID, walkthroughID string) error {
 	return err
 }
 
-// ListDeviceActivity returns all known devices and their associated walkthroughs.
+// ListDeviceActivity returns all known devices, their associated walkthroughs, and current checkouts.
 func (s *DB) ListDeviceActivity() ([]DeviceActivity, error) {
-	rows, err := s.db.Query(
+	byDevice := make(map[string]*DeviceActivity)
+	var order []string
+
+	// Load activity records.
+	actRows, err := s.db.Query(
 		`SELECT device_id, walkthrough_id, last_seen
 		 FROM device_activity
 		 ORDER BY device_id, last_seen DESC`,
@@ -276,14 +287,11 @@ func (s *DB) ListDeviceActivity() ([]DeviceActivity, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer rows.Close()
+	defer actRows.Close()
 
-	byDevice := make(map[string]*DeviceActivity)
-	var order []string
-
-	for rows.Next() {
+	for actRows.Next() {
 		var deviceID, walkthroughID, lastSeenStr string
-		if err := rows.Scan(&deviceID, &walkthroughID, &lastSeenStr); err != nil {
+		if err := actRows.Scan(&deviceID, &walkthroughID, &lastSeenStr); err != nil {
 			return nil, err
 		}
 		t, _ := time.Parse(time.RFC3339, lastSeenStr)
@@ -297,13 +305,67 @@ func (s *DB) ListDeviceActivity() ([]DeviceActivity, error) {
 			da.LastSeen = t
 		}
 	}
-	if err := rows.Err(); err != nil {
+	if err := actRows.Err(); err != nil {
+		return nil, err
+	}
+
+	// Load checkout records.
+	coRows, err := s.db.Query(
+		`SELECT device_id, walkthrough_id FROM device_checkouts ORDER BY device_id, checked_out_at`,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer coRows.Close()
+
+	for coRows.Next() {
+		var deviceID, walkthroughID string
+		if err := coRows.Scan(&deviceID, &walkthroughID); err != nil {
+			return nil, err
+		}
+		if _, exists := byDevice[deviceID]; !exists {
+			byDevice[deviceID] = &DeviceActivity{DeviceID: deviceID}
+			order = append(order, deviceID)
+		}
+		byDevice[deviceID].CheckedOut = append(byDevice[deviceID].CheckedOut, walkthroughID)
+	}
+	if err := coRows.Err(); err != nil {
 		return nil, err
 	}
 
 	result := make([]DeviceActivity, 0, len(order))
 	for _, id := range order {
-		result = append(result, *byDevice[id])
+		da := byDevice[id]
+		if da.Walkthroughs == nil {
+			da.Walkthroughs = []string{}
+		}
+		if da.CheckedOut == nil {
+			da.CheckedOut = []string{}
+		}
+		result = append(result, *da)
 	}
 	return result, nil
+}
+
+// RecordDeviceCheckout records that a device has checked out a specific walkthrough.
+func (s *DB) RecordDeviceCheckout(deviceID, walkthroughID string) error {
+	_, err := s.db.Exec(
+		`INSERT INTO device_checkouts (device_id, walkthrough_id, checked_out_at)
+		 VALUES (?, ?, ?)
+		 ON CONFLICT(device_id, walkthrough_id) DO UPDATE SET checked_out_at = excluded.checked_out_at`,
+		deviceID,
+		walkthroughID,
+		time.Now().UTC().Format(time.RFC3339),
+	)
+	return err
+}
+
+// RecordDeviceCheckin removes a device's checkout record for a specific walkthrough.
+func (s *DB) RecordDeviceCheckin(deviceID, walkthroughID string) error {
+	_, err := s.db.Exec(
+		`DELETE FROM device_checkouts WHERE device_id = ? AND walkthrough_id = ?`,
+		deviceID,
+		walkthroughID,
+	)
+	return err
 }
