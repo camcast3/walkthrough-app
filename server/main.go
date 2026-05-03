@@ -14,8 +14,16 @@ import (
 	"walkthrough-server/handlers"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
+	"walkthrough-server/updater"
 	"walkthrough-server/upstream"
 )
+
+// Version is the build version, injected at compile time via:
+//
+//	go build -ldflags "-X main.Version=v1.2.3"
+//
+// Defaults to "dev" for local builds.
+var Version = "dev"
 
 func main() {
 	addr := flag.String("addr", ":8080", "listen address")
@@ -195,10 +203,22 @@ func main() {
 		Source:       src,
 		Sync:         progressSync,
 		AppMode:      appMode,
+		Version:      Version,
 		Ingest:       handlers.NewIngestManager(db),
 		RemoteSource: remoteSrcForHandler(src),
 		ConfigStore:  cfgStore,
 		Monitor:      connMonitor,
+	}
+
+	// Initialise in-app updater in client mode.
+	// Allows users to apply updates from the Settings page without a terminal.
+	if appMode == "client" {
+		u, uErr := updater.New("camcast3/walkthrough-app", *staticDir)
+		if uErr != nil {
+			log.Printf("[updater] init failed: %v — in-app updates unavailable", uErr)
+		} else {
+			h.Updater = u
+		}
 	}
 
 	mux := http.NewServeMux()
@@ -215,6 +235,8 @@ func main() {
 	mux.HandleFunc("GET /api/checkouts", h.ListCheckouts)
 	mux.HandleFunc("PUT /api/checkouts/{id}", h.PutCheckout)
 	mux.HandleFunc("DELETE /api/checkouts/{id}", h.DeleteCheckout)
+	mux.HandleFunc("GET /api/update/check", h.GetUpdateStatus)
+	mux.HandleFunc("POST /api/update/apply", h.PostApplyUpdate)
 
 	// Server-mode-only API routes (walkthrough library management)
 	mux.HandleFunc("POST /api/server/ingest", h.PostIngest)

@@ -230,6 +230,7 @@ export async function fetchDevices(): Promise<DeviceActivity[]> {
 
 export interface ClientConfig {
 	appMode: string;
+	version?: string;
 	serverUrl?: string;
 	refreshInterval?: string;
 	syncInterval?: string;
@@ -263,4 +264,61 @@ export async function updateClientConfig(update: ClientConfigUpdate): Promise<Cl
 		throw new Error((err as { error: string }).error ?? 'Failed to update config');
 	}
 	return res.json();
+}
+
+// ── In-app update API ──────────────────────────────────────────────────────────
+
+export interface UpdateInfo {
+	currentVersion: string;
+	latestVersion: string;
+	updateAvailable: boolean;
+	releaseUrl: string;
+	releaseNotes: string;
+}
+
+/** Queries the GitHub Releases API for the latest version. */
+export async function fetchUpdateStatus(): Promise<UpdateInfo> {
+	const res = await fetch(`${API_BASE}/update/check`);
+	if (!res.ok) {
+		const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+		throw new Error((err as { error: string }).error ?? 'Failed to check for updates');
+	}
+	return res.json();
+}
+
+/**
+ * Triggers an in-place binary update on the server.
+ * The server downloads the latest release, replaces its binary and static
+ * files, then re-execs — returning immediately with {"status":"updating"}.
+ */
+export async function applyUpdate(): Promise<void> {
+	const res = await fetch(`${API_BASE}/update/apply`, { method: 'POST' });
+	if (!res.ok) {
+		const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+		throw new Error((err as { error: string }).error ?? 'Failed to apply update');
+	}
+}
+
+/**
+ * Polls GET /api/config until the reported version changes from originalVersion.
+ * Used after applyUpdate() to detect when the re-exec'd process is serving.
+ * Resolves when the new version is detected; rejects after timeoutMs.
+ */
+export async function waitForVersionChange(
+	originalVersion: string,
+	timeoutMs = 3 * 60 * 1000
+): Promise<void> {
+	const deadline = Date.now() + timeoutMs;
+	while (Date.now() < deadline) {
+		await new Promise((r) => setTimeout(r, 2000));
+		try {
+			const config = await fetchClientConfig();
+			if (config.version && config.version !== originalVersion) {
+				return;
+			}
+		} catch {
+			// Server is restarting — keep polling
+		}
+	}
+	throw new Error('Update timed out — server did not respond with new version within 3 minutes');
 }

@@ -11,6 +11,7 @@ export const load: PageLoad = async () => {
 
 	return {
 		appMode: config?.appMode ?? '',
+		version: config?.version ?? '',
 		serverUrl: config?.serverUrl ?? '',
 		refreshInterval: config?.refreshInterval ?? '',
 		syncInterval: config?.syncInterval ?? '',
