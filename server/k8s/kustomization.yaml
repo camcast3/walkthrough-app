@@ -8,4 +8,4 @@ resources:
 
 images:
   - name: ghcr.io/camcast3/walkthrough-server
-    newTag: f07efbcae9804dab65c6123fa19d37e71ad1f6a4
+    newTag: 7bca236ecbdf09db27c81286beb9c349a3034b6a
