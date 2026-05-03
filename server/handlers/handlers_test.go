@@ -765,3 +765,72 @@ func TestGetConfig_FileMode_NoOnlineField(t *testing.T) {
 		t.Error("'online' field should not be present in non-client-mode config response")
 	}
 }
+
+func TestGetConfig_IncludesVersion(t *testing.T) {
+	h, _ := newTestHandler(t, "")
+	h.Version = "v1.2.3"
+
+	req := httptest.NewRequest(http.MethodGet, "/api/config", nil)
+	w := httptest.NewRecorder()
+	h.GetConfig(w, req)
+
+	var cfg map[string]any
+	decodeJSON(t, w, &cfg)
+	if cfg["version"] != "v1.2.3" {
+		t.Errorf("expected version=v1.2.3, got %v", cfg["version"])
+	}
+}
+
+// ── GetUpdateStatus ───────────────────────────────────────────────────────────
+
+func TestGetUpdateStatus_NonClientMode(t *testing.T) {
+	h, _ := newTestHandler(t, "server")
+
+	req := httptest.NewRequest(http.MethodGet, "/api/update/check", nil)
+	w := httptest.NewRecorder()
+	h.GetUpdateStatus(w, req)
+
+	if w.Code != http.StatusForbidden {
+		t.Errorf("expected 403, got %d", w.Code)
+	}
+}
+
+func TestGetUpdateStatus_NoUpdater(t *testing.T) {
+	h, _ := newTestHandler(t, "client")
+	// Updater is nil (not initialised)
+
+	req := httptest.NewRequest(http.MethodGet, "/api/update/check", nil)
+	w := httptest.NewRecorder()
+	h.GetUpdateStatus(w, req)
+
+	if w.Code != http.StatusServiceUnavailable {
+		t.Errorf("expected 503, got %d", w.Code)
+	}
+}
+
+// ── PostApplyUpdate ───────────────────────────────────────────────────────────
+
+func TestPostApplyUpdate_NonClientMode(t *testing.T) {
+	h, _ := newTestHandler(t, "server")
+
+	req := httptest.NewRequest(http.MethodPost, "/api/update/apply", nil)
+	w := httptest.NewRecorder()
+	h.PostApplyUpdate(w, req)
+
+	if w.Code != http.StatusForbidden {
+		t.Errorf("expected 403, got %d", w.Code)
+	}
+}
+
+func TestPostApplyUpdate_NoUpdater(t *testing.T) {
+	h, _ := newTestHandler(t, "client")
+	// Updater is nil (not initialised)
+
+	req := httptest.NewRequest(http.MethodPost, "/api/update/apply", nil)
+	w := httptest.NewRecorder()
+	h.PostApplyUpdate(w, req)
+
+	if w.Code != http.StatusServiceUnavailable {
+		t.Errorf("expected 503, got %d", w.Code)
+	}
+}

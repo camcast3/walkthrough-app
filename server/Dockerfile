@@ -12,7 +12,8 @@ WORKDIR /app
 COPY server/go.mod server/go.sum ./
 RUN go mod download
 COPY server/ .
-RUN go build -o walkthrough-server .
+ARG SERVER_VERSION=dev
+RUN go build -ldflags "-X main.Version=${SERVER_VERSION}" -o walkthrough-server .
 
 # Stage 3: Final image with webapp and server
 FROM alpine:3.23

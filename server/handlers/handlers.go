@@ -15,6 +15,7 @@ import (
 	"walkthrough-server/connectivity"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
+	"walkthrough-server/updater"
 	"walkthrough-server/upstream"
 )
 
@@ -25,6 +26,8 @@ type Handler struct {
 	Sync *upstream.ProgressSync
 	// AppMode is the server's operating mode ("server", "client", or "").
 	AppMode string
+	// Version is the build version (e.g. "v0.0.4"). Set from main.Version.
+	Version string
 	// Ingest manages walkthrough ingest jobs (server mode only).
 	Ingest *IngestManager
 	// RemoteSource is non-nil in client mode; used for runtime config updates.
@@ -33,6 +36,8 @@ type Handler struct {
 	ConfigStore *configstore.Store
 	// Monitor is non-nil in client mode; tracks remote-server connectivity.
 	Monitor *connectivity.Monitor
+	// Updater is non-nil in client mode; handles in-app binary self-updates.
+	Updater *updater.Updater
 }
 
 // requireServerMode writes a 403 error if the server is not in server mode and returns false.
@@ -60,6 +65,7 @@ func respondError(w http.ResponseWriter, status int, msg string) {
 func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
 	cfg := map[string]any{
 		"appMode": h.AppMode,
+		"version": h.Version,
 	}
 	if h.AppMode == "client" && h.RemoteSource != nil {
 		cfg["serverUrl"] = h.RemoteSource.GetServerURL()
@@ -471,6 +477,56 @@ func (h *Handler) DeleteServerCheckout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "deviceId": deviceID, "status": "checked_in"})
+}
+
+// GetUpdateStatus handles GET /api/update/check.
+// Queries the GitHub Releases API and returns the current and latest versions.
+// Only available in client mode — server deployments are updated via CI/CD.
+func (h *Handler) GetUpdateStatus(w http.ResponseWriter, r *http.Request) {
+	if h.AppMode != "client" {
+		respondError(w, http.StatusForbidden, "update check is only available in client mode")
+		return
+	}
+	if h.Updater == nil {
+		respondError(w, http.StatusServiceUnavailable, "updater not initialised")
+		return
+	}
+	info, err := h.Updater.Check(r.Context(), h.Version)
+	if err != nil {
+		respondError(w, http.StatusBadGateway, "failed to check for updates: "+err.Error())
+		return
+	}
+	respondJSON(w, http.StatusOK, info)
+}
+
+// PostApplyUpdate handles POST /api/update/apply.
+// Downloads the latest release binary and static files, atomically replaces
+// them on disk, and re-execs the process. Returns immediately with
+// {"status":"updating"}; the actual update runs in the background.
+// Only available in client mode.
+func (h *Handler) PostApplyUpdate(w http.ResponseWriter, r *http.Request) {
+	if h.AppMode != "client" {
+		respondError(w, http.StatusForbidden, "update apply is only available in client mode")
+		return
+	}
+	if h.Updater == nil {
+		respondError(w, http.StatusServiceUnavailable, "updater not initialised")
+		return
+	}
+
+	respondJSON(w, http.StatusOK, map[string]string{"status": "updating"})
+	if f, ok := w.(http.Flusher); ok {
+		f.Flush()
+	}
+
+	go func() {
+		// Small delay to ensure the HTTP response has been flushed before we
+		// replace the binary and re-exec.
+		time.Sleep(300 * time.Millisecond)
+		if err := h.Updater.Apply(context.Background()); err != nil {
+			log.Printf("[updater] apply failed: %v", err)
+		}
+	}()
 }
 
 // notifyUpstreamCheckout asynchronously notifies the upstream server of a checkout or checkin
