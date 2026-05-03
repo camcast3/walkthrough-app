@@ -1662,6 +1662,77 @@
           "note": "Carries over levels, equipment, mira, and certain items to New Game+."
         }
       ]
+    },
+    {
+      "id": "new-game-plus",
+      "title": "New Game Plus & Cleanup",
+      "content": "# New Game Plus & Cleanup\n\nAfter completing the game, you unlock **New Game Plus** with carried-over levels, equipment, and mira. Two achievements are exclusive to NG+.\n\n## NG+ Exclusive Achievements\n\n> 🏆 **Achievement: Frozen Heart** — Start a New Game+ on Nightmare difficulty. Select Nightmare when prompted at the start of NG+. This stacks with Conquering Hero and Banisher of Nightmares if you haven't earned those yet.\n\n> 🏆 **Achievement: Scholar of the Truth** — View all bonding events. This requires at least 2 playthroughs since you cannot see all bonding events in a single run (limited bonding points per chapter). Prioritize different characters each playthrough.\n\n## NG+ Cleanup Checklist\n\nUse NG+ to mop up any achievements missed on your first playthrough:\n\n- **Lending Library**: Carry-over does NOT include books. Re-collect all volumes.\n- **Wartime Rationer**: Recipe progress carries over. Cook any missing recipes.\n- **The Reel Deal**: Fish progress carries over. Catch any species you missed.\n- **Intelligence Agent**: Profile progress carries over. Talk to any NPCs you missed.\n- **The Return of Rean QUARTZ-er**: Master quartz carry over. Focus on any missed in one-time dungeons.\n- **Cumulative combat trophies**: All combat counters carry over. Keep grinding S-Breaks, Rush, Burst, and Overdrive.\n- **Face of the Enemy**: Battle notebook carries over. Fight any missed monster types.\n\n## Bonding Route Planning (for Scholar of the Truth)\n\nWith limited bonding points per chapter, plan your routes across 2+ playthroughs to cover all characters:\n\n- **Playthrough 1**: Focus on Alisa, Laura, Fie, Emma, Jusis, Machias\n- **Playthrough 2**: Focus on Elliot, Sara, Towa, Millium, Crow, and remaining events\n\nNote: Some bonding events unlock unique scenes and dialogue but all must be viewed for the trophy.\n\n<!-- checkpoint: ng-plus-start | Started New Game Plus -->\n<!-- checkpoint: ng-plus-cleanup | Completed NG+ cleanup -->",
+      "checkpoints": [
+        {
+          "id": "ng-plus-start",
+          "label": "Started New Game Plus"
+        },
+        {
+          "id": "ng-plus-cleanup",
+          "label": "Completed NG+ cleanup"
+        }
+      ],
+      "steps": [
+        {
+          "id": "start-ng-plus",
+          "type": "step",
+          "text": "Complete the game and start New Game Plus",
+          "note": "Select your difficulty — choose Nightmare for the Frozen Heart achievement."
+        },
+        {
+          "id": "ng-frozen-heart",
+          "type": "step",
+          "text": "🏆 **Frozen Heart** — Start NG+ on Nightmare difficulty",
+          "note": "Stacks with Conquering Hero and Banisher of Nightmares."
+        },
+        {
+          "id": "ng-scholar-truth",
+          "type": "step",
+          "text": "🏆 **Scholar of the Truth** — View ALL bonding events across multiple playthroughs",
+          "note": "Requires 2+ playthroughs. Pick different bonding partners each time."
+        },
+        {
+          "id": "ng-cleanup-books",
+          "type": "step",
+          "text": "Re-collect all book volumes (Lending Library)",
+          "note": "Books do NOT carry over to NG+."
+        },
+        {
+          "id": "ng-cleanup-recipes",
+          "type": "step",
+          "text": "Cook any missing recipes (Wartime Rationer)",
+          "note": "Recipe progress carries over."
+        },
+        {
+          "id": "ng-cleanup-fish",
+          "type": "step",
+          "text": "Catch any missing fish species (The Reel Deal)",
+          "note": "Fish progress carries over."
+        },
+        {
+          "id": "ng-cleanup-profiles",
+          "type": "step",
+          "text": "Complete all character profiles (Intelligence Agent)",
+          "note": "Profile progress carries over."
+        },
+        {
+          "id": "ng-cleanup-mq",
+          "type": "step",
+          "text": "Collect any missed master quartz (The Return of Rean QUARTZ-er)",
+          "note": "Master quartz carry over."
+        },
+        {
+          "id": "ng-cleanup-combat",
+          "type": "step",
+          "text": "Finish any cumulative combat achievements",
+          "note": "All combat counters carry over. Focus on S-Breaks, Rush, Burst, Overdrive."
+        }
+      ]
     }
   ]
 }
