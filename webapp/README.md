@@ -10,8 +10,8 @@ SvelteKit PWA frontend for the walkthrough checklist app. Built with **Svelte 5*
 ## Quick start
 
 ```bash
-# Install dependencies
-npm install --legacy-peer-deps
+# Install dependencies (matches the Dockerfile build stage)
+npm ci --legacy-peer-deps
 
 # Start dev server (hot-reload at http://localhost:5173)
 npm run dev
