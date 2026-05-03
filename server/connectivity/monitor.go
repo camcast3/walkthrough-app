@@ -35,9 +35,10 @@ type Monitor struct {
 
 	mu       sync.RWMutex
 	online   bool
-	failures int        // consecutive probe failures while online
-	notifyCh chan struct{} // closed on each online/offline state transition
+	failures int           // consecutive probe failures while online
+	notifyCh chan struct{}  // closed on each online/offline state transition
 	cancel   context.CancelFunc
+	resetCh  chan time.Duration // signals CheckInterval changes to the running loop
 }
 
 // New creates a Monitor for the given server URL using default settings.
@@ -51,6 +52,7 @@ func New(serverURL string) *Monitor {
 		FailThreshold: DefaultFailThreshold,
 		online:        true,
 		notifyCh:      make(chan struct{}),
+		resetCh:       make(chan time.Duration, 1),
 	}
 }
 
@@ -124,9 +126,29 @@ func (m *Monitor) loop(ctx context.Context) {
 		select {
 		case <-ctx.Done():
 			return
+		case d := <-m.resetCh:
+			ticker.Reset(d)
 		case <-ticker.C:
 			m.probe(ctx)
 		}
+	}
+}
+
+// SetCheckInterval updates the probe interval and resets the background ticker.
+// Mirrors the SetInterval pattern used by RemoteSource and ProgressSync.
+func (m *Monitor) SetCheckInterval(d time.Duration) {
+	m.mu.Lock()
+	m.CheckInterval = d
+	m.mu.Unlock()
+	// Non-blocking send; drain stale value first if channel is full.
+	select {
+	case m.resetCh <- d:
+	default:
+		select {
+		case <-m.resetCh:
+		default:
+		}
+		m.resetCh <- d
 	}
 }
 

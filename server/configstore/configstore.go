@@ -7,6 +7,21 @@ import (
 	"encoding/json"
 	"os"
 	"sync"
+	"time"
+)
+
+// Power-saver mode preset intervals — applied live when PSM is toggled on.
+const (
+	PSMRefresh = 30 * time.Minute
+	PSMSync    = 5 * time.Minute
+	PSMProbe   = 2 * time.Minute
+)
+
+// Default intervals — restored when PSM is toggled off and no user override exists.
+const (
+	DefaultRefresh = 10 * time.Minute
+	DefaultSync    = 30 * time.Second
+	DefaultProbe   = 30 * time.Second
 )
 
 // Config holds all runtime-configurable settings for client mode.
@@ -17,6 +32,12 @@ type Config struct {
 	RefreshInterval string `json:"refreshInterval,omitempty"`
 	SyncInterval    string `json:"syncInterval,omitempty"`
 	CacheDir        string `json:"cacheDir,omitempty"`
+	// PowerSaverMode throttles refresh, sync, and connectivity-probe intervals
+	// to conserve battery on handheld devices. When true, preset intervals
+	// (PSMRefresh, PSMSync, PSMProbe) override any user-configured values at
+	// runtime. The user's configured intervals are preserved and restored when
+	// PowerSaverMode is turned off.
+	PowerSaverMode bool `json:"powerSaverMode,omitempty"`
 }
 
 // Store reads and writes Config to a JSON file.

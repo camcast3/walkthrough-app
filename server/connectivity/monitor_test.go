@@ -227,3 +227,49 @@ func TestMonitor_NotifyResubscribe(t *testing.T) {
 	default:
 	}
 }
+
+// ── SetCheckInterval ──────────────────────────────────────────────────────────
+
+func TestMonitor_SetCheckInterval(t *testing.T) {
+	m := New("http://example.com")
+
+	if m.CheckInterval != DefaultCheckInterval {
+		t.Errorf("expected initial CheckInterval=%v, got %v", DefaultCheckInterval, m.CheckInterval)
+	}
+
+	newInterval := 2 * time.Minute
+	m.SetCheckInterval(newInterval)
+
+	if m.CheckInterval != newInterval {
+		t.Errorf("expected CheckInterval=%v after SetCheckInterval, got %v", newInterval, m.CheckInterval)
+	}
+
+	// resetCh must have received the new interval.
+	select {
+	case d := <-m.resetCh:
+		if d != newInterval {
+			t.Errorf("expected resetCh value=%v, got %v", newInterval, d)
+		}
+	default:
+		t.Error("expected resetCh to contain a value after SetCheckInterval")
+	}
+}
+
+func TestMonitor_SetCheckInterval_DrainStale(t *testing.T) {
+	m := New("http://example.com")
+
+	// Fill the channel with a stale value.
+	m.resetCh <- 99 * time.Second
+
+	// SetCheckInterval should drain the stale value and send the new one.
+	m.SetCheckInterval(5 * time.Minute)
+
+	select {
+	case d := <-m.resetCh:
+		if d != 5*time.Minute {
+			t.Errorf("expected drained+new value=5m, got %v", d)
+		}
+	default:
+		t.Error("expected resetCh to contain the new interval after draining stale")
+	}
+}

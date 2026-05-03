@@ -216,7 +216,121 @@ func TestPutConfig_ValidClientMode(t *testing.T) {
 	}
 }
 
+func TestPutConfig_PowerSaverModeOn(t *testing.T) {
+	h, _ := newClientTestHandler(t)
+
+	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":true}`))
+	w := httptest.NewRecorder()
+	h.PutConfig(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d: %s", w.Code, w.Body.String())
+	}
+	var cfg map[string]any
+	decodeJSON(t, w, &cfg)
+	if cfg["powerSaverMode"] != true {
+		t.Errorf("expected powerSaverMode=true in PutConfig response, got %v", cfg["powerSaverMode"])
+	}
+
+	// GetConfig must reflect the persisted flag.
+	req2 := httptest.NewRequest(http.MethodGet, "/api/config", nil)
+	w2 := httptest.NewRecorder()
+	h.GetConfig(w2, req2)
+	var cfg2 map[string]any
+	decodeJSON(t, w2, &cfg2)
+	if cfg2["powerSaverMode"] != true {
+		t.Errorf("expected GetConfig to return powerSaverMode=true, got %v", cfg2["powerSaverMode"])
+	}
+}
+
+func TestPutConfig_PowerSaverModeOff(t *testing.T) {
+	h, _ := newClientTestHandler(t)
+
+	// Enable PSM first.
+	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":true}`))
+	w := httptest.NewRecorder()
+	h.PutConfig(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200 on PSM enable, got %d", w.Code)
+	}
+
+	// Disable PSM.
+	req2 := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":false}`))
+	w2 := httptest.NewRecorder()
+	h.PutConfig(w2, req2)
+	if w2.Code != http.StatusOK {
+		t.Errorf("expected 200 on PSM disable, got %d: %s", w2.Code, w2.Body.String())
+	}
+	var cfg map[string]any
+	decodeJSON(t, w2, &cfg)
+	if cfg["powerSaverMode"] != false {
+		t.Errorf("expected powerSaverMode=false in response, got %v", cfg["powerSaverMode"])
+	}
+
+	// GetConfig must reflect the disabled flag.
+	req3 := httptest.NewRequest(http.MethodGet, "/api/config", nil)
+	w3 := httptest.NewRecorder()
+	h.GetConfig(w3, req3)
+	var cfg3 map[string]any
+	decodeJSON(t, w3, &cfg3)
+	if cfg3["powerSaverMode"] != false {
+		t.Errorf("expected GetConfig to return powerSaverMode=false, got %v", cfg3["powerSaverMode"])
+	}
+}
+
+func TestPutConfig_PowerSaverMode_ApplisPSMIntervals(t *testing.T) {
+	h, _ := newClientTestHandler(t)
+
+	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":true}`))
+	w := httptest.NewRecorder()
+	h.PutConfig(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", w.Code)
+	}
+
+	// Live RemoteSource and Sync intervals must be the PSM presets.
+	if got := h.RemoteSource.GetInterval(); got != 30*time.Minute {
+		t.Errorf("expected RemoteSource interval=30m (PSM), got %v", got)
+	}
+	if got := h.Sync.GetInterval(); got != 5*time.Minute {
+		t.Errorf("expected Sync interval=5m (PSM), got %v", got)
+	}
+}
+
+func TestPutConfig_PowerSaverMode_RestoresIntervalsOnOff(t *testing.T) {
+	h, _ := newClientTestHandler(t)
+
+	// Set a custom refresh interval, then enable PSM in one request.
+	body := `{"refreshInterval":"15m","syncInterval":"2m","powerSaverMode":true}`
+	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(body))
+	w := httptest.NewRecorder()
+	h.PutConfig(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("PSM on: expected 200, got %d", w.Code)
+	}
+
+	// Intervals should be PSM presets.
+	if got := h.RemoteSource.GetInterval(); got != 30*time.Minute {
+		t.Errorf("after PSM on: expected 30m, got %v", got)
+	}
+
+	// Now turn PSM off — should restore to the user-configured 15m / 2m.
+	req2 := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":false}`))
+	w2 := httptest.NewRecorder()
+	h.PutConfig(w2, req2)
+	if w2.Code != http.StatusOK {
+		t.Fatalf("PSM off: expected 200, got %d", w2.Code)
+	}
+	if got := h.RemoteSource.GetInterval(); got != 15*time.Minute {
+		t.Errorf("after PSM off: expected restored 15m, got %v", got)
+	}
+	if got := h.Sync.GetInterval(); got != 2*time.Minute {
+		t.Errorf("after PSM off: expected restored 2m, got %v", got)
+	}
+}
+
 // ── ListWalkthroughs ──────────────────────────────────────────────────────────
+
 
 func TestListWalkthroughs(t *testing.T) {
 	h, src := newTestHandler(t, "")

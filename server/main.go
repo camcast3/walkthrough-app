@@ -134,6 +134,11 @@ func main() {
 		if saved.CacheDir != "" {
 			cacheDir = saved.CacheDir
 		}
+		// PSM presets override user-configured / env-var intervals at startup.
+		if saved.PowerSaverMode {
+			interval = configstore.PSMRefresh
+			syncInterval = configstore.PSMSync
+		}
 
 		remoteSrc := source.NewRemoteSource(source.RemoteConfig{
 			ServerURL: serverURL,
@@ -159,6 +164,10 @@ func main() {
 		// when the server is unreachable, preventing log spam and wasted CPU/battery.
 		if serverURL != "" {
 			connMonitor = connectivity.New(serverURL)
+			// Apply PSM probe preset before Start so the loop uses the correct interval from tick one.
+			if saved.PowerSaverMode {
+				connMonitor.CheckInterval = configstore.PSMProbe
+			}
 			connMonitor.Start(context.Background())
 			defer connMonitor.Stop()
 			remoteSrc.Monitor = connMonitor

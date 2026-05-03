@@ -12,6 +12,7 @@
 	let refreshInterval = $state(data.refreshInterval);
 	let syncInterval = $state(data.syncInterval);
 	let cacheDir = $state(data.cacheDir);
+	let powerSaverMode = $state(data.powerSaverMode);
 
 	// Form state
 	let saving = $state(false);
@@ -20,7 +21,7 @@
 	let validationErrors = $state<Record<string, string>>({});
 
 	// Gamepad / keyboard focus management
-	const FIELD_COUNT = 5; // 4 inputs + 1 save button
+	const FIELD_COUNT = 6; // 4 inputs + 1 PSM toggle + 1 save button
 	let focusedIdx = $state(0);
 	let fieldRefs: (HTMLElement | null)[] = Array(FIELD_COUNT).fill(null);
 	let gamepad: GamepadNavigator | null = null;
@@ -65,6 +66,9 @@
 				if (focusedIdx === FIELD_COUNT - 1) {
 					// Save button
 					fieldRefs[focusedIdx]?.click();
+				} else if (focusedIdx === 4) {
+					// PSM toggle
+					powerSaverMode = !powerSaverMode;
 				} else {
 					fieldRefs[focusedIdx]?.focus();
 				}
@@ -136,7 +140,8 @@
 				serverUrl: serverUrl || undefined,
 				refreshInterval: refreshInterval || undefined,
 				syncInterval: syncInterval || undefined,
-				cacheDir: cacheDir || undefined
+				cacheDir: cacheDir || undefined,
+				powerSaverMode
 			});
 			// Surface any persistence warnings (settings applied but may not survive restart)
 			if (result.persistWarnings && result.persistWarnings.length > 0) {
@@ -283,6 +288,38 @@
 				{/if}
 			</div>
 
+			<!-- Power Saver Mode -->
+			<div class="field">
+				<div class="field-label-row">
+					<label class="field-label" for="powerSaverMode">
+						<span class="label-icon" aria-hidden="true">🔋</span>
+						Power Saver Mode
+					</label>
+					<button
+						id="powerSaverMode"
+						role="switch"
+						aria-checked={powerSaverMode}
+						class="toggle-btn"
+						class:on={powerSaverMode}
+						class:focused={focusedIdx === 4}
+						type="button"
+						disabled={saving}
+						onclick={() => (powerSaverMode = !powerSaverMode)}
+						onfocus={() => (focusedIdx = 4)}
+						use:setFieldRef={4}
+					>
+						<span class="toggle-track">
+							<span class="toggle-thumb"></span>
+						</span>
+						<span class="toggle-label">{powerSaverMode ? 'On' : 'Off'}</span>
+					</button>
+				</div>
+				<p class="field-desc">
+					Reduces refresh, sync, and connectivity probe frequency to conserve battery. No restart
+					required.
+				</p>
+			</div>
+
 			{#if saveError}
 				<div class="banner warning" role="alert">
 					<span>⚠ {saveError}</span>
@@ -298,11 +335,11 @@
 			<div class="actions">
 				<button
 					class="save-btn"
-					class:focused={focusedIdx === 4}
+					class:focused={focusedIdx === 5}
 					type="submit"
 					disabled={saving}
-					onfocus={() => (focusedIdx = 4)}
-					use:setFieldRef={4}
+					onfocus={() => (focusedIdx = 5)}
+					use:setFieldRef={5}
 				>
 					{#if saving}
 						<span class="spinner" aria-hidden="true"></span>
@@ -426,6 +463,79 @@
 		font-size: 0.8rem;
 		color: #6a6a8a;
 		margin-bottom: 0.65rem;
+	}
+
+	/* ── Power Saver toggle ─────────────────────────────────────────────────── */
+	.field-label-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.3rem;
+	}
+
+	.toggle-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0.25rem 0;
+		color: #8888aa;
+		transition: color 0.2s;
+	}
+
+	.toggle-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.toggle-track {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 2.5rem;
+		height: 1.25rem;
+		border-radius: 0.625rem;
+		background: rgba(42, 42, 68, 0.8);
+		border: 1px solid rgba(124, 106, 247, 0.2);
+		transition: background 0.2s, border-color 0.2s;
+	}
+
+	.toggle-btn.on .toggle-track {
+		background: rgba(84, 214, 106, 0.18);
+		border-color: rgba(84, 214, 106, 0.5);
+	}
+
+	.toggle-thumb {
+		position: absolute;
+		left: 0.125rem;
+		width: 0.875rem;
+		height: 0.875rem;
+		border-radius: 50%;
+		background: #55556a;
+		transition: transform 0.2s, background 0.2s;
+	}
+
+	.toggle-btn.on .toggle-thumb {
+		transform: translateX(1.25rem);
+		background: #54d66a;
+	}
+
+	.toggle-label {
+		font-size: 0.85rem;
+		font-weight: 600;
+		min-width: 1.75rem;
+	}
+
+	.toggle-btn.focused .toggle-track,
+	.toggle-btn:focus-visible .toggle-track {
+		outline: 3px solid rgba(124, 106, 247, 0.4);
+		outline-offset: 2px;
+	}
+
+	.toggle-btn:focus-visible {
+		outline: none;
 	}
 
 	.field-input {

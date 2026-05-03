@@ -14,6 +14,7 @@ export const load: PageLoad = async () => {
 		serverUrl: config?.serverUrl ?? '',
 		refreshInterval: config?.refreshInterval ?? '',
 		syncInterval: config?.syncInterval ?? '',
-		cacheDir: config?.cacheDir ?? ''
+		cacheDir: config?.cacheDir ?? '',
+		powerSaverMode: config?.powerSaverMode ?? false
 	};
 };

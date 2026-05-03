@@ -76,6 +76,9 @@ func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
 		}
 		cfg["online"] = online
 	}
+	if h.AppMode == "client" && h.ConfigStore != nil {
+		cfg["powerSaverMode"] = h.ConfigStore.Get().PowerSaverMode
+	}
 	respondJSON(w, http.StatusOK, cfg)
 }
 
@@ -99,6 +102,7 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		RefreshInterval string `json:"refreshInterval"`
 		SyncInterval    string `json:"syncInterval"`
 		CacheDir        string `json:"cacheDir"`
+		PowerSaverMode  *bool  `json:"powerSaverMode"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		respondError(w, http.StatusBadRequest, "invalid request body")
@@ -166,7 +170,10 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Apply changes to the live structs.
+	// Apply interval and URL changes to the live structs.
+	// Note: when PowerSaverMode is also being toggled ON in the same request,
+	// these values are persisted for later restoration but immediately overridden
+	// by the PSM presets below.
 	if body.ServerURL != "" {
 		if h.RemoteSource != nil {
 			h.RemoteSource.SetServerURL(body.ServerURL)
@@ -203,9 +210,56 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		if body.CacheDir != "" {
 			cur.CacheDir = body.CacheDir
 		}
+		if body.PowerSaverMode != nil {
+			cur.PowerSaverMode = *body.PowerSaverMode
+		}
 		if err := h.ConfigStore.Set(cur); err != nil {
 			log.Printf("[config] failed to persist settings: %v", err)
 			persistWarnings = append(persistWarnings, "settings could not be persisted to disk: "+err.Error())
+		}
+	}
+
+	// Apply PSM interval overrides when PowerSaverMode is being toggled.
+	// If toggling ON: use the PSM presets live, regardless of user-configured values.
+	// If toggling OFF: restore live intervals to the user-configured values (just
+	// persisted above), falling back to defaults when no override exists.
+	if body.PowerSaverMode != nil {
+		var effectiveRefresh, effectiveSync, effectiveProbe time.Duration
+		if *body.PowerSaverMode {
+			effectiveRefresh = configstore.PSMRefresh
+			effectiveSync = configstore.PSMSync
+			effectiveProbe = configstore.PSMProbe
+		} else {
+			// Restore from persisted config (includes any interval changes from this request).
+			if h.ConfigStore != nil {
+				cur := h.ConfigStore.Get()
+				if cur.RefreshInterval != "" {
+					if d, err := time.ParseDuration(cur.RefreshInterval); err == nil && d > 0 {
+						effectiveRefresh = d
+					}
+				}
+				if cur.SyncInterval != "" {
+					if d, err := time.ParseDuration(cur.SyncInterval); err == nil && d > 0 {
+						effectiveSync = d
+					}
+				}
+			}
+			if effectiveRefresh == 0 {
+				effectiveRefresh = configstore.DefaultRefresh
+			}
+			if effectiveSync == 0 {
+				effectiveSync = configstore.DefaultSync
+			}
+			effectiveProbe = configstore.DefaultProbe
+		}
+		if h.RemoteSource != nil {
+			h.RemoteSource.SetInterval(effectiveRefresh)
+		}
+		if h.Sync != nil {
+			h.Sync.SetInterval(effectiveSync)
+		}
+		if h.Monitor != nil {
+			h.Monitor.SetCheckInterval(effectiveProbe)
 		}
 	}
 
@@ -220,6 +274,9 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 	}
 	if h.Sync != nil {
 		cfg["syncInterval"] = h.Sync.GetInterval().String()
+	}
+	if h.ConfigStore != nil {
+		cfg["powerSaverMode"] = h.ConfigStore.Get().PowerSaverMode
 	}
 	if len(persistWarnings) > 0 {
 		cfg["persistWarnings"] = persistWarnings
