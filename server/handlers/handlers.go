@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 	"walkthrough-server/source"
@@ -20,6 +22,8 @@ type Handler struct {
 	AppMode string
 	// Ingest manages walkthrough ingest jobs (server mode only).
 	Ingest *IngestManager
+	// RemoteSource is non-nil in client mode; used for runtime config updates.
+	RemoteSource *source.RemoteSource
 }
 
 // requireServerMode writes a 403 error if the server is not in server mode and returns false.
@@ -45,9 +49,124 @@ func respondError(w http.ResponseWriter, status int, msg string) {
 
 // GetConfig handles GET /api/config — exposes non-sensitive runtime settings to the webapp.
 func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
-	respondJSON(w, http.StatusOK, map[string]string{
+	cfg := map[string]any{
 		"appMode": h.AppMode,
-	})
+	}
+	if h.AppMode == "client" && h.RemoteSource != nil {
+		cfg["serverUrl"] = h.RemoteSource.GetServerURL()
+		cfg["refreshInterval"] = h.RemoteSource.GetInterval().String()
+		cfg["cacheDir"] = h.RemoteSource.GetCacheDir()
+	}
+	if h.AppMode == "client" && h.Sync != nil {
+		cfg["syncInterval"] = h.Sync.GetInterval().String()
+	}
+	respondJSON(w, http.StatusOK, cfg)
+}
+
+// PutConfig handles PUT /api/config — updates runtime settings without a restart.
+// Only available in client mode.
+func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
+	if h.AppMode != "client" {
+		respondError(w, http.StatusForbidden, "config updates are only available in client mode")
+		return
+	}
+
+	var body struct {
+		ServerURL       string `json:"serverUrl"`
+		RefreshInterval string `json:"refreshInterval"`
+		SyncInterval    string `json:"syncInterval"`
+		CacheDir        string `json:"cacheDir"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		respondError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	// Validate serverUrl
+	if body.ServerURL != "" {
+		if !strings.HasPrefix(body.ServerURL, "http://") && !strings.HasPrefix(body.ServerURL, "https://") {
+			respondError(w, http.StatusBadRequest, "serverUrl must start with http:// or https://")
+			return
+		}
+		body.ServerURL = strings.TrimRight(body.ServerURL, "/")
+	}
+
+	// Validate refreshInterval (1m – 24h)
+	var refreshInterval time.Duration
+	if body.RefreshInterval != "" {
+		d, err := time.ParseDuration(body.RefreshInterval)
+		if err != nil {
+			respondError(w, http.StatusBadRequest, "invalid refreshInterval: "+err.Error())
+			return
+		}
+		if d < time.Minute || d > 24*time.Hour {
+			respondError(w, http.StatusBadRequest, "refreshInterval must be between 1m and 24h")
+			return
+		}
+		refreshInterval = d
+	}
+
+	// Validate syncInterval (10s – 1h)
+	var syncInterval time.Duration
+	if body.SyncInterval != "" {
+		d, err := time.ParseDuration(body.SyncInterval)
+		if err != nil {
+			respondError(w, http.StatusBadRequest, "invalid syncInterval: "+err.Error())
+			return
+		}
+		if d < 10*time.Second || d > time.Hour {
+			respondError(w, http.StatusBadRequest, "syncInterval must be between 10s and 1h")
+			return
+		}
+		syncInterval = d
+	}
+
+	// Validate cacheDir: check it is (or can be made) writable
+	if body.CacheDir != "" {
+		if err := os.MkdirAll(body.CacheDir, 0755); err != nil {
+			respondError(w, http.StatusBadRequest, "cacheDir is not writable: "+err.Error())
+			return
+		}
+	}
+
+	// Apply and persist changes
+	if body.ServerURL != "" {
+		if h.RemoteSource != nil {
+			h.RemoteSource.SetServerURL(body.ServerURL)
+			// Trigger an immediate re-fetch with the new URL
+			h.RemoteSource.Refresh(r.Context())
+		}
+		if h.Sync != nil {
+			h.Sync.SetServerURL(body.ServerURL)
+		}
+		if err := h.DB.SetSetting("server_url", body.ServerURL); err != nil {
+			log.Printf("[config] failed to persist server_url: %v", err)
+		}
+	}
+
+	if refreshInterval > 0 && h.RemoteSource != nil {
+		h.RemoteSource.SetInterval(refreshInterval)
+		if err := h.DB.SetSetting("refresh_interval", body.RefreshInterval); err != nil {
+			log.Printf("[config] failed to persist refresh_interval: %v", err)
+		}
+	}
+
+	if syncInterval > 0 && h.Sync != nil {
+		h.Sync.SetInterval(syncInterval)
+		if err := h.DB.SetSetting("sync_interval", body.SyncInterval); err != nil {
+			log.Printf("[config] failed to persist sync_interval: %v", err)
+		}
+	}
+
+	if body.CacheDir != "" && h.RemoteSource != nil {
+		h.RemoteSource.SetCacheDir(body.CacheDir)
+		if err := h.DB.SetSetting("cache_dir", body.CacheDir); err != nil {
+			log.Printf("[config] failed to persist cache_dir: %v", err)
+		}
+	}
+
+	// Return the updated config
+	h.GetConfig(w, r)
 }
 
 // ListWalkthroughs handles GET /api/walkthroughs

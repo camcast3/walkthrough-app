@@ -57,7 +57,34 @@ func migrate(db *sql.DB) error {
 			last_seen      TEXT NOT NULL,
 			PRIMARY KEY (device_id, walkthrough_id)
 		);
+		CREATE TABLE IF NOT EXISTS settings (
+			key   TEXT PRIMARY KEY,
+			value TEXT NOT NULL
+		);
 	`)
+	return err
+}
+
+// GetSetting returns the stored value for key and whether it was found.
+func (s *DB) GetSetting(key string) (string, bool, error) {
+	var value string
+	err := s.db.QueryRow(`SELECT value FROM settings WHERE key = ?`, key).Scan(&value)
+	if err == sql.ErrNoRows {
+		return "", false, nil
+	}
+	if err != nil {
+		return "", false, err
+	}
+	return value, true, nil
+}
+
+// SetSetting persists a key-value runtime setting.
+func (s *DB) SetSetting(key, value string) error {
+	_, err := s.db.Exec(
+		`INSERT INTO settings (key, value) VALUES (?, ?)
+		 ON CONFLICT(key) DO UPDATE SET value = excluded.value`,
+		key, value,
+	)
 	return err
 }
 

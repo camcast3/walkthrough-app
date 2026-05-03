@@ -88,14 +88,28 @@ func main() {
 		log.Printf("  mode:   server (github: %s/%s @ %s, refresh %s)", parts[0], parts[1], branch, interval)
 
 	case "client":
-		serverURL := os.Getenv("REMOTE_SERVER_URL")
-		if serverURL == "" {
-			log.Fatal("APP_MODE=client requires REMOTE_SERVER_URL")
-		}
-		serverURL = strings.TrimRight(serverURL, "/")
-
+		serverURL := strings.TrimRight(os.Getenv("REMOTE_SERVER_URL"), "/")
 		interval := parseDuration(os.Getenv("REMOTE_REFRESH_INTERVAL"), 10*time.Minute)
 		cacheDir := envOrDefault("REMOTE_CACHE_DIR", filepath.Dir(*dbPath))
+		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
+
+		// Persisted settings override env-var defaults.
+		if v, ok, _ := db.GetSetting("server_url"); ok && v != "" {
+			serverURL = v
+		}
+		if v, ok, _ := db.GetSetting("refresh_interval"); ok && v != "" {
+			if d, err := time.ParseDuration(v); err == nil && d > 0 {
+				interval = d
+			}
+		}
+		if v, ok, _ := db.GetSetting("sync_interval"); ok && v != "" {
+			if d, err := time.ParseDuration(v); err == nil && d > 0 {
+				syncInterval = d
+			}
+		}
+		if v, ok, _ := db.GetSetting("cache_dir"); ok && v != "" {
+			cacheDir = v
+		}
 
 		remoteSrc := source.NewRemoteSource(source.RemoteConfig{
 			ServerURL: serverURL,
@@ -113,22 +127,27 @@ func main() {
 		// Start progress sync (pushes local changes upstream).
 		// IsCheckedOutFn ensures only checked-out walkthroughs have their progress
 		// pushed to or pulled from the remote server.
-		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
 		progressSync = upstream.NewProgressSync(serverURL, db, syncInterval)
 		progressSync.IsCheckedOutFn = db.IsCheckedOut
 		progressSync.Start(context.Background())
 		defer progressSync.Close()
 
 		// Pull latest progress from the remote server on startup — only for checked-out walkthroughs.
-		go func() {
-			ids, err := db.ListCheckoutIDs()
-			if err != nil || len(ids) == 0 {
-				return
-			}
-			progressSync.PullAll(context.Background(), ids)
-		}()
+		if serverURL != "" {
+			go func() {
+				ids, err := db.ListCheckoutIDs()
+				if err != nil || len(ids) == 0 {
+					return
+				}
+				progressSync.PullAll(context.Background(), ids)
+			}()
+		}
 
-		log.Printf("  mode:   client (server: %s, refresh %s)", serverURL, interval)
+		if serverURL != "" {
+			log.Printf("  mode:   client (server: %s, refresh %s)", serverURL, interval)
+		} else {
+			log.Printf("  mode:   client (no server URL configured — use /settings to configure)")
+		}
 
 	default:
 		src = source.NewFileSource(*walkthroughsDir)
@@ -136,17 +155,19 @@ func main() {
 	}
 
 	h := &handlers.Handler{
-		DB:      db,
-		Source:  src,
-		Sync:    progressSync,
-		AppMode: appMode,
-		Ingest:  handlers.NewIngestManager(db),
+		DB:           db,
+		Source:       src,
+		Sync:         progressSync,
+		AppMode:      appMode,
+		Ingest:       handlers.NewIngestManager(db),
+		RemoteSource: remoteSrcForHandler(src),
 	}
 
 	mux := http.NewServeMux()
 
 	// API routes
 	mux.HandleFunc("GET /api/config", h.GetConfig)
+	mux.HandleFunc("PUT /api/config", h.PutConfig)
 	mux.HandleFunc("GET /api/walkthroughs", h.ListWalkthroughs)
 	mux.HandleFunc("GET /api/walkthroughs/{id}", h.GetWalkthrough)
 	mux.HandleFunc("GET /api/progress/{id}", h.GetProgress)
@@ -185,6 +206,15 @@ func parseDuration(s string, defaultVal time.Duration) time.Duration {
 		return d
 	}
 	return defaultVal
+}
+
+// remoteSrcForHandler extracts the *source.RemoteSource from the active source,
+// if the server is running in client mode.
+func remoteSrcForHandler(src source.WalkthroughSource) *source.RemoteSource {
+	if rs, ok := src.(*source.RemoteSource); ok {
+		return rs
+	}
+	return nil
 }
 
 // spaHandler serves static files and falls back to index.html for unknown paths.

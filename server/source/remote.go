@@ -22,11 +22,12 @@ type RemoteSource struct {
 	CacheDir     string
 	CheckedOutFn func() ([]string, error)
 
-	mu     sync.RWMutex
-	metas  []store.WalkthroughMeta
-	byID   map[string][]byte
-	etag   string // ETag from last list response for conditional refresh
-	cancel context.CancelFunc
+	mu      sync.RWMutex
+	metas   []store.WalkthroughMeta
+	byID    map[string][]byte
+	etag    string // ETag from last list response for conditional refresh
+	cancel  context.CancelFunc
+	resetCh chan time.Duration // signals interval changes to the running loop
 }
 
 type RemoteConfig struct {
@@ -50,19 +51,97 @@ func NewRemoteSource(cfg RemoteConfig) *RemoteSource {
 		CacheDir:     cfg.CacheDir,
 		CheckedOutFn: cfg.CheckedOutFn,
 		byID:         make(map[string][]byte),
+		resetCh:      make(chan time.Duration, 1),
 	}
+}
+
+// ── Thread-safe accessors ─────────────────────────────────────────────────────
+
+func (s *RemoteSource) serverURL() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.ServerURL
+}
+
+func (s *RemoteSource) cacheDir() string {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.CacheDir
+}
+
+func (s *RemoteSource) getInterval() time.Duration {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.Interval
+}
+
+// GetServerURL returns the current remote server URL.
+func (s *RemoteSource) GetServerURL() string { return s.serverURL() }
+
+// GetCacheDir returns the current cache directory.
+func (s *RemoteSource) GetCacheDir() string { return s.cacheDir() }
+
+// GetInterval returns the current refresh interval.
+func (s *RemoteSource) GetInterval() time.Duration { return s.getInterval() }
+
+// SetServerURL updates the remote server URL at runtime.
+func (s *RemoteSource) SetServerURL(url string) {
+	s.mu.Lock()
+	s.ServerURL = url
+	s.mu.Unlock()
+}
+
+// SetCacheDir updates the local cache directory at runtime.
+func (s *RemoteSource) SetCacheDir(dir string) {
+	s.mu.Lock()
+	s.CacheDir = dir
+	s.mu.Unlock()
+}
+
+// SetInterval updates the refresh interval and resets the background ticker.
+func (s *RemoteSource) SetInterval(d time.Duration) {
+	s.mu.Lock()
+	s.Interval = d
+	s.mu.Unlock()
+	// Non-blocking send; drain stale value first if channel is full.
+	select {
+	case s.resetCh <- d:
+	default:
+		select {
+		case <-s.resetCh:
+		default:
+		}
+		s.resetCh <- d
+	}
+}
+
+// Refresh triggers an immediate re-fetch from the remote server.
+// It is a no-op when no server URL is configured.
+func (s *RemoteSource) Refresh(ctx context.Context) {
+	if s.serverURL() == "" {
+		return
+	}
+	go func() {
+		if err := s.refresh(ctx); err != nil {
+			log.Printf("[remote-source] manual refresh failed: %v", err)
+		}
+	}()
 }
 
 // Start loads disk cache, performs initial fetch, and starts background refresh.
 func (s *RemoteSource) Start(ctx context.Context) {
 	s.loadFromDisk()
 
-	if err := s.refresh(ctx); err != nil {
-		log.Printf("[remote-source] initial fetch failed (serving cached data if available): %v", err)
+	if s.serverURL() != "" {
+		if err := s.refresh(ctx); err != nil {
+			log.Printf("[remote-source] initial fetch failed (serving cached data if available): %v", err)
+		}
 	}
 
 	rctx, cancel := context.WithCancel(ctx)
+	s.mu.Lock()
 	s.cancel = cancel
+	s.mu.Unlock()
 	go s.refreshLoop(rctx)
 }
 
@@ -104,13 +183,18 @@ func (s *RemoteSource) Get(id string) ([]byte, error) {
 }
 
 func (s *RemoteSource) refreshLoop(ctx context.Context) {
-	ticker := time.NewTicker(s.Interval)
+	ticker := time.NewTicker(s.getInterval())
 	defer ticker.Stop()
 	for {
 		select {
 		case <-ctx.Done():
 			return
+		case d := <-s.resetCh:
+			ticker.Reset(d)
 		case <-ticker.C:
+			if s.serverURL() == "" {
+				continue
+			}
 			if err := s.refresh(ctx); err != nil {
 				log.Printf("[remote-source] refresh failed (serving cached data): %v", err)
 			}
@@ -188,12 +272,16 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 	s.mu.Unlock()
 
 	s.persistToDisk()
-	log.Printf("[remote-source] refreshed: %d walkthroughs listed, %d cached from %s", len(metas), len(newByID), s.ServerURL)
+	log.Printf("[remote-source] refreshed: %d walkthroughs listed, %d cached from %s", len(metas), len(newByID), s.serverURL())
 	return nil
 }
 
 func (s *RemoteSource) fetchList(ctx context.Context) ([]store.WalkthroughMeta, error) {
-	url := s.ServerURL + "/api/walkthroughs"
+	surl := s.serverURL()
+	if surl == "" {
+		return nil, fmt.Errorf("server URL not configured")
+	}
+	url := surl + "/api/walkthroughs"
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -217,7 +305,11 @@ func (s *RemoteSource) fetchList(ctx context.Context) ([]store.WalkthroughMeta, 
 }
 
 func (s *RemoteSource) fetchWalkthrough(ctx context.Context, id string) ([]byte, error) {
-	url := s.ServerURL + "/api/walkthroughs/" + id
+	surl := s.serverURL()
+	if surl == "" {
+		return nil, fmt.Errorf("server URL not configured")
+	}
+	url := surl + "/api/walkthroughs/" + id
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err
@@ -243,10 +335,11 @@ type remoteDiskCache struct {
 }
 
 func (s *RemoteSource) cachePath() string {
-	if s.CacheDir == "" {
+	dir := s.cacheDir()
+	if dir == "" {
 		return ""
 	}
-	return filepath.Join(s.CacheDir, "remote-walkthrough-cache.json")
+	return filepath.Join(dir, "remote-walkthrough-cache.json")
 }
 
 func (s *RemoteSource) persistToDisk() {

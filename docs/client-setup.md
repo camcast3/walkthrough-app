@@ -147,16 +147,14 @@ If you don't want to run a local server, you can access the app directly from yo
 
 ## Environment variables
 
-These variables configure client mode. They are currently set via environment variables or CLI flags.
-
-> **Future:** `REMOTE_SERVER_URL`, `REMOTE_REFRESH_INTERVAL`, and `PROGRESS_SYNC_INTERVAL` will be configurable from the webapp settings UI so you can adjust them without restarting the server.
+These variables configure client mode at startup. Settings can also be changed at runtime from the webapp **Settings** page (`/settings`) without restarting the server — runtime changes are persisted to SQLite and take precedence over environment variables on subsequent restarts.
 
 | Variable | Example | Description |
 |---|---|---|
 | `APP_MODE` | `client` | **Required.** Enables client mode |
-| `REMOTE_SERVER_URL` | `http://walkthroughs.local.negativezone.cc` | **Required.** URL of the walkthrough server |
+| `REMOTE_SERVER_URL` | `http://walkthroughs.local.negativezone.cc` | URL of the walkthrough server (optional — can be set later from the Settings page) |
 | `REMOTE_REFRESH_INTERVAL` | `10m` | How often to re-fetch walkthroughs from the server (default: `10m`) |
-| `REMOTE_CACHE_DIR` | `/data` | Local directory for caching walkthrough data fetched from the server |
+| `REMOTE_CACHE_DIR` | `/data` | Local directory for caching walkthrough data |
 | `PROGRESS_SYNC_INTERVAL` | `30s` | How often to push progress changes to the server (default: `30s`) |
 
 Common variables (`DB_PATH`, `STATIC_DIR`, `LISTEN_ADDR`) are documented in [server-setup.md](server-setup.md#common-variables-all-modes).
