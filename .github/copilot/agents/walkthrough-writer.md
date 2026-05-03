@@ -57,7 +57,7 @@ web_search: "<game name> cover art official"
 
 Populate the top-level fields:
 - `hltb` — `main_story`, `main_story_sides`, `completionist` (in hours, from HowLongToBeat)
-- `cover_image` — a stable URL to official cover art (optional but preferred)
+- `cover_image` — a stable URL to official cover art (optional but preferred). Use IGDB as the source: `https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg`. Search IGDB for the game to find the correct hash.
 - Build a **master achievement list** as a reference document for yourself. Mark each achievement as story/side/collectible/combat/missable. You'll weave these into the relevant sections as you write.
 
 ### Step 2: For EACH section, do deep research
