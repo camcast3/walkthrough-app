@@ -38,7 +38,10 @@ type Monitor struct {
 	failures int           // consecutive probe failures while online
 	notifyCh chan struct{}  // closed on each online/offline state transition
 	cancel   context.CancelFunc
-	resetCh  chan time.Duration // signals CheckInterval changes to the running loop
+	// resetCh carries interval updates from SetCheckInterval to the probe loop.
+	// It is written once in New() and never reassigned, so field reads are
+	// safe without holding mu. Channel send/receive are goroutine-safe by design.
+	resetCh chan time.Duration
 }
 
 // New creates a Monitor for the given server URL using default settings.

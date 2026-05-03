@@ -278,7 +278,7 @@ func TestPutConfig_PowerSaverModeOff(t *testing.T) {
 	}
 }
 
-func TestPutConfig_PowerSaverMode_ApplisPSMIntervals(t *testing.T) {
+func TestPutConfig_PowerSaverMode_AppliesPSMIntervals(t *testing.T) {
 	h, _ := newClientTestHandler(t)
 
 	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":true}`))
