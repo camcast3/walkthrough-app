@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+	"walkthrough-server/configstore"
 	"walkthrough-server/handlers"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
@@ -55,6 +56,7 @@ func main() {
 
 	var src source.WalkthroughSource
 	var progressSync *upstream.ProgressSync
+	var cfgStore *configstore.Store
 
 	switch appMode {
 	case "server":
@@ -90,25 +92,33 @@ func main() {
 	case "client":
 		serverURL := strings.TrimRight(os.Getenv("REMOTE_SERVER_URL"), "/")
 		interval := parseDuration(os.Getenv("REMOTE_REFRESH_INTERVAL"), 10*time.Minute)
-		cacheDir := envOrDefault("REMOTE_CACHE_DIR", filepath.Dir(*dbPath))
+		cacheDir := envOrDefault("LOCAL_CACHE_DIR", filepath.Dir(*dbPath))
 		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
 
-		// Persisted settings override env-var defaults.
-		if v, ok, _ := db.GetSetting("server_url"); ok && v != "" {
-			serverURL = v
+		// Persisted settings (config file) override env-var defaults.
+		cfgPath := filepath.Join(filepath.Dir(*dbPath), "client-config.json")
+		var cfgErr error
+		cfgStore, cfgErr = configstore.Open(cfgPath)
+		if cfgErr != nil {
+			log.Printf("[config] failed to load config file (%s): %v — using defaults", cfgPath, cfgErr)
+			cfgStore = configstore.NewInMemory()
 		}
-		if v, ok, _ := db.GetSetting("refresh_interval"); ok && v != "" {
-			if d, err := time.ParseDuration(v); err == nil && d > 0 {
+		saved := cfgStore.Get()
+		if saved.ServerURL != "" {
+			serverURL = saved.ServerURL
+		}
+		if saved.RefreshInterval != "" {
+			if d, err := time.ParseDuration(saved.RefreshInterval); err == nil && d > 0 {
 				interval = d
 			}
 		}
-		if v, ok, _ := db.GetSetting("sync_interval"); ok && v != "" {
-			if d, err := time.ParseDuration(v); err == nil && d > 0 {
+		if saved.SyncInterval != "" {
+			if d, err := time.ParseDuration(saved.SyncInterval); err == nil && d > 0 {
 				syncInterval = d
 			}
 		}
-		if v, ok, _ := db.GetSetting("cache_dir"); ok && v != "" {
-			cacheDir = v
+		if saved.CacheDir != "" {
+			cacheDir = saved.CacheDir
 		}
 
 		remoteSrc := source.NewRemoteSource(source.RemoteConfig{
@@ -161,6 +171,7 @@ func main() {
 		AppMode:      appMode,
 		Ingest:       handlers.NewIngestManager(db),
 		RemoteSource: remoteSrcForHandler(src),
+		ConfigStore:  cfgStore,
 	}
 
 	mux := http.NewServeMux()

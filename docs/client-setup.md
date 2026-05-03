@@ -64,7 +64,7 @@ ExecStart=%h/.local/bin/walkthrough-server
 Environment=APP_MODE=client
 Environment=REMOTE_SERVER_URL=http://walkthroughs.yourdomain.com
 Environment=DB_PATH=%h/.local/share/walkthrough-app/progress.sqlite
-Environment=REMOTE_CACHE_DIR=%h/.local/share/walkthrough-app
+Environment=LOCAL_CACHE_DIR=%h/.local/share/walkthrough-app
 Environment=STATIC_DIR=%h/.local/share/walkthrough-app/static
 Environment=LISTEN_ADDR=:8080
 
@@ -147,14 +147,14 @@ If you don't want to run a local server, you can access the app directly from yo
 
 ## Environment variables
 
-These variables configure client mode at startup. Settings can also be changed at runtime from the webapp **Settings** page (`/settings`) without restarting the server — runtime changes are persisted to SQLite and take precedence over environment variables on subsequent restarts.
+These variables configure client mode at startup. Settings can also be changed at runtime from the webapp **Settings** page (`/settings`) without restarting the server — runtime changes are persisted to a JSON config file (`client-config.json` alongside the DB) and take precedence over environment variables on subsequent restarts.
 
 | Variable | Example | Description |
 |---|---|---|
 | `APP_MODE` | `client` | **Required.** Enables client mode |
 | `REMOTE_SERVER_URL` | `http://walkthroughs.local.negativezone.cc` | URL of the walkthrough server (optional — can be set later from the Settings page) |
 | `REMOTE_REFRESH_INTERVAL` | `10m` | How often to re-fetch walkthroughs from the server (default: `10m`) |
-| `REMOTE_CACHE_DIR` | `/data` | Local directory for caching walkthrough data |
+| `LOCAL_CACHE_DIR` | `/data` | Local directory for caching walkthrough data |
 | `PROGRESS_SYNC_INTERVAL` | `30s` | How often to push progress changes to the server (default: `30s`) |
 
 Common variables (`DB_PATH`, `STATIC_DIR`, `LISTEN_ADDR`) are documented in [server-setup.md](server-setup.md#common-variables-all-modes).

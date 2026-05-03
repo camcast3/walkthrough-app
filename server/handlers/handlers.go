@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+	"walkthrough-server/configstore"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
 	"walkthrough-server/upstream"
@@ -25,6 +26,8 @@ type Handler struct {
 	Ingest *IngestManager
 	// RemoteSource is non-nil in client mode; used for runtime config updates.
 	RemoteSource *source.RemoteSource
+	// ConfigStore is non-nil in client mode; persists runtime settings to a JSON file.
+	ConfigStore *configstore.Store
 }
 
 // requireServerMode writes a 403 error if the server is not in server mode and returns false.
@@ -144,9 +147,7 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Apply and persist changes
-	var persistWarnings []string
-
+	// Apply changes to the live structs.
 	if body.ServerURL != "" {
 		if h.RemoteSource != nil {
 			h.RemoteSource.SetServerURL(body.ServerURL)
@@ -156,33 +157,36 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		if h.Sync != nil {
 			h.Sync.SetServerURL(body.ServerURL)
 		}
-		if err := h.DB.SetSetting("server_url", body.ServerURL); err != nil {
-			log.Printf("[config] failed to persist server_url: %v", err)
-			persistWarnings = append(persistWarnings, "server_url could not be persisted: "+err.Error())
-		}
 	}
-
 	if refreshInterval > 0 && h.RemoteSource != nil {
 		h.RemoteSource.SetInterval(refreshInterval)
-		if err := h.DB.SetSetting("refresh_interval", body.RefreshInterval); err != nil {
-			log.Printf("[config] failed to persist refresh_interval: %v", err)
-			persistWarnings = append(persistWarnings, "refresh_interval could not be persisted: "+err.Error())
-		}
 	}
-
 	if syncInterval > 0 && h.Sync != nil {
 		h.Sync.SetInterval(syncInterval)
-		if err := h.DB.SetSetting("sync_interval", body.SyncInterval); err != nil {
-			log.Printf("[config] failed to persist sync_interval: %v", err)
-			persistWarnings = append(persistWarnings, "sync_interval could not be persisted: "+err.Error())
-		}
 	}
-
 	if body.CacheDir != "" && h.RemoteSource != nil {
 		h.RemoteSource.SetCacheDir(body.CacheDir)
-		if err := h.DB.SetSetting("cache_dir", body.CacheDir); err != nil {
-			log.Printf("[config] failed to persist cache_dir: %v", err)
-			persistWarnings = append(persistWarnings, "cache_dir could not be persisted: "+err.Error())
+	}
+
+	// Persist updated settings to the config file.
+	var persistWarnings []string
+	if h.ConfigStore != nil {
+		cur := h.ConfigStore.Get()
+		if body.ServerURL != "" {
+			cur.ServerURL = body.ServerURL
+		}
+		if body.RefreshInterval != "" {
+			cur.RefreshInterval = body.RefreshInterval
+		}
+		if body.SyncInterval != "" {
+			cur.SyncInterval = body.SyncInterval
+		}
+		if body.CacheDir != "" {
+			cur.CacheDir = body.CacheDir
+		}
+		if err := h.ConfigStore.Set(cur); err != nil {
+			log.Printf("[config] failed to persist settings: %v", err)
+			persistWarnings = append(persistWarnings, "settings could not be persisted to disk: "+err.Error())
 		}
 	}
 

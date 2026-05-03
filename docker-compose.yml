@@ -9,7 +9,7 @@ services:
       DB_PATH: /data/progress.sqlite
       APP_MODE: client
       REMOTE_SERVER_URL: http://walkthroughs.local.negativezone.cc
-      REMOTE_CACHE_DIR: /data
+      LOCAL_CACHE_DIR: /data
       STATIC_DIR: /static
       LISTEN_ADDR: ":8080"
     volumes:
