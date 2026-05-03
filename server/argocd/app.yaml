@@ -9,6 +9,12 @@ kind: Application
 metadata:
   name: walkthrough-app
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: server=ghcr.io/camcast3/walkthrough-server
+    argocd-image-updater.argoproj.io/server.update-strategy: semver
+    argocd-image-updater.argoproj.io/server.kustomize.image-name: ghcr.io/camcast3/walkthrough-server
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: main
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
