@@ -4,6 +4,7 @@
 	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
+	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
 	import type { SyncStatus } from '$lib/types.js';
 	import { marked } from 'marked';
 
@@ -23,6 +24,8 @@
 	// ── Checkout state ─────────────────────────────────────────────────────────
 	let isCheckedOut = $state(data.isCheckedOut ?? false);
 	let checkoutPending = $state(false);
+	/** Whether the checkout confirmation dialog is currently visible. */
+	let showCheckoutDialog = $state(false);
 
 	async function toggleCheckout() {
 		if (checkoutPending) return;
@@ -205,13 +208,46 @@
 	let gamepad: GamepadNavigator | null = null;
 
 	function handleGamepadAction(action: string) {
+		// Checkout confirmation dialog intercepts all input
+		if (showCheckoutDialog) {
+			if (action === 'check') {
+				showCheckoutDialog = false;
+				toggleCheckout();
+			} else if (action === 'back') {
+				showCheckoutDialog = false;
+			}
+			return;
+		}
+
+		// Stale-state prompt intercepts all input
+		if (showStalePrompt) {
+			if (action === 'check') loadRemoteState();
+			else if (action === 'back') dismissStalePrompt();
+			return;
+		}
+
 		const steps = currentSection?.steps ?? [];
+		const inProseMode = !!(currentSection?.content);
+		const stepsVisible = inProseMode ? showSteps : true;
+
 		switch (action) {
 			case 'focus-up':
-				focusedStepIdx = Math.max(0, focusedStepIdx - 1);
+				if (inProseMode && !stepsVisible) {
+					// Prose-only mode: scroll the page upward
+					window.scrollBy({ top: -120, behavior: 'smooth' });
+				} else {
+					focusedStepIdx = Math.max(0, focusedStepIdx - 1);
+					tick().then(() => stepRefs[focusedStepIdx]?.focus());
+				}
 				break;
 			case 'focus-down':
-				focusedStepIdx = Math.min(steps.length - 1, focusedStepIdx + 1);
+				if (inProseMode && !stepsVisible) {
+					// Prose-only mode: scroll the page downward
+					window.scrollBy({ top: 120, behavior: 'smooth' });
+				} else {
+					focusedStepIdx = Math.min(steps.length - 1, focusedStepIdx + 1);
+					tick().then(() => stepRefs[focusedStepIdx]?.focus());
+				}
 				break;
 			case 'check': {
 				const step = steps[focusedStepIdx];
@@ -227,13 +263,18 @@
 			case 'back':
 				history.back();
 				break;
+			case 'checkout':
+				if (data.appMode === 'client') {
+					showCheckoutDialog = true;
+				}
+				break;
 		}
-		tick().then(() => stepRefs[focusedStepIdx]?.focus());
 	}
 
 	// ── Keyboard navigation (mirrors gamepad) ─────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
 		const steps = currentSection?.steps ?? [];
+		if (e.key === 'Escape') { showCheckoutDialog = false; return; }
 		if (e.key === 'ArrowUp') { e.preventDefault(); handleGamepadAction('focus-up'); }
 		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
 		else if (e.key === 'ArrowLeft') handleGamepadAction('prev-section');
@@ -317,6 +358,34 @@
 		collectible: 'Collectible',
 		boss: 'Boss'
 	};
+
+	// ── Gamepad hint bar ──────────────────────────────────────────────────────
+	const detailHints = $derived.by(() => {
+		if (showCheckoutDialog) {
+			return [
+				{ badge: 'A', label: 'Confirm' },
+				{ badge: 'B', label: 'Cancel' }
+			];
+		}
+		if (showStalePrompt) {
+			return [
+				{ badge: 'A', label: 'Load' },
+				{ badge: 'B', label: 'Keep' }
+			];
+		}
+		const inProseMode = !!(currentSection?.content);
+		const stepsVisible = inProseMode ? showSteps : true;
+		const hints = [
+			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Scroll' : 'Navigate' },
+			...(stepsVisible && (currentSection?.steps?.length ?? 0) > 0 ? [{ badge: 'A', label: 'Check' }] : []),
+			{ badge: 'B', label: 'Back' },
+			{ badge: 'LB/RB', label: 'Sections' }
+		];
+		if (data.appMode === 'client') {
+			hints.push({ badge: 'X', label: isCheckedOut ? 'Checkin' : 'Checkout' });
+		}
+		return hints;
+	});
 </script>
 
 <svelte:head>
@@ -336,6 +405,32 @@
 			<div class="stale-actions">
 				<button class="btn-primary" onclick={loadRemoteState}>Load newer state</button>
 				<button class="btn-ghost" onclick={dismissStalePrompt}>Keep current progress</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<!-- Checkout confirmation dialog -->
+{#if showCheckoutDialog}
+	<div class="stale-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-dialog-title">
+		<div class="stale-card">
+			<p id="checkout-dialog-title" class="stale-icon">{isCheckedOut ? '📤' : '📥'}</p>
+			<h2>{isCheckedOut ? 'Remove from device?' : 'Download for offline use?'}</h2>
+			<p class="stale-desc">
+				{#if isCheckedOut}
+					This will remove the walkthrough from your local device. Your progress will be preserved on the server.
+				{:else}
+					This will download the walkthrough to your device so it's available offline.
+				{/if}
+			</p>
+			<div class="stale-actions">
+				<button
+					class="btn-primary"
+					onclick={() => { showCheckoutDialog = false; toggleCheckout(); }}
+				>
+					{isCheckedOut ? 'Remove' : 'Download'}
+				</button>
+				<button class="btn-ghost" onclick={() => { showCheckoutDialog = false; }}>Cancel</button>
 			</div>
 		</div>
 	</div>
@@ -571,11 +666,13 @@
 	</footer>
 </div>
 
+<GamepadHintBar hints={detailHints} />
+
 <style>
 	.page {
 		max-width: 700px;
 		margin: 0 auto;
-		padding-bottom: 3rem;
+		padding-bottom: 4.5rem;
 	}
 
 	/* ── Top bar ── */

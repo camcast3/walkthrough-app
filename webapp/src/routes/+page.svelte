@@ -2,7 +2,9 @@
 	import type { PageData } from './$types.js';
 	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FULL_TITLES } from '$lib/state.js';
 	import { checkout, checkin } from '$lib/sync.js';
-	import { onMount } from 'svelte';
+	import { onMount, onDestroy, tick } from 'svelte';
+	import { GamepadNavigator } from '$lib/gamepad.js';
+	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
 
 	let { data }: { data: PageData } = $props();
 
@@ -25,6 +27,15 @@
 		}
 		progressMap = results;
 		loaded = true;
+
+		gamepad = new GamepadNavigator(handleGamepadAction);
+		gamepad.start();
+		window.addEventListener('keydown', handleKeydown);
+	});
+
+	onDestroy(() => {
+		gamepad?.stop();
+		window.removeEventListener('keydown', handleKeydown);
 	});
 
 	async function toggleCheckout(event: MouseEvent, id: string) {
@@ -56,6 +67,65 @@
 		boss: '☠'
 	};
 	void STEP_TYPE_ICONS;
+
+	// ── Gamepad / keyboard navigation ─────────────────────────────────────────
+	let focusedCardIdx = $state(0);
+	let cardRefs: HTMLElement[] = [];
+	let gamepad: GamepadNavigator | null = null;
+
+	function cardAction(el: HTMLElement, idx: number) {
+		cardRefs[idx] = el;
+		return {
+			update(newIdx: number) { cardRefs[newIdx] = el; },
+			destroy() {}
+		};
+	}
+
+	function focusCard(idx: number) {
+		focusedCardIdx = idx;
+		tick().then(() => {
+			const el = cardRefs[focusedCardIdx];
+			if (el) {
+				el.focus({ preventScroll: true });
+				el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+			}
+		});
+	}
+
+	function handleGamepadAction(action: string) {
+		const count = data.walkthroughs.length;
+		if (count === 0) return;
+		switch (action) {
+			case 'focus-up':
+				focusCard(Math.max(0, focusedCardIdx - 1));
+				break;
+			case 'focus-down':
+				focusCard(Math.min(count - 1, focusedCardIdx + 1));
+				break;
+			case 'check':
+				cardRefs[focusedCardIdx]?.click();
+				break;
+		}
+	}
+
+	function handleKeydown(e: KeyboardEvent) {
+		const count = data.walkthroughs.length;
+		if (count === 0) return;
+		if (e.key === 'ArrowUp') { e.preventDefault(); handleGamepadAction('focus-up'); }
+		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
+		else if (e.key === 'Enter' || e.key === ' ') {
+			// Only intercept if a card is focused via gamepad (not inside input elements)
+			if (document.activeElement === cardRefs[focusedCardIdx]) {
+				e.preventDefault();
+				handleGamepadAction('check');
+			}
+		}
+	}
+
+	const listHints = [
+		{ badge: '↕', label: 'Navigate' },
+		{ badge: 'A', label: 'Open' }
+	];
 </script>
 
 <svelte:head>
@@ -102,7 +172,13 @@
 				{@const isCheckedOut = checkedOutSet.has(wt.id)}
 				{@const isPending = checkoutPending.has(wt.id)}
 				<li class="card-wrapper" style="--delay: {idx * 60}ms" class:visible={loaded}>
-					<a href="/{wt.id}" class="card" aria-label="{wt.game} — {wt.title}">
+					<a
+						href="/{wt.id}"
+						class="card"
+						class:focused={idx === focusedCardIdx}
+						aria-label="{wt.game} — {wt.title}"
+						use:cardAction={idx}
+					>
 						<div class="card-body">
 							<span class="game-name">{wt.game}</span>
 							<span class="wt-title">{wt.title}</span>
@@ -161,11 +237,13 @@
 	{/if}
 </div>
 
+<GamepadHintBar hints={listHints} />
+
 <style>
 	.page {
 		max-width: 700px;
 		margin: 0 auto;
-		padding: 1.5rem 1rem 4rem;
+		padding: 1.5rem 1rem 4.5rem;
 	}
 
 	.hero {
@@ -281,7 +359,8 @@
 	}
 
 	.card:hover,
-	.card:focus-visible {
+	.card:focus-visible,
+	.card.focused {
 		border-color: rgba(124,106,247,0.5);
 		background: rgba(26, 26, 50, 0.85);
 		box-shadow: 0 0 20px rgba(124,106,247,0.12), inset 0 1px 0 rgba(255,255,255,0.03);
