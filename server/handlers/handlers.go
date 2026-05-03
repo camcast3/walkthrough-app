@@ -340,6 +340,11 @@ func (h *Handler) DeleteCheckout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Evict the cached content immediately so storage is freed on the device.
+	if h.RemoteSource != nil {
+		h.RemoteSource.Evict(id)
+	}
+
 	// In client mode, notify the upstream server so it can remove the checkout record.
 	if h.AppMode == "client" && h.RemoteSource != nil {
 		deviceID := r.Header.Get("X-Device-ID")

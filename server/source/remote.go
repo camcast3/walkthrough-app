@@ -190,6 +190,34 @@ func (s *RemoteSource) Get(id string) ([]byte, error) {
 	return freshData, nil
 }
 
+// Evict removes a walkthrough's content from the in-memory cache and persists
+// the updated cache to disk, freeing storage space on the device.
+// persistToDisk acquires its own read lock and snapshots byID at call time, so
+// the disk will always reflect a consistent in-memory state even under concurrent access.
+func (s *RemoteSource) Evict(id string) {
+	s.mu.Lock()
+	delete(s.byID, id)
+	s.mu.Unlock()
+	s.persistToDisk()
+	log.Printf("[remote-source] evicted cache for walkthrough %q", id)
+}
+
+// SetData stores raw content in the in-memory cache. Intended for tests.
+func (s *RemoteSource) SetData(id string, data []byte) {
+	s.mu.Lock()
+	s.byID[id] = data
+	s.mu.Unlock()
+}
+
+// HasCached reports whether content for the given walkthrough is in the
+// in-memory cache. Intended for tests.
+func (s *RemoteSource) HasCached(id string) bool {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	_, ok := s.byID[id]
+	return ok
+}
+
 func (s *RemoteSource) refreshLoop(ctx context.Context) {
 	ticker := time.NewTicker(s.getInterval())
 	defer ticker.Stop()
@@ -238,8 +266,8 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 	// If a checkout filter is configured, only prefetch checked-out walkthroughs.
 	// The checkout list is re-evaluated on every refresh cycle, so newly checked-out
 	// walkthroughs will be downloaded on the next cycle (interval set by
-	// REMOTE_REFRESH_INTERVAL, default 10 min). Walkthroughs that are unchecked
-	// between cycles keep their cached copy until it is evicted by the next refresh.
+	// REMOTE_REFRESH_INTERVAL, default 10 min). Unchecked walkthroughs have their
+	// cache dropped on the next refresh cycle; they can still be fetched on-demand.
 	// All walkthroughs remain discoverable via List(); only content prefetching is filtered.
 	checkedOut := map[string]bool{}
 	if s.CheckedOutFn != nil {
@@ -263,14 +291,9 @@ func (s *RemoteSource) refresh(ctx context.Context) error {
 	newByID := make(map[string][]byte, len(metas))
 	for _, m := range metas {
 		// When a checkout filter is active, skip walkthroughs not checked out.
+		// Do not preserve cached content — checked-in walkthroughs should have
+		// their cache freed to reclaim storage on space-constrained devices.
 		if s.CheckedOutFn != nil && !checkedOut[m.ID] {
-			// Preserve any already-cached content so existing offline copies remain.
-			s.mu.RLock()
-			existing := s.byID[m.ID]
-			s.mu.RUnlock()
-			if existing != nil {
-				newByID[m.ID] = existing
-			}
 			continue
 		}
 
