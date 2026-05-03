@@ -24,9 +24,11 @@ type ProgressSync struct {
 	// is neither sent to nor fetched from the remote server.
 	IsCheckedOutFn func(id string) (bool, error)
 
-	mu      sync.Mutex
-	pending map[string]struct{} // walkthrough IDs with unsent progress
-	cancel  context.CancelFunc
+	configMu sync.RWMutex // protects ServerURL and Interval
+	mu        sync.Mutex
+	pending   map[string]struct{} // walkthrough IDs with unsent progress
+	cancel    context.CancelFunc
+	resetCh   chan time.Duration // signals interval changes to the running loop
 }
 
 func NewProgressSync(serverURL string, db *store.DB, interval time.Duration) *ProgressSync {
@@ -38,6 +40,46 @@ func NewProgressSync(serverURL string, db *store.DB, interval time.Duration) *Pr
 		DB:        db,
 		Interval:  interval,
 		pending:   make(map[string]struct{}),
+		resetCh:   make(chan time.Duration, 1),
+	}
+}
+
+// ── Thread-safe accessors ─────────────────────────────────────────────────────
+
+func (ps *ProgressSync) serverURL() string {
+	ps.configMu.RLock()
+	defer ps.configMu.RUnlock()
+	return ps.ServerURL
+}
+
+// GetInterval returns the current sync interval.
+func (ps *ProgressSync) GetInterval() time.Duration {
+	ps.configMu.RLock()
+	defer ps.configMu.RUnlock()
+	return ps.Interval
+}
+
+// SetServerURL updates the remote server URL at runtime.
+func (ps *ProgressSync) SetServerURL(url string) {
+	ps.configMu.Lock()
+	ps.ServerURL = url
+	ps.configMu.Unlock()
+}
+
+// SetInterval updates the sync interval and resets the background ticker.
+func (ps *ProgressSync) SetInterval(d time.Duration) {
+	ps.configMu.Lock()
+	ps.Interval = d
+	ps.configMu.Unlock()
+	// Non-blocking send; drain stale value first if channel is full.
+	select {
+	case ps.resetCh <- d:
+	default:
+		select {
+		case <-ps.resetCh:
+		default:
+		}
+		ps.resetCh <- d
 	}
 }
 
@@ -94,7 +136,7 @@ func (ps *ProgressSync) PullAll(ctx context.Context, walkthroughIDs []string) {
 }
 
 func (ps *ProgressSync) syncLoop(ctx context.Context) {
-	ticker := time.NewTicker(ps.Interval)
+	ticker := time.NewTicker(ps.GetInterval())
 	defer ticker.Stop()
 	for {
 		select {
@@ -102,8 +144,12 @@ func (ps *ProgressSync) syncLoop(ctx context.Context) {
 			// Flush remaining on shutdown
 			ps.flush(context.Background())
 			return
+		case d := <-ps.resetCh:
+			ticker.Reset(d)
 		case <-ticker.C:
-			ps.flush(ctx)
+			if ps.serverURL() != "" {
+				ps.flush(ctx)
+			}
 		}
 	}
 }
@@ -145,7 +191,7 @@ func (ps *ProgressSync) pushRemote(ctx context.Context, record *store.ProgressRe
 		return err
 	}
 
-	url := fmt.Sprintf("%s/api/progress/%s", ps.ServerURL, record.WalkthroughID)
+	url := fmt.Sprintf("%s/api/progress/%s", ps.serverURL(), record.WalkthroughID)
 	req, err := http.NewRequestWithContext(ctx, "PUT", url, bytes.NewReader(body))
 	if err != nil {
 		return err
@@ -165,7 +211,7 @@ func (ps *ProgressSync) pushRemote(ctx context.Context, record *store.ProgressRe
 }
 
 func (ps *ProgressSync) pullRemote(ctx context.Context, walkthroughID string) (*store.ProgressRecord, error) {
-	url := fmt.Sprintf("%s/api/progress/%s", ps.ServerURL, walkthroughID)
+	url := fmt.Sprintf("%s/api/progress/%s", ps.serverURL(), walkthroughID)
 	req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
 	if err != nil {
 		return nil, err

@@ -218,3 +218,42 @@ export async function fetchDevices(): Promise<DeviceActivity[]> {
 		return [];
 	}
 }
+
+// ── Client config API ──────────────────────────────────────────────────────────
+
+export interface ClientConfig {
+	appMode: string;
+	serverUrl?: string;
+	refreshInterval?: string;
+	syncInterval?: string;
+	cacheDir?: string;
+	persistWarnings?: string[];
+}
+
+export interface ClientConfigUpdate {
+	serverUrl?: string;
+	refreshInterval?: string;
+	syncInterval?: string;
+	cacheDir?: string;
+}
+
+/** Fetches the current runtime configuration from the server. */
+export async function fetchClientConfig(): Promise<ClientConfig> {
+	const res = await fetch(`${API_BASE}/config`);
+	if (!res.ok) throw new Error('Failed to fetch config');
+	return res.json();
+}
+
+/** Updates runtime configuration settings. Returns the updated config. */
+export async function updateClientConfig(update: ClientConfigUpdate): Promise<ClientConfig> {
+	const res = await fetch(`${API_BASE}/config`, {
+		method: 'PUT',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify(update)
+	});
+	if (!res.ok) {
+		const err = await res.json().catch(() => ({ error: 'Unknown error' }));
+		throw new Error((err as { error: string }).error ?? 'Failed to update config');
+	}
+	return res.json();
+}

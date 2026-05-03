@@ -2,10 +2,14 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 	"time"
+	"walkthrough-server/configstore"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
 	"walkthrough-server/upstream"
@@ -20,6 +24,10 @@ type Handler struct {
 	AppMode string
 	// Ingest manages walkthrough ingest jobs (server mode only).
 	Ingest *IngestManager
+	// RemoteSource is non-nil in client mode; used for runtime config updates.
+	RemoteSource *source.RemoteSource
+	// ConfigStore is non-nil in client mode; persists runtime settings to a JSON file.
+	ConfigStore *configstore.Store
 }
 
 // requireServerMode writes a 403 error if the server is not in server mode and returns false.
@@ -45,9 +53,159 @@ func respondError(w http.ResponseWriter, status int, msg string) {
 
 // GetConfig handles GET /api/config — exposes non-sensitive runtime settings to the webapp.
 func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
-	respondJSON(w, http.StatusOK, map[string]string{
+	cfg := map[string]any{
 		"appMode": h.AppMode,
-	})
+	}
+	if h.AppMode == "client" && h.RemoteSource != nil {
+		cfg["serverUrl"] = h.RemoteSource.GetServerURL()
+		cfg["refreshInterval"] = h.RemoteSource.GetInterval().String()
+		cfg["cacheDir"] = h.RemoteSource.GetCacheDir()
+	}
+	if h.AppMode == "client" && h.Sync != nil {
+		cfg["syncInterval"] = h.Sync.GetInterval().String()
+	}
+	respondJSON(w, http.StatusOK, cfg)
+}
+
+// PutConfig handles PUT /api/config — updates runtime settings without a restart.
+// Only available in client mode.
+func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
+	if h.AppMode != "client" {
+		respondError(w, http.StatusForbidden, "config updates are only available in client mode")
+		return
+	}
+
+	var body struct {
+		ServerURL       string `json:"serverUrl"`
+		RefreshInterval string `json:"refreshInterval"`
+		SyncInterval    string `json:"syncInterval"`
+		CacheDir        string `json:"cacheDir"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+		respondError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	// Validate serverUrl
+	if body.ServerURL != "" {
+		if !strings.HasPrefix(body.ServerURL, "http://") && !strings.HasPrefix(body.ServerURL, "https://") {
+			respondError(w, http.StatusBadRequest, "serverUrl must start with http:// or https://")
+			return
+		}
+		body.ServerURL = strings.TrimRight(body.ServerURL, "/")
+	}
+
+	// Validate refreshInterval (1m – 24h)
+	var refreshInterval time.Duration
+	if body.RefreshInterval != "" {
+		d, err := time.ParseDuration(body.RefreshInterval)
+		if err != nil {
+			respondError(w, http.StatusBadRequest, "invalid refreshInterval: "+err.Error())
+			return
+		}
+		if d < time.Minute || d > 24*time.Hour {
+			respondError(w, http.StatusBadRequest, "refreshInterval must be between 1m and 24h")
+			return
+		}
+		refreshInterval = d
+	}
+
+	// Validate syncInterval (10s – 1h)
+	var syncInterval time.Duration
+	if body.SyncInterval != "" {
+		d, err := time.ParseDuration(body.SyncInterval)
+		if err != nil {
+			respondError(w, http.StatusBadRequest, "invalid syncInterval: "+err.Error())
+			return
+		}
+		if d < 10*time.Second || d > time.Hour {
+			respondError(w, http.StatusBadRequest, "syncInterval must be between 10s and 1h")
+			return
+		}
+		syncInterval = d
+	}
+
+	// Validate cacheDir: must be an absolute path to an existing directory
+	if body.CacheDir != "" {
+		if !filepath.IsAbs(body.CacheDir) {
+			respondError(w, http.StatusBadRequest, "cacheDir must be an absolute path")
+			return
+		}
+		body.CacheDir = filepath.Clean(body.CacheDir)
+		fi, err := os.Stat(body.CacheDir)
+		if err != nil {
+			if os.IsNotExist(err) {
+				respondError(w, http.StatusBadRequest, "cacheDir does not exist — create it first")
+			} else {
+				respondError(w, http.StatusBadRequest, "cacheDir is inaccessible: "+err.Error())
+			}
+			return
+		}
+		if !fi.IsDir() {
+			respondError(w, http.StatusBadRequest, "cacheDir must be a directory")
+			return
+		}
+	}
+
+	// Apply changes to the live structs.
+	if body.ServerURL != "" {
+		if h.RemoteSource != nil {
+			h.RemoteSource.SetServerURL(body.ServerURL)
+			// Trigger an immediate re-fetch with the new URL
+			h.RemoteSource.Refresh(r.Context())
+		}
+		if h.Sync != nil {
+			h.Sync.SetServerURL(body.ServerURL)
+		}
+	}
+	if refreshInterval > 0 && h.RemoteSource != nil {
+		h.RemoteSource.SetInterval(refreshInterval)
+	}
+	if syncInterval > 0 && h.Sync != nil {
+		h.Sync.SetInterval(syncInterval)
+	}
+	if body.CacheDir != "" && h.RemoteSource != nil {
+		h.RemoteSource.SetCacheDir(body.CacheDir)
+	}
+
+	// Persist updated settings to the config file.
+	var persistWarnings []string
+	if h.ConfigStore != nil {
+		cur := h.ConfigStore.Get()
+		if body.ServerURL != "" {
+			cur.ServerURL = body.ServerURL
+		}
+		if body.RefreshInterval != "" {
+			cur.RefreshInterval = body.RefreshInterval
+		}
+		if body.SyncInterval != "" {
+			cur.SyncInterval = body.SyncInterval
+		}
+		if body.CacheDir != "" {
+			cur.CacheDir = body.CacheDir
+		}
+		if err := h.ConfigStore.Set(cur); err != nil {
+			log.Printf("[config] failed to persist settings: %v", err)
+			persistWarnings = append(persistWarnings, "settings could not be persisted to disk: "+err.Error())
+		}
+	}
+
+	// Build and return the updated config, including any persistence warnings.
+	cfg := map[string]any{
+		"appMode": h.AppMode,
+	}
+	if h.RemoteSource != nil {
+		cfg["serverUrl"] = h.RemoteSource.GetServerURL()
+		cfg["refreshInterval"] = h.RemoteSource.GetInterval().String()
+		cfg["cacheDir"] = h.RemoteSource.GetCacheDir()
+	}
+	if h.Sync != nil {
+		cfg["syncInterval"] = h.Sync.GetInterval().String()
+	}
+	if len(persistWarnings) > 0 {
+		cfg["persistWarnings"] = persistWarnings
+	}
+	respondJSON(w, http.StatusOK, cfg)
 }
 
 // ListWalkthroughs handles GET /api/walkthroughs

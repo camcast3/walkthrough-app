@@ -149,6 +149,7 @@
 		<div class="banner info" role="note">
 			<span aria-hidden="true">📡</span>
 			<span> Connected to server — select <strong>⊕</strong> to download a walkthrough for offline use.</span>
+			<a href="/settings" class="manage-link">⚙ Settings →</a>
 		</div>
 	{/if}
 
@@ -295,6 +296,9 @@
 		background: rgba(84, 214, 106, 0.06);
 		border: 1px solid rgba(84, 214, 106, 0.2);
 		color: #80d490;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
 	}
 
 	.banner.server {

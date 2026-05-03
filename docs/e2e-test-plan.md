@@ -54,7 +54,7 @@ $env:LISTEN_ADDR=":9090"
 $env:APP_MODE="client"
 $env:REMOTE_SERVER_URL="http://localhost:9090"
 $env:DB_PATH="./test-data/client/progress.sqlite"
-$env:REMOTE_CACHE_DIR="./test-data/client"
+$env:LOCAL_CACHE_DIR="./test-data/client"
 $env:STATIC_DIR="../webapp/build"
 $env:LISTEN_ADDR=":8080"
 
@@ -207,7 +207,7 @@ Start-Sleep 5  # wait for initial GitHub fetch
 # Start client mode
 $client = Start-Process -FilePath ./server/walkthrough-server.exe -PassThru -NoNewWindow -Environment @{
     APP_MODE="client"; REMOTE_SERVER_URL="http://localhost:9090"
-    DB_PATH="./test-data/client/progress.sqlite"; REMOTE_CACHE_DIR="./test-data/client"
+    DB_PATH="./test-data/client/progress.sqlite"; LOCAL_CACHE_DIR="./test-data/client"
     STATIC_DIR="./webapp/build"; LISTEN_ADDR=":8080"
 }
 
