@@ -21,7 +21,6 @@ WORKDIR /app
 COPY --from=server-builder /app/walkthrough-server .
 COPY --from=webapp-builder /webapp/build /static
 
-ENV DB_PATH=/data/progress.sqlite
 ENV APP_MODE=server
 ENV STATIC_DIR=/static
 ENV LISTEN_ADDR=:8080

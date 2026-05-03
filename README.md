@@ -10,7 +10,8 @@ A touch and controller-optimized PWA for game walkthroughs. Works on Steam Deck,
 | **Node.js** | 22+ | Webapp build tooling |
 | **SvelteKit** | 2.x | PWA framework (Svelte 5, TypeScript 6) |
 | **Vite** | 8.x | Build tool / dev server |
-| **SQLite** | via `modernc.org/sqlite` | Pure-Go, no CGO required |
+| **SQLite** | via `modernc.org/sqlite` | Pure-Go, no CGO (client/dev mode) |
+| **PostgreSQL** | via `pgx` + CloudNativePG | Server mode (K8s deployment) |
 | **Docker** | node:22-alpine / golang:1.26.2-alpine / alpine:3.23 | Multi-stage build |
 
 ## Repository layout
@@ -32,7 +33,7 @@ The Go server runs in one of three modes, controlled by the `APP_MODE` environme
 
 | Mode | `APP_MODE` | Walkthrough source | Progress storage | Use case |
 |---|---|---|---|---|
-| **Server** | `server` | Polls GitHub Trees API | Local SQLite (authoritative) | Kubernetes / NAS — central hub |
+| **Server** | `server` | Polls GitHub Trees API | PostgreSQL (via CloudNativePG) | Kubernetes — central hub |
 | **Client** | `client` | Fetches from a remote server | Local SQLite + syncs upstream | Handheld devices (Steam Deck, ROG Ally) |
 | **File** | *(unset)* | Reads from local `walkthroughs/` dir | Local SQLite | Local development |
 

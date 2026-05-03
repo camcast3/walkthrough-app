@@ -40,7 +40,7 @@ func (m *mockSource) Get(id string) ([]byte, error) {
 // openTestDB opens an in-memory SQLite DB for tests.
 func openTestDB(t *testing.T) *store.DB {
 	t.Helper()
-	db, err := store.Open(":memory:")
+	db, err := store.OpenSQLite(":memory:")
 	if err != nil {
 		t.Fatalf("open test db: %v", err)
 	}

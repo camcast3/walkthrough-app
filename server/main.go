@@ -38,14 +38,26 @@ func main() {
 		*addr = v
 	}
 
-	// Ensure db directory exists
-	if err := os.MkdirAll(filepath.Dir(*dbPath), 0755); err != nil {
-		log.Fatalf("create db dir: %v", err)
-	}
-
-	db, err := store.Open(*dbPath)
-	if err != nil {
-		log.Fatalf("open store: %v", err)
+	// Open database — PostgreSQL via DATABASE_URL, or SQLite via DB_PATH.
+	databaseURL := os.Getenv("DATABASE_URL")
+	var db *store.DB
+	if databaseURL != "" {
+		var pgErr error
+		db, pgErr = store.OpenPostgres(databaseURL)
+		if pgErr != nil {
+			log.Fatalf("open postgres: %v", pgErr)
+		}
+		log.Printf("  db:     postgres (DATABASE_URL)")
+	} else {
+		if err := os.MkdirAll(filepath.Dir(*dbPath), 0755); err != nil {
+			log.Fatalf("create db dir: %v", err)
+		}
+		var sqliteErr error
+		db, sqliteErr = store.OpenSQLite(*dbPath)
+		if sqliteErr != nil {
+			log.Fatalf("open sqlite: %v", sqliteErr)
+		}
+		log.Printf("  db:     sqlite (%s)", *dbPath)
 	}
 	defer db.Close()
 
@@ -217,7 +229,6 @@ func main() {
 
 	log.Printf("walkthrough-server listening on %s", *addr)
 	log.Printf("  static: %s", *staticDir)
-	log.Printf("  db:     %s", *dbPath)
 
 	if err := http.ListenAndServe(*addr, corsMiddleware(mux)); err != nil {
 		log.Fatalf("server error: %v", err)
