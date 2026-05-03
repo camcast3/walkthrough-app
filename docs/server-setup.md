@@ -109,7 +109,7 @@ Requires **Go 1.26+** and **Node 22+**.
 
 ```bash
 # Build the webapp
-cd webapp && npm ci && npm run build && cd ..
+cd webapp && npm ci --legacy-peer-deps && npm run build && cd ..
 
 # Run in server mode
 cd server
