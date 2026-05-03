@@ -18,37 +18,154 @@
       "title": "Prologue: November 29–30",
       "content": "# Prologue\n\nThe Prologue of Trails of Cold Steel II picks up one month after the devastating Erebonian Civil War outbreak that ended the first game. Rean Schwarzer awakens alone in the Eisengard Mountains near Ymir, separated from his classmates. This tutorial chapter reintroduces you to the combat system and sets the stage for the journey to reunite Class VII.\n\n## November 29 — Eisengard Range\n\n<!-- checkpoint: eisengard-start | Begin Eisengard Descent -->\n\n### Starting Out\n\nYou begin in the snowy Eisengard Mountain Canyon. The path is mostly linear with side branches leading to treasure.\n\n**Difficulty Selection:** Choose from Easy, Normal, Hard, or Nightmare. If you have a Clear Save from Trails of Cold Steel I, you'll receive transfer bonuses including items and Sepith based on your old save's level and rank.\n\nAfter the opening cinematic summarizing the civil war, you gain control of **Rean**.\n\n### Navigation Tutorial\n\nThe game introduces saving, Cross-Save, and the Navigation Menu (press Square to highlight objectives). Get into the habit of pressing Square whenever you're unsure where to go.\n\n### Descending the Mountain\n\nHead downhill along the canyon path. Watch for a **shining object** on the ground — this restores some of Rean's equipment. Open your Orbment menu when prompted and equip your **Master Quartz**.\n\n**Treasure Chests in Eisengard Range:**\n- **Tear** — early in the path, right side\n- **Teara Balm** — branching left path\n- **Proxy Puppet** — hidden alcove past the second monster group\n- **Celestial Balm** — final chest before the boss area\n\n> Collect ALL chests on side branches before proceeding. You cannot return to the upper areas later.\n\n### First Battles\n\nYour first monster encounter acts as a combat tutorial:\n- **Field Attack:** Hit enemies on the field before combat starts for an Advantage (extra turns, reduced enemy HP)\n- **Link System:** Connect party members for Follow-Up attacks after Unbalancing enemies\n- After each fight, the **Monster Notebook** fills with data. Analyze every new enemy with the Battle Scope for 100% completion\n\n> 🏆 **Achievement: Monster Researcher** — Fill the Monster Notebook to 100%. Start scanning from the very first fight.\n\n### Boss: Magic Knight Ortheim\n\n<!-- checkpoint: ortheim-defeated | Defeat Magic Knight Ortheim -->\n\n**Magic Knight Ortheim** blocks your path at the bottom of the range.\n\n- **HP:** ~10,000 (Normal difficulty)\n- **Weakness:** None specific; use physical Crafts\n- **Strategy:** This is a scripted encounter — you only need to reduce its HP to a threshold before a cutscene triggers. Use Rean's **Arc Slash** for consistent damage and heal with items if HP drops below 50%.\n- The fight ends via cutscene regardless of outcome — don't waste rare items here.\n\nAfter the battle, story scenes play and you're transported to Ymir.\n\n## November 30 — Ymir\n\n<!-- checkpoint: ymir-arrival | Arrive in Ymir -->\n\n### Exploring Ymir Village\n\nYou wake in the **Schwarzer Mansion** in Ymir, Rean's hometown. This is a free exploration day — talk to everyone and gather items before heading to the canyon.\n\n**Required NPC Visits** (red \"!\" markers on map):\n- **Lucia and Teo Schwarzer** — Baron Schwarzer's mansion (Rean's parents)\n- **Elise and Celine** — at the footbath area\n- **Princess Alfin** — Ymir Chapel\n- **Toval Randonneur** — Valley's Echo Tavern\n- **Head Chef Werner** — Phoenix Wings restaurant\n- **Annabelle** — Ymir Valley path\n- **Manager Baggins** — Phoenix Wings\n\n**Bonus Items:**\n- Speak with **Gerald** for **Fluffy Pancake ×2**\n- If you imported Clear Data from Cold Steel I, receive **Groundbait** (amount depends on fishing rank)\n\n**Books (Missable!):**\n- **Gambler Jack II - Chapter 1** — Talk to **Ploval** directly at the General Store counter (do NOT just browse the shop menu — you must speak to her in person to receive this book)\n\n> 🏆 **Achievement: Bookworm** — Gambler Jack II Ch.1 is missable. Grab it now or lose it forever.\n\n**Recipes to obtain:**\n- **Salty Onigiri (Recipe)** — given during story progression\n\n**Shop Items:**\n- **Coarse Rock Salt ×3** — available for purchase\n- **Assorted Grains ×3** — available for purchase\n\n> **Save your game before the bath event.** After visiting all required NPCs, enter the bath for a story scene that advances the day.\n\n### Ymir Canyon Path\n\n<!-- checkpoint: ymir-canyon-cleared | Clear Ymir Canyon -->\n\nAfter the village events, you head out to **Ymir Canyon Path** with a **fixed party of Rean, Elise, and Toval**. The path is mostly linear — defeat monsters and collect treasure chests along the way.\n\n**Treasure Chests in Ymir Canyon:**\n- **Teara Balm**\n- **U-Material ×3**\n- **Lighter**\n- **Zeram Powder**\n- **Tearal Balm**\n- **Poison Quartz**\n- **All Sepith ×50**\n\n### Boss: Magic Knight\n\nAt the end of the canyon you face another **Magic Knight** enemy.\n\n- **Strategy:** Apply buffs early (use Toval for support arts). Focus physical damage with Rean's Crafts. Use S-Craft if health is comfortable.\n- After reducing its HP, a cutscene triggers leading directly into the **Valimar Divine Knight tutorial battle**.\n\n### Valimar Tutorial — Panzer Soldat Type-D\n\n<!-- checkpoint: valimar-tutorial | Valimar Tutorial Mech Battle -->\n\nThis is your **first Divine Knight mech battle**. After the Magic Knight fight, Rean boards Valimar to face a **Panzer Soldat Type-D**.\n\n- **Mechanics:** Select attack targets (Head, Body, Arms) to find weak points. When a weak point is revealed, focus attacks there for bonus damage.\n- **Strategy:** Use Valimar's standard attacks to probe for weak points. When the Soldat charges a powerful attack, use defensive stance. Heal with Restore when HP drops below 50%.\n- **Reward:** Large EXP bonus + story progression\n\n> This tutorial teaches the Divine Knight battle system used throughout the rest of the game. Pay attention to the targeting mechanics.\n\n> After defeating the Panzer Soldat, story events conclude the Prologue and open up Act 1.\n\n<!-- checkpoint: prologue-complete | Prologue Complete -->",
       "checkpoints": [
-        { "id": "eisengard-start", "label": "Begin Eisengard Descent" },
-        { "id": "ortheim-defeated", "label": "Defeat Magic Knight Ortheim" },
-        { "id": "ymir-arrival", "label": "Arrive in Ymir" },
-        { "id": "ymir-canyon-cleared", "label": "Clear Ymir Canyon" },
-        { "id": "valimar-tutorial", "label": "Valimar Tutorial Mech Battle" },
-        { "id": "prologue-complete", "label": "Prologue Complete" }
+        {
+          "id": "eisengard-start",
+          "label": "Begin Eisengard Descent"
+        },
+        {
+          "id": "ortheim-defeated",
+          "label": "Defeat Magic Knight Ortheim"
+        },
+        {
+          "id": "ymir-arrival",
+          "label": "Arrive in Ymir"
+        },
+        {
+          "id": "ymir-canyon-cleared",
+          "label": "Clear Ymir Canyon"
+        },
+        {
+          "id": "valimar-tutorial",
+          "label": "Valimar Tutorial Mech Battle"
+        },
+        {
+          "id": "prologue-complete",
+          "label": "Prologue Complete"
+        }
       ],
       "steps": [
-        { "id": "select-difficulty", "type": "step", "text": "Select your difficulty (Easy/Normal/Hard/Nightmare) and import Cold Steel I clear data if available.", "note": "Transfer bonuses include items and Sepith based on your old save's level and rank." },
-        { "id": "equip-master-quartz", "type": "step", "text": "Equip your **Master Quartz** in the Orbment menu when prompted." },
-        { "id": "loot-tear", "type": "collectible", "text": "Pick up **Tear** from the first chest (right side of the path)." },
-        { "id": "loot-teara-balm-eisengard", "type": "collectible", "text": "Pick up **Teara Balm** from the chest on the branching left path." },
-        { "id": "loot-proxy-puppet", "type": "collectible", "text": "Pick up **Proxy Puppet** from the hidden alcove past the second monster group." },
-        { "id": "loot-celestial-balm-eisengard", "type": "collectible", "text": "Pick up **Celestial Balm** from the final chest before the boss area." },
-        { "id": "warning-eisengard-no-return", "type": "warning", "text": "Collect ALL chests before proceeding to the boss — you cannot return to upper Eisengard areas.", "note": "The path is one-way downhill." },
-        { "id": "scan-first-monsters", "type": "step", "text": "Use **Battle Scope** on every new enemy type for Monster Notebook progress.", "note": "Required for the Monster Researcher achievement — start from the very first fight." },
-        { "id": "boss-ortheim", "type": "boss", "text": "**BOSS: Magic Knight Ortheim** (~10,000 HP) — Use Arc Slash for damage. This is scripted; reduce HP to threshold for cutscene. Don't waste rare items.", "note": "The fight ends via cutscene regardless of outcome." },
-        { "id": "talk-lucia-teo", "type": "step", "text": "Visit **Lucia and Teo Schwarzer** in Baron Schwarzer's mansion." },
-        { "id": "talk-elise-celine", "type": "step", "text": "Find **Elise and Celine** at the footbath area." },
-        { "id": "talk-alfin", "type": "step", "text": "Speak with **Princess Alfin** in Ymir Chapel." },
-        { "id": "talk-toval", "type": "step", "text": "Talk to **Toval** in Valley's Echo Tavern." },
-        { "id": "talk-chef-werner", "type": "step", "text": "Visit **Head Chef Werner** in Phoenix Wings." },
-        { "id": "talk-annabelle", "type": "step", "text": "Find **Annabelle** on the Ymir Valley path." },
-        { "id": "talk-baggins", "type": "step", "text": "Speak with **Manager Baggins** in Phoenix Wings." },
-        { "id": "bonus-gerald-pancakes", "type": "collectible", "text": "Talk to **Gerald** for **Fluffy Pancake ×2** (bonus item)." },
-        { "id": "get-gambler-jack-ch1", "type": "collectible", "text": "Talk to **Ploval** directly at the General Store counter for **Gambler Jack II - Chapter 1** (book).", "note": "Missable! You must speak to her in person, NOT through the shop menu. Required for Bookworm achievement." },
-        { "id": "get-recipe-onigiri", "type": "collectible", "text": "Obtain the **Salty Onigiri Recipe** during story progression." },
-        { "id": "save-before-bath", "type": "warning", "text": "**Save before entering the bath.** The bath event advances the story and you cannot return to free exploration." },
-        { "id": "clear-ymir-canyon-chests", "type": "step", "text": "Collect all treasure chests in **Ymir Canyon Path**: Teara Balm, U-Material ×3, Lighter, Zeram Powder, Tearal Balm, Poison Quartz, All Sepith ×50." },
-        { "id": "boss-magic-knight-ymir", "type": "boss", "text": "**BOSS: Magic Knight** (Ymir Canyon) — Buff party with Toval support arts, focus physical damage with Rean's Crafts. Triggers Valimar mech battle upon HP threshold.", "note": "After reducing its HP, a cutscene leads directly into the Valimar tutorial battle." },
-        { "id": "mech-battle-valimar-tutorial", "type": "boss", "text": "**MECH BATTLE: Valimar vs Panzer Soldat Type-D** — First Divine Knight battle. Probe for weak points (Head/Body/Arms), use defensive stance against charged attacks, Restore when HP drops below 50%.", "note": "Tutorial fight that teaches mech battle targeting mechanics used throughout the game." }
+        {
+          "id": "select-difficulty",
+          "type": "step",
+          "text": "Select your difficulty (Easy/Normal/Hard/Nightmare) and import Cold Steel I clear data if available.",
+          "note": "Transfer bonuses include items and Sepith based on your old save's level and rank."
+        },
+        {
+          "id": "equip-master-quartz",
+          "type": "step",
+          "text": "Equip your **Master Quartz** in the Orbment menu when prompted."
+        },
+        {
+          "id": "loot-tear",
+          "type": "collectible",
+          "text": "Pick up **Tear** from the first chest (right side of the path)."
+        },
+        {
+          "id": "loot-teara-balm-eisengard",
+          "type": "collectible",
+          "text": "Pick up **Teara Balm** from the chest on the branching left path."
+        },
+        {
+          "id": "loot-proxy-puppet",
+          "type": "collectible",
+          "text": "Pick up **Proxy Puppet** from the hidden alcove past the second monster group."
+        },
+        {
+          "id": "loot-celestial-balm-eisengard",
+          "type": "collectible",
+          "text": "Pick up **Celestial Balm** from the final chest before the boss area."
+        },
+        {
+          "id": "warning-eisengard-no-return",
+          "type": "warning",
+          "text": "Collect ALL chests before proceeding to the boss — you cannot return to upper Eisengard areas.",
+          "note": "The path is one-way downhill."
+        },
+        {
+          "id": "scan-first-monsters",
+          "type": "step",
+          "text": "Use **Battle Scope** on every new enemy type for Monster Notebook progress.",
+          "note": "Required for the Monster Researcher achievement — start from the very first fight."
+        },
+        {
+          "id": "boss-ortheim",
+          "type": "boss",
+          "text": "**BOSS: Magic Knight Ortheim** (~10,000 HP) — Use Arc Slash for damage. This is scripted; reduce HP to threshold for cutscene. Don't waste rare items.",
+          "note": "The fight ends via cutscene regardless of outcome."
+        },
+        {
+          "id": "talk-lucia-teo",
+          "type": "step",
+          "text": "Visit **Lucia and Teo Schwarzer** in Baron Schwarzer's mansion."
+        },
+        {
+          "id": "talk-elise-celine",
+          "type": "step",
+          "text": "Find **Elise and Celine** at the footbath area."
+        },
+        {
+          "id": "talk-alfin",
+          "type": "step",
+          "text": "Speak with **Princess Alfin** in Ymir Chapel."
+        },
+        {
+          "id": "talk-toval",
+          "type": "step",
+          "text": "Talk to **Toval** in Valley's Echo Tavern."
+        },
+        {
+          "id": "talk-chef-werner",
+          "type": "step",
+          "text": "Visit **Head Chef Werner** in Phoenix Wings."
+        },
+        {
+          "id": "talk-annabelle",
+          "type": "step",
+          "text": "Find **Annabelle** on the Ymir Valley path."
+        },
+        {
+          "id": "talk-baggins",
+          "type": "step",
+          "text": "Speak with **Manager Baggins** in Phoenix Wings."
+        },
+        {
+          "id": "bonus-gerald-pancakes",
+          "type": "collectible",
+          "text": "Talk to **Gerald** for **Fluffy Pancake ×2** (bonus item)."
+        },
+        {
+          "id": "get-gambler-jack-ch1",
+          "type": "collectible",
+          "text": "Talk to **Ploval** directly at the General Store counter for **Gambler Jack II - Chapter 1** (book).",
+          "note": "Missable! You must speak to her in person, NOT through the shop menu. Required for Bookworm achievement."
+        },
+        {
+          "id": "get-recipe-onigiri",
+          "type": "collectible",
+          "text": "Obtain the **Salty Onigiri Recipe** during story progression."
+        },
+        {
+          "id": "save-before-bath",
+          "type": "warning",
+          "text": "**Save before entering the bath.** The bath event advances the story and you cannot return to free exploration."
+        },
+        {
+          "id": "clear-ymir-canyon-chests",
+          "type": "step",
+          "text": "Collect all treasure chests in **Ymir Canyon Path**: Teara Balm, U-Material ×3, Lighter, Zeram Powder, Tearal Balm, Poison Quartz, All Sepith ×50."
+        },
+        {
+          "id": "boss-magic-knight-ymir",
+          "type": "boss",
+          "text": "**BOSS: Magic Knight** (Ymir Canyon) — Buff party with Toval support arts, focus physical damage with Rean's Crafts. Triggers Valimar mech battle upon HP threshold.",
+          "note": "After reducing its HP, a cutscene leads directly into the Valimar tutorial battle."
+        },
+        {
+          "id": "mech-battle-valimar-tutorial",
+          "type": "boss",
+          "text": "**MECH BATTLE: Valimar vs Panzer Soldat Type-D** — First Divine Knight battle. Probe for weak points (Head/Body/Arms), use defensive stance against charged attacks, Restore when HP drops below 50%.",
+          "note": "Tutorial fight that teaches mech battle targeting mechanics used throughout the game."
+        }
       ]
     },
     {
@@ -56,35 +173,143 @@
       "title": "Act 1, Part 1: Celdic",
       "content": "# Act 1, Part 1 — Celdic\n\nAct 1 begins the search for Class VII members scattered across Erebonia. In Part 1, you travel to the occupied town of **Celdic** and the surrounding **Lunaria Nature Park** to reunite with allies and complete key quests.\n\n<!-- checkpoint: arrive-celdic | Arrive in Celdic -->\n\n## Arriving in Celdic\n\n**Quick Travel** becomes available from this point forward — use it freely between discovered locations.\n\n### Town Exploration\n\nBefore heading to quest objectives, explore Celdic thoroughly:\n\n- **Raio** (General Store, right side) — weapon synthesis and orbment slot upgrades available here\n- **Camillia** (Trading Post) — item trading similar to the pawn shop from Cold Steel I. On NG+, trade Zemurian Ore Shards for U-Materials\n- **Luke** (near wrecked station) — gives you **Tear Balm** items for free\n- **Rosine** (Celdic Chapel) — speak to her for **3 free Tear Balm**\n\n> Do NOT leave Celdic before visiting all shops and NPCs — free items and setup opportunities are easily missed.\n\n### Story Quests\n\n**Exploring Celdic:** Talk to **Becky**, **Owner Margot** (Weathercock Inn), and **Rosine/Provincial Army Soldiers** at Grand Market to progress.\n\n**Herbal Remedies:** Speak to the priest at the church. He needs herbs from Lunaria Nature Park. Proceed to the park, gather the herbs from glowing spots, and return for completion.\n\n<!-- checkpoint: celdic-explored | Celdic Town Explored -->\n\n## Side Quests\n\n### Munch No More (Side Quest)\n- **Location:** East Celdic Highway 2\n- **Objective:** Defeat the marked quest monster\n- **Tips:** The monster is weak to fire. Use S-Crafts for efficiency.\n- **Availability:** Available upon arriving in Celdic. **Expires when you advance the main story past the Nature Park dungeon.**\n\n### A Cry For Help (Hidden Quest)\n- **How to find:** Go to Twin Dragons Bridge (Celdic Side), talk to the guard AND the civilian on the left. The civilian runs off.\n- **Objective:** Head toward East Celdic Highway 2/3; an event triggers ~75% of the way there, leading to a rescue fight.\n- **Availability:** Only available during free time in Celdic. **Missable if you don't check Twin Dragons Bridge.**\n\n> ⚠️ **All three side quests expire when you progress the main story.** Complete them during your initial free time in Celdic.\n\n> 🏆 **Achievement: Honor Student** — Requires completing ALL quests including hidden ones. Missing any hidden quest here locks you out.\n\n### Leaf it to Me (Hidden Quest — Ymir)\n- **How to find:** When you return to Ymir before Celdic operations, talk to **Father Bernard** at Ymir Chapel\n- **Objective:** Help Father Bernard sweep and collect fallen leaves around the chapel grounds using a broom.\n- **Reward:** U-Material ×2, 500 Mira, AP\n- **Availability:** Only available before advancing the story (bathing in hot spring or leaving Ymir). **Easily missable!**\n\n<!-- checkpoint: celdic-side-quests-done | Side Quests Complete -->\n\n## Bonding Events (Free Day)\n\nDuring your free day in Celdic, you receive **2 Bonding Points**. Spend them with Class VII members (yellow \"!\" markers on map):\n\n**Available characters:** Alisa, Elliot, Laura, Gaius, Fie, Machias, Jusis, Emma, Millium\n\n> Save before using Bonding Points if you want to see all scenes, then reload for your preferred characters. Bonding choices affect Link Levels in combat and determine your final cutscene partner.\n\n> The guest character (Claire/Sharon/Toval) with the highest Link EXP by end of Act 1 grants a powerful accessory in Act 2. Prioritize accordingly.\n\n## Lunaria Nature Park\n\n<!-- checkpoint: lunaria-nature-park | Enter Lunaria Nature Park -->\n\nThe park is a multi-level dungeon area east of Celdic.\n\n### Treasure Chest Locations\n\n**Nature Park Area 3 (southeast → southwest):**\n- **Stone Brooch** — southeast corner chest\n- **Sepith Mass** — southwest chest\n\n**Nature Park Area 2 (west → east):**\n- **Teara Balm** — west side chest\n- **Citrus Bottle** — east side chest\n- Fishing spot available near the western chest\n\n**Nature Park Bridge (Area 2–3 connection):**\n- **Scepter Master Quartz** — monster chest (west side, must defeat enemies)\n- **EP Charge II** — east side chest\n\n**Nature Park Area 1 (northeast → southwest):**\n- **HP 1** — northeast chest\n- **Sepith** — southwest chest\n- **Orbment Charging Station** — use it before the boss fight!\n\n### Monster Guide (Nature Park)\n| Monster | Drops |\n|---------|-------|\n| Blade Horn | Chitinous Shell, Hearty Powder |\n| Polyjelly | Clear Gelatin, Globby Fan |\n| Purple Ooze | Clear Gelatin, Globby Fan |\n| Gordi Chief | Red Beast Flesh, U-Material |\n| Sasa Panda | Red Beast Flesh, U-Material |\n\n> Scan ALL monsters with Battle Scope for the Monster Notebook.\n\n### East Celdic Highway\n\n- **Old Key** — easternmost chest on Highway Map 1. Opens the windmill for story progression.\n- Quest monster for \"Munch No More\" is in Highway 2 (northeast area)\n\n<!-- checkpoint: nature-park-cleared | Lunaria Nature Park Cleared -->\n\n## Boss: Grunoja\n\nAt the end of Lunaria Nature Park, you face the dungeon boss.\n\n- **Boss:** Grunoja (the Nature Park guardian)\n- **Recommended Level:** 45+\n- **Strategy:** Use the Orbment Charging Station before entering. Apply buffs (STR Up, DEF Up), focus physical attacks, and use AoE arts for any adds. Heal with Teara/Tear arts when needed.\n- **Reward:** AP bonus if defeated without KOs\n\n> **Save before the boss fight.** The charging station is your last rest point.\n\n<!-- checkpoint: act-1-part-1-complete | Act 1 Part 1 Complete -->",
       "checkpoints": [
-        { "id": "arrive-celdic", "label": "Arrive in Celdic" },
-        { "id": "celdic-explored", "label": "Celdic Town Explored" },
-        { "id": "celdic-side-quests-done", "label": "Side Quests Complete" },
-        { "id": "lunaria-nature-park", "label": "Enter Lunaria Nature Park" },
-        { "id": "nature-park-cleared", "label": "Lunaria Nature Park Cleared" },
-        { "id": "act-1-part-1-complete", "label": "Act 1 Part 1 Complete" }
+        {
+          "id": "arrive-celdic",
+          "label": "Arrive in Celdic"
+        },
+        {
+          "id": "celdic-explored",
+          "label": "Celdic Town Explored"
+        },
+        {
+          "id": "celdic-side-quests-done",
+          "label": "Side Quests Complete"
+        },
+        {
+          "id": "lunaria-nature-park",
+          "label": "Enter Lunaria Nature Park"
+        },
+        {
+          "id": "nature-park-cleared",
+          "label": "Lunaria Nature Park Cleared"
+        },
+        {
+          "id": "act-1-part-1-complete",
+          "label": "Act 1 Part 1 Complete"
+        }
       ],
       "steps": [
-        { "id": "arrive-at-celdic", "type": "step", "text": "Travel to **Celdic** — Quick Travel unlocks from this point forward." },
-        { "id": "visit-raio-shop", "type": "step", "text": "Visit **Raio** at the General Store for weapon synthesis and orbment slot upgrades." },
-        { "id": "visit-camillia-trading", "type": "step", "text": "Speak to **Camillia** at the Trading Post for item trading opportunities." },
-        { "id": "free-tear-balm-luke", "type": "collectible", "text": "Talk to **Luke** near the wrecked station for free **Tear Balm** items." },
-        { "id": "free-tear-balm-rosine", "type": "collectible", "text": "Speak to **Rosine** in the chapel for **3 free Tear Balm**." },
-        { "id": "quest-exploring-celdic", "type": "step", "text": "Complete **Exploring Celdic**: talk to Becky, Owner Margot (Weathercock Inn), and soldiers at Grand Market." },
-        { "id": "quest-herbal-remedies", "type": "step", "text": "Accept **Herbal Remedies** from the priest at the church. Gather herbs in Lunaria Nature Park and return." },
-        { "id": "quest-munch-no-more", "type": "step", "text": "Complete **Munch No More**: defeat the quest monster on East Celdic Highway 2 (weak to fire).", "note": "Expires when main story advances past the Nature Park dungeon." },
-        { "id": "quest-cry-for-help-hidden", "type": "warning", "text": "**Hidden Quest: A Cry For Help** — Go to Twin Dragons Bridge (Celdic Side), talk to guard AND civilian. Follow the civilian to Highway 2/3 for a rescue fight.", "note": "Missable! Only available during free time. Required for Honor Student achievement." },
-        { "id": "quest-leaf-it-to-me-hidden", "type": "warning", "text": "**Hidden Quest: Leaf it to Me** (Ymir) — Talk to **Father Bernard** at Ymir Chapel. Help him sweep and collect fallen leaves around the chapel grounds.", "note": "Missable! Reward: U-Material ×2 + 500 Mira. Only before advancing story. Required for Honor Student achievement." },
-        { "id": "bonding-events-celdic", "type": "step", "text": "Spend your **2 Bonding Points** during the free day in Celdic with Class VII members (Alisa, Elliot, Laura, Gaius, Fie, Machias, Jusis, Emma, Millium).", "note": "Save before choosing. Affects Link Levels, combat bonuses, and final cutscene partner." },
-        { "id": "loot-stone-brooch", "type": "collectible", "text": "Pick up **Stone Brooch** from the southeast corner chest in Nature Park Area 3." },
-        { "id": "loot-sepith-mass", "type": "collectible", "text": "Grab **Sepith Mass** from the southwest chest in Nature Park Area 3." },
-        { "id": "loot-teara-balm-park", "type": "collectible", "text": "Collect **Teara Balm** from the west side chest in Nature Park Area 2." },
-        { "id": "loot-citrus-bottle", "type": "collectible", "text": "Grab **Citrus Bottle** from the east side chest in Nature Park Area 2." },
-        { "id": "loot-scepter-mq", "type": "collectible", "text": "Defeat the monster chest enemies for the **Scepter Master Quartz** on the west bridge." },
-        { "id": "loot-ep-charge-bridge", "type": "collectible", "text": "Collect **EP Charge II** from the east side of the Nature Park bridge." },
-        { "id": "loot-old-key-highway", "type": "collectible", "text": "Find the **Old Key** in the easternmost chest on Highway Map 1.", "note": "Opens the windmill for story progression." },
-        { "id": "use-charging-station", "type": "step", "text": "Use the **Orbment Charging Station** before the boss fight in Nature Park Area 1." },
-        { "id": "save-before-park-boss", "type": "warning", "text": "**Save your game** before entering the boss arena. The charging station is your last rest point." },
-        { "id": "boss-nature-park", "type": "boss", "text": "**BOSS: Grunoja** — Apply buffs (STR Up, DEF Up), use AoE arts for adds, focus physical attacks on the boss. Recommended level 45+.", "note": "Bonus AP if defeated without any party member KO." }
+        {
+          "id": "arrive-at-celdic",
+          "type": "step",
+          "text": "Travel to **Celdic** — Quick Travel unlocks from this point forward."
+        },
+        {
+          "id": "visit-raio-shop",
+          "type": "step",
+          "text": "Visit **Raio** at the General Store for weapon synthesis and orbment slot upgrades."
+        },
+        {
+          "id": "visit-camillia-trading",
+          "type": "step",
+          "text": "Speak to **Camillia** at the Trading Post for item trading opportunities."
+        },
+        {
+          "id": "free-tear-balm-luke",
+          "type": "collectible",
+          "text": "Talk to **Luke** near the wrecked station for free **Tear Balm** items."
+        },
+        {
+          "id": "free-tear-balm-rosine",
+          "type": "collectible",
+          "text": "Speak to **Rosine** in the chapel for **3 free Tear Balm**."
+        },
+        {
+          "id": "quest-exploring-celdic",
+          "type": "step",
+          "text": "Complete **Exploring Celdic**: talk to Becky, Owner Margot (Weathercock Inn), and soldiers at Grand Market."
+        },
+        {
+          "id": "quest-herbal-remedies",
+          "type": "step",
+          "text": "Accept **Herbal Remedies** from the priest at the church. Gather herbs in Lunaria Nature Park and return."
+        },
+        {
+          "id": "quest-munch-no-more",
+          "type": "step",
+          "text": "Complete **Munch No More**: defeat the quest monster on East Celdic Highway 2 (weak to fire).",
+          "note": "Expires when main story advances past the Nature Park dungeon."
+        },
+        {
+          "id": "quest-cry-for-help-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: A Cry For Help** — Go to Twin Dragons Bridge (Celdic Side), talk to guard AND civilian. Follow the civilian to Highway 2/3 for a rescue fight.",
+          "note": "Missable! Only available during free time. Required for Honor Student achievement."
+        },
+        {
+          "id": "quest-leaf-it-to-me-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Leaf it to Me** (Ymir) — Talk to **Father Bernard** at Ymir Chapel. Help him sweep and collect fallen leaves around the chapel grounds.",
+          "note": "Missable! Reward: U-Material ×2 + 500 Mira. Only before advancing story. Required for Honor Student achievement."
+        },
+        {
+          "id": "bonding-events-celdic",
+          "type": "step",
+          "text": "Spend your **2 Bonding Points** during the free day in Celdic with Class VII members (Alisa, Elliot, Laura, Gaius, Fie, Machias, Jusis, Emma, Millium).",
+          "note": "Save before choosing. Affects Link Levels, combat bonuses, and final cutscene partner."
+        },
+        {
+          "id": "loot-stone-brooch",
+          "type": "collectible",
+          "text": "Pick up **Stone Brooch** from the southeast corner chest in Nature Park Area 3."
+        },
+        {
+          "id": "loot-sepith-mass",
+          "type": "collectible",
+          "text": "Grab **Sepith Mass** from the southwest chest in Nature Park Area 3."
+        },
+        {
+          "id": "loot-teara-balm-park",
+          "type": "collectible",
+          "text": "Collect **Teara Balm** from the west side chest in Nature Park Area 2."
+        },
+        {
+          "id": "loot-citrus-bottle",
+          "type": "collectible",
+          "text": "Grab **Citrus Bottle** from the east side chest in Nature Park Area 2."
+        },
+        {
+          "id": "loot-scepter-mq",
+          "type": "collectible",
+          "text": "Defeat the monster chest enemies for the **Scepter Master Quartz** on the west bridge."
+        },
+        {
+          "id": "loot-ep-charge-bridge",
+          "type": "collectible",
+          "text": "Collect **EP Charge II** from the east side of the Nature Park bridge."
+        },
+        {
+          "id": "loot-old-key-highway",
+          "type": "collectible",
+          "text": "Find the **Old Key** in the easternmost chest on Highway Map 1.",
+          "note": "Opens the windmill for story progression."
+        },
+        {
+          "id": "use-charging-station",
+          "type": "step",
+          "text": "Use the **Orbment Charging Station** before the boss fight in Nature Park Area 1."
+        },
+        {
+          "id": "save-before-park-boss",
+          "type": "warning",
+          "text": "**Save your game** before entering the boss arena. The charging station is your last rest point."
+        },
+        {
+          "id": "boss-nature-park",
+          "type": "boss",
+          "text": "**BOSS: Grunoja** — Apply buffs (STR Up, DEF Up), use AoE arts for adds, focus physical attacks on the boss. Recommended level 45+.",
+          "note": "Bonus AP if defeated without any party member KO."
+        }
       ]
     },
     {
@@ -92,31 +317,128 @@
       "title": "Act 1, Part 2: Nord Highlands",
       "content": "# Act 1, Part 2 — Nord Highlands\n\nPart 2 takes you to the vast **Nord Highlands** and **Zender Gate** to find more Class VII allies. You'll traverse the open plains on horseback, complete quests around Lake Lacrima, and infiltrate the Watchtower to disable an orbal jammer.\n\n<!-- checkpoint: arrive-nord | Arrive at Nord Highlands -->\n\n## Party Selection\n\nAt the start, you select two members from Class VII plus a guest character (**Sharon**, **Claire**, or **Toval**). Sharon is the primary guest for Nord. The party is **fixed for this entire segment** — choose wisely.\n\n> Guest characters carry powerful equipped accessories. **Unequip their accessories before they leave** your party — you lose access to any gear still on them.\n\n## Exploring the Highlands\n\nRide a horse to traverse the open Highlands. Key locations:\n\n- **Zender Gate** — new weapons, recipes, and classmates (Beryl, Mint) are here\n- **Lake Lacrima / Elder's Camp** — side quest NPCs, shops\n- **Nord Settlement** — story events, NPC conversations\n\n### Recipes & Books\n| Item | Location |\n|------|----------|\n| **Potato Croquette (Recipe)** | Marx, Mess Hall at Zender Gate |\n| **Hot Milk Tea (Recipe)** | Old Lady Jedah, Lake Lacrima / Elder's Camp |\n| **Gambler Jack II - Chapter 3 (Book)** | San at the Doctor's Camp |\n| **Gambler Jack Reprint #3 (Book)** | Kilte's Store (General Store) at Lake Lacrima |\n\n> 🏆 **Achievement: Bookworm** — Collect ALL \"Red Moon Rose\" and book series entries. Don't miss Gambler Jack volumes here.\n\n> 🏆 **Achievement: Cook-off Master** — Requires all recipes. Buy both recipes in this section.\n\n<!-- checkpoint: nord-explored | Nord Highlands Explored -->\n\n## Side Quests\n\n### Highlands Hunt (Side Quest)\n- **Objective:** Defeat marked monsters in the Highlands\n- **Turn in:** Elder Ivan at Lake Lacrima\n- **Availability:** Available upon arrival. Expires when you begin the Watchtower assault.\n\n### Foaling Around (Side Quest)\n- **Objective:** Find a runaway horse. Speak to the girl near the sheep to start. Track the horse to various locations (including Nord Settlement) until found.\n- **Availability:** Available during free exploration period only.\n\n### Zats Amore (Hidden Quest)\n- **How to find:** Speak to soldiers near the Zender Gate weapon shop\n- **Objective:** Hunt down an item at a marked spot in the South Highlands and return it\n- **Availability:** Only during free exploration. **Missable — check weapon shop soldiers.**\n\n### Azuki's Adventure (Hidden Quest)\n- **How to find:** Speak to the woman behind the counter at the Ymir goods store during your free day upon returning to Ymir\n- **Availability:** Only available on the Ymir return visit. **Easily missable.**\n\n> ⚠️ **All side quests in this section expire when you begin the Watchtower infiltration.** Complete them first.\n\n<!-- checkpoint: nord-quests-done | Nord Side Quests Complete -->\n\n## Bonding Events\n\nDuring free time at the Nord Settlement, you receive **2 Bonding Points**. Spend them on available party members:\n\n- Characters available vary based on your party selection\n- Bonding scenes at Nord highlight personal backstories and Link Level growth\n\n> Save before spending points to see multiple scenes, then reload for your preferred choices.\n\n## Treasure Chests — Highlands\n\n| Location | Contents |\n|----------|----------|\n| South Highlands (east path) | Teara Balm |\n| South Highlands (northwest) | EP Charge II |\n| South Highlands (south) | Gladiator Belt |\n| East Highlands (pond area) | Sepith Mass |\n| Lake Lacrima waterside | Celestial Balm |\n| Aria Shrine 1F | Curia Balm ×2 |\n| Aria Shrine 2F (monster chest) | Scepter Master Quartz |\n\n> Open ALL chests before advancing to the Watchtower. You can revisit some areas in Act 2 but others become inaccessible.\n\n## Aria Shrine (Optional Dungeon)\n\nFound in **Nord Highlands – East**. This is an optional dungeon with stronger enemies but grants **bonus AP** at chapter end.\n\n- **Enemies:** Higher level than surrounding Highlands\n- **Reward:** AP bonus + treasure chests with advanced equipment\n- **Recommended:** Complete this before the Watchtower for the AP bonus\n\n## The Watchtower Infiltration\n\n<!-- checkpoint: watchtower-infiltration | Begin Watchtower Assault -->\n\n### Nomadic Settlement Ambush\n\nBefore reaching the Watchtower, you encounter a **Jaeger ambush at the Nomadic Settlement**. Defeat the Jaeger squad to proceed.\n\n- **Enemies:** Jaeger soldiers (mixed melee and ranged)\n- **Strategy:** Buff party and focus fire. This fight can catch you off guard — make sure you're healed up before approaching the settlement.\n\n### Key Objectives\nInfiltrate the Nord Highlands Watchtower to destroy the orbal wave jammer. The dungeon involves several floors of battles leading to the rooftop.\n\n### Enemies\n| Enemy | HP (Normal) | Drops |\n|-------|------------|-------|\n| Jaeger - Greatsword | ~11,229 | Curia Balm, Reviving Balm |\n| Jaeger - Rifle | ~10,488 | Teara Balm, EP Charge II |\n\n**Strategy for Jaegers:** Buff party early, focus damage on one enemy at a time. Use Toval/Claire's S-Craft to clear groups quickly. The Greatsword type hits for 2000–3500+ damage.\n\n### Rooftop Boss: Altina & Bleublanc\n\n<!-- checkpoint: watchtower-boss | Watchtower Boss Defeated -->\n\n- **Altina:** High evasion, uses arts\n- **Bleublanc:** High HP, physical attacks + vanishing\n- **Bonus AP:** Defeat both within 40 turns\n- **Strategy:** Focus Altina first (lower HP), keep party healed. Use AoE to hit both when they're close together. Save S-Crafts for when one is nearly defeated.\n\n> **Save before the rooftop.** This is a two-phase boss sequence.\n\n### Mech Battle: Valimar vs Drakkhen Forces\n\nAfter the rooftop fight, a mech battle follows:\n- **Enemies:** Spiegel, Drakkhen Gun, Drakkhen Sword, plus an untargetable Airship RF30\n- **Strategy:** Focus the Drakkhen units first (they deal damage while Spiegel buffs). Use Valimar's strongest attack on Spiegel last.\n\n<!-- checkpoint: act-1-part-2-complete | Act 1 Part 2 Complete -->",
       "checkpoints": [
-        { "id": "arrive-nord", "label": "Arrive at Nord Highlands" },
-        { "id": "nord-explored", "label": "Nord Highlands Explored" },
-        { "id": "nord-quests-done", "label": "Nord Side Quests Complete" },
-        { "id": "watchtower-infiltration", "label": "Begin Watchtower Assault" },
-        { "id": "watchtower-boss", "label": "Watchtower Boss Defeated" },
-        { "id": "act-1-part-2-complete", "label": "Act 1 Part 2 Complete" }
+        {
+          "id": "arrive-nord",
+          "label": "Arrive at Nord Highlands"
+        },
+        {
+          "id": "nord-explored",
+          "label": "Nord Highlands Explored"
+        },
+        {
+          "id": "nord-quests-done",
+          "label": "Nord Side Quests Complete"
+        },
+        {
+          "id": "watchtower-infiltration",
+          "label": "Begin Watchtower Assault"
+        },
+        {
+          "id": "watchtower-boss",
+          "label": "Watchtower Boss Defeated"
+        },
+        {
+          "id": "act-1-part-2-complete",
+          "label": "Act 1 Part 2 Complete"
+        }
       ],
       "steps": [
-        { "id": "select-party-nord", "type": "step", "text": "Select your party: two Class VII members + guest (**Sharon**, **Claire**, or **Toval**). Sharon is the primary guest for Nord.", "note": "Party is fixed for this segment. Unequip guest accessories before they leave your party." },
-        { "id": "explore-zender-gate", "type": "step", "text": "Visit **Zender Gate** for new weapons, recipes, and to meet classmates (Beryl, Mint)." },
-        { "id": "buy-potato-croquette", "type": "collectible", "text": "Buy **Potato Croquette Recipe** from Marx at the Zender Gate Mess Hall.", "note": "Required for Cook-off Master achievement." },
-        { "id": "get-hot-milk-tea", "type": "collectible", "text": "Get **Hot Milk Tea Recipe** from Old Lady Jedah at Lake Lacrima / Elder's Camp." },
-        { "id": "get-gambler-jack-ch3", "type": "collectible", "text": "Pick up **Gambler Jack II - Chapter 3** (book) from **San at the Doctor's Camp**.", "note": "Required for Bookworm achievement." },
-        { "id": "get-gambler-jack-reprint3", "type": "collectible", "text": "Pick up **Gambler Jack Reprint #3** (book) from **Kilte's Store (General Store) at Lake Lacrima**." },
-        { "id": "quest-highlands-hunt", "type": "step", "text": "Complete **Highlands Hunt**: defeat marked monsters, turn in to Elder Ivan at Lake Lacrima.", "note": "Expires when Watchtower assault begins." },
-        { "id": "quest-foaling-around", "type": "step", "text": "Complete **Foaling Around**: find the runaway horse by tracking it across locations including Nord Settlement." },
-        { "id": "quest-zats-amore-hidden", "type": "warning", "text": "**Hidden Quest: Zats Amore** — Speak to soldiers near the Zender Gate weapon shop, then retrieve an item from the South Highlands.", "note": "Missable! Required for Honor Student achievement." },
-        { "id": "quest-azuki-hidden", "type": "warning", "text": "**Hidden Quest: Azuki's Adventure** — Speak to the woman behind the counter at Ymir goods store on your return visit.", "note": "Easily missable! Only available during the brief Ymir return." },
-        { "id": "bonding-events-nord", "type": "step", "text": "Spend your **2 Bonding Points** during free time at Nord Settlement on available party members.", "note": "Save before choosing. Affects Link Levels and final cutscene partner." },
-        { "id": "warning-quests-expire-watchtower", "type": "warning", "text": "⚠️ ALL side quests expire when you begin the Watchtower infiltration. Complete everything first." },
-        { "id": "clear-aria-shrine", "type": "step", "text": "Complete the optional **Aria Shrine** dungeon in Nord Highlands – East for bonus AP.", "note": "Higher-level enemies but grants extra Academic Points at chapter end." },
-        { "id": "save-before-watchtower", "type": "warning", "text": "**Save before entering the Watchtower.** Multiple boss fights ahead with no rest points between them." },
-        { "id": "nomadic-settlement-ambush", "type": "boss", "text": "**Jaeger Ambush at Nomadic Settlement** — Defeat the Jaeger squad before reaching the Watchtower. Buff and heal up beforehand.", "note": "This fight occurs before the Watchtower. Be prepared." },
-        { "id": "boss-altina-bleublanc", "type": "boss", "text": "**BOSS: Altina & Bleublanc** (Watchtower Rooftop) — Focus Altina first (lower HP, high evasion). Bonus AP for defeating both within 40 turns.", "note": "Use AoE when they're close together. Save S-Crafts for finishers." },
-        { "id": "mech-battle-drakkhen", "type": "boss", "text": "**MECH BATTLE: Valimar vs Spiegel + Drakkhen forces** — Focus Drakkhen Gun/Sword first, save strongest attack for Spiegel.", "note": "The Airship RF30 is untargetable — ignore it." }
+        {
+          "id": "select-party-nord",
+          "type": "step",
+          "text": "Select your party: two Class VII members + guest (**Sharon**, **Claire**, or **Toval**). Sharon is the primary guest for Nord.",
+          "note": "Party is fixed for this segment. Unequip guest accessories before they leave your party."
+        },
+        {
+          "id": "explore-zender-gate",
+          "type": "step",
+          "text": "Visit **Zender Gate** for new weapons, recipes, and to meet classmates (Beryl, Mint)."
+        },
+        {
+          "id": "buy-potato-croquette",
+          "type": "collectible",
+          "text": "Buy **Potato Croquette Recipe** from Marx at the Zender Gate Mess Hall.",
+          "note": "Required for Cook-off Master achievement."
+        },
+        {
+          "id": "get-hot-milk-tea",
+          "type": "collectible",
+          "text": "Get **Hot Milk Tea Recipe** from Old Lady Jedah at Lake Lacrima / Elder's Camp."
+        },
+        {
+          "id": "get-gambler-jack-ch3",
+          "type": "collectible",
+          "text": "Pick up **Gambler Jack II - Chapter 3** (book) from **San at the Doctor's Camp**.",
+          "note": "Required for Bookworm achievement."
+        },
+        {
+          "id": "get-gambler-jack-reprint3",
+          "type": "collectible",
+          "text": "Pick up **Gambler Jack Reprint #3** (book) from **Kilte's Store (General Store) at Lake Lacrima**."
+        },
+        {
+          "id": "quest-highlands-hunt",
+          "type": "step",
+          "text": "Complete **Highlands Hunt**: defeat marked monsters, turn in to Elder Ivan at Lake Lacrima.",
+          "note": "Expires when Watchtower assault begins."
+        },
+        {
+          "id": "quest-foaling-around",
+          "type": "step",
+          "text": "Complete **Foaling Around**: find the runaway horse by tracking it across locations including Nord Settlement."
+        },
+        {
+          "id": "quest-zats-amore-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Zats Amore** — Speak to soldiers near the Zender Gate weapon shop, then retrieve an item from the South Highlands.",
+          "note": "Missable! Required for Honor Student achievement."
+        },
+        {
+          "id": "quest-azuki-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Azuki's Adventure** — Speak to the woman behind the counter at Ymir goods store on your return visit.",
+          "note": "Easily missable! Only available during the brief Ymir return."
+        },
+        {
+          "id": "bonding-events-nord",
+          "type": "step",
+          "text": "Spend your **2 Bonding Points** during free time at Nord Settlement on available party members.",
+          "note": "Save before choosing. Affects Link Levels and final cutscene partner."
+        },
+        {
+          "id": "warning-quests-expire-watchtower",
+          "type": "warning",
+          "text": "⚠️ ALL side quests expire when you begin the Watchtower infiltration. Complete everything first."
+        },
+        {
+          "id": "clear-aria-shrine",
+          "type": "step",
+          "text": "Complete the optional **Aria Shrine** dungeon in Nord Highlands – East for bonus AP.",
+          "note": "Higher-level enemies but grants extra Academic Points at chapter end."
+        },
+        {
+          "id": "save-before-watchtower",
+          "type": "warning",
+          "text": "**Save before entering the Watchtower.** Multiple boss fights ahead with no rest points between them."
+        },
+        {
+          "id": "nomadic-settlement-ambush",
+          "type": "boss",
+          "text": "**Jaeger Ambush at Nomadic Settlement** — Defeat the Jaeger squad before reaching the Watchtower. Buff and heal up beforehand.",
+          "note": "This fight occurs before the Watchtower. Be prepared."
+        },
+        {
+          "id": "boss-altina-bleublanc",
+          "type": "boss",
+          "text": "**BOSS: Altina & Bleublanc** (Watchtower Rooftop) — Focus Altina first (lower HP, high evasion). Bonus AP for defeating both within 40 turns.",
+          "note": "Use AoE when they're close together. Save S-Crafts for finishers."
+        },
+        {
+          "id": "mech-battle-drakkhen",
+          "type": "boss",
+          "text": "**MECH BATTLE: Valimar vs Spiegel + Drakkhen forces** — Focus Drakkhen Gun/Sword first, save strongest attack for Spiegel.",
+          "note": "The Airship RF30 is untargetable — ignore it."
+        }
       ]
     },
     {
@@ -124,29 +446,119 @@
       "title": "Act 1, Part 3: Legram",
       "content": "# Act 1, Part 3 — Legram\n\nThe final part of Act 1 takes you to the lakeside town of **Legram** and the mandatory story dungeon **Lohengrin Castle**. You'll travel via Ebel Highway, recruit Laura, and explore this picturesque knight's town.\n\nGuest characters **Sharon**, **Claire**, or **Toval** are available for this segment.\n\n<!-- checkpoint: arrive-legram | Arrive in Legram -->\n\n## Ebel Highway\n\nTravel south through Ebel Highway toward Legram. The highway has limited exploration initially but will fully unlock later.\n\n**Key pickups:**\n- **Flame Tongue (Quartz)** — Ebel Highway Area 2, near Valimar's resting spot\n- **Celestial Balm** — side path chest\n- **EP Charge II** — branching route\n- **Tearal Balm** — before Legram entrance\n\n> Not all highway areas are accessible yet. Return later for remaining chests.\n\n## Legram Town\n\n### Important Items (Missable Books & Recipes)\n| Item | Location | Missable? |\n|------|----------|----------|\n| **Gambler Jack Reprint #4 (Book)** | General Store (buy) | Yes — chapter-specific stock |\n| **Gambler Jack II - Chapter 6 (Book)** | Talk to Weiber at Aprikoze Inn | Yes — NPC dialogue only |\n| **Seafood Pilaf (Recipe)** | Talk to Bem at Aprikoze Inn (backdoor entrance) | Yes |\n\n> 🏆 **Achievement: Bookworm** — Buy Gambler Jack Reprint #4 NOW. It may not be available later.\n\n> 🏆 **Achievement: Cook-off Master** — Get the Seafood Pilaf recipe from Bem. Check the inn backdoor.\n\n<!-- checkpoint: legram-items-collected | Legram Books & Recipes Collected -->\n\n## Side Quests\n\nCheck the quest board at the **Bracer Guild** in Legram:\n\n- **Monster Extermination** — defeat a dangerous creature in the area surrounding Legram\n- **Village requests** — fetch/delivery tasks for townsfolk\n- **Ebel Rebel** — defeat bandit groups on Ebel Highway\n\n### Missin' Kitten (Hidden Quest)\n- **How to find:** Speak to **Maren** (the maid at the Legram inn)\n- **Objective:** Find the missing kitten — check behind the inn, near the lake pier, and by the church. Return the kitten to Maren.\n- **Availability:** Only during free time in Legram. **Missable!**\n\n### St. Veronica's Tears (Hidden Quest)\n- **How to find:** Speak to **Sister Olive** at the Legram church\n- **Objective:** Locate a precious heirloom lost near the lake area. Search the dock area northwest of the inn.\n- **Availability:** Only during free time. **Missable!**\n\n### Stranger Than Fishin' (Hidden Quest)\n- **How to find:** Talk to **Annabelle** at the pier/docks area in Legram\n- **Objective:** Catch a **Kaleido Shark** at the designated fishing spot. Use the best available bait.\n- **Reward:** Fishing trophy item + AP\n- **Availability:** Only during free time. **Missable!**\n\n> 🏆 **Achievement: Fishy Business** — Catching the Kaleido Shark counts toward your fish collection.\n\n### Arseid School Training Bout 2 (Side Quest)\n- **Location:** Arseid School, speak to **Victor S. Arseid**\n- **Objective:** Duel Laura's father in a challenging 1-on-1 training bout\n- **Recommended Level:** 50+\n- **Tips:** Guard his powerful slashes, counter-attack during recovery frames. Use Chrono Burst if available.\n- **Availability:** Available after recruiting Laura. **Expires before entering Lohengrin Castle.**\n\n> ⚠️ **ALL side quests expire when you enter Lohengrin Castle.** Complete every quest above first — including all hidden quests.\n\n> 🏆 **Achievement: Honor Student** — Missing ANY hidden quest (Missin' Kitten, St. Veronica's Tears, Stranger Than Fishin') locks you out of this achievement permanently.\n\n## Bonding Events (Free Day)\n\nDuring your free day in Legram, you receive **2 Bonding Points**:\n\n**Available characters:** Laura, Fie, Emma, and other recruited members at Legram\n\n> Legram bonding scenes are especially rich for Laura (her hometown) and Fie (Arseid connection). Save before choosing.\n\n## Lohengrin Castle\n\n<!-- checkpoint: lohengrin-castle | Enter Lohengrin Castle -->\n\nThe main mandatory dungeon of Act 1 Part 3. You travel by boat across the lake to reach **Lohengrin Castle**. This is a multi-floor dungeon with progressive difficulty. **Emma is a mandatory party member** for this dungeon.\n\n### Strategy Tips\n- Analyze every new enemy with Battle Scope\n- Watch for monster chests (tougher fights, better rewards)\n- Use save points between floors\n\n### Boss: Zelvenom\n\n<!-- checkpoint: zelvenom-defeated | Boss Zelvenom Defeated -->\n\n**Zelvenom** — the Gluttonous Lizard, a powerful cryptid boss.\n\n- **Weakness:** Apply debuffs and use arts-heavy strategy\n- **Recommended:** Emma (mandatory) plus Sharon/Alisa or balanced party for healing/CP refill\n- **Bonus AP:** Defeat without any party KOs\n- **Strategy:** Buff party STR/DEF, apply ATK Down on boss, use S-Crafts when HP is lower. Clear minions first if they appear to reduce incoming damage.\n\n> **Save before the boss room.** Use the last save point available.\n\nAfter the boss, story events play and Act 1 Part 3 concludes.\n\n<!-- checkpoint: act-1-part-3-complete | Act 1 Part 3 Complete -->",
       "checkpoints": [
-        { "id": "arrive-legram", "label": "Arrive in Legram" },
-        { "id": "legram-items-collected", "label": "Legram Books & Recipes Collected" },
-        { "id": "lohengrin-castle", "label": "Enter Lohengrin Castle" },
-        { "id": "zelvenom-defeated", "label": "Boss Zelvenom Defeated" },
-        { "id": "act-1-part-3-complete", "label": "Act 1 Part 3 Complete" }
+        {
+          "id": "arrive-legram",
+          "label": "Arrive in Legram"
+        },
+        {
+          "id": "legram-items-collected",
+          "label": "Legram Books & Recipes Collected"
+        },
+        {
+          "id": "lohengrin-castle",
+          "label": "Enter Lohengrin Castle"
+        },
+        {
+          "id": "zelvenom-defeated",
+          "label": "Boss Zelvenom Defeated"
+        },
+        {
+          "id": "act-1-part-3-complete",
+          "label": "Act 1 Part 3 Complete"
+        }
       ],
       "steps": [
-        { "id": "loot-flame-tongue", "type": "collectible", "text": "Pick up **Flame Tongue** quartz from Ebel Highway Area 2 near Valimar." },
-        { "id": "loot-celestial-balm-highway", "type": "collectible", "text": "Grab **Celestial Balm** from a side path chest on Ebel Highway." },
-        { "id": "buy-gambler-jack-reprint4", "type": "collectible", "text": "Buy **Gambler Jack Reprint #4** from the Legram General Store.", "note": "Missable! Chapter-specific stock. Required for Bookworm achievement." },
-        { "id": "get-gambler-jack-ch6", "type": "collectible", "text": "Talk to **Weiber** at Aprikoze Inn for **Gambler Jack II - Chapter 6**.", "note": "Missable! NPC dialogue-triggered only." },
-        { "id": "get-seafood-pilaf-recipe", "type": "collectible", "text": "Talk to **Bem** at Aprikoze Inn (use the backdoor entrance) for the **Seafood Pilaf Recipe**.", "note": "Required for Cook-off Master achievement. Easy to miss." },
-        { "id": "check-bracer-guild-board", "type": "step", "text": "Check the **Bracer Guild** quest board in Legram for available side quests." },
-        { "id": "quest-ebel-rebel", "type": "step", "text": "Complete **Ebel Rebel**: defeat bandit groups along Ebel Highway.", "note": "Available from the Bracer Guild board." },
-        { "id": "quest-missin-kitten-hidden", "type": "warning", "text": "**Hidden Quest: Missin' Kitten** — Talk to **Maren** (the maid at the Legram inn). Find the kitten (behind inn, lake pier, church) and return it.", "note": "Missable! Required for Honor Student achievement." },
-        { "id": "quest-st-veronicas-tears-hidden", "type": "warning", "text": "**Hidden Quest: St. Veronica's Tears** — Talk to **Sister Olive** at the Legram church. Find the heirloom near the dock area NW of the inn.", "note": "Missable! Required for Honor Student achievement." },
-        { "id": "quest-stranger-than-fishin-hidden", "type": "warning", "text": "**Hidden Quest: Stranger Than Fishin'** — Talk to **Annabelle** at the pier. Catch a **Kaleido Shark** at the designated spot using best bait.", "note": "Missable! Required for Honor Student + Fishy Business achievements." },
-        { "id": "quest-arseid-training-bout-2", "type": "step", "text": "Complete **Arseid School Training Bout 2**: duel **Victor S. Arseid** at the Arseid School. Guard his slashes, counter during recovery.", "note": "Recommended Level 50+. Expires before entering Lohengrin Castle." },
-        { "id": "bonding-events-legram", "type": "step", "text": "Spend your **2 Bonding Points** during the free day in Legram (Laura, Fie, Emma, and other recruited members).", "note": "Laura and Fie have especially rich scenes in Legram. Save before choosing." },
-        { "id": "complete-legram-side-quests", "type": "step", "text": "Complete all remaining side quests (Monster Extermination, village requests) before entering Lohengrin Castle.", "note": "ALL quests expire upon entering Lohengrin Castle." },
-        { "id": "explore-lohengrin-castle", "type": "step", "text": "Travel by boat to **Lohengrin Castle** (mandatory story dungeon). **Emma is required** in your party. Scan every new enemy and open all chests." },
-        { "id": "save-before-zelvenom", "type": "warning", "text": "**Save at the last save point** before the boss room." },
-        { "id": "boss-zelvenom", "type": "boss", "text": "**BOSS: Zelvenom** (Gluttonous Lizard cryptid + minions) — Clear minions first, apply ATK Down debuff on boss, buff party STR/DEF. Use S-Crafts when its HP is lower.", "note": "Bonus AP for defeating without party KOs. Emma is mandatory for this fight." }
+        {
+          "id": "loot-flame-tongue",
+          "type": "collectible",
+          "text": "Pick up **Flame Tongue** quartz from Ebel Highway Area 2 near Valimar."
+        },
+        {
+          "id": "loot-celestial-balm-highway",
+          "type": "collectible",
+          "text": "Grab **Celestial Balm** from a side path chest on Ebel Highway."
+        },
+        {
+          "id": "buy-gambler-jack-reprint4",
+          "type": "collectible",
+          "text": "Buy **Gambler Jack Reprint #4** from the Legram General Store.",
+          "note": "Missable! Chapter-specific stock. Required for Bookworm achievement."
+        },
+        {
+          "id": "get-gambler-jack-ch6",
+          "type": "collectible",
+          "text": "Talk to **Weiber** at Aprikoze Inn for **Gambler Jack II - Chapter 6**.",
+          "note": "Missable! NPC dialogue-triggered only."
+        },
+        {
+          "id": "get-seafood-pilaf-recipe",
+          "type": "collectible",
+          "text": "Talk to **Bem** at Aprikoze Inn (use the backdoor entrance) for the **Seafood Pilaf Recipe**.",
+          "note": "Required for Cook-off Master achievement. Easy to miss."
+        },
+        {
+          "id": "check-bracer-guild-board",
+          "type": "step",
+          "text": "Check the **Bracer Guild** quest board in Legram for available side quests."
+        },
+        {
+          "id": "quest-ebel-rebel",
+          "type": "step",
+          "text": "Complete **Ebel Rebel**: defeat bandit groups along Ebel Highway.",
+          "note": "Available from the Bracer Guild board."
+        },
+        {
+          "id": "quest-missin-kitten-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Missin' Kitten** — Talk to **Maren** (the maid at the Legram inn). Find the kitten (behind inn, lake pier, church) and return it.",
+          "note": "Missable! Required for Honor Student achievement."
+        },
+        {
+          "id": "quest-st-veronicas-tears-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: St. Veronica's Tears** — Talk to **Sister Olive** at the Legram church. Find the heirloom near the dock area NW of the inn.",
+          "note": "Missable! Required for Honor Student achievement."
+        },
+        {
+          "id": "quest-stranger-than-fishin-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Stranger Than Fishin'** — Talk to **Annabelle** at the pier. Catch a **Kaleido Shark** at the designated spot using best bait.",
+          "note": "Missable! Required for Honor Student + Fishy Business achievements."
+        },
+        {
+          "id": "quest-arseid-training-bout-2",
+          "type": "step",
+          "text": "Complete **Arseid School Training Bout 2**: duel **Victor S. Arseid** at the Arseid School. Guard his slashes, counter during recovery.",
+          "note": "Recommended Level 50+. Expires before entering Lohengrin Castle."
+        },
+        {
+          "id": "bonding-events-legram",
+          "type": "step",
+          "text": "Spend your **2 Bonding Points** during the free day in Legram (Laura, Fie, Emma, and other recruited members).",
+          "note": "Laura and Fie have especially rich scenes in Legram. Save before choosing."
+        },
+        {
+          "id": "complete-legram-side-quests",
+          "type": "step",
+          "text": "Complete all remaining side quests (Monster Extermination, village requests) before entering Lohengrin Castle.",
+          "note": "ALL quests expire upon entering Lohengrin Castle."
+        },
+        {
+          "id": "explore-lohengrin-castle",
+          "type": "step",
+          "text": "Travel by boat to **Lohengrin Castle** (mandatory story dungeon). **Emma is required** in your party. Scan every new enemy and open all chests."
+        },
+        {
+          "id": "save-before-zelvenom",
+          "type": "warning",
+          "text": "**Save at the last save point** before the boss room."
+        },
+        {
+          "id": "boss-zelvenom",
+          "type": "boss",
+          "text": "**BOSS: Zelvenom** (Gluttonous Lizard cryptid + minions) — Clear minions first, apply ATK Down debuff on boss, buff party STR/DEF. Use S-Crafts when its HP is lower.",
+          "note": "Bonus AP for defeating without party KOs. Emma is mandatory for this fight."
+        }
       ]
     },
     {
@@ -154,29 +566,111 @@
       "title": "Intermission: Aboard the Pantagruel",
       "content": "# Intermission — Aboard the Pantagruel\n\nThe Intermission is a dramatic story chapter where Rean and allies are captured aboard the **Pantagruel**, a massive Noble Alliance airship. This chapter focuses on story revelations, gaining the Spirit Unification ability, and a dramatic escape sequence.\n\n<!-- checkpoint: pantagruel-aboard | Aboard the Pantagruel -->\n\n## Meeting the Villains\n\nVisit rooms marked with red \"!\" exclamation marks to meet key antagonists:\n\n**South Area:**\n- **Scarlet** — Southeast Room\n- **Vulcan** — Northeast Room\n\n**Center:**\n- **Bleublanc** — Dining Table (Center)\n\n**North Area:**\n- **Xeno & Leonidas** — Southeast Room\n- **McBurn** — Northeast Room\n- **Duvalie** — Southwest Room\n- **Altina** — Northwest Room\n\nAfter talking to everyone, go upstairs to the guest room for a story event with **Princess Alfin**. Rean gains the **Spirit Unification** ability — a powerful combat transformation.\n\n<!-- checkpoint: spirit-unification | Gain Spirit Unification -->\n\n## The Escape\n\nReturn to **Rean's room** (South Area, SW corner) and examine the **air ducts by the flower vase** to initiate the escape sequence. After the cutscenes, you must fight through the ship's corridors.\n\n### Item Locations During Escape\n- **Celestial Balm** — room to the west\n- **Orange Cape** — room to the east\n- **Tear All Balm** — as you continue south\n\n### Enemy Encounters\n| Enemy | HP | Drops |\n|-------|------|-------|\n| Alliance Forces Soldier | — | Teara Balm, EP Charge II |\n| Tri-Attacker R2 | — | Teara Balm, U-Material |\n| Tri-Attacker HG | — | EP Charge II, U-Material |\n| Doven Kaiser | — | Red Beast Flesh, U-Material |\n| Provincial Army Soldier | — | Teara Balm, EP Charge II |\n| Phalanx J9 | — | Teara Balm, U-Material |\n\n> Cancel enemy casting with Rean's **Autumn Leaf Cutter** craft. Prioritize Alfin's AoE arts for multi-target damage.\n\n<!-- checkpoint: escape-battles | Escape Battle Sequence -->\n\n### Orbment Charging Station\n\nBefore the boss fight, use the **Orbment Charging Station** to fully restore HP/EP.\n\n## Boss: Duvalie & Bleublanc\n\n- **Duvalie:** 85,316 HP, 90 elemental efficacy across all elements\n- **Bleublanc:** 96,640 HP, 90 elemental efficacy across all elements\n- **Win condition:** Reduce EITHER boss to 50% HP — you don't need to fully defeat them\n- **Strategy:** Use an S-Craft immediately for massive burst damage on one target. Focus Duvalie (lower HP). Scan both for Monster Notebook entries!\n\n> 🏆 **Achievement: Monster Researcher** — Make sure to use Battle Scope on both Duvalie and Bleublanc. These are unique scans.\n\n<!-- checkpoint: duvalie-bleublanc-defeated | Duvalie & Bleublanc Defeated -->\n\n## Boss: Crow\n\nAfter the escape sequence, a boss fight against **Crow** occurs. Full HP/EP recovery is provided before this fight.\n\n- **Strategy:** Use Spirit Unification for massive damage boost. Keep up healing and apply debuffs. Crow uses powerful S-Crafts — guard or use your own S-Craft to interrupt.\n\n> **Save at any opportunity** during the escape. Fights are back-to-back.\n\n<!-- checkpoint: intermission-complete | Intermission Complete -->",
       "checkpoints": [
-        { "id": "pantagruel-aboard", "label": "Aboard the Pantagruel" },
-        { "id": "spirit-unification", "label": "Gain Spirit Unification" },
-        { "id": "escape-battles", "label": "Escape Battle Sequence" },
-        { "id": "duvalie-bleublanc-defeated", "label": "Duvalie & Bleublanc Defeated" },
-        { "id": "intermission-complete", "label": "Intermission Complete" }
+        {
+          "id": "pantagruel-aboard",
+          "label": "Aboard the Pantagruel"
+        },
+        {
+          "id": "spirit-unification",
+          "label": "Gain Spirit Unification"
+        },
+        {
+          "id": "escape-battles",
+          "label": "Escape Battle Sequence"
+        },
+        {
+          "id": "duvalie-bleublanc-defeated",
+          "label": "Duvalie & Bleublanc Defeated"
+        },
+        {
+          "id": "intermission-complete",
+          "label": "Intermission Complete"
+        }
       ],
       "steps": [
-        { "id": "talk-scarlet", "type": "step", "text": "Visit **Scarlet** in the South Area, Southeast Room." },
-        { "id": "talk-vulcan", "type": "step", "text": "Visit **Vulcan** in the South Area, Northeast Room." },
-        { "id": "talk-bleublanc-dining", "type": "step", "text": "Speak to **Bleublanc** at the Dining Table (Center)." },
-        { "id": "talk-xeno-leonidas", "type": "step", "text": "Visit **Xeno & Leonidas** in the North Area, Southeast Room." },
-        { "id": "talk-mcburn", "type": "step", "text": "Visit **McBurn** in the North Area, Northeast Room." },
-        { "id": "talk-duvalie-room", "type": "step", "text": "Visit **Duvalie** in the North Area, Southwest Room." },
-        { "id": "talk-altina-room", "type": "step", "text": "Visit **Altina** in the North Area, Northwest Room." },
-        { "id": "alfin-event-spirit-unification", "type": "step", "text": "Go upstairs to the guest room for the **Princess Alfin** event. Rean gains **Spirit Unification**." },
-        { "id": "initiate-escape", "type": "step", "text": "Return to **Rean's room** (South Area, SW corner) and examine the **air ducts by the flower vase** to initiate the escape." },
-        { "id": "loot-celestial-balm-escape", "type": "collectible", "text": "Grab **Celestial Balm** from the room to the west during the escape." },
-        { "id": "loot-orange-cape", "type": "collectible", "text": "Pick up **Orange Cape** from the room to the east." },
-        { "id": "loot-tear-all-balm-escape", "type": "collectible", "text": "Collect **Tear All Balm** as you continue south through corridors." },
-        { "id": "scan-duvalie-bleublanc", "type": "step", "text": "Use **Battle Scope** on both Duvalie and Bleublanc for unique Monster Notebook entries.", "note": "These are unique scans available only here." },
-        { "id": "use-charging-station-pantagruel", "type": "step", "text": "Use the **Orbment Charging Station** to fully restore HP/EP before the boss fight." },
-        { "id": "boss-duvalie-bleublanc", "type": "boss", "text": "**BOSS: Duvalie (85,316 HP) & Bleublanc (96,640 HP)** — Only need to reduce one to 50% HP. Use S-Craft burst on Duvalie (lower HP).", "note": "90 elemental efficacy on both. Physical damage recommended." },
-        { "id": "boss-crow-escape", "type": "boss", "text": "**BOSS: Crow** — Full recovery provided before fight. Use Spirit Unification for damage boost, guard against his S-Crafts.", "note": "Apply debuffs and keep HP high." }
+        {
+          "id": "talk-scarlet",
+          "type": "step",
+          "text": "Visit **Scarlet** in the South Area, Southeast Room."
+        },
+        {
+          "id": "talk-vulcan",
+          "type": "step",
+          "text": "Visit **Vulcan** in the South Area, Northeast Room."
+        },
+        {
+          "id": "talk-bleublanc-dining",
+          "type": "step",
+          "text": "Speak to **Bleublanc** at the Dining Table (Center)."
+        },
+        {
+          "id": "talk-xeno-leonidas",
+          "type": "step",
+          "text": "Visit **Xeno & Leonidas** in the North Area, Southeast Room."
+        },
+        {
+          "id": "talk-mcburn",
+          "type": "step",
+          "text": "Visit **McBurn** in the North Area, Northeast Room."
+        },
+        {
+          "id": "talk-duvalie-room",
+          "type": "step",
+          "text": "Visit **Duvalie** in the North Area, Southwest Room."
+        },
+        {
+          "id": "talk-altina-room",
+          "type": "step",
+          "text": "Visit **Altina** in the North Area, Northwest Room."
+        },
+        {
+          "id": "alfin-event-spirit-unification",
+          "type": "step",
+          "text": "Go upstairs to the guest room for the **Princess Alfin** event. Rean gains **Spirit Unification**."
+        },
+        {
+          "id": "initiate-escape",
+          "type": "step",
+          "text": "Return to **Rean's room** (South Area, SW corner) and examine the **air ducts by the flower vase** to initiate the escape."
+        },
+        {
+          "id": "loot-celestial-balm-escape",
+          "type": "collectible",
+          "text": "Grab **Celestial Balm** from the room to the west during the escape."
+        },
+        {
+          "id": "loot-orange-cape",
+          "type": "collectible",
+          "text": "Pick up **Orange Cape** from the room to the east."
+        },
+        {
+          "id": "loot-tear-all-balm-escape",
+          "type": "collectible",
+          "text": "Collect **Tear All Balm** as you continue south through corridors."
+        },
+        {
+          "id": "scan-duvalie-bleublanc",
+          "type": "step",
+          "text": "Use **Battle Scope** on both Duvalie and Bleublanc for unique Monster Notebook entries.",
+          "note": "These are unique scans available only here."
+        },
+        {
+          "id": "use-charging-station-pantagruel",
+          "type": "step",
+          "text": "Use the **Orbment Charging Station** to fully restore HP/EP before the boss fight."
+        },
+        {
+          "id": "boss-duvalie-bleublanc",
+          "type": "boss",
+          "text": "**BOSS: Duvalie (85,316 HP) & Bleublanc (96,640 HP)** — Only need to reduce one to 50% HP. Use S-Craft burst on Duvalie (lower HP).",
+          "note": "90 elemental efficacy on both. Physical damage recommended."
+        },
+        {
+          "id": "boss-crow-escape",
+          "type": "boss",
+          "text": "**BOSS: Crow** — Full recovery provided before fight. Use Spirit Unification for damage boost, guard against his S-Crafts.",
+          "note": "Apply debuffs and keep HP high."
+        }
       ]
     },
     {
@@ -184,32 +678,127 @@
       "title": "Act 2, Part 1: Roer & Sachsen Iron Mine",
       "content": "# Act 2, Part 1 — Roer & Sachsen Iron Mine\n\nAct 2 opens with the **Courageous airship** as your mobile base. You'll board the **Eisengraf** train to travel to the industrial city of **Roer** via **Spina Byroad** (watch for encounters and treasure chests along the route), recruit allies, explore the **Sachsen Iron Mine**, and engage in a major mech battle at **Schwarz Drache Barrier**.\n\n<!-- checkpoint: courageous-base | Board the Courageous -->\n\n## The Courageous Airship\n\nThe Courageous serves as your hub for Act 2. Key facilities:\n\n- **Computer Terminal** — check available quests here\n- **Towa** — party management, destination selection\n- **Princess Alfin** — Phoenix Chapter medal exchange\n- **Shop/Training areas** — unlock more functions by recruiting students\n\n**Gaius** is a required party member for this section.\n\n> Spend mira and sepith primarily on the four main characters you'll bring into boss fights. Resource optimization is crucial in Act 2.\n\n## Roer City\n\n<!-- checkpoint: arrive-roer | Arrive in Roer -->\n\n### Story Progression\n\nVisit these locations in Roer:\n- **Reinford HQ** building (approach)\n- **Roer Cathedral** (main hall)\n- **Roer Airport**\n- **Hugo** at RF Store\n- **Instructor Mary** at upper residence\n- **Linde** at Boronia Goods\n- **Dvance's Diner** — Angelica joins your party after this event\n\n### Extra AP Opportunity\n\n> Before entering Sachsen Iron Mine, travel to **Schwarz Drache Barrier** on the Nortia Highway for a special scene granting **+2 AP**. Easy to miss!\n\n<!-- checkpoint: roer-explored | Roer City Explored -->\n\n## Side Quests\n\n- **Recruiting Becky:** If you recruit Becky in Celdic before heading to Roer, you earn extra AP.\n- Check the computer terminal aboard the Courageous for additional quests.\n\n> ⚠️ Hidden quests may be available. Check the terminal and talk to all NPCs aboard the Courageous.\n\n## Bonding Events (Courageous Free Day)\n\nDuring the free time aboard the Courageous before Roer, you receive **3 Bonding Points**:\n\n**Available characters:** All currently recruited Class VII members aboard the ship\n\n- **Towa** has a special scene on the bridge\n- **Princess Alfin** has bonding dialogue on the upper deck\n\n> These bonding scenes are unique to the Courageous setting. Save before choosing.\n\n## Books & Recipes — Roer\n\n| Item | Location | Missable? |\n|------|----------|----------|\n| **Gambler Jack II - Chapter 7 (Book)** | Quest reward from **Freddy** at the Roer Institute of Technology | Yes |\n| **Imperial Chronicle - Issue 4 (Book)** | **Tallys General Store** in Roer | Yes |\n| **Rich Risotto (Recipe)** | Chef at Dvance's Diner | Yes |\n\n> 🏆 **Achievement: Bookworm** — Don't skip Roer NPCs. Books from conversations are easily missed.\n\n> 🏆 **Achievement: Cook-off Master** — Get Rich Risotto from the diner before leaving Roer.\n\n## Sachsen Iron Mine\n\n<!-- checkpoint: sachsen-mine | Enter Sachsen Iron Mine -->\n\n### Enemies in the Mine\n- **Jaeger - Gun:** Ranged attacks, can stagger\n- **Jaeger - Sword:** High physical damage, close range\n- **Blade Cougar:** Fast, high evasion\n\n**Strategy:** Buff early, focus fire one enemy at a time. Use AoE crafts to soften groups.\n\n### Mine Progression\nFight through waves of Jaeger and beast enemies. Collect chests on side paths. Use save points between major encounters.\n\n## Schwarz Drache Barrier — Mech Battle\n\n<!-- checkpoint: goliath-mech-battle | Goliath Mech Battle -->\n\n**Divine Knight Battle: Valimar vs Goliath**\n\n- **Goliath:** Heavy mech with strong physical attacks\n- **Strategy:** Use Valimar's defensive stance when Goliath charges big attacks. Strike weak points when revealed. Keep HP above 50%.\n- **Reward:** Story progression + large soul reward\n\n## Train Battle Sequence\n\n<!-- checkpoint: train-battles | Train Battle Sequence -->\n\nAfter Schwarz Drache, you board a freight train and fight through Cars 5 to Car 1, with progressively tougher enemies in each car.\n\n- **Car 5–4:** Standard soldiers and mechs\n- **Car 3–2:** Stronger Jaeger types\n- **Car 1:** Boss encounter\n\n> **Save between cars when possible.** Resources do not refill between fights.\n\n### Guest Character Accessories\n\nGuest characters (Claire, Sharon, Toval) carry **powerful equipped accessories**. Before each guest leaves your party, make sure to **unequip their accessories** — you lose access to any equipment still on them when they depart.\n\n> ⚠️ Open the Equipment menu and strip all gear from guest characters before major story transitions.\n\n<!-- checkpoint: act-2-part-1-complete | Act 2 Part 1 Complete -->",
       "checkpoints": [
-        { "id": "courageous-base", "label": "Board the Courageous" },
-        { "id": "arrive-roer", "label": "Arrive in Roer" },
-        { "id": "roer-explored", "label": "Roer City Explored" },
-        { "id": "sachsen-mine", "label": "Enter Sachsen Iron Mine" },
-        { "id": "goliath-mech-battle", "label": "Goliath Mech Battle" },
-        { "id": "train-battles", "label": "Train Battle Sequence" },
-        { "id": "act-2-part-1-complete", "label": "Act 2 Part 1 Complete" }
+        {
+          "id": "courageous-base",
+          "label": "Board the Courageous"
+        },
+        {
+          "id": "arrive-roer",
+          "label": "Arrive in Roer"
+        },
+        {
+          "id": "roer-explored",
+          "label": "Roer City Explored"
+        },
+        {
+          "id": "sachsen-mine",
+          "label": "Enter Sachsen Iron Mine"
+        },
+        {
+          "id": "goliath-mech-battle",
+          "label": "Goliath Mech Battle"
+        },
+        {
+          "id": "train-battles",
+          "label": "Train Battle Sequence"
+        },
+        {
+          "id": "act-2-part-1-complete",
+          "label": "Act 2 Part 1 Complete"
+        }
       ],
       "steps": [
-        { "id": "check-courageous-terminal", "type": "step", "text": "Check the **Computer Terminal** aboard the Courageous for available quests." },
-        { "id": "talk-towa-party", "type": "step", "text": "Speak with **Towa** for party management and to unlock Roer as a destination." },
-        { "id": "visit-reinford-hq", "type": "step", "text": "Approach **Reinford HQ** building in Roer." },
-        { "id": "visit-roer-cathedral", "type": "step", "text": "Enter **Roer Cathedral** main hall." },
-        { "id": "visit-roer-airport", "type": "step", "text": "Visit **Roer Airport**." },
-        { "id": "talk-hugo-rf-store", "type": "step", "text": "Talk to **Hugo** at the RF Store for equipment upgrades." },
-        { "id": "visit-dvances-diner", "type": "step", "text": "Go to **Dvance's Diner** — **Angelica** joins your party after this event." },
-        { "id": "bonding-events-courageous-act2", "type": "step", "text": "Spend your **3 Bonding Points** during Courageous free time (all recruited Class VII members available).", "note": "Towa has a special bridge scene. Save before choosing." },
-        { "id": "get-gambler-jack-ch7", "type": "collectible", "text": "Receive **Gambler Jack II - Chapter 7** as a quest reward from **Freddy** at the **Roer Institute of Technology**.", "note": "Missable! Quest reward from Freddy. Required for Bookworm achievement." },
-        { "id": "get-imperial-chronicle-4", "type": "collectible", "text": "Pick up **Imperial Chronicle - Issue 4** at **Tallys General Store** in Roer.", "note": "Required for Bookworm achievement." },
-        { "id": "get-rich-risotto-recipe", "type": "collectible", "text": "Talk to the chef at **Dvance's Diner** for the **Rich Risotto Recipe**.", "note": "Required for Cook-off Master achievement." },
-        { "id": "schwarz-drache-bonus-ap", "type": "step", "text": "Travel to **Schwarz Drache Barrier** on Nortia Highway before the mine for a scene granting **+2 AP**.", "note": "Easy to miss! Do this before entering Sachsen Iron Mine." },
-        { "id": "recruit-becky-bonus", "type": "note", "text": "If you recruited **Becky** in Celdic earlier, she provides extra AP and shop services on the Courageous." },
-        { "id": "clear-sachsen-mine", "type": "step", "text": "Fight through **Sachsen Iron Mine** — Jaegers and Blade Cougars. Collect all side path chests." },
-        { "id": "mech-battle-goliath", "type": "boss", "text": "**MECH BATTLE: Valimar vs Goliath** — Use defensive stance during charge attacks, strike weak points when revealed. Keep HP above 50%." },
-        { "id": "train-car-battles", "type": "step", "text": "Fight through the freight train Cars 5→1 with progressively tougher enemies.", "note": "Save between cars when possible. Resources don't refill." },
-        { "id": "receive-guest-accessory", "type": "warning", "text": "**Unequip guest accessories!** Claire, Sharon, and Toval carry powerful equipped accessories. Open Equipment menu and remove all their gear before they leave your party — you lose access otherwise." }
+        {
+          "id": "check-courageous-terminal",
+          "type": "step",
+          "text": "Check the **Computer Terminal** aboard the Courageous for available quests."
+        },
+        {
+          "id": "talk-towa-party",
+          "type": "step",
+          "text": "Speak with **Towa** for party management and to unlock Roer as a destination."
+        },
+        {
+          "id": "visit-reinford-hq",
+          "type": "step",
+          "text": "Approach **Reinford HQ** building in Roer."
+        },
+        {
+          "id": "visit-roer-cathedral",
+          "type": "step",
+          "text": "Enter **Roer Cathedral** main hall."
+        },
+        {
+          "id": "visit-roer-airport",
+          "type": "step",
+          "text": "Visit **Roer Airport**."
+        },
+        {
+          "id": "talk-hugo-rf-store",
+          "type": "step",
+          "text": "Talk to **Hugo** at the RF Store for equipment upgrades."
+        },
+        {
+          "id": "visit-dvances-diner",
+          "type": "step",
+          "text": "Go to **Dvance's Diner** — **Angelica** joins your party after this event."
+        },
+        {
+          "id": "bonding-events-courageous-act2",
+          "type": "step",
+          "text": "Spend your **3 Bonding Points** during Courageous free time (all recruited Class VII members available).",
+          "note": "Towa has a special bridge scene. Save before choosing."
+        },
+        {
+          "id": "get-gambler-jack-ch7",
+          "type": "collectible",
+          "text": "Receive **Gambler Jack II - Chapter 7** as a quest reward from **Freddy** at the **Roer Institute of Technology**.",
+          "note": "Missable! Quest reward from Freddy. Required for Bookworm achievement."
+        },
+        {
+          "id": "get-imperial-chronicle-4",
+          "type": "collectible",
+          "text": "Pick up **Imperial Chronicle - Issue 4** at **Tallys General Store** in Roer.",
+          "note": "Required for Bookworm achievement."
+        },
+        {
+          "id": "get-rich-risotto-recipe",
+          "type": "collectible",
+          "text": "Talk to the chef at **Dvance's Diner** for the **Rich Risotto Recipe**.",
+          "note": "Required for Cook-off Master achievement."
+        },
+        {
+          "id": "schwarz-drache-bonus-ap",
+          "type": "step",
+          "text": "Travel to **Schwarz Drache Barrier** on Nortia Highway before the mine for a scene granting **+2 AP**.",
+          "note": "Easy to miss! Do this before entering Sachsen Iron Mine."
+        },
+        {
+          "id": "recruit-becky-bonus",
+          "type": "note",
+          "text": "If you recruited **Becky** in Celdic earlier, she provides extra AP and shop services on the Courageous."
+        },
+        {
+          "id": "clear-sachsen-mine",
+          "type": "step",
+          "text": "Fight through **Sachsen Iron Mine** — Jaegers and Blade Cougars. Collect all side path chests."
+        },
+        {
+          "id": "mech-battle-goliath",
+          "type": "boss",
+          "text": "**MECH BATTLE: Valimar vs Goliath** — Use defensive stance during charge attacks, strike weak points when revealed. Keep HP above 50%."
+        },
+        {
+          "id": "train-car-battles",
+          "type": "step",
+          "text": "Fight through the freight train Cars 5→1 with progressively tougher enemies.",
+          "note": "Save between cars when possible. Resources don't refill."
+        },
+        {
+          "id": "receive-guest-accessory",
+          "type": "warning",
+          "text": "**Unequip guest accessories!** Claire, Sharon, and Toval carry powerful equipped accessories. Open Equipment menu and remove all their gear before they leave your party — you lose access otherwise."
+        }
       ]
     },
     {
@@ -217,22 +806,78 @@
       "title": "Act 2, Part 2: Cryptids & Regrouping",
       "content": "# Act 2, Part 2 — Cryptids & Regrouping\n\nPart 2 of Act 2 focuses on revisiting previous areas from the Courageous, hunting powerful **Cryptid** optional bosses, completing side quests, and strengthening your party before the major operations ahead.\n\n<!-- checkpoint: act-2-part-2-start | Act 2 Part 2 Begins -->\n\n## Courageous Activities\n\n### On-Ship Interactions\n- **Celine** (3F Front Deck) — character profile updates\n- **Alfin** — Medal of Charity exchange\n- **Millium** — mandatory party member for this segment\n- **Blade II** card game — play with friends to boost Link EXP with Rean\n\n> 🏆 **Achievement: Card Shark** — Win all Blade II challenges. Play every available match NOW.\n\n> 🏆 **Achievement: Master of Blades** — Play Blade II with ALL party members. Don't skip anyone.\n\n### Party Setup\n- **Millium** is mandatory for this act\n- Consider enhancing Valimar using Ex-Orbs (Attack 2 & Action 2 quartz + 20 U-Materials) for upcoming mech battles\n- Speak to **Towa** to unlock Celdic as a Courageous destination\n\n<!-- checkpoint: courageous-setup | Courageous Setup Complete -->\n\n## Cryptid Battles (Optional, Earn AP)\n\n### Cryptid: Heidrun — Lunaria Nature Park\n- Travel back to **Lunaria Nature Park** via the Courageous\n- **Heidrun** (~253,155 HP) — inflicts Sleep, Poison, and Blind. Uses **Ragna Vortex** AoE for 5,000–7,000 damage.\n- **Strategy:** Equip accessories for sleep/poison/blind resistance. Keep party spread out to minimize Ragna Vortex hits. Use Emma's Crescent Shell for magic reflect.\n- **Recommended Level:** 55+\n- **Reward:** Bonus AP at chapter end\n\n### Cryptid: Nereid — Nord Highlands – South\n- Another Cryptid near the stone monument in **Nord Highlands – South**\n- **Nereid** (~266,150 HP) — powerful AoE attacks. Drops **Glimmering Star Gem** (Lost Arts quartz).\n- **Strategy:** Arts reflect and keeping party spread out are key. Strike-type attacks are most effective.\n- **Recommended Level:** 55+\n- **Reward:** Bonus AP at chapter end + Glimmering Star Gem\n\n> Both Cryptid battles are optional but grant significant AP bonuses. Worth doing for completionists.\n\n<!-- checkpoint: cryptids-defeated | Cryptid Bosses Defeated -->\n\n## Ymir Revisit\n\n### Available Activities\n- **Cheese Fondue Recipe** — Buy the recipe book at the general store\n- **Snowboarding mini-game** — a new obstacle has been added\n- **Phoenix Wings** — speak to Baggins for a special side quest\n\n> 🏆 **Achievement: Cook-off Master** — Buy the Cheese Fondue Recipe. Missable if you don't visit Ymir now.\n\n### Creeping for Creeps (Side Quest)\n- **Start:** Speak to Baggins at The Phoenix Wings in Ymir\n- **Objective:** Snowboard mini-game — chase and catch two snow sheep\n- **Reward:** 2 bonus AP (can retry until successful) + mini-boss fight after\n- **Availability:** Only available during this Act 2 Part 2 revisit\n\n<!-- checkpoint: ymir-revisit-done | Ymir Revisit Complete -->\n\n## Additional Quests\n\nCheck the Courageous terminal for quest list:\n- **I'll Make a Mech Out of You** — main story progression quest\n- **Just Getting Wormed Up** — main story progression quest\n\n> 🏆 **Achievement: Honor Student** — Don't skip town revisits.\n\n> ⚠️ All side quests in Act 2 Part 2 expire when you advance to Part 3. Clear them all.\n\n<!-- checkpoint: act-2-part-2-complete | Act 2 Part 2 Complete -->",
       "checkpoints": [
-        { "id": "act-2-part-2-start", "label": "Act 2 Part 2 Begins" },
-        { "id": "courageous-setup", "label": "Courageous Setup Complete" },
-        { "id": "cryptids-defeated", "label": "Cryptid Bosses Defeated" },
-        { "id": "ymir-revisit-done", "label": "Ymir Revisit Complete" },
-        { "id": "act-2-part-2-complete", "label": "Act 2 Part 2 Complete" }
+        {
+          "id": "act-2-part-2-start",
+          "label": "Act 2 Part 2 Begins"
+        },
+        {
+          "id": "courageous-setup",
+          "label": "Courageous Setup Complete"
+        },
+        {
+          "id": "cryptids-defeated",
+          "label": "Cryptid Bosses Defeated"
+        },
+        {
+          "id": "ymir-revisit-done",
+          "label": "Ymir Revisit Complete"
+        },
+        {
+          "id": "act-2-part-2-complete",
+          "label": "Act 2 Part 2 Complete"
+        }
       ],
       "steps": [
-        { "id": "play-blade-all-members", "type": "step", "text": "Play **Blade II** with every available party member on the Courageous.", "note": "Required for Card Shark and Master of Blades achievements. Missable — some matches are time-limited." },
-        { "id": "enhance-valimar", "type": "step", "text": "Consider enhancing **Valimar** with Ex-Orbs (Attack 2, Action 2 quartz + 20 U-Materials) for upcoming mech battles." },
-        { "id": "talk-towa-unlock-celdic", "type": "step", "text": "Speak to **Towa** to unlock Celdic as a Courageous travel destination." },
-        { "id": "cryptid-lunaria", "type": "boss", "text": "**OPTIONAL BOSS: Heidrun** in Lunaria Nature Park (~253,155 HP) — inflicts Sleep/Poison/Blind. Uses Ragna Vortex AoE (5,000–7,000 dmg). Equip status resist accessories, keep party spread out.", "note": "Travel via Courageous. Significant AP reward." },
-        { "id": "cryptid-nord-south", "type": "boss", "text": "**OPTIONAL BOSS: Nereid** near stone monument in Nord Highlands – South (~266,150 HP). Drops **Glimmering Star Gem** (Lost Arts). Strike attacks most effective.", "note": "Another bonus AP reward. Use arts reflect and spread party." },
-        { "id": "buy-cheese-fondue-recipe", "type": "collectible", "text": "Buy **Cheese Fondue Recipe** book at the Ymir general store.", "note": "Required for Cook-off Master achievement. Only available during this revisit." },
-        { "id": "snowboard-new-obstacle", "type": "step", "text": "Try the **Snowboarding mini-game** in Ymir — a new obstacle has been added." },
-        { "id": "quest-creeping-for-creeps", "type": "step", "text": "Complete **Creeping for Creeps**: speak to Baggins at Phoenix Wings, then catch two snow sheep in the snowboard mini-game.", "note": "2 bonus AP. Can retry until successful. Mini-boss fight follows." },
-        { "id": "warning-quests-expire-act2p2", "type": "warning", "text": "⚠️ All Act 2 Part 2 side quests expire when you advance to Part 3. Complete everything now." }
+        {
+          "id": "play-blade-all-members",
+          "type": "step",
+          "text": "Play **Blade II** with every available party member on the Courageous.",
+          "note": "Required for Card Shark and Master of Blades achievements. Missable — some matches are time-limited."
+        },
+        {
+          "id": "enhance-valimar",
+          "type": "step",
+          "text": "Consider enhancing **Valimar** with Ex-Orbs (Attack 2, Action 2 quartz + 20 U-Materials) for upcoming mech battles."
+        },
+        {
+          "id": "talk-towa-unlock-celdic",
+          "type": "step",
+          "text": "Speak to **Towa** to unlock Celdic as a Courageous travel destination."
+        },
+        {
+          "id": "cryptid-lunaria",
+          "type": "boss",
+          "text": "**OPTIONAL BOSS: Heidrun** in Lunaria Nature Park (~253,155 HP) — inflicts Sleep/Poison/Blind. Uses Ragna Vortex AoE (5,000–7,000 dmg). Equip status resist accessories, keep party spread out.",
+          "note": "Travel via Courageous. Significant AP reward."
+        },
+        {
+          "id": "cryptid-nord-south",
+          "type": "boss",
+          "text": "**OPTIONAL BOSS: Nereid** near stone monument in Nord Highlands – South (~266,150 HP). Drops **Glimmering Star Gem** (Lost Arts). Strike attacks most effective.",
+          "note": "Another bonus AP reward. Use arts reflect and spread party."
+        },
+        {
+          "id": "buy-cheese-fondue-recipe",
+          "type": "collectible",
+          "text": "Buy **Cheese Fondue Recipe** book at the Ymir general store.",
+          "note": "Required for Cook-off Master achievement. Only available during this revisit."
+        },
+        {
+          "id": "snowboard-new-obstacle",
+          "type": "step",
+          "text": "Try the **Snowboarding mini-game** in Ymir — a new obstacle has been added."
+        },
+        {
+          "id": "quest-creeping-for-creeps",
+          "type": "step",
+          "text": "Complete **Creeping for Creeps**: speak to Baggins at Phoenix Wings, then catch two snow sheep in the snowboard mini-game.",
+          "note": "2 bonus AP. Can retry until successful. Mini-boss fight follows."
+        },
+        {
+          "id": "warning-quests-expire-act2p2",
+          "type": "warning",
+          "text": "⚠️ All Act 2 Part 2 side quests expire when you advance to Part 3. Complete everything now."
+        }
       ]
     },
     {
@@ -240,107 +885,560 @@
       "title": "Act 2, Parts 3–4: Crossbell & Liberating Trista",
       "content": "# Act 2, Parts 3–4 — Crossbell Operations & Liberating Trista\n\nThe final parts of Act 2 involve major story operations across multiple regions, culminating in the liberation of **Thors Military Academy** in Trista.\n\n## Act 2, Part 3 — Regional Operations\n\n<!-- checkpoint: act-2-part-3-start | Act 2 Part 3 Begins -->\n\n### Courageous Preparations\n- Talk to **Towa** for new locations (Eisengard Range, Roer Region)\n- Interact with classmates/faculty to update character profiles\n- Check mission list for all available quests\n\n### Side Quests\n| Quest | Details |\n|-------|--------|\n| **The Sweetest of Challenges** | Visit towns, taste-test sweets with NPCs |\n| **Gone Air** | Investigate Roer Airport for a missing airship |\n| **Kreuzen for a Bruisin'** | Win a battle challenge at Kreuzen |\n\n> 🏆 **Achievement: Honor Student** — Complete all available quests including hidden ones in Part 4.\n\n### Bonding Events (Pre-Trista)\n\nBefore commencing the Trista operation, you receive **5 Bonding Points** aboard the Courageous:\n\n**Available characters:** Full roster of recruited Class VII members\n\n- This is one of the last major bonding opportunities before the Finale\n- Characters with higher total Link EXP will have expanded dialogue options\n- **Final cutscene partner** is heavily influenced by these last bonding choices\n\n> Save before spending. This determines your ending partner alongside Epilogue bonding.\n\n### Spirit Shrines\n\nExplore **Spirit Shrines** for Zemurian Ore — crucial for upgrades.\n- **Emma must be in your party** to enter Spirit Shrines\n- Multiple shrines available across the map\n- Each contains puzzles and a boss guardian\n- **Reward:** Zemurian Ore + unique quartz\n\n### Cryptids — December 23\n\nTwo additional Cryptid bosses become available on December 23:\n\n- **Agnagarn** at Nortia Highway 2 (~264,012 HP) — powerful Arts damage. Drops **Searing Sun Gem** (Lost Arts quartz). Bring arts reflect (Emma's Crescent Shell).\n- **Lindbaum** at Eisengard Range (~274,348 HP) — the hardest Cryptid. Powerful physical and AoE attacks. Drops **Roaring Dragon Gem** (Lost Arts quartz). Have solid healing and buffing strategy.\n\n> Defeating all cryptids earns bonus rewards from Princess Alfin.\n\n### Boss: Duvalie & Stahlritter\n\n<!-- checkpoint: crossbell-boss | Crossbell Boss Defeated -->\n\nMajor boss sequence involving **Duvalie the Swift**, members of the **Stahlritter**, and **Altina Orion**.\n\n- **Strategy:** Start with preemptive buffs. Use \"Fortress\" Quartz or accessories to resist ailments. Duvalie is fast — keep her debuffed. Focus fire one enemy at a time.\n- **Multiple fights in sequence** — manage CP carefully, don't blow all S-Crafts in the first fight.\n\n> **Save before entering Crossbell operations.** Multiple consecutive boss fights with limited recovery.\n\n## Act 2, Part 4 — Liberating Trista\n\n<!-- checkpoint: liberating-trista | Begin Liberating Trista -->\n\n### Pre-Battle Setup (December 30)\n\nAfter completing Spirit Shrines 2, the story quest **\"Liberating Trista\"** begins.\n\n- Speak to **Towa** and pick \"Commence Operation\" to start\n- **Monica** (4th floor) — gives a **Kaiser Burger** before the battle\n- Play **Blade II** with one last character for Link EXP\n\n### Side Quests (Available before commencing)\n| Quest | Notes |\n|-------|-------|\n| **Mist Opportunity** | Available before operation |\n| **Canyon, or CAN'Tyon?** | Available before operation |\n| **Hearts in Harmony** | Available before operation |\n| **Father's Pocket Watch (Hidden)** | Multi-step quest: Start from Colette in Roer → Jackass's Repair Shop → Roer Institute (George, need part) → Sachsen Mine (Munk, get Orbal Spring) → back to Jackass → return to Colette. Requires Alisa in party. |\n\n> ⚠️ **Point of no return:** Once you \"Commence Operation\", all remaining side quests become unavailable. Complete everything first!\n\n> 🏆 **Achievement: Honor Student** — Complete ALL quests including Father's Pocket Watch (hidden). Requires Alisa in your party.\n\n<!-- checkpoint: trista-pre-battle-done | Pre-Battle Preparations Done -->\n\n### The Liberation Battle\n\nYou control **two teams** simultaneously:\n- **Team A:** Rean + Towa (forced) + your choices\n- **Team B:** Angelica (forced) + your choices\n\n> Equip all party members before commencing — no gear changes during consecutive battles.\n\n### Battle Sequence\n\n1. **Mech Battle:** Multiple Soldat mechs (Goliath B, Kestrel B) using Valimar with Team A\n2. **Team B Fight:** Vincent, Sariffa, and two others (varies by party lineup: Ferris/Lambert/Friedel/Edel)\n3. **Team A Fight:** Patrick, Celestin, and variant opponents\n\n**Tips:**\n- Have offensive quartz on strong attackers (Rean, Laura, Gaius, Millium)\n- Support/cancel quartz for Emma/Fie\n- Ensure everyone's ARCUS slots are upgraded to Level 2\n- Sara does NOT participate in these battles\n\n<!-- checkpoint: trista-liberated | Trista Liberated -->\n\n> After liberating Trista, major story events play leading into the Finale.\n\n<!-- checkpoint: act-2-complete | Act 2 Complete -->",
       "checkpoints": [
-        { "id": "act-2-part-3-start", "label": "Act 2 Part 3 Begins" },
-        { "id": "crossbell-boss", "label": "Crossbell Boss Defeated" },
-        { "id": "liberating-trista", "label": "Begin Liberating Trista" },
-        { "id": "trista-pre-battle-done", "label": "Pre-Battle Preparations Done" },
-        { "id": "trista-liberated", "label": "Trista Liberated" },
-        { "id": "act-2-complete", "label": "Act 2 Complete" }
+        {
+          "id": "act-2-part-3-start",
+          "label": "Act 2 Part 3 Begins"
+        },
+        {
+          "id": "crossbell-boss",
+          "label": "Crossbell Boss Defeated"
+        },
+        {
+          "id": "liberating-trista",
+          "label": "Begin Liberating Trista"
+        },
+        {
+          "id": "trista-pre-battle-done",
+          "label": "Pre-Battle Preparations Done"
+        },
+        {
+          "id": "trista-liberated",
+          "label": "Trista Liberated"
+        },
+        {
+          "id": "act-2-complete",
+          "label": "Act 2 Complete"
+        }
       ],
       "steps": [
-        { "id": "check-terminal-act2p3", "type": "step", "text": "Check the Courageous terminal for new quests and locations." },
-        { "id": "quest-sweetest-challenges", "type": "step", "text": "Complete **The Sweetest of Challenges**: visit towns and taste-test sweets with NPCs." },
-        { "id": "quest-gone-air", "type": "step", "text": "Complete **Gone Air**: investigate Roer Airport for the missing airship." },
-        { "id": "quest-kreuzen", "type": "step", "text": "Complete **Kreuzen for a Bruisin'**: win the battle challenge." },
-        { "id": "explore-spirit-shrines", "type": "step", "text": "Explore all available **Spirit Shrines** for Zemurian Ore and unique quartz. **Emma must be in your party** to enter.", "note": "Each shrine has puzzles and a boss guardian." },
-        { "id": "save-before-crossbell", "type": "warning", "text": "**Save before Crossbell operations.** Multiple consecutive boss fights with limited recovery between them." },
-        { "id": "boss-duvalie-stahlritter", "type": "boss", "text": "**BOSS: Duvalie & Stahlritter** — Buff first, use Fortress Quartz for ailment resist. Debuff Duvalie (fast), focus fire one at a time. Manage CP across multiple fights.", "note": "Multiple fights in sequence. Don't blow all S-Crafts in fight 1." },
-        { "id": "cryptid-agnagarn", "type": "boss", "text": "**OPTIONAL BOSS: Agnagarn** at Nortia Highway 2 (~264,012 HP). Available December 23. Drops **Searing Sun Gem** (Lost Arts). Bring arts reflect.", "note": "One of the hardest cryptids. Significant AP bonus." },
-        { "id": "cryptid-lindbaum", "type": "boss", "text": "**OPTIONAL BOSS: Lindbaum** at Eisengard Range (~274,348 HP). Available December 23. Drops **Roaring Dragon Gem** (Lost Arts). The hardest Cryptid.", "note": "Prepare solid healing/buffing strategy. Defeating all cryptids earns bonus rewards from Alfin." },
-        { "id": "quest-mist-opportunity", "type": "step", "text": "Complete **Mist Opportunity** before commencing Trista operation." },
-        { "id": "quest-canyon", "type": "step", "text": "Complete **Canyon, or CAN'Tyon?** before commencing operation." },
-        { "id": "quest-hearts-harmony", "type": "step", "text": "Complete **Hearts in Harmony** before commencing operation." },
-        { "id": "quest-fathers-watch-hidden", "type": "warning", "text": "**Hidden Quest: Father's Pocket Watch** — Multi-step: talk to Colette in Roer → Jackass's Repair Shop → Roer Institute (George) → Sachsen Mine (Munk, get Orbal Spring) → back to Jackass → return to Colette. Requires **Alisa** in party.", "note": "Missable! Required for Honor Student achievement." },
-        { "id": "bonding-events-pre-trista", "type": "step", "text": "Spend your **5 Bonding Points** aboard the Courageous before commencing Trista operation.", "note": "One of the last major bonding opportunities. Heavily influences final cutscene partner. Save first!" },
-        { "id": "get-kaiser-burger", "type": "collectible", "text": "Talk to **Monica** on the 4th floor for a free **Kaiser Burger** before the battle." },
-        { "id": "warning-point-of-no-return-trista", "type": "warning", "text": "⚠️ **POINT OF NO RETURN:** Once you select \"Commence Operation\" with Towa, all remaining side quests become permanently unavailable." },
-        { "id": "equip-both-teams", "type": "step", "text": "Equip ALL party members for both Team A and Team B before commencing.", "note": "No gear changes possible during consecutive battles." },
-        { "id": "boss-trista-mech", "type": "boss", "text": "**MECH BATTLE: Valimar vs Goliath B + Kestrel B** — Focus one Soldat at a time. Use defensive stance on charge attacks." },
-        { "id": "boss-trista-team-battles", "type": "boss", "text": "**Team B then Team A battles** vs Vincent/Sariffa/Patrick/Celestin — Use offensive quartz on attackers, support quartz on healers. ARCUS Level 2 recommended." }
+        {
+          "id": "check-terminal-act2p3",
+          "type": "step",
+          "text": "Check the Courageous terminal for new quests and locations."
+        },
+        {
+          "id": "quest-sweetest-challenges",
+          "type": "step",
+          "text": "Complete **The Sweetest of Challenges**: visit towns and taste-test sweets with NPCs."
+        },
+        {
+          "id": "quest-gone-air",
+          "type": "step",
+          "text": "Complete **Gone Air**: investigate Roer Airport for the missing airship."
+        },
+        {
+          "id": "quest-kreuzen",
+          "type": "step",
+          "text": "Complete **Kreuzen for a Bruisin'**: win the battle challenge."
+        },
+        {
+          "id": "explore-spirit-shrines",
+          "type": "step",
+          "text": "Explore all available **Spirit Shrines** for Zemurian Ore and unique quartz. **Emma must be in your party** to enter.",
+          "note": "Each shrine has puzzles and a boss guardian."
+        },
+        {
+          "id": "save-before-crossbell",
+          "type": "warning",
+          "text": "**Save before Crossbell operations.** Multiple consecutive boss fights with limited recovery between them."
+        },
+        {
+          "id": "boss-duvalie-stahlritter",
+          "type": "boss",
+          "text": "**BOSS: Duvalie & Stahlritter** — Buff first, use Fortress Quartz for ailment resist. Debuff Duvalie (fast), focus fire one at a time. Manage CP across multiple fights.",
+          "note": "Multiple fights in sequence. Don't blow all S-Crafts in fight 1."
+        },
+        {
+          "id": "cryptid-agnagarn",
+          "type": "boss",
+          "text": "**OPTIONAL BOSS: Agnagarn** at Nortia Highway 2 (~264,012 HP). Available December 23. Drops **Searing Sun Gem** (Lost Arts). Bring arts reflect.",
+          "note": "One of the hardest cryptids. Significant AP bonus."
+        },
+        {
+          "id": "cryptid-lindbaum",
+          "type": "boss",
+          "text": "**OPTIONAL BOSS: Lindbaum** at Eisengard Range (~274,348 HP). Available December 23. Drops **Roaring Dragon Gem** (Lost Arts). The hardest Cryptid.",
+          "note": "Prepare solid healing/buffing strategy. Defeating all cryptids earns bonus rewards from Alfin."
+        },
+        {
+          "id": "quest-mist-opportunity",
+          "type": "step",
+          "text": "Complete **Mist Opportunity** before commencing Trista operation."
+        },
+        {
+          "id": "quest-canyon",
+          "type": "step",
+          "text": "Complete **Canyon, or CAN'Tyon?** before commencing operation."
+        },
+        {
+          "id": "quest-hearts-harmony",
+          "type": "step",
+          "text": "Complete **Hearts in Harmony** before commencing operation."
+        },
+        {
+          "id": "quest-fathers-watch-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Father's Pocket Watch** — Multi-step: talk to Colette in Roer → Jackass's Repair Shop → Roer Institute (George) → Sachsen Mine (Munk, get Orbal Spring) → back to Jackass → return to Colette. Requires **Alisa** in party.",
+          "note": "Missable! Required for Honor Student achievement."
+        },
+        {
+          "id": "bonding-events-pre-trista",
+          "type": "step",
+          "text": "Spend your **5 Bonding Points** aboard the Courageous before commencing Trista operation.",
+          "note": "One of the last major bonding opportunities. Heavily influences final cutscene partner. Save first!"
+        },
+        {
+          "id": "get-kaiser-burger",
+          "type": "collectible",
+          "text": "Talk to **Monica** on the 4th floor for a free **Kaiser Burger** before the battle."
+        },
+        {
+          "id": "warning-point-of-no-return-trista",
+          "type": "warning",
+          "text": "⚠️ **POINT OF NO RETURN:** Once you select \"Commence Operation\" with Towa, all remaining side quests become permanently unavailable."
+        },
+        {
+          "id": "equip-both-teams",
+          "type": "step",
+          "text": "Equip ALL party members for both Team A and Team B before commencing.",
+          "note": "No gear changes possible during consecutive battles."
+        },
+        {
+          "id": "boss-trista-mech",
+          "type": "boss",
+          "text": "**MECH BATTLE: Valimar vs Goliath B + Kestrel B** — Focus one Soldat at a time. Use defensive stance on charge attacks."
+        },
+        {
+          "id": "boss-trista-team-battles",
+          "type": "boss",
+          "text": "**Team B then Team A battles** vs Vincent/Sariffa/Patrick/Celestin — Use offensive quartz on attackers, support quartz on healers. ARCUS Level 2 recommended."
+        }
       ]
     },
     {
       "id": "finale",
       "title": "Finale: Forward, Relentlessly",
-      "content": "# Finale — Forward, Relentlessly\n\nThe Finale takes you to the **Infernal Castle**, a massive multi-floor dungeon with the game's most challenging boss gauntlet. Choose your party of 14 carefully — you'll split into teams and face the Noble Alliance's strongest fighters.\n\n<!-- checkpoint: finale-start | Enter the Infernal Castle -->\n\n## Preparation\n\n**Before entering:**\n- Stock up on healing items (Celestial Balm, EP Charge III, Reviving Balm)\n- Optimize your top 8 characters (you'll control two 4-person teams)\n- Ensure at least one AoE healer per team\n- Equip status recovery accessories and ailment-resist quartz\n- Have plenty of Curia Balm and S-Craft items\n\n> **Save before entering the Infernal Castle.** This is the final dungeon. There is no going back.\n\n## Infernal Castle Structure\n\nThe castle has several themed floors with increasingly powerful enemies:\n\n### First Floor — Labyrinth\n- Standard encounters with powerful enemies\n- **Mini-boss: Giant Cryptid (Dirosollas)** — exploit elemental weaknesses, keep up healing\n- Collect all treasure chests on side paths\n\n### Second Floor — Garden\n- **Party Split!** Two teams advance on separate paths\n- Both teams face mid-bosses (strong archaisms/cryptids)\n- Purple switches allow team swapping\n\n### Third Floor — Clock Tower\n- Each team faces unique enemy series and puzzles\n- **Mini-bosses** guard switches needed to progress\n- Adjust tactics based on each team's composition\n\n<!-- checkpoint: castle-floors-cleared | Castle Floors Cleared -->\n\n## Boss Gauntlet — Throne Room\n\nAt the top, your reunited party faces a series of major bosses:\n\n### Fight 1: Duvalie, McBurn & Crow\n\n<!-- checkpoint: throne-room-fight-1 | Throne Room Fight 1 -->\n\n- **Duvalie:** Single-target damage specialist + defense\n- **McBurn:** Hard-hitting fire attacks, inflicts Burn status\n- **Crow:** Powerful S-Crafts, high single-target burst\n- **Strategy:** Prioritize Crow (S-Craft threat), debuff McBurn's ATK, heal through Duvalie's damage. Use arts guard/reflect if available.\n\n### Fight 2: Vita Clotilde, Bleublanc & Rufus\n\n<!-- checkpoint: throne-room-fight-2 | Throne Room Fight 2 -->\n\n- **Vita:** Powerful arts caster\n- **Rufus:** Physical specialist\n- **Bleublanc:** Vanishing/stealth mechanics\n- **Strategy:** Take down Vita first (arts spam is devastating), or Bleublanc (status effects). Use S-Crafts to interrupt dangerous cast times.\n\n## Final Boss: Vermillion Apocalypse\n\n<!-- checkpoint: final-boss | Final Boss -->\n\n**Phase 1:** Normal form with physical attacks and crafts.\n- Keep party HP high, apply defensive buffs\n- Use Burst and Rush opportunities for coordinated damage\n\n**Phase 2:** (Triggers after HP threshold) — AoE attacks intensify, self-buffs activate\n- Watch for **Demon's Gaze** — massive single-target attack\n- Arts Guards/Reflects are extremely valuable here\n- Protect low-HP characters, use S-Crafts to interrupt\n- Keep healing constant with your designated healer\n\n> Your chosen bond partner affects the final cutscene. The ending varies based on who has the highest affection.\n\n<!-- checkpoint: finale-complete | Finale Complete -->",
+      "content": "# Finale — Forward, Relentlessly\n\nThe Finale takes you to the **Infernal Castle**, a massive multi-floor dungeon with the game's most challenging boss gauntlet. Before entering, complete all remaining side content in Trista and choose your bond partner.\n\n<!-- checkpoint: finale-start | Trista Pre-Castle Activities -->\n\n## Pre-Castle: Trista Activities\n\nBefore entering the Infernal Castle, take care of final side content:\n\n### Side Quests\n- **My Jormungand Don't Want None**\n- **Sachsen Violence**\n- **Nord by Nord-east**\n- **Ymir, Far, Wherever You Are**\n- **Absentee Father** (hidden quest — easily missed!)\n\n### Collectibles\n- **Gambler Jack II Ch.14** — Talk to Karol\n- **Tomato Pot (Recipe)** — Talk to Lotte\n- **Medal of Love** — Receive from Princess Alfin\n\n### Chosen Partner Event\nSpeak with your chosen bond partner for a special scene. Requires **Link Level 6** and **6000 EXP** with that character. This determines your ending.\n\n> Complete ALL quests and collectibles before proceeding. Entering the castle is the point of no return.\n\n## Preparation\n\n**Before entering:**\n- Stock up on healing items (Celestial Balm, EP Charge III, Reviving Balm)\n- Optimize your top 8 characters (you'll control two 4-person teams)\n- Ensure at least one AoE healer per team\n- Equip status recovery accessories and ailment-resist quartz\n- Have plenty of Curia Balm and S-Craft items\n\n> **Save before entering the Infernal Castle.** This is the final dungeon. There is no going back.\n\n<!-- checkpoint: enter-infernal-castle | Enter the Infernal Castle -->\n\n## Infernal Castle Structure\n\nThe castle is divided into strata with increasingly powerful enemies and bosses:\n\n### 1st Stratum\n- Standard encounters with powerful enemies\n- Collect all treasure chests on side paths\n- **Boss: Bleublanc & Duvalie** — Bleublanc uses illusion tactics and status effects. Duvalie is a fast melee attacker with high evasion. Prioritize Bleublanc first to stop his support abilities, then focus Duvalie.\n\n<!-- checkpoint: 1st-stratum-cleared | 1st Stratum Cleared — Bleublanc & Duvalie Defeated -->\n\n### 2nd Stratum\n- **Fie is mandatory** for this stratum\n- Puzzle mechanic: **Eye switches** — activate them in the correct order to open paths\n- Both teams face mid-bosses and strong archaisms\n- **Boss: Xeno & Leonidas** — Xeno is a ranged attacker; Leonidas is a tank with powerful physical strikes. Focus Xeno first as his ranged attacks are harder to mitigate. Use Fie's speed to maintain turn advantage.\n\n<!-- checkpoint: 2nd-stratum-cleared | 2nd Stratum Cleared — Xeno & Leonidas Defeated -->\n\n### 3rd Stratum\n- Monster barriers block your path — destroy them in order: **left, right, center, center**\n- Each team faces unique enemy series\n- **Boss: McBurn** (solo boss) — Extremely powerful fire attacks and high HP. Keep fire-resist accessories equipped. He enters an empowered state at 50% HP with devastating AoE. Use S-Crafts to burst through his empowered phase. Arts Guards/Reflects are valuable here.\n\n<!-- checkpoint: 3rd-stratum-cleared | 3rd Stratum Cleared — McBurn Defeated -->\n\n### Highest Stratum\n- Final floor before the endgame bosses\n- **Boss: Crow & Vita** — Crow uses powerful S-Crafts with high single-target burst; Vita casts devastating arts. Prioritize interrupting Vita's cast times with S-Crafts or delay crafts. Debuff Crow's ATK and keep party HP topped off.\n\n<!-- checkpoint: highest-stratum-cleared | Highest Stratum Cleared — Crow & Vita Defeated -->\n\n## Final Boss: Vermillion Apocalypse\n\n<!-- checkpoint: final-boss | Vermillion Apocalypse Defeated -->\n\n**Phase 1:** Normal form with physical attacks and crafts.\n- Keep party HP high, apply defensive buffs\n- Use Burst and Rush opportunities for coordinated damage\n\n**Phase 2:** (Triggers after HP threshold) — AoE attacks intensify, self-buffs activate\n- Watch for **Demon's Gaze** — massive single-target attack\n- Arts Guards/Reflects are extremely valuable here\n- Protect low-HP characters, use S-Crafts to interrupt\n- Keep healing constant with your designated healer\n\n## Divine Knight Battle: Valimar vs Ordine (Crow)\n\n<!-- checkpoint: divine-knight-ordine | Valimar vs Ordine Complete -->\n\nAfter defeating the Vermillion Apocalypse, Rean pilots **Valimar** in a one-on-one Divine Knight duel against **Crow's Ordine**.\n\n- This is a mech battle using Valimar's combat system\n- Attack Ordine's weak points when they flash\n- Guard when Ordine telegraphs powerful attacks\n- Use Valimar's special attacks for burst damage during openings\n- Heal Valimar between exchanges — the fight is long\n\n> Your chosen bond partner affects the final cutscene. The ending varies based on who has the highest affection.\n\n<!-- checkpoint: finale-complete | Finale Complete -->",
       "checkpoints": [
-        { "id": "finale-start", "label": "Enter the Infernal Castle" },
-        { "id": "castle-floors-cleared", "label": "Castle Floors Cleared" },
-        { "id": "throne-room-fight-1", "label": "Throne Room Fight 1" },
-        { "id": "throne-room-fight-2", "label": "Throne Room Fight 2" },
-        { "id": "final-boss", "label": "Final Boss" },
-        { "id": "finale-complete", "label": "Finale Complete" }
+        {
+          "id": "finale-start",
+          "label": "Trista Pre-Castle Activities"
+        },
+        {
+          "id": "enter-infernal-castle",
+          "label": "Enter the Infernal Castle"
+        },
+        {
+          "id": "1st-stratum-cleared",
+          "label": "1st Stratum Cleared — Bleublanc & Duvalie Defeated"
+        },
+        {
+          "id": "2nd-stratum-cleared",
+          "label": "2nd Stratum Cleared — Xeno & Leonidas Defeated"
+        },
+        {
+          "id": "3rd-stratum-cleared",
+          "label": "3rd Stratum Cleared — McBurn Defeated"
+        },
+        {
+          "id": "highest-stratum-cleared",
+          "label": "Highest Stratum Cleared — Crow & Vita Defeated"
+        },
+        {
+          "id": "final-boss",
+          "label": "Vermillion Apocalypse Defeated"
+        },
+        {
+          "id": "divine-knight-ordine",
+          "label": "Valimar vs Ordine Complete"
+        },
+        {
+          "id": "finale-complete",
+          "label": "Finale Complete"
+        }
       ],
       "steps": [
-        { "id": "stock-up-finale", "type": "step", "text": "Stock up on **Celestial Balm, EP Charge III, Reviving Balm, Curia Balm** before entering." },
-        { "id": "optimize-8-characters", "type": "step", "text": "Optimize your top 8 characters with best equipment, quartz, and accessories.", "note": "You'll split into two 4-person teams." },
-        { "id": "equip-status-resist", "type": "step", "text": "Equip ailment-resist quartz and status recovery accessories on all party members." },
-        { "id": "warning-no-return-finale", "type": "warning", "text": "⚠️ **POINT OF NO RETURN:** Entering the Infernal Castle is final. Complete all outstanding business first." },
-        { "id": "save-before-castle", "type": "warning", "text": "**Save before entering.** Keep a backup save outside the castle." },
-        { "id": "clear-first-floor", "type": "step", "text": "Clear the **Labyrinth (1F)** — defeat the Giant Cryptid mini-boss and collect all chests." },
-        { "id": "clear-second-floor-split", "type": "step", "text": "Advance through the **Garden (2F)** with split parties. Use purple switches to swap teams." },
-        { "id": "clear-third-floor", "type": "step", "text": "Complete the **Clock Tower (3F)** puzzles and defeat mini-bosses guarding switches." },
-        { "id": "boss-duvalie-mcburn-crow", "type": "boss", "text": "**BOSS: Duvalie, McBurn & Crow** — Prioritize Crow (S-Craft threat), debuff McBurn's ATK. Heal through Burn status from McBurn." },
-        { "id": "boss-vita-bleublanc-rufus", "type": "boss", "text": "**BOSS: Vita, Bleublanc & Rufus** — Kill Vita first (arts spam), or Bleublanc (status). Use S-Crafts to interrupt Vita's cast times." },
-        { "id": "boss-vermillion-apocalypse", "type": "boss", "text": "**FINAL BOSS: Vermillion Apocalypse** — Phase 1: buff/heal steady. Phase 2: watch for Demon's Gaze, use Arts Guards/Reflects, S-Craft interrupts. Keep healer alive at all costs.", "note": "Bond partner choice affects ending cutscene." }
+        {
+          "id": "quest-jormungand",
+          "type": "step",
+          "text": "Complete quest **My Jormungand Don't Want None** in Trista."
+        },
+        {
+          "id": "quest-sachsen",
+          "type": "step",
+          "text": "Complete quest **Sachsen Violence** in Trista."
+        },
+        {
+          "id": "quest-nord",
+          "type": "step",
+          "text": "Complete quest **Nord by Nord-east** in Trista."
+        },
+        {
+          "id": "quest-ymir",
+          "type": "step",
+          "text": "Complete quest **Ymir, Far, Wherever You Are** in Trista."
+        },
+        {
+          "id": "quest-absentee-father",
+          "type": "step",
+          "text": "Complete hidden quest **Absentee Father**.",
+          "note": "Easily missed! Check for this quest before entering the castle."
+        },
+        {
+          "id": "get-gambler-jack-ch14",
+          "type": "collectible",
+          "text": "Talk to **Karol** for **Gambler Jack II Ch.14** (book).",
+          "note": "Missable! Required for Bookworm achievement."
+        },
+        {
+          "id": "get-recipe-tomato-pot",
+          "type": "collectible",
+          "text": "Talk to **Lotte** for the **Tomato Pot** recipe."
+        },
+        {
+          "id": "get-medal-of-love",
+          "type": "collectible",
+          "text": "Receive **Medal of Love** from **Princess Alfin**."
+        },
+        {
+          "id": "chosen-partner-event",
+          "type": "step",
+          "text": "Trigger your **Chosen Partner Event** — requires Link Level 6 and 6000 EXP with your chosen character.",
+          "note": "This determines your ending cutscene."
+        },
+        {
+          "id": "stock-up-finale",
+          "type": "step",
+          "text": "Stock up on **Celestial Balm, EP Charge III, Reviving Balm, Curia Balm** before entering."
+        },
+        {
+          "id": "optimize-8-characters",
+          "type": "step",
+          "text": "Optimize your top 8 characters with best equipment, quartz, and accessories.",
+          "note": "You'll split into two 4-person teams."
+        },
+        {
+          "id": "equip-status-resist",
+          "type": "step",
+          "text": "Equip ailment-resist quartz and status recovery accessories on all party members."
+        },
+        {
+          "id": "warning-no-return-finale",
+          "type": "warning",
+          "text": "⚠️ **POINT OF NO RETURN:** Entering the Infernal Castle is final. Complete all Trista activities first."
+        },
+        {
+          "id": "save-before-castle",
+          "type": "warning",
+          "text": "**Save before entering.** Keep a backup save outside the castle."
+        },
+        {
+          "id": "clear-1st-stratum",
+          "type": "step",
+          "text": "Clear the **1st Stratum** — collect all chests on side paths."
+        },
+        {
+          "id": "boss-bleublanc-duvalie",
+          "type": "boss",
+          "text": "**BOSS: Bleublanc & Duvalie** — Prioritize Bleublanc first (illusions/status effects), then focus Duvalie (fast melee, high evasion)."
+        },
+        {
+          "id": "clear-2nd-stratum",
+          "type": "step",
+          "text": "Clear the **2nd Stratum** with **Fie** (mandatory). Activate **eye switches** in correct order to open paths."
+        },
+        {
+          "id": "boss-xeno-leonidas",
+          "type": "boss",
+          "text": "**BOSS: Xeno & Leonidas** — Focus Xeno first (ranged attacker), then Leonidas (tank). Use Fie's speed for turn advantage."
+        },
+        {
+          "id": "clear-3rd-stratum",
+          "type": "step",
+          "text": "Clear the **3rd Stratum** — destroy monster barriers in order: **left, right, center, center**."
+        },
+        {
+          "id": "boss-mcburn",
+          "type": "boss",
+          "text": "**BOSS: McBurn** (solo) — Equip fire-resist accessories. He powers up at 50% HP with devastating AoE. Burst through empowered phase with S-Crafts. Use Arts Guards/Reflects.",
+          "note": "Extremely dangerous. Keep party HP topped off at all times."
+        },
+        {
+          "id": "clear-highest-stratum",
+          "type": "step",
+          "text": "Advance through the **Highest Stratum** to reach the final bosses."
+        },
+        {
+          "id": "boss-crow-vita",
+          "type": "boss",
+          "text": "**BOSS: Crow & Vita** — Interrupt Vita's cast times with S-Crafts or delay crafts. Debuff Crow's ATK. Keep party HP high against Crow's S-Craft burst."
+        },
+        {
+          "id": "boss-vermillion-apocalypse",
+          "type": "boss",
+          "text": "**FINAL BOSS: Vermillion Apocalypse** — Phase 1: buff/heal steady. Phase 2: watch for Demon's Gaze, use Arts Guards/Reflects, S-Craft interrupts. Keep healer alive at all costs."
+        },
+        {
+          "id": "boss-valimar-vs-ordine",
+          "type": "boss",
+          "text": "**DIVINE KNIGHT: Valimar vs Ordine (Crow)** — Attack weak points when they flash. Guard telegraphed attacks. Use special attacks during openings. Heal Valimar between exchanges.",
+          "note": "Bond partner choice affects ending cutscene."
+        }
       ]
     },
     {
       "id": "divertissement",
       "title": "Divertissement: Occupation of Crossbell",
-      "content": "# Divertissement — Occupation of Crossbell\n\nThe Divertissement is a unique interlude chapter starring **Lloyd Bannings** and **Rixia Mao** from the Crossbell arc (Trails from Zero / Trails to Azure). This is a linear story chapter with no side quests — focus on combat and enjoying the narrative crossover.\n\n<!-- checkpoint: divertissement-start | Divertissement Begins -->\n\n## Party\n\nYou control only **Lloyd** and **Rixia** — a two-person party. No other members join.\n\n> These characters have their own equipment, orbments, and craft sets separate from Rean's party. Familiarize yourself with their abilities.\n\n## Crossbell Exploration\n\n### Route Through the City\nMove through:\n- Main Street\n- West Street\n- Central Square\n- Harbor District\n\nTalk to NPCs for extra dialogue and Crossbell backstory. Shops are available for restocking items if needed.\n\n**Objective:** Reach the **SSS Building** on East Street.\n\n<!-- checkpoint: reach-sss-building | Reach SSS Building -->\n\n## Geofront Dungeon (Sector A)\n\nAfter reaching the SSS Building, you enter the **Geofront** — an underground section with combat encounters.\n\n**Tips for Geofront:**\n- Heal at **Orbal Stations** when available\n- Save frequently — some monsters hit hard for a 2-person party\n- **Lloyd:** Use his S-Craft for crowd control on groups\n- **Rixia:** Excels at single-target damage with Arts and Crafts\n\n<!-- checkpoint: geofront-cleared | Geofront Cleared -->\n\n## Boss: Zeit & Crossbell Defense Division\n\n<!-- checkpoint: boss-zeit | Boss: Zeit -->\n\n**Boss encounters:**\n- **Zeit (Wolfram):** Strong physical attacks + AoE howls\n- **Speaker:** Low HP, heals and buffs Zeit — kill ASAP\n- **Soldiers:** Additional damage sources\n\n| Boss | Weakness | Key Attacks | Priority |\n|------|----------|-------------|----------|\n| Zeit | None obvious | Bite, Howl, Charge | Kill last |\n| Speaker | Low HP | Heal, Buff | Kill FIRST |\n| Soldiers | Standard | Various | Clear after Speaker |\n\n**Strategy:**\n1. Focus fire on the **Speaker** immediately (it heals/buffs Zeit)\n2. Clear remaining soldiers\n3. When Zeit is alone, use AoEs and single-target burst\n4. Guard when Zeit charges a powerful attack\n5. Heal frequently — don't hesitate to use consumables\n\n> **Save before entering the boss area.** This fight can be punishing with only two characters.\n\nAfter victory, story scenes resolve the Crossbell situation and you return to Rean's party for the Epilogue.\n\n<!-- checkpoint: divertissement-complete | Divertissement Complete -->",
+      "content": "# Divertissement — Occupation of Crossbell\n\nThe Divertissement is a unique interlude chapter starring **Lloyd Bannings** and **Rixia Mao** from the Crossbell arc (Trails from Zero / Trails to Azure). Lloyd and Rixia must infiltrate **Geofront Sector E** to erase sensitive Crossbell citizen data before it falls into the wrong hands. This is a dungeon-focused chapter with no side quests.\n\n<!-- checkpoint: divertissement-start | Divertissement Begins -->\n\n## Party\n\nYou control only **Lloyd** and **Rixia** — a two-person party. No other members join.\n\n> These characters have their own equipment, orbments, and craft sets separate from Rean's party. Familiarize yourself with their abilities.\n\n### Key Abilities\n- **Lloyd's S-Craft: Raging Sun** — Powerful AoE attack for clearing groups\n- **Lloyd's Burning Heart** — Self-buff that boosts attack and speed\n- **Rixia's Vanishing Stance** — Grants invulnerability for a set duration; use before dangerous enemy attacks\n- Place **Lloyd and Rixia in the back row** for defensive positioning\n\n> ⚠️ **No shops are available during the Divertissement.** You must rely entirely on dungeon drops and chest items. Manage your resources carefully.\n\n## Geofront Sector E\n\n<!-- checkpoint: geofront-sector-e | Enter Geofront Sector E -->\n\nThe chapter takes place entirely within **Geofront Sector E**, an underground dungeon beneath Crossbell. There is no city exploration — you proceed directly into the Geofront.\n\n### Treasure Chests (16 total)\nKey items to look for:\n- **Celestial Balm EX ×3** — Premium healing\n- **EP Charge IV ×2** — Arts restoration\n- **Grail Locket** — Powerful accessory\n- **Seven Dragon Armor** — Top-tier armor\n- **Bakuya** — Weapon\n- **Strega-S** — Weapon\n- **Emergency Puppet** — Auto-revive accessory\n- **Zeus Gem** — Quartz\n- **Strega-P** — Weapon\n- **Pentagon** — Accessory\n- **Heavenly Robe** — Armor\n- **Tear All Balm** — Full party heal\n- **Zeram Capsule** — Stat boost\n\n> Explore every side path to find all 16 chests. These items are your only source of upgrades.\n\n### Enemy Types\nEnemies in Geofront Sector E include:\n- **Grass Drome / Giant Drome** — Standard melee enemies\n- **Needle Rat** — Fast attackers\n- **Metal Bat** — Durable physical enemies\n- **Greedy Mosquito / Superior Mosquito** — Can drain HP/EP\n- **Blood Monad** — Magic-based enemy\n- **Torso RR** — Mechanical enemy\n- **Spike Kraken** — Strong water-type enemy\n- **Crystal Medusa** — Petrification attacks; high priority target\n\n> Scan all new enemies with Battle Scope for Monster Notebook completion.\n\n<!-- checkpoint: geofront-cleared | Geofront Sector E Cleared -->\n\n## Boss: Rean Schwarzer & Altina Orion\n\n<!-- checkpoint: boss-rean-altina | Boss: Rean & Altina -->\n\n**The boss fight of the Divertissement pits Lloyd and Rixia against Rean and Altina.**\n\n| Boss | HP | Key Attacks |\n|------|-----|-------------|\n| **Rean Schwarzer** | ~75,000 | Arc Slash, Flame Impact, S-Craft |\n| **Altina Orion** | ~63,000 | Arts casting, support abilities, shield |\n\n**Strategy:**\n1. Focus on **Altina** first — her support abilities and healing make the fight harder if left alive\n2. Use **Rixia's Vanishing Stance** before Rean's S-Craft to avoid massive damage\n3. Use **Lloyd's Burning Heart** buff early for sustained damage output\n4. Lloyd's **Raging Sun** S-Craft deals heavy damage — save CP for critical moments\n5. Guard when Rean telegraphs powerful attacks\n6. Heal frequently — don't hesitate to use all consumables, this is the chapter's final fight\n\n> **Save before entering the boss area.** This fight can be punishing with only two characters and no shop access.\n\nAfter victory, story scenes resolve the Crossbell situation and you return to Rean's party for the Epilogue.\n\n<!-- checkpoint: divertissement-complete | Divertissement Complete -->",
       "checkpoints": [
-        { "id": "divertissement-start", "label": "Divertissement Begins" },
-        { "id": "reach-sss-building", "label": "Reach SSS Building" },
-        { "id": "geofront-cleared", "label": "Geofront Cleared" },
-        { "id": "boss-zeit", "label": "Boss: Zeit" },
-        { "id": "divertissement-complete", "label": "Divertissement Complete" }
+        {
+          "id": "divertissement-start",
+          "label": "Divertissement Begins"
+        },
+        {
+          "id": "geofront-sector-e",
+          "label": "Enter Geofront Sector E"
+        },
+        {
+          "id": "geofront-cleared",
+          "label": "Geofront Sector E Cleared"
+        },
+        {
+          "id": "boss-rean-altina",
+          "label": "Boss: Rean & Altina"
+        },
+        {
+          "id": "divertissement-complete",
+          "label": "Divertissement Complete"
+        }
       ],
       "steps": [
-        { "id": "familiarize-lloyd-rixia", "type": "note", "text": "Familiarize yourself with **Lloyd** and **Rixia's** abilities — they have unique equipment and crafts separate from Rean's party." },
-        { "id": "explore-crossbell-streets", "type": "step", "text": "Explore Crossbell: Main Street → West Street → Central Square → Harbor District. Talk to NPCs for lore." },
-        { "id": "restock-at-shops", "type": "step", "text": "Buy healing items at available shops — you'll need them for the upcoming Geofront.", "note": "Only Lloyd and Rixia are available. Stock extra consumables." },
-        { "id": "reach-sss-building-step", "type": "step", "text": "Head to the **SSS Building** on East Street to advance the story." },
-        { "id": "use-orbal-stations-geofront", "type": "step", "text": "Heal at **Orbal Stations** in the Geofront whenever they appear.", "note": "Save frequently — fights are tough with only 2 characters." },
-        { "id": "save-before-zeit", "type": "warning", "text": "**Save before the Geofront boss area.** The fight can be punishing with only two characters." },
-        { "id": "boss-zeit-speaker", "type": "boss", "text": "**BOSS: Zeit + Speaker + Soldiers** — Kill the Speaker FIRST (it heals/buffs Zeit). Clear soldiers second. Guard Zeit's charged attacks. Use Lloyd's S-Craft for crowd control.", "note": "No weakness on Zeit. Focus burst damage when he's isolated." }
+        {
+          "id": "familiarize-lloyd-rixia",
+          "type": "note",
+          "text": "Familiarize yourself with **Lloyd** and **Rixia's** abilities — they have unique equipment and crafts separate from Rean's party."
+        },
+        {
+          "id": "warning-no-shops",
+          "type": "warning",
+          "text": "⚠️ **No shops are available during the Divertissement.** Rely on dungeon drops and chest items only. Manage resources carefully."
+        },
+        {
+          "id": "combat-tip-positioning",
+          "type": "note",
+          "text": "Place **Lloyd and Rixia in the back row** for better defensive positioning."
+        },
+        {
+          "id": "combat-tip-lloyd",
+          "type": "note",
+          "text": "**Lloyd:** Use **Burning Heart** for ATK/SPD buff. Save S-Craft **Raging Sun** for tough fights or the boss."
+        },
+        {
+          "id": "combat-tip-rixia",
+          "type": "note",
+          "text": "**Rixia:** Use **Vanishing Stance** for invulnerability before dangerous enemy attacks."
+        },
+        {
+          "id": "explore-geofront-sector-e",
+          "type": "step",
+          "text": "Explore **Geofront Sector E** thoroughly — find all **16 treasure chests** including Celestial Balm EX ×3, Grail Locket, Emergency Puppet, and Seven Dragon Armor."
+        },
+        {
+          "id": "scan-geofront-enemies",
+          "type": "step",
+          "text": "Scan all enemies with Battle Scope: Grass Drome, Needle Rat, Metal Bat, Greedy Mosquito, Blood Monad, Torso RR, Spike Kraken, Giant Drome, Superior Mosquito, Crystal Medusa.",
+          "note": "Crystal Medusa can petrify — prioritize it in encounters."
+        },
+        {
+          "id": "save-before-boss-divertissement",
+          "type": "warning",
+          "text": "**Save before the boss area.** The fight is punishing with only two characters and no shop access."
+        },
+        {
+          "id": "boss-rean-altina",
+          "type": "boss",
+          "text": "**BOSS: Rean Schwarzer (~75,000 HP) & Altina Orion (~63,000 HP)** — Focus Altina first (support/healing). Use Rixia's Vanishing Stance before Rean's S-Craft. Use Lloyd's Burning Heart buff and Raging Sun S-Craft for burst damage.",
+          "note": "Use all consumables freely — this is the chapter's final fight."
+        }
       ]
     },
     {
       "id": "epilogue",
       "title": "Epilogue: Winter's End",
-      "content": "# Epilogue — Winter's End\n\nThe Epilogue wraps up the story and features the **Reverie Corridor** — a challenging randomized dungeon inside the Old Schoolhouse. This is post-game content focused on powerful optional bosses, Lost Arts, and final character moments.\n\n<!-- checkpoint: epilogue-start | Epilogue Begins -->\n\n## Return to Thors\n\nAfter waking in Ymir, regroup with your party and return to **Thors Military Academy**. The Old Schoolhouse basement opens for the final time.\n\n## Final Bonding Events & Last-Chance Collectibles\n\n### Bonding Points (Final Opportunity)\nYou receive your **last Bonding Points** in the Epilogue. Spend them on the character you want as your ending partner:\n\n- The character with the **highest total affection** across all Acts determines your final cutscene\n- This is your absolute last chance to influence the ending\n- **Save before spending** to see different endings\n\n### Last-Chance Books & Recipes\n\n> ⚠️ **FINAL CHECK:** Before entering the Reverie Corridor, verify you have collected ALL missable items:\n\n**Books checklist:**\n- All Gambler Jack II chapters (1-8)\n- All Gambler Jack Reprints (#1-#5)\n- All Imperial Chronicle issues\n- All Red Moon Rose volumes\n\n**Recipes checklist:**\n- All recipes from each town visited\n- Check recipe list in Camp Menu — any gaps mean you missed one\n\n> 🏆 **Achievement: Bookworm** — If you're missing ANY book, this is your last chance. Some NPCs aboard the Courageous carry final-chapter books.\n\n> 🏆 **Achievement: Cook-off Master** — Check the recipe menu. If you're short, revisit towns via Courageous before entering the corridor.\n\n## Reverie Corridor\n\n<!-- checkpoint: reverie-corridor | Enter Reverie Corridor -->\n\nThe Reverie Corridor is a multi-layered randomized dungeon with the game's most powerful enemies and rewards.\n\n### Structure\n- Multiple depths (1F through Final Layer)\n- Each depth has randomized layouts with increasingly powerful enemies\n- **Red/Blue/Green Orbs:** Activate these for combat gauntlets, shortcuts, and treasure\n- **Save frequently** between layers — enemy difficulty ramps sharply\n\n### Rewards\n- **Lost Arts:** Hidden orbs grant super-powerful artes (one-time-use devastating spells)\n- **Unique equipment:** Best gear in the game drops from corridor bosses\n- **Character battles:** Face certain party members as hidden optional bosses\n\n> 🏆 **Achievement: Master of the Arena** — Win the final battle in the Old Schoolhouse.\n\n### Tips for the Corridor\n- **Grind as needed** — deeper layers provide the best EXP in the game\n- Bring **Crow** or **Sara** if available for high mobility and damage\n- Keep equipment and quartz updated between runs\n- Use Lost Arts on floor bosses — they're devastating but single-use per corridor run\n\n<!-- checkpoint: corridor-mid-layers | Mid-Layers Cleared -->\n\n## Floor Bosses\n\nEach set of floors has a guardian boss:\n\n- **Magic Knight bosses:** Dodge charged attacks, exploit elemental weaknesses\n- **Giant Cryptid:** Weak to arts — use Emma/Alisa/Elliot for offensive magic\n- **Final Guardian:** Immune to ailments; break guard with S-Crafts then burst damage\n\n### Final Boss: Reverie Corridor\n\n<!-- checkpoint: corridor-final-boss | Corridor Final Boss -->\n\n**Phase 1:** Strong single-target and group magic\n- Keep party HP topped off with dedicated healer (Elliot/Emma)\n- Break its shield to interrupt big artes\n\n**Phase 2:** Powerful AoE spells and self-buffs\n- Dispel buffs regularly (Emma/Alisa crafts)\n- Save S-Crafts for interrupting the most dangerous attacks\n- Use Elixirs, EP Packs, and all consumables freely — this is the final fight\n\n**Recommended Level:** 80+\n**Recommended Party:** Rean, Emma/Elliot (healer), Laura/Sara (physical DPS), Fie (speed/evasion)\n\n<!-- checkpoint: corridor-complete | Reverie Corridor Complete -->\n\n## Post-Corridor\n\nUpon completion:\n- Unlock powerful quartz and equipment rewards\n- Special cutscenes with characters based on bonding levels\n- Final save available for NG+ data transfer\n\n> 🏆 **Achievement: Seekers of the Dawn** — Clear the Epilogue.\n\n> **New Game+ unlocks after completing the Epilogue.** Your clear save carries over levels, equipment, mira, and certain items.\n\n<!-- checkpoint: epilogue-complete | Epilogue Complete — Game Clear -->",
+      "content": "# Epilogue — Winter's End\n\nThe Epilogue wraps up the story and features the **Reverie Corridor** — a challenging 16-floor dungeon inside the Old Schoolhouse. This is post-game content focused on powerful elemental bosses, ultimate weapons, and final character moments.\n\n<!-- checkpoint: epilogue-start | Epilogue Begins -->\n\n## Return to Thors\n\nAfter waking in Ymir, regroup with your party and return to **Thors Military Academy**. The Old Schoolhouse basement opens for the final time.\n\n## Epilogue Side Quests\n\nComplete these quests before entering the Reverie Corridor:\n\n- **Class Warfare** — From Instructor Thomas\n- **Junk Wanted** — From Becky at Trista Station\n- **Angler Management** — From Kenneth\n- **Swimming Lessons: The Return** (hidden quest — easily missed!)\n- **The Race to End All Races** (story quest)\n\n<!-- checkpoint: epilogue-quests | Epilogue Side Quests Complete -->\n\n### Collectibles\n- **Imperial Chronicle Issue #7** — Buy from the Student Union General Store. Critical for the Bookworm achievement!\n\n## Final Bonding Events & Last-Chance Collectibles\n\n### Bonding Points (Final Opportunity)\nYou receive your **last Bonding Points** in the Epilogue. Spend them on the character you want as your ending partner:\n\n- The character with the **highest total affection** across all Acts determines your final cutscene\n- This is your absolute last chance to influence the ending\n- **Save before spending** to see different endings\n\n### Last-Chance Books & Recipes\n\n> ⚠️ **FINAL CHECK:** Before entering the Reverie Corridor, verify you have collected ALL missable items:\n\n**Books checklist:**\n- All Gambler Jack II chapters (1-14)\n- All Gambler Jack Reprints (#1-#5)\n- All Imperial Chronicle issues (including #7)\n- All Red Moon Rose volumes\n\n**Recipes checklist:**\n- All recipes from each town visited\n- Check recipe list in Camp Menu — any gaps mean you missed one\n\n> 🏆 **Achievement: Bookworm** — If you're missing ANY book, this is your last chance. Some NPCs aboard the Courageous carry final-chapter books.\n\n> 🏆 **Achievement: Cook-off Master** — Check the recipe menu. If you're short, revisit towns via Courageous before entering the corridor.\n\n## Phantasmal Mirrors\n\n**Phantasmal Mirrors** are available for 200,000 mira each. These special items transform characters into guest fighters with fixed loadouts:\n- **Crow** / **Vita** / **Altina** / **Lloyd** / **Rixia**\n\nEach mirror character comes with preset equipment, orbments, and crafts. They're powerful additions for corridor runs.\n\n## Reverie Corridor\n\n<!-- checkpoint: reverie-corridor | Enter Reverie Corridor -->\n\nThe Reverie Corridor is a 16-floor dungeon with elemental themes and powerful bosses.\n\n### Structure\n- **Floors 1-4: Earth** themed — Earth-element enemies and terrain\n- **Floors 5-8: Water** themed — Water-element enemies and terrain\n- **Floors 9-12: Fire** themed — Fire-element enemies and terrain\n- **Floors 13-16: Wind** themed — Wind-element enemies and terrain\n- Each set of 4 floors ends with an **Elemental Lord** boss\n- After Floor 16: **Boundless Cathedral** — the true final area\n\n### Corridor Mechanics\n- **Universal Overdrive:** All characters can enter Overdrive with any partner (not limited to specific link pairs)\n- **Triple Link EXP:** Link experience gain is tripled inside the corridor\n- **Chest Respawn:** Treasure chests respawn on re-entry — farm valuable items between runs\n\n### Zemurian Ore Shard System\n- Each Elemental Lord drops **1 Zemurian Ore Shard** (4 per full run)\n- **3 Shards = 1 Zemurian Ore** — used to forge ultimate weapons\n- Multiple corridor runs required for full ultimate weapon set\n\n### Tips for the Corridor\n- **Grind as needed** — deeper floors provide the best EXP in the game\n- Keep equipment and quartz updated between runs\n- Equip elemental resistance matching the current floor theme\n- Use Lost Arts on Elemental Lords — they're devastating but single-use per corridor run\n\n## Elemental Lord Bosses\n\nEach set of 4 floors ends with an Elemental Lord:\n\n<!-- checkpoint: earth-lord-defeated | Earth Lord Defeated (Floor 4) -->\n\n- **Earth Lord** (after Floor 4) — Exploit wind-element weaknesses\n\n<!-- checkpoint: water-lord-defeated | Water Lord Defeated (Floor 8) -->\n\n- **Water Lord** (after Floor 8) — Exploit fire-element weaknesses\n\n<!-- checkpoint: fire-lord-defeated | Fire Lord Defeated (Floor 12) -->\n\n- **Fire Lord** (after Floor 12) — Exploit water-element weaknesses\n\n<!-- checkpoint: wind-lord-defeated | Wind Lord Defeated (Floor 16) -->\n\n- **Wind Lord** (after Floor 16) — Exploit earth-element weaknesses\n\nEach Elemental Lord drops a **Zemurian Ore Shard**. Use elemental counter-quartz and arts for each fight.\n\n## Boundless Cathedral & Final Boss: Loa Luciferia\n\n<!-- checkpoint: loa-luciferia | Loa Luciferia Defeated -->\n\nAfter clearing all 16 floors, enter the **Boundless Cathedral** for the true final battle.\n\n### Final Boss: Loa Luciferia\n\n| Stat | Value |\n|------|-------|\n| Level | 150 |\n| HP | 722,250 |\n| STR | 3,900 |\n| DEF | 3,300 |\n\n**Recommended Level:** 120+\n\n**Key Mechanics:**\n- Summons **Sacred Fragment ×6** — Destroy these quickly or they empower the boss\n- Uses **Vanish** — Can remove party members from battle entirely\n- Uses **Chrono Break** — Resets party turn order; devastating if timed poorly\n- Heavy status ailment attacks throughout\n\n**Strategy:**\n1. **Vanish Protection:** Equip **Holy Symbol** or Vanish-prevention quartz on your healers. If your healer gets Vanished, the fight becomes nearly unwinnable.\n2. Destroy Sacred Fragments immediately when they appear — use AoE arts\n3. Keep Chrono Break in mind — have backup healing options\n4. Use S-Crafts for burst damage phases between summon waves\n5. Dispel boss buffs regularly\n6. Use all consumables freely — this is the final fight in the game\n\n**Recommended Party:** Rean, Emma/Elliot (healer with Vanish protection), Laura/Sara (physical DPS), Fie (speed/evasion)\n\n<!-- checkpoint: corridor-complete | Reverie Corridor Complete -->\n\n## Post-Corridor\n\nUpon completion:\n- Unlock powerful quartz and equipment rewards\n- Special cutscenes with characters based on bonding levels\n- Final save available for NG+ data transfer\n\n> 🏆 **Achievement: Seekers of the Dawn** — Clear the Epilogue.\n\n> **New Game+ unlocks after completing the Epilogue.** Your clear save carries over levels, equipment, mira, and certain items.\n\n<!-- checkpoint: epilogue-complete | Epilogue Complete — Game Clear -->",
       "checkpoints": [
-        { "id": "epilogue-start", "label": "Epilogue Begins" },
-        { "id": "reverie-corridor", "label": "Enter Reverie Corridor" },
-        { "id": "corridor-mid-layers", "label": "Mid-Layers Cleared" },
-        { "id": "corridor-final-boss", "label": "Corridor Final Boss" },
-        { "id": "corridor-complete", "label": "Reverie Corridor Complete" },
-        { "id": "epilogue-complete", "label": "Epilogue Complete — Game Clear" }
+        {
+          "id": "epilogue-start",
+          "label": "Epilogue Begins"
+        },
+        {
+          "id": "epilogue-quests",
+          "label": "Epilogue Side Quests Complete"
+        },
+        {
+          "id": "reverie-corridor",
+          "label": "Enter Reverie Corridor"
+        },
+        {
+          "id": "earth-lord-defeated",
+          "label": "Earth Lord Defeated (Floor 4)"
+        },
+        {
+          "id": "water-lord-defeated",
+          "label": "Water Lord Defeated (Floor 8)"
+        },
+        {
+          "id": "fire-lord-defeated",
+          "label": "Fire Lord Defeated (Floor 12)"
+        },
+        {
+          "id": "wind-lord-defeated",
+          "label": "Wind Lord Defeated (Floor 16)"
+        },
+        {
+          "id": "loa-luciferia",
+          "label": "Loa Luciferia Defeated"
+        },
+        {
+          "id": "corridor-complete",
+          "label": "Reverie Corridor Complete"
+        },
+        {
+          "id": "epilogue-complete",
+          "label": "Epilogue Complete — Game Clear"
+        }
       ],
       "steps": [
-        { "id": "return-to-thors", "type": "step", "text": "Regroup with your party and return to **Thors Military Academy**." },
-        { "id": "bonding-events-epilogue", "type": "step", "text": "Spend your **final Bonding Points** on your preferred ending partner.", "note": "This is the LAST bonding opportunity. Highest total affection determines your final cutscene. Save before choosing!" },
-        { "id": "last-chance-books-check", "type": "warning", "text": "⚠️ **FINAL BOOK CHECK:** Verify all Gambler Jack II chapters (1-8), Reprints (#1-#5), Imperial Chronicles, and Red Moon Rose volumes are collected.", "note": "Some NPCs aboard the Courageous carry final-chapter books. Last chance for Bookworm achievement." },
-        { "id": "last-chance-recipes-check", "type": "warning", "text": "⚠️ **FINAL RECIPE CHECK:** Open Camp Menu → Recipes. If any are missing, revisit towns via Courageous before entering the corridor.", "note": "Last chance for Cook-off Master achievement." },
-        { "id": "enter-old-schoolhouse", "type": "step", "text": "Enter the **Old Schoolhouse Basement** to access the Reverie Corridor." },
-        { "id": "activate-orb-puzzles", "type": "step", "text": "Activate **Red/Blue/Green Orbs** on each floor for combat gauntlets, shortcuts, and treasure." },
-        { "id": "collect-lost-arts", "type": "collectible", "text": "Find hidden orbs for **Lost Arts** — super-powerful single-use artes.", "note": "Each Lost Art can turn a boss fight trivial. Save them for floor guardians." },
-        { "id": "grind-deeper-layers", "type": "note", "text": "Deeper corridor layers provide the best EXP in the game. Grind here if under-leveled for the final boss.", "note": "Recommended level 80+ for the final boss." },
-        { "id": "defeat-floor-guardians", "type": "boss", "text": "**Floor Bosses: Magic Knights, Giant Cryptid, Final Guardian** — Exploit elemental weaknesses. Guardian is ailment-immune; break guard with S-Crafts.", "note": "Use Lost Arts on tougher guardians." },
-        { "id": "save-before-corridor-final", "type": "warning", "text": "**Save before the final corridor boss.** Keep a backup save." },
-        { "id": "boss-corridor-final", "type": "boss", "text": "**FINAL BOSS: Reverie Corridor** — Phase 1: break shield to interrupt artes. Phase 2: dispel buffs, S-Craft interrupt dangerous casts. Use all consumables freely.", "note": "Recommended: Rean, Emma/Elliot (healer), Laura/Sara (DPS), Fie (speed). Level 80+." },
-        { "id": "create-ng-plus-save", "type": "step", "text": "Create your **NG+ clear save** after completing the Epilogue.", "note": "Carries over levels, equipment, mira, and certain items to New Game+." }
+        {
+          "id": "return-to-thors",
+          "type": "step",
+          "text": "Regroup with your party and return to **Thors Military Academy**."
+        },
+        {
+          "id": "quest-class-warfare",
+          "type": "step",
+          "text": "Complete quest **Class Warfare** from Instructor Thomas."
+        },
+        {
+          "id": "quest-junk-wanted",
+          "type": "step",
+          "text": "Complete quest **Junk Wanted** from Becky at Trista Station."
+        },
+        {
+          "id": "quest-angler-management",
+          "type": "step",
+          "text": "Complete quest **Angler Management** from Kenneth."
+        },
+        {
+          "id": "quest-swimming-lessons-return",
+          "type": "step",
+          "text": "Complete hidden quest **Swimming Lessons: The Return**.",
+          "note": "Easily missed! Check carefully before entering the corridor."
+        },
+        {
+          "id": "quest-race-to-end-all-races",
+          "type": "step",
+          "text": "Complete story quest **The Race to End All Races**."
+        },
+        {
+          "id": "buy-imperial-chronicle-7",
+          "type": "collectible",
+          "text": "Buy **Imperial Chronicle Issue #7** from the Student Union General Store.",
+          "note": "Critical for Bookworm achievement — do NOT miss this!"
+        },
+        {
+          "id": "bonding-events-epilogue",
+          "type": "step",
+          "text": "Spend your **final Bonding Points** on your preferred ending partner.",
+          "note": "This is the LAST bonding opportunity. Highest total affection determines your final cutscene. Save before choosing!"
+        },
+        {
+          "id": "last-chance-books-check",
+          "type": "warning",
+          "text": "⚠️ **FINAL BOOK CHECK:** Verify all Gambler Jack II chapters (1-14), Reprints (#1-#5), Imperial Chronicles (including #7), and Red Moon Rose volumes are collected.",
+          "note": "Some NPCs aboard the Courageous carry final-chapter books. Last chance for Bookworm achievement."
+        },
+        {
+          "id": "last-chance-recipes-check",
+          "type": "warning",
+          "text": "⚠️ **FINAL RECIPE CHECK:** Open Camp Menu → Recipes. If any are missing, revisit towns via Courageous before entering the corridor.",
+          "note": "Last chance for Cook-off Master achievement."
+        },
+        {
+          "id": "buy-phantasmal-mirrors",
+          "type": "step",
+          "text": "Purchase **Phantasmal Mirrors** (200,000 mira each) to unlock Crow/Vita/Altina/Lloyd/Rixia as guest fighters with fixed loadouts.",
+          "note": "Expensive but powerful additions for corridor runs."
+        },
+        {
+          "id": "enter-old-schoolhouse",
+          "type": "step",
+          "text": "Enter the **Old Schoolhouse Basement** to access the Reverie Corridor."
+        },
+        {
+          "id": "corridor-mechanic-overdrive",
+          "type": "note",
+          "text": "**Corridor Mechanic:** Universal Overdrive is active — all characters can enter Overdrive with any partner. Triple Link EXP is also active."
+        },
+        {
+          "id": "corridor-mechanic-chests",
+          "type": "note",
+          "text": "**Corridor Mechanic:** Treasure chests respawn on re-entry. Farm between runs for valuable items."
+        },
+        {
+          "id": "collect-lost-arts",
+          "type": "collectible",
+          "text": "Find hidden orbs for **Lost Arts** — super-powerful single-use artes.",
+          "note": "Each Lost Art can turn a boss fight trivial. Save them for Elemental Lords."
+        },
+        {
+          "id": "boss-earth-lord",
+          "type": "boss",
+          "text": "**BOSS: Earth Elemental Lord** (after Floor 4) — Exploit wind-element weaknesses. Drops 1 Zemurian Ore Shard."
+        },
+        {
+          "id": "boss-water-lord",
+          "type": "boss",
+          "text": "**BOSS: Water Elemental Lord** (after Floor 8) — Exploit fire-element weaknesses. Drops 1 Zemurian Ore Shard."
+        },
+        {
+          "id": "boss-fire-lord",
+          "type": "boss",
+          "text": "**BOSS: Fire Elemental Lord** (after Floor 12) — Exploit water-element weaknesses. Drops 1 Zemurian Ore Shard."
+        },
+        {
+          "id": "boss-wind-lord",
+          "type": "boss",
+          "text": "**BOSS: Wind Elemental Lord** (after Floor 16) — Exploit earth-element weaknesses. Drops 1 Zemurian Ore Shard."
+        },
+        {
+          "id": "zemurian-ore-info",
+          "type": "note",
+          "text": "**Zemurian Ore Shards:** 3 shards = 1 Zemurian Ore for ultimate weapons. 4 shards per full run (1 per Elemental Lord). Multiple runs needed for full set."
+        },
+        {
+          "id": "save-before-loa-luciferia",
+          "type": "warning",
+          "text": "**Save before entering the Boundless Cathedral.** Keep a backup save."
+        },
+        {
+          "id": "equip-vanish-protection",
+          "type": "step",
+          "text": "Equip **Holy Symbol** or Vanish-prevention quartz on your healers before fighting Loa Luciferia.",
+          "note": "Loa Luciferia uses Vanish to remove party members from battle. If your healer is Vanished, the fight becomes nearly unwinnable."
+        },
+        {
+          "id": "boss-loa-luciferia",
+          "type": "boss",
+          "text": "**FINAL BOSS: Loa Luciferia** (Lv.150, HP 722,250) — Destroy Sacred Fragments ×6 immediately when summoned. Watch for Vanish and Chrono Break. Burst damage between summon waves. Use all consumables freely.",
+          "note": "Recommended: Rean, Emma/Elliot (healer w/ Vanish protection), Laura/Sara (DPS), Fie (speed). Level 120+."
+        },
+        {
+          "id": "create-ng-plus-save",
+          "type": "step",
+          "text": "Create your **NG+ clear save** after completing the Epilogue.",
+          "note": "Carries over levels, equipment, mira, and certain items to New Game+."
+        }
       ]
     }
   ]
