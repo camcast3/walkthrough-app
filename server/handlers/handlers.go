@@ -122,15 +122,20 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		syncInterval = d
 	}
 
-	// Validate cacheDir: must be an absolute path and must be (or become) writable
+	// Validate cacheDir: must be an absolute path to an existing directory
 	if body.CacheDir != "" {
 		if !filepath.IsAbs(body.CacheDir) {
 			respondError(w, http.StatusBadRequest, "cacheDir must be an absolute path")
 			return
 		}
 		body.CacheDir = filepath.Clean(body.CacheDir)
-		if err := os.MkdirAll(body.CacheDir, 0755); err != nil {
-			respondError(w, http.StatusBadRequest, "cacheDir is not writable: "+err.Error())
+		fi, err := os.Stat(body.CacheDir)
+		if err != nil {
+			respondError(w, http.StatusBadRequest, "cacheDir is inaccessible: "+err.Error())
+			return
+		}
+		if !fi.IsDir() {
+			respondError(w, http.StatusBadRequest, "cacheDir must be a directory")
 			return
 		}
 	}
