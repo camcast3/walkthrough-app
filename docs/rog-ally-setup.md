@@ -1,12 +1,13 @@
 # ROG Ally Setup (Bazzite)
 
 ## Prerequisites
-- Same as Steam Deck — server deployed, URL ready
+- Same as Steam Deck — server deployed ([server setup](server-setup.md)), URL ready
+- For local client server setup, see [client setup](client-setup.md#on-a-handheld-running-bazzite-steam-deck--rog-ally)
 
 ## First-time setup (Desktop Mode)
 
 1. Switch to **Desktop Mode**
-2. Open **Firefox** or **Chromium**  
+2. Open **Chromium** (recommended for best controller support) or Chrome
 3. Navigate to your server URL and let the page fully load (caches for offline)
 4. Optional: install as PWA via the browser menu
 
@@ -15,7 +16,7 @@
 Same steps as Steam Deck:
 
 1. Open Steam in Desktop Mode
-2. **Games → Add a Non-Steam Game → Browse** → find your browser
+2. **Games → Add a Non-Steam Game → Browse** → find Chromium
 3. Set Launch Options:
    ```
    --new-window --app=https://walkthroughs.yourdomain.com

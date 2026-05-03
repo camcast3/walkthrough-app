@@ -1,13 +1,14 @@
 # Steam Deck Setup (Bazzite)
 
 ## Prerequisites
-- Your walkthrough server is deployed and accessible (see [Kubernetes setup](../README.md#deploying-to-kubernetes))
+- Your walkthrough server is deployed and accessible (see [server setup](server-setup.md))
 - You have the server URL (e.g. `https://walkthroughs.yourdomain.com` or a LAN IP like `http://192.168.1.x:8080`)
+- For local client server setup, see [client setup](client-setup.md#on-a-handheld-running-bazzite-steam-deck--rog-ally)
 
 ## First-time setup (Desktop Mode)
 
 1. Open **Desktop Mode** (hold Power → Switch to Desktop)
-2. Open **Firefox** or **Chromium**
+2. Open **Chromium** (recommended for best controller support) or Chrome
 3. Navigate to your server URL
 4. Wait for the page to fully load (this caches the app for offline use)
 5. Optional: click the browser menu → **Install App** or **Add to Home Screen** to install it as a PWA
@@ -16,7 +17,7 @@
 
 1. In Desktop Mode, open **Steam**
 2. Click **Games → Add a Non-Steam Game**
-3. Click **Browse** and find your browser (e.g. `/usr/bin/chromium-browser` or `flatpak run org.mozilla.firefox`)
+3. Click **Browse** and find Chromium (e.g. `/usr/bin/chromium-browser` or `flatpak run com.github.nickvergessen.chromium`)
 4. Add it, then go to its **Properties**
 5. Set **Launch Options** to:
    ```

@@ -1,42 +1,75 @@
-# sv
+# Walkthrough App — Webapp
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+SvelteKit PWA frontend for the walkthrough checklist app. Built with **Svelte 5** (runes mode), **TypeScript 6**, and **Vite 8**. Outputs a fully static site via `adapter-static` that is served by the Go backend.
 
-## Creating a project
+## Prerequisites
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Node.js 22+** (matches the Dockerfile build stage)
+- npm (included with Node.js)
 
-```sh
-# create a new project
-npx sv create my-app
-```
+## Quick start
 
-To recreate this project with the same configuration:
+```bash
+# Install dependencies (matches the Dockerfile build stage)
+npm ci --legacy-peer-deps
 
-```sh
-# recreate this project
-npx sv@0.15.2 create --template minimal --types ts --no-install .
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
+# Start dev server (hot-reload at http://localhost:5173)
 npm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+# Type-check
+npm run check
 
-## Building
-
-To create a production version of your app:
-
-```sh
+# Production build (outputs to ./build)
 npm run build
 ```
 
-You can preview the production build with `npm run preview`.
+## Scripts
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+| Command | Description |
+|---|---|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Production build → `./build/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run check` | `svelte-kit sync` + `svelte-check` (type checking) |
+| `npm run check:watch` | Same as `check` but in watch mode |
+
+## Architecture
+
+The webapp is a single-page app with a service worker for offline support. It communicates with the Go server via REST APIs (`/api/*`).
+
+```
+src/
+├── lib/             Shared state, types, utilities
+│   ├── assets/      Static assets (icons, images)
+│   ├── gamepad.ts   Gamepad API integration
+│   ├── index.ts     Barrel exports
+│   ├── state.ts     Global app state (runes-based)
+│   ├── sync.ts      Offline sync / service worker logic
+│   └── types.ts     TypeScript type definitions
+├── routes/          SvelteKit pages and layouts
+└── app.html         HTML shell
+```
+
+### Key features
+
+- **PWA with offline support** — service worker caches the app and walkthrough data
+- **Gamepad navigation** — full controller support (D-pad, A/B buttons, LB/RB)
+- **Power-save mode** — automatically reduces GPU effects on handheld devices
+- **Responsive design** — optimized for touch, controller, and mouse input
+- **Markdown rendering** — full prose walkthroughs with embedded milestone checkpoints
+
+### Build output
+
+`npm run build` produces a static site in `./build/` using `adapter-static` with `fallback: 'index.html'` for SPA routing. The Go server serves these files and handles the `/api/*` routes.
+
+## Dependencies
+
+### Runtime
+- **[marked](https://github.com/markedjs/marked)** — Markdown → HTML rendering
+- **[idb-keyval](https://github.com/jakearchibald/idb-keyval)** — IndexedDB key-value store for offline data
+
+### Dev
+- **SvelteKit 2** / **Svelte 5** — component framework (runes mode)
+- **TypeScript 6** — type checking
+- **Vite 8** — build tool
+- **vite-plugin-pwa** — service worker generation

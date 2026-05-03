@@ -2,81 +2,51 @@
 
 A touch and controller-optimized PWA for game walkthroughs. Works on Steam Deck, ROG Ally (Bazzite), and Windows PC. Syncs progress to a self-hosted server when online; works fully offline via service worker.
 
+## Tech stack & versions
+
+| Component | Version | Notes |
+|---|---|---|
+| **Go** | 1.26+ | Server binary (`server/`) |
+| **Node.js** | 22+ | Webapp build tooling |
+| **SvelteKit** | 2.x | PWA framework (Svelte 5, TypeScript 6) |
+| **Vite** | 8.x | Build tool / dev server |
+| **SQLite** | via `modernc.org/sqlite` | Pure-Go, no CGO required |
+| **Docker** | node:22-alpine / golang:1.26.2-alpine / alpine:3.23 | Multi-stage build |
+
 ## Repository layout
 
 ```
-.github/copilot/skills/   Copilot walkthrough ingestion skill
+.github/copilot/skills/   Copilot walkthrough pipeline skills (writer, reviewer, gamer, completionist, ingest)
 .github/workflows/        CI: schema validation + build/push image + update manifests
 walkthroughs/             Curated walkthrough JSON files
-webapp/                   SvelteKit PWA (TypeScript)
+webapp/                   SvelteKit PWA (TypeScript, Svelte 5)
 server/                   Go sync server
 server/k8s/               Kubernetes manifests (synced by ArgoCD)
 server/argocd/            ArgoCD Application manifest (bootstrap only)
-docs/                     Device setup guides
+docs/                     Setup guides, device guides, troubleshooting
 ```
 
----
+## Architecture
 
-## Deploying to Kubernetes
+The Go server runs in one of three modes, controlled by the `APP_MODE` environment variable:
 
-### Cluster prerequisites
+| Mode | `APP_MODE` | Walkthrough source | Progress storage | Use case |
+|---|---|---|---|---|
+| **Server** | `server` | Polls GitHub Trees API | Local SQLite (authoritative) | Kubernetes / NAS — central hub |
+| **Client** | `client` | Fetches from a remote server | Local SQLite + syncs upstream | Handheld devices (Steam Deck, ROG Ally) |
+| **File** | *(unset)* | Reads from local `walkthroughs/` dir | Local SQLite | Local development |
 
-| Component | Role |
-|---|---|
-| **ArgoCD** | GitOps — watches `server/k8s/` on `main` and applies changes automatically |
-| **Argo Rollouts** | Replaces standard Deployments; `Recreate` strategy used (required for RWO PVC) |
-| **Cilium Gateway API** | Ingress via `HTTPRoute` — no nginx ingress needed |
-| **Rook Ceph** | Block storage for the SQLite PVC (`storageClassName: rook-ceph-block`) |
+See [docs/server-setup.md](docs/server-setup.md) and [docs/client-setup.md](docs/client-setup.md) for full setup instructions.
 
-### One-time setup
+## Quick start (development)
 
-**1. Register with ArgoCD** (run once from any machine with cluster access):
-```bash
-kubectl apply -f server/argocd/app.yaml -n argocd
-```
-
-ArgoCD will create the `walkthroughs` namespace, apply all manifests in `server/k8s/`, and watch this repo for changes going forward. No need to add anything to `the-basement`.
-
-**2. Allow GitHub Actions to push commits back** (needed for manifest updates):
-- Repo **Settings → Actions → General → Workflow permissions → Read and write permissions**
-
-### How CI/CD works
-
-On every push to `main` the workflow (`.github/workflows/deploy.yml`):
-1. Builds the multi-stage Docker image (SvelteKit webapp + Go server)
-2. Pushes the image to `ghcr.io/camcast3/walkthrough-server` (tagged with commit SHA)
-3. Updates the image tag in `server/k8s/rollout.yaml`
-4. Commits that change back to `main` with `[skip ci]`
-
-ArgoCD detects the new commit and syncs — triggering a Rollout with `Recreate` strategy.
-
-> **No `KUBECONFIG` secret required.** ArgoCD handles all cluster operations. Walkthroughs are fetched at runtime from GitHub (no ConfigMaps).
-
-### Kubernetes manifests
-
-| File | Kind | Purpose |
-|---|---|---|
-| `server/k8s/rollout.yaml` | `argoproj.io/v1alpha1/Rollout` | App workload; canary with maxSurge=0 for RWO PVC |
-| `server/k8s/service.yaml` | `Service` | ClusterIP on port 80 → container 8080 |
-| `server/k8s/httproute.yaml` | `gateway.networking.k8s.io/v1/HTTPRoute` | Cilium Gateway API routing |
-| `server/k8s/pvc.yaml` | `PersistentVolumeClaim` | 1 Gi `rook-ceph-block` volume for SQLite + cache |
-| `server/argocd/app.yaml` | `argoproj.io/v1alpha1/Application` | ArgoCD app definition (add to app-of-apps) |
-
-### Updating walkthroughs
-
-Push JSON files to `walkthroughs/<game>/` in this repo. The server (running in `server` mode on the cluster) polls the GitHub Trees API every 5 minutes and picks up changes automatically — no image rebuild or redeployment needed.
-
----
-
-## Running locally (without Docker)
-
-Requires Go 1.21+ and Node 18+.
+Requires **Go 1.26+** and **Node 22+**.
 
 ```bash
 # Build the webapp
-cd webapp && npm ci && npm run build && cd ..
+cd webapp && npm ci --legacy-peer-deps && npm run build && cd ..
 
-# Run the server
+# Run in file mode (reads from local walkthroughs/ directory)
 cd server
 go run . \
   --addr :8080 \
@@ -87,42 +57,18 @@ go run . \
 
 Open `http://localhost:8080`.
 
-## Running with Docker Compose
+## Documentation
 
-```bash
-# Build the webapp first (the compose file mounts ./webapp/build)
-cd webapp && npm ci && npm run build && cd ..
-
-docker compose up
-```
-
-The server is available at `http://localhost:8080`.
-
----
-
-## Device setup guides
-
-| Device | Guide |
+| Guide | Description |
 |---|---|
-| Windows PC | [docs/windows-setup.md](docs/windows-setup.md) |
-| Steam Deck (Bazzite) | [docs/steam-deck-setup.md](docs/steam-deck-setup.md) |
-| ROG Ally (Bazzite) | [docs/rog-ally-setup.md](docs/rog-ally-setup.md) |
-
-### Power-save mode
-
-Handheld devices (ROG Ally, Steam Deck) benefit from automatic power-save mode. When the server is running with `APP_MODE=client` (or is unreachable/offline), the webapp disables GPU-heavy effects:
-
-- Background mesh animations and progress bar shimmer
-- `backdrop-filter: blur()` on cards and UI elements
-- Gamepad polling reduced from 60fps to ~15fps (active only when a gamepad is connected and the page is visible)
-
-NAS/server deployments (`APP_MODE=server` or default) keep all visual effects enabled. The server exposes its mode via `GET /api/config` and the webapp reads it on load.
-
----
-
-## Adding walkthroughs
-
-See [docs/adding-a-walkthrough.md](docs/adding-a-walkthrough.md) for the manual process, or use the **Copilot walkthrough ingestion skill** (`.github/copilot/skills/walkthrough-ingest.md`) to have Copilot convert any online walkthrough into the correct JSON format automatically.
+| [docs/server-setup.md](docs/server-setup.md) | Deploying the server (Kubernetes, Docker Compose, bare metal) |
+| [docs/client-setup.md](docs/client-setup.md) | Setting up clients (browser PWA, local client server, Bazzite handhelds) |
+| [docs/steam-deck-setup.md](docs/steam-deck-setup.md) | Steam Deck device-specific guide |
+| [docs/rog-ally-setup.md](docs/rog-ally-setup.md) | ROG Ally device-specific guide |
+| [docs/windows-setup.md](docs/windows-setup.md) | Windows PC guide |
+| [docs/adding-a-walkthrough.md](docs/adding-a-walkthrough.md) | Walkthrough creation pipeline (4-agent Copilot workflow) |
+| [docs/e2e-test-plan.md](docs/e2e-test-plan.md) | Manual E2E test plan for server/client mode |
+| [docs/tsg-httproute-not-accepted.md](docs/tsg-httproute-not-accepted.md) | Troubleshooting: Cilium HTTPRoute not accepted |
 
 ## Walkthrough format
 
