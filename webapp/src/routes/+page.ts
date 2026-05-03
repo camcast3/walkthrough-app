@@ -1,19 +1,23 @@
+import { redirect } from '@sveltejs/kit';
 import { fetchWalkthroughs, fetchCheckouts } from '$lib/sync.js';
 import type { PageLoad } from './$types.js';
 
 export const load: PageLoad = async () => {
-	const [walkthroughsResult, configResult, checkoutsResult] = await Promise.allSettled([
+	const configResult = await fetch('/api/config').then((r) => (r.ok ? r.json() : {})).catch(() => ({}));
+	const config = configResult as { appMode?: string; online?: boolean };
+
+	// In server app mode, the homepage is the library manager
+	if (config.appMode === 'server') {
+		redirect(307, '/server');
+	}
+
+	const [walkthroughsResult, checkoutsResult] = await Promise.allSettled([
 		fetchWalkthroughs(),
-		fetch('/api/config').then((r) => (r.ok ? r.json() : {})),
 		fetchCheckouts()
 	]);
 
 	const walkthroughs =
 		walkthroughsResult.status === 'fulfilled' ? walkthroughsResult.value : [];
-	const config =
-		configResult.status === 'fulfilled'
-			? (configResult.value as { appMode?: string; online?: boolean })
-			: {};
 	const checkedOutIds =
 		checkoutsResult.status === 'fulfilled' ? checkoutsResult.value : [];
 
