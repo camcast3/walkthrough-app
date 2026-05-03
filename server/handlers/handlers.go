@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 	"walkthrough-server/configstore"
+	"walkthrough-server/connectivity"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
 	"walkthrough-server/upstream"
@@ -28,6 +29,8 @@ type Handler struct {
 	RemoteSource *source.RemoteSource
 	// ConfigStore is non-nil in client mode; persists runtime settings to a JSON file.
 	ConfigStore *configstore.Store
+	// Monitor is non-nil in client mode; tracks remote-server connectivity.
+	Monitor *connectivity.Monitor
 }
 
 // requireServerMode writes a 403 error if the server is not in server mode and returns false.
@@ -64,7 +67,17 @@ func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
 	if h.AppMode == "client" && h.Sync != nil {
 		cfg["syncInterval"] = h.Sync.GetInterval().String()
 	}
+	if h.AppMode == "client" {
+		cfg["online"] = h.Monitor.IsOnline()
+	}
 	respondJSON(w, http.StatusOK, cfg)
+}
+
+// GetHealth handles GET /api/health and HEAD /api/health.
+// Returns 200 OK when the server is running. Used by connectivity monitors on
+// client devices to probe reachability with minimal overhead.
+func (h *Handler) GetHealth(w http.ResponseWriter, r *http.Request) {
+	respondJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 }
 
 // PutConfig handles PUT /api/config — updates runtime settings without a restart.

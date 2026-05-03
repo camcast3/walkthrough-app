@@ -12,6 +12,10 @@
 	let progressMap = $state<Record<string, number>>({});
 	let loaded = $state(false);
 
+	// Connectivity state — updated by polling /api/config every 30s in client mode.
+	let isOnline = $state(data.online ?? true);
+	let pollTimer: ReturnType<typeof setInterval> | null = null;
+
 	// Checkout state — mutable local copy so toggling updates immediately
 	let checkedOutSet = $state<Set<string>>(new Set(data.checkedOutIds));
 	// Track which walkthroughs are currently loading a checkout/checkin action
@@ -31,11 +35,29 @@
 		gamepad = new GamepadNavigator(handleGamepadAction);
 		gamepad.start();
 		window.addEventListener('keydown', handleKeydown);
+
+		// Poll connectivity state in client mode.
+		if (data.appMode === 'client') {
+			pollTimer = setInterval(async () => {
+				try {
+					const res = await fetch('/api/config');
+					if (res.ok) {
+						const cfg = await res.json();
+						if (typeof cfg.online === 'boolean') {
+							isOnline = cfg.online;
+						}
+					}
+				} catch {
+					// Local server unreachable — keep current state.
+				}
+			}, 30_000);
+		}
 	});
 
 	onDestroy(() => {
 		gamepad?.stop();
 		window.removeEventListener('keydown', handleKeydown);
+		if (pollTimer !== null) clearInterval(pollTimer);
 	});
 
 	async function toggleCheckout(event: MouseEvent, id: string) {
@@ -146,11 +168,18 @@
 	{/if}
 
 	{#if data.appMode === 'client'}
-		<div class="banner info" role="note">
-			<span aria-hidden="true">📡</span>
-			<span> Connected to server — select <strong>⊕</strong> to download a walkthrough for offline use.</span>
-			<a href="/settings" class="manage-link">⚙ Settings →</a>
-		</div>
+		{#if !isOnline}
+			<div class="banner offline" role="status" aria-live="polite">
+				<span aria-hidden="true">📵</span>
+				<span> Offline — serving cached walkthroughs. Progress will sync when reconnected.</span>
+			</div>
+		{:else}
+			<div class="banner info" role="note">
+				<span aria-hidden="true">📡</span>
+				<span> Connected to server — select <strong>⊕</strong> to download a walkthrough for offline use.</span>
+				<a href="/settings" class="manage-link">⚙ Settings →</a>
+			</div>
+		{/if}
 	{/if}
 
 	{#if data.appMode === 'server'}
@@ -296,6 +325,15 @@
 		background: rgba(84, 214, 106, 0.06);
 		border: 1px solid rgba(84, 214, 106, 0.2);
 		color: #80d490;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+
+	.banner.offline {
+		background: rgba(255, 140, 0, 0.07);
+		border: 1px solid rgba(255, 140, 0, 0.25);
+		color: #ffa040;
 		display: flex;
 		align-items: center;
 		gap: 0.4rem;

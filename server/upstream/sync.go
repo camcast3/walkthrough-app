@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"sync"
 	"time"
+	"walkthrough-server/connectivity"
 	"walkthrough-server/store"
 )
 
@@ -23,6 +24,10 @@ type ProgressSync struct {
 	// walkthroughs that are currently checked out. Progress for unchecked walkthroughs
 	// is neither sent to nor fetched from the remote server.
 	IsCheckedOutFn func(id string) (bool, error)
+
+	// Monitor, when non-nil, gates flush calls on connectivity state and
+	// triggers an immediate flush when the monitor reports back online.
+	Monitor *connectivity.Monitor
 
 	configMu sync.RWMutex // protects ServerURL and Interval
 	mu        sync.Mutex
@@ -138,7 +143,15 @@ func (ps *ProgressSync) PullAll(ctx context.Context, walkthroughIDs []string) {
 func (ps *ProgressSync) syncLoop(ctx context.Context) {
 	ticker := time.NewTicker(ps.GetInterval())
 	defer ticker.Stop()
+
+	var notifyCh <-chan struct{}
+
 	for {
+		// Re-subscribe to connectivity notifications at the start of each iteration.
+		if notifyCh == nil {
+			notifyCh = ps.Monitor.Notify()
+		}
+
 		select {
 		case <-ctx.Done():
 			// Flush remaining on shutdown
@@ -147,7 +160,13 @@ func (ps *ProgressSync) syncLoop(ctx context.Context) {
 		case d := <-ps.resetCh:
 			ticker.Reset(d)
 		case <-ticker.C:
-			if ps.serverURL() != "" {
+			if ps.serverURL() != "" && ps.Monitor.IsOnline() {
+				ps.flush(ctx)
+			}
+		case <-notifyCh:
+			notifyCh = nil // re-subscribe on next iteration
+			if ps.Monitor.IsOnline() && ps.serverURL() != "" {
+				// Connectivity restored — flush queued changes immediately.
 				ps.flush(ctx)
 			}
 		}
