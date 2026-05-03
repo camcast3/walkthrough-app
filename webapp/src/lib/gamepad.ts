@@ -13,6 +13,7 @@
  *   3 = Y (North) — cycle HLTB mode
  *   4 = LB        — previous section
  *   5 = RB        — next section
+ *   9 = Start/Menu/Pause — open settings
  *   12 = D-pad Up   (repeat-on-hold)
  *   13 = D-pad Down (repeat-on-hold)
  *   14 = D-pad Left  (previous section alias)
@@ -31,7 +32,8 @@ export type GamepadAction =
 	| 'checkout'
 	| 'cycle-hltb'
 	| 'scroll-up'
-	| 'scroll-down';
+	| 'scroll-down'
+	| 'settings';
 
 interface ButtonState {
 	pressed: boolean;
@@ -60,6 +62,7 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	5: 'next-section',
 	12: 'focus-up',
 	13: 'focus-down',
+	9: 'settings',
 	14: 'prev-section',
 	15: 'next-section'
 };

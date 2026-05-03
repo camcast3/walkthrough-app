@@ -10,6 +10,8 @@
 	function handleGamepadAction(action: string) {
 		if (action === 'back' || action === 'check') {
 			goto('/');
+		} else if (action === 'settings') {
+			goto('/settings');
 		}
 	}
 

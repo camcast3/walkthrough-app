@@ -2,6 +2,7 @@
 	import type { PageData } from './$types.js';
 	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FULL_TITLES } from '$lib/state.js';
 	import { checkout, checkin } from '$lib/sync.js';
+	import { goto } from '$app/navigation';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
@@ -145,6 +146,9 @@
 			case 'check':
 				cardRefs[focusedCardIdx]?.click();
 				break;
+			case 'settings':
+				goto('/settings');
+				break;
 		}
 	}
 
@@ -164,7 +168,8 @@
 
 	const listHints = [
 		{ badge: '↕', label: 'Navigate' },
-		{ badge: 'A', label: 'Open' }
+		{ badge: 'A', label: 'Open' },
+		{ badge: '☰', label: 'Settings' }
 	];
 </script>
 

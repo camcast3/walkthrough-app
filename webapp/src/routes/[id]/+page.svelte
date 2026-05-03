@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
@@ -333,6 +334,9 @@
 			case 'cycle-hltb':
 				cycleHltbMode();
 				break;
+			case 'settings':
+				goto('/settings');
+				break;
 		}
 	}
 
@@ -453,6 +457,7 @@
 		if (data.appMode === 'client') {
 			hints.push({ badge: 'X', label: isCheckedOut ? 'Checkin' : 'Checkout' });
 		}
+		hints.push({ badge: '☰', label: 'Settings' });
 		return hints;
 	});
 </script>
