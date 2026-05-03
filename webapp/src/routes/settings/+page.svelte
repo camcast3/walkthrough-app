@@ -462,6 +462,7 @@
 		position: absolute;
 		left: 0;
 		top: 2rem;
+		z-index: 1;
 		font-size: 0.9rem;
 		color: #7c6af7;
 		opacity: 0.8;

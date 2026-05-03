@@ -1,5 +1,5 @@
 # Stage 1: Build the SvelteKit webapp
-FROM node:22-alpine AS webapp-builder
+FROM node:24-alpine AS webapp-builder
 WORKDIR /webapp
 COPY webapp/package.json webapp/package-lock.json ./
 RUN npm ci --legacy-peer-deps
