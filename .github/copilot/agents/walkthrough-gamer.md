@@ -111,7 +111,11 @@ If there are **zero blockers**:
 - State: **"Gamer review complete. Ready for Walkthrough Completionist."**
 
 If there are **any blockers**:
-- State: **"Returning to Writer for gamer-identified fixes."** and list the blockers clearly.
+- State: **"Returning to Reviewer for gamer-identified fixes."** and list the blockers clearly.
+- The Reviewer triages: fixes small issues inline, routes content gaps to the Writer.
+
+## Automated pipeline
+For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. It runs Writer → Reviewer → Gamer → Completionist with automatic fix loops — no manual handoffs needed.
 
 ## What NOT to do
 - Don't verify against the original source (the Reviewer already did that)

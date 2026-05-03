@@ -20,6 +20,8 @@ The user will provide one of:
 2. **Raw walkthrough text** (pasted content)
 3. Both
 
+The user may also provide a game name for metadata lookups (HLTB, achievements).
+
 ### Handling blocked sites
 
 Many walkthrough sites (Neoseeker, IGN, GameFAQs, etc.) are behind Cloudflare bot protection and will return 403. When a direct fetch fails:
@@ -39,12 +41,24 @@ The goal is to produce a useful walkthrough even when the site can't be scraped 
 
 ## Process
 
-### Step 1: Understand the game structure
+### Step 1: Understand the game structure & gather metadata
 Search for the game's full walkthrough table of contents:
 ```
 web_search: "<source site> <game name> walkthrough table of contents all chapters"
 ```
 Map out ALL sections/chapters. This becomes your section list.
+
+**Also gather game metadata now:**
+```
+web_search: "<game name> HowLongToBeat main story completionist hours"
+web_search: "<game name> full achievement trophy list missable"
+web_search: "<game name> cover art official"
+```
+
+Populate the top-level fields:
+- `hltb` — `main_story`, `main_story_sides`, `completionist` (in hours, from HowLongToBeat)
+- `cover_image` — a stable URL to official cover art (optional but preferred). Use IGDB as the source: `https://images.igdb.com/igdb/image/upload/t_cover_big/{hash}.jpg`. Search IGDB for the game to find the correct hash.
+- Build a **master achievement list** as a reference document for yourself. Mark each achievement as story/side/collectible/combat/missable. You'll weave these into the relevant sections as you write.
 
 ### Step 2: For EACH section, do deep research
 Do **multiple targeted searches** per section to gather comprehensive detail:
@@ -62,15 +76,18 @@ Each section's `content` field should be **8,000-25,000+ characters** of Markdow
 **Required content per section:**
 - **Chronological progression** — what to do first, second, third. If the game uses dates (e.g., "December 19"), use those as ### sub-headings
 - **Every named quest** — main story AND side quests, with objectives, steps, and rewards
+- **Side quest availability windows** — explicitly state WHEN each side quest becomes available and WHEN it expires or becomes locked out (e.g., "Available after reaching City but before entering the Fortress")
 - **NPC interactions** — who to talk to, where they are, what triggers events
 - **Item/chest locations** — specific items in specific places with directions
 - **Shop inventory highlights** — new recipes, rare equipment, quartz, crafting materials
 - **Dungeon walkthroughs** — room-by-room if complex, with enemy types and paths
-- **Boss strategies** — name, HP if known, weaknesses, attack patterns, recommended approach
+- **Boss strategies** — name, HP if known, weaknesses, attack patterns, recommended level/equipment/party composition, and a clear strategy
+- **Save recommendations** — explicitly tell the player to save before boss fights, difficult sections, and any point where a bad outcome costs significant progress
 - **Character events / bonding events** — who, where, what rewards (Link EXP, items, etc.)
-- **Hidden / missable content** — clearly called out with warnings. AP rewards, collectibles, books, achievements
+- **Hidden / missable content** — clearly called out with warnings. Include WHEN it becomes permanently unavailable. AP rewards, collectibles, books, achievements
+- **Achievement/trophy triggers** — when an action in this section unlocks or enables an achievement, call it out. Mark missable achievements with explicit warnings including the lockout timing
 - **Mini-games** — how they work, tips, rewards
-- **Point-of-no-return warnings** — **bold** before any moment that locks out optional content
+- **Point-of-no-return warnings** — **bold** before any moment that locks out optional content. Recommend saving here.
 
 **Markdown formatting rules:**
 - `## Sub-heading` for major phases within a section (e.g., `## December 19`, `## Sachsen Iron Mine`)
@@ -99,9 +116,22 @@ The `steps` array is a **concise checklist** that runs alongside the prose. Aim 
 | `collectible` | Every missable item, book, recipe, trophy trigger |
 | `boss` | Every boss fight — include name in **bold** and brief strategy |
 
+**Step IDs:** Use descriptive kebab-case IDs that describe the action, e.g., `loot-cell-key`, `talk-crestfallen-warrior`, `boss-asylum-demon`. Do NOT use generic sequential IDs like `step-001`.
+
+**Step `note` field:** Use the optional `note` field for supplemental context shown below the step text — item locations, tips, consequences of an action, or why something matters. This keeps the main `text` concise while preserving useful detail. Example:
+```json
+{
+  "id": "talk-crestfallen-warrior",
+  "type": "step",
+  "text": "Talk to the **Crestfallen Warrior** near the bonfire.",
+  "note": "Exhaust his dialogue — he gives critical guidance about where to go next."
+}
+```
+
 ### Step 6: Validate and output
 - Validate all JSON structure against the schema at `walkthroughs/walkthrough.schema.json`
 - All `id` fields must match pattern `^[a-z0-9]+(-[a-z0-9]+)*$`
+- Section IDs should be descriptive area/chapter slugs (e.g., `undead-asylum`, `firelink-shrine`)
 - Every checkpoint in `checkpoints` array must have a matching `<!-- checkpoint: id | label -->` in `content`
 - Step `type` must be one of: `step`, `note`, `warning`, `collectible`, `boss`
 - No UTF-8 BOM in the output
@@ -109,6 +139,7 @@ The `steps` array is a **concise checklist** that runs alongside the prose. Aim 
 - `$schema` should be `../walkthrough.schema.json`
 - `created_at` should be today's date in `YYYY-MM-DD` format
 - `attribution` field MUST credit the original source
+- `hltb` field should be populated with HowLongToBeat data (omit only if data cannot be found)
 
 ### Output rules
 - **Always include attribution.** Example: "This walkthrough was pulled from [Author/Site] ([url]) and processed for a cleaner reading experience. All credit for the original content goes to [Author/Site]."
@@ -128,19 +159,25 @@ The `steps` array is a **concise checklist** that runs alongside the prose. Aim 
   "source_url": "https://example.com/game-walkthrough",
   "attribution": "This walkthrough was pulled from Example Author (example.com) and processed for a cleaner reading experience. All credit for the original content goes to Example Author.",
   "created_at": "2026-05-03",
+  "cover_image": "https://example.com/game-cover.jpg",
+  "hltb": {
+    "main_story": 30,
+    "main_story_sides": 55,
+    "completionist": 100
+  },
   "sections": [
     {
-      "id": "chapter-1",
+      "id": "oakhaven-village",
       "title": "Chapter 1: The Beginning",
-      "content": "Full Markdown prose with <!-- checkpoint: id | label --> markers...",
+      "content": "Full Markdown prose with <!-- checkpoint: id | label --> markers...\n\n> **Save your game before entering the Cave.** This is a point of no return for the Forest side quests.\n\n🏆 **Achievement: Explorer** — Unlocked by discovering all five hidden paths in the village. Missable after Chapter 2 begins.",
       "checkpoints": [
         { "id": "village-explored", "label": "Explored Oakhaven Village" }
       ],
       "steps": [
-        { "id": "step-001", "type": "step", "text": "Pick up the **Starting Item** from the chest." },
-        { "id": "step-002", "type": "warning", "text": "Do NOT open the red door yet." },
-        { "id": "step-003", "type": "collectible", "text": "Grab the **Missable Trophy Item** behind the waterfall." },
-        { "id": "step-004", "type": "boss", "text": "**BOSS: The First Guardian** — Attack the glowing weak point." }
+        { "id": "loot-starting-chest", "type": "collectible", "text": "Pick up the **Starting Item** from the chest in the cellar.", "note": "Behind the barrels in the northeast corner." },
+        { "id": "red-door-warning", "type": "warning", "text": "Do NOT open the red door yet — the **Forest Spirit** side quest becomes unavailable if you do.", "note": "Complete the Forest Spirit quest first (available from the Elder NPC)." },
+        { "id": "grab-missable-trophy", "type": "collectible", "text": "Grab the **Missable Trophy Item** behind the waterfall (1/5 for Explorer achievement)." },
+        { "id": "boss-first-guardian", "type": "boss", "text": "**BOSS: The First Guardian** (HP: ~2500) — Attack the glowing weak point on its back. Recommended level 8+.", "note": "Weak to fire. Bring 3+ Fire Flasks. Save beforehand." }
       ]
     }
   ]
@@ -151,14 +188,30 @@ The `steps` array is a **concise checklist** that runs alongside the prose. Aim 
 A section is NOT done if:
 - It reads like a summary rather than a guide
 - Someone playing the game could miss a side quest by following it
-- Boss strategies are just "defeat the boss" without tactics
+- Side quest availability windows are not stated (when it opens AND when it locks out)
+- Boss strategies are just "defeat the boss" without tactics, recommended level, or equipment
 - Chest/item locations are vague ("check around the area")
 - It's under 5,000 characters (most sections should be 8,000-25,000+)
+- Missable achievements in this section aren't warned with explicit lockout timing
+- Point-of-no-return moments don't include a save recommendation
+- Steps use generic IDs (`step-001`) instead of descriptive ones (`loot-cell-key`)
 
 ## After writing
 Once you've written the complete walkthrough JSON:
 1. Validate it against the schema
 2. State clearly: **"Draft complete. Ready for Walkthrough Reviewer."**
 3. Summarize what you wrote: number of sections, total checkpoints, total steps, approximate content size per section
+4. Report metadata status: HLTB populated (yes/no), cover image included (yes/no), achievements referenced (count)
 
 The Reviewer will then compare your draft against the original trusted source to catch anything you missed.
+
+## Revision mode
+When called back by a downstream agent (Reviewer, Gamer, or Completionist) with a list of fixes:
+1. Read the existing walkthrough JSON — do NOT recreate from scratch
+2. Fix ONLY the identified issues — do not rewrite passing sections
+3. Re-validate against the schema after every edit
+4. State clearly: **"Revisions complete. Returning to [Agent Name]."**
+5. Summarize exactly what was changed
+
+## Automated pipeline
+For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. It runs Writer → Reviewer → Gamer → Completionist with automatic fix loops — no manual handoffs needed.
