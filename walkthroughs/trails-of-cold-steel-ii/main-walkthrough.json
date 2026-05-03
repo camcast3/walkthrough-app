@@ -51,6 +51,30 @@
           "note": "Transfer bonuses include items and Sepith based on your old save's level and rank."
         },
         {
+          "id": "warning-cumulative-combat-achievements",
+          "type": "warning",
+          "text": "🏆 **Cumulative Combat Achievements** — Several achievements track actions across the entire game. Keep these in mind from the start:\n- **Tactician** — Win a battle with S rank (act quickly, take no damage, use link attacks)\n- **Taking the Initiative** — Get 300 field advantages (always strike enemies from behind)\n- **Mind if I Cut In?** — Use 100 S-Breaks (press L1+R1 during enemy turns when CP is 100+)\n- **The Manway Method** — Win 600 battles (grind in the Epilogue corridor if needed)\n- **One Good Burn Deserves Another** — 500 follow-up link attacks\n- **Double the Trouble** — 100 Rush attacks\n- **Smells Like Team Spirit** — 50 Burst attacks\n- **Overdriven to Win** — 100 Overdrive uses\n- **Shutdown Phenomenon** — Cancel enemy arts/crafts 100 times\n- **Pieces of Eight** — Defeat 8 enemies simultaneously (use wide AoE crafts on large groups)",
+          "note": "These are cumulative across the whole playthrough. Start building progress from the very first fight to avoid needing to grind later."
+        },
+        {
+          "id": "warning-fishing-missable",
+          "type": "warning",
+          "text": "🏆 **Achievement: The Reel Deal** — Catch all 24 fish species. Many fishing spots are chapter-specific and become permanently inaccessible. Fish at EVERY fishing spot you encounter throughout the game.",
+          "note": "Key missable fish: Ymir (Prologue only), Nord Highlands, Legram Lake. Always carry varied bait."
+        },
+        {
+          "id": "warning-profiles-missable",
+          "type": "warning",
+          "text": "🏆 **Achievement: Intelligence Agent** — Complete all character profiles. Requires talking to specific NPCs at precise story moments. Many are one-time windows. Talk to EVERY NPC with a unique dialogue icon throughout the game.",
+          "note": "Character profiles update at story progression points. Check your notebook regularly for gaps. Some profiles require revisiting NPCs after story beats."
+        },
+        {
+          "id": "warning-master-quartz-missable",
+          "type": "warning",
+          "text": "🏆 **Achievement: The Return of Rean QUARTZ-er** — Collect all 31 master quartz varieties. Some are found in one-time-only areas (Eisengard Range, Lohengrin Castle, Infernal Castle). Always check chests and monster drops thoroughly.",
+          "note": "Master quartz in one-time dungeons cannot be recovered. Prioritize full exploration of every dungeon before advancing."
+        },
+        {
           "id": "equip-master-quartz",
           "type": "step",
           "text": "Equip your **Master Quartz** in the Orbment menu when prompted."
@@ -465,6 +489,18 @@
           "note": "Higher-level enemies but grants extra Academic Points at chapter end."
         },
         {
+          "id": "reminder-fishing-nord",
+          "type": "warning",
+          "text": "🎣 **The Reel Deal reminder:** Fish at ALL spots in the Nord Highlands (Lake Lacrima, East Highlands pond). Nord fish species are unique and some cannot be caught elsewhere.",
+          "note": "Carry varied bait. Some Nord fishing spots become inaccessible after the Watchtower assault."
+        },
+        {
+          "id": "reminder-profiles-nord",
+          "type": "warning",
+          "text": "📓 **Intelligence Agent reminder:** Talk to every NPC in Nord Settlement, Zender Gate, and Lake Lacrima. Character profiles update when you speak to NPCs at specific story moments.",
+          "note": "Check your notebook for new profile entries after each story progression point."
+        },
+        {
           "id": "save-before-watchtower",
           "type": "warning",
           "text": "**Save before entering the Watchtower.** Multiple boss fights ahead with no rest points between them."
@@ -602,6 +638,24 @@
           "type": "step",
           "text": "Complete all remaining side quests (Monster Extermination, village requests) before entering Lohengrin Castle.",
           "note": "ALL quests expire upon entering Lohengrin Castle."
+        },
+        {
+          "id": "reminder-fishing-legram",
+          "type": "warning",
+          "text": "🎣 **The Reel Deal reminder:** Fish at the Legram Lake pier and any other spots in the Legram area. Some fish species here are unique to this location.",
+          "note": "The Stranger Than Fishin' quest also involves catching a rare fish. Don't leave Legram without fishing at every available spot."
+        },
+        {
+          "id": "reminder-profiles-legram",
+          "type": "warning",
+          "text": "📓 **Intelligence Agent reminder:** Talk to ALL NPCs in Legram town (including the Arseid School, chapel, and inn) before entering Lohengrin Castle. Profile windows close permanently.",
+          "note": "Check notebook after each story beat for newly available profiles."
+        },
+        {
+          "id": "warning-lohengrin-master-quartz",
+          "type": "warning",
+          "text": "🏆 **The Return of Rean QUARTZ-er reminder:** Lohengrin Castle is a ONE-TIME dungeon. Thoroughly explore every floor and open ALL treasure chests — master quartz and other items found here cannot be obtained later.",
+          "note": "Check every side path and monster chest. You cannot return to Lohengrin Castle after completing it."
         },
         {
           "id": "explore-lohengrin-castle",
@@ -1283,6 +1337,12 @@
           "id": "equip-status-resist",
           "type": "step",
           "text": "Equip ailment-resist quartz and status recovery accessories on all party members."
+        },
+        {
+          "id": "warning-infernal-master-quartz",
+          "type": "warning",
+          "text": "🏆 **The Return of Rean QUARTZ-er reminder:** The Infernal Castle is a ONE-TIME dungeon. Open EVERY treasure chest on every stratum — master quartz found here cannot be obtained after leaving.",
+          "note": "Explore all side paths in each stratum before advancing to the next. This is your last chance for dungeon-exclusive master quartz."
         },
         {
           "id": "warning-no-return-finale",
