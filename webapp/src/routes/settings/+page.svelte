@@ -38,7 +38,9 @@
 
 	// Gamepad / keyboard focus management
 	let focusedIdx = $state(0);
-	let fieldRefs: (HTMLElement | null)[] = $state(Array(BASE_FIELD_COUNT + 1).fill(null));
+	// Fixed size of 7: indices 0-3 = inputs, 4 = save, 5 = check-updates, 6 = apply-update.
+	// Index 6 is only navigable when fieldCount reaches 7 (update available).
+	let fieldRefs: (HTMLElement | null)[] = Array(7).fill(null);
 	let gamepad: GamepadNavigator | null = null;
 
 	onMount(() => {
@@ -78,7 +80,13 @@
 				focusField(Math.min(fieldCount - 1, focusedIdx + 1));
 				break;
 			case 'check':
-				fieldRefs[focusedIdx]?.click();
+				if (focusedIdx >= 4) {
+					// Save / check-updates / apply-update buttons
+					fieldRefs[focusedIdx]?.click();
+				} else {
+					// Input fields — activate for text entry
+					fieldRefs[focusedIdx]?.focus();
+				}
 				break;
 			case 'back':
 				window.location.href = '/';
