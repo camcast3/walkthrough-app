@@ -16,7 +16,44 @@ env:
   IMAGE_NAME: ${{ github.repository_owner }}/walkthrough-server
 
 jobs:
+  server-tests:
+    name: Go server tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
+      - run: go build ./...
+      - run: go test ./... -timeout 60s
+
+  webapp-tests:
+    name: Webapp unit tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: webapp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+      - run: npm ci --legacy-peer-deps
+      - run: npm run check
+      - run: npm run test
+
   build-and-update:
+    needs: [server-tests, webapp-tests]
     runs-on: ubuntu-latest
     permissions:
       contents: write   # needed to commit manifest updates back to main
