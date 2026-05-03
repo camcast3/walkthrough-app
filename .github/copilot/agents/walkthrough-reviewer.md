@@ -91,6 +91,9 @@ If revisions are needed:
 If the draft passes:
 - State clearly: **"Review complete. Ready for Walkthrough Gamer."**
 
+## Automated pipeline
+For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. It runs Writer → Reviewer → Gamer → Completionist with automatic fix loops — no manual handoffs needed.
+
 ## What NOT to review
 - Grammar, style, or writing quality (the Writer handles that)
 - Schema validity (that's checked by CI)

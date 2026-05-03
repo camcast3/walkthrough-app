@@ -134,6 +134,9 @@ If there are **any 🔒** issues:
 If there are **many ❌ (not covered)** achievements:
 - Provide a prioritized list of which to add, focusing on missable ones first, then side quest ones, then cumulative/grind ones last.
 
+## Automated pipeline
+For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. It runs Writer → Reviewer → Gamer → Completionist with automatic fix loops — no manual handoffs needed.
+
 ## What NOT to do
 - Don't verify prose quality (the Gamer did that)
 - Don't verify against the original source (the Reviewer did that)

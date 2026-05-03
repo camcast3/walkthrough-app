@@ -204,3 +204,14 @@ Once you've written the complete walkthrough JSON:
 4. Report metadata status: HLTB populated (yes/no), cover image included (yes/no), achievements referenced (count)
 
 The Reviewer will then compare your draft against the original trusted source to catch anything you missed.
+
+## Revision mode
+When called back by a downstream agent (Reviewer, Gamer, or Completionist) with a list of fixes:
+1. Read the existing walkthrough JSON — do NOT recreate from scratch
+2. Fix ONLY the identified issues — do not rewrite passing sections
+3. Re-validate against the schema after every edit
+4. State clearly: **"Revisions complete. Returning to [Agent Name]."**
+5. Summarize exactly what was changed
+
+## Automated pipeline
+For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. It runs Writer → Reviewer → Gamer → Completionist with automatic fix loops — no manual handoffs needed.

@@ -113,6 +113,9 @@ If there are **zero blockers**:
 If there are **any blockers**:
 - State: **"Returning to Writer for gamer-identified fixes."** and list the blockers clearly.
 
+## Automated pipeline
+For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. It runs Writer → Reviewer → Gamer → Completionist with automatic fix loops — no manual handoffs needed.
+
 ## What NOT to do
 - Don't verify against the original source (the Reviewer already did that)
 - Don't check schema validity
