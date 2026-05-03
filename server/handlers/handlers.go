@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
@@ -10,6 +12,7 @@ import (
 	"strings"
 	"time"
 	"walkthrough-server/configstore"
+	"walkthrough-server/connectivity"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
 	"walkthrough-server/upstream"
@@ -28,6 +31,8 @@ type Handler struct {
 	RemoteSource *source.RemoteSource
 	// ConfigStore is non-nil in client mode; persists runtime settings to a JSON file.
 	ConfigStore *configstore.Store
+	// Monitor is non-nil in client mode; tracks remote-server connectivity.
+	Monitor *connectivity.Monitor
 }
 
 // requireServerMode writes a 403 error if the server is not in server mode and returns false.
@@ -64,7 +69,21 @@ func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
 	if h.AppMode == "client" && h.Sync != nil {
 		cfg["syncInterval"] = h.Sync.GetInterval().String()
 	}
+	if h.AppMode == "client" {
+		online := true // default to online when no monitor is configured
+		if h.Monitor != nil {
+			online = h.Monitor.IsOnline()
+		}
+		cfg["online"] = online
+	}
 	respondJSON(w, http.StatusOK, cfg)
+}
+
+// GetHealth handles GET /api/health and HEAD /api/health.
+// Returns 200 OK when the server is running. Used by connectivity monitors on
+// client devices to probe reachability with minimal overhead.
+func (h *Handler) GetHealth(w http.ResponseWriter, r *http.Request) {
+	respondJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 }
 
 // PutConfig handles PUT /api/config — updates runtime settings without a restart.
@@ -296,6 +315,15 @@ func (h *Handler) PutCheckout(w http.ResponseWriter, r *http.Request) {
 	// Ignore errors — the walkthrough may not be available right now.
 	_, _ = h.Source.Get(id)
 
+	// In client mode, notify the upstream server so it can track checkouts per device.
+	if h.AppMode == "client" && h.RemoteSource != nil {
+		deviceID := r.Header.Get("X-Device-ID")
+		serverURL := h.RemoteSource.GetServerURL()
+		if serverURL != "" {
+			go notifyUpstreamCheckout(serverURL, deviceID, id, true)
+		}
+	}
+
 	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "status": "checked_out"})
 }
 
@@ -315,6 +343,15 @@ func (h *Handler) DeleteCheckout(w http.ResponseWriter, r *http.Request) {
 	// Evict the cached content immediately so storage is freed on the device.
 	if h.RemoteSource != nil {
 		h.RemoteSource.Evict(id)
+	}
+
+	// In client mode, notify the upstream server so it can remove the checkout record.
+	if h.AppMode == "client" && h.RemoteSource != nil {
+		deviceID := r.Header.Get("X-Device-ID")
+		serverURL := h.RemoteSource.GetServerURL()
+		if serverURL != "" {
+			go notifyUpstreamCheckout(serverURL, deviceID, id, false)
+		}
 	}
 
 	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "status": "checked_in"})
@@ -392,6 +429,80 @@ func (h *Handler) GetDevices(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	respondJSON(w, http.StatusOK, devices)
+}
+
+// PutServerCheckout handles PUT /api/server/checkouts/{id} — records that a device has
+// checked out a walkthrough. Called by clients to notify the server of checkout events.
+func (h *Handler) PutServerCheckout(w http.ResponseWriter, r *http.Request) {
+	if !h.requireServerMode(w) {
+		return
+	}
+
+	id := r.PathValue("id")
+	if id == "" {
+		respondError(w, http.StatusBadRequest, "missing id")
+		return
+	}
+
+	deviceID := deviceIDFromRequest(r)
+	if err := h.DB.RecordDeviceCheckout(deviceID, id); err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to record checkout")
+		return
+	}
+	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "deviceId": deviceID, "status": "checked_out"})
+}
+
+// DeleteServerCheckout handles DELETE /api/server/checkouts/{id} — removes a device's
+// checkout record for a walkthrough. Called by clients on checkin.
+func (h *Handler) DeleteServerCheckout(w http.ResponseWriter, r *http.Request) {
+	if !h.requireServerMode(w) {
+		return
+	}
+
+	id := r.PathValue("id")
+	if id == "" {
+		respondError(w, http.StatusBadRequest, "missing id")
+		return
+	}
+
+	deviceID := deviceIDFromRequest(r)
+	if err := h.DB.RecordDeviceCheckin(deviceID, id); err != nil {
+		respondError(w, http.StatusInternalServerError, "failed to record checkin")
+		return
+	}
+	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "deviceId": deviceID, "status": "checked_in"})
+}
+
+// notifyUpstreamCheckout asynchronously notifies the upstream server of a checkout or checkin
+// event. checkout=true records a checkout; checkout=false removes it.
+// Failures are logged but do not affect the local operation.
+func notifyUpstreamCheckout(serverURL, deviceID, walkthroughID string, checkout bool) {
+	method := http.MethodPut
+	if !checkout {
+		method = http.MethodDelete
+	}
+	url := fmt.Sprintf("%s/api/server/checkouts/%s", serverURL, walkthroughID)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, method, url, nil)
+	if err != nil {
+		log.Printf("[checkout-sync] build request failed: %v", err)
+		return
+	}
+	if deviceID != "" {
+		req.Header.Set("X-Device-ID", deviceID)
+	}
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		log.Printf("[checkout-sync] notify upstream failed: %v", err)
+		return
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		log.Printf("[checkout-sync] upstream returned status %d for %s %s", resp.StatusCode, method, url)
+	}
 }
 
 // deviceIDFromRequest returns a stable device identifier from the request.

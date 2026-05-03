@@ -12,7 +12,7 @@ export const load: PageLoad = async () => {
 		walkthroughsResult.status === 'fulfilled' ? walkthroughsResult.value : [];
 	const config =
 		configResult.status === 'fulfilled'
-			? (configResult.value as { appMode?: string })
+			? (configResult.value as { appMode?: string; online?: boolean })
 			: {};
 	const checkedOutIds =
 		checkoutsResult.status === 'fulfilled' ? checkoutsResult.value : [];
@@ -24,6 +24,8 @@ export const load: PageLoad = async () => {
 				? 'Could not load walkthroughs — showing cached content if available.'
 				: null,
 		appMode: (config.appMode as string) ?? '',
+		// `online` is only meaningful in client mode; undefined/null in other modes.
+		online: config.online ?? true,
 		checkedOutIds: checkedOutIds as string[]
 	};
 };
