@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: server
-          image: ghcr.io/camcast3/walkthrough-server:8f5bcef358432ef743f7a14a7afb84b4e3f4a65b
+          image: ghcr.io/camcast3/walkthrough-server:f07efbcae9804dab65c6123fa19d37e71ad1f6a4
           ports:
             - containerPort: 8080
           env:
