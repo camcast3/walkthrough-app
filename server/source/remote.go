@@ -184,6 +184,8 @@ func (s *RemoteSource) Get(id string) ([]byte, error) {
 
 // Evict removes a walkthrough's content from the in-memory cache and persists
 // the updated cache to disk, freeing storage space on the device.
+// persistToDisk acquires its own read lock and snapshots byID at call time, so
+// the disk will always reflect a consistent in-memory state even under concurrent access.
 func (s *RemoteSource) Evict(id string) {
 	s.mu.Lock()
 	delete(s.byID, id)

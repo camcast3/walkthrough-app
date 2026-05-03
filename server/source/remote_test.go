@@ -95,11 +95,10 @@ func TestRemoteSourceRefresh_DropsUncheckedCache(t *testing.T) {
 	srv := newFakeServer(t, metas)
 	defer srv.Close()
 
+	checkedOutWt2Only := func() ([]string, error) { return []string{"wt2"}, nil }
 	s := NewRemoteSource(RemoteConfig{
-		ServerURL: srv.URL,
-		CheckedOutFn: func() ([]string, error) {
-			return []string{"wt2"}, nil // only wt2 is checked out
-		},
+		ServerURL:    srv.URL,
+		CheckedOutFn: checkedOutWt2Only,
 	})
 	// Pre-populate both walkthroughs as if they were cached previously.
 	s.byID["wt1"] = []byte(`{"id":"wt1"}`)
