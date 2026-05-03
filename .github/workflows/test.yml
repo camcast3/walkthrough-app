@@ -9,6 +9,8 @@ jobs:
   server-tests:
     name: Go server tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: server
@@ -24,6 +26,8 @@ jobs:
   webapp-tests:
     name: Webapp unit tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     defaults:
       run:
         working-directory: webapp
