@@ -90,13 +90,15 @@
 	function validateDuration(s: string, minSec: number, maxSec: number): string | null {
 		if (!s) return null;
 		// Accept Go duration strings: e.g. "10m", "1h30m", "30s", "1h"
+		// Each unit group requires at least one digit before the unit letter.
 		const match = s.match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?(?:(\d+)ms)?$/);
-		if (!match || s.trim() === '') return 'Invalid format (e.g. 10m, 1h, 30s)';
+		if (!match) return 'Invalid format (e.g. 10m, 1h, 30s)';
 		const h = parseInt(match[1] ?? '0');
 		const m = parseInt(match[2] ?? '0');
 		const sec = parseInt(match[3] ?? '0');
 		const ms = parseInt(match[4] ?? '0');
 		const totalSec = h * 3600 + m * 60 + sec + ms / 1000;
+		if (totalSec === 0) return 'Invalid format (e.g. 10m, 1h, 30s)';
 		if (totalSec < minSec)
 			return `Must be at least ${minSec >= 60 ? minSec / 60 + 'm' : minSec + 's'}`;
 		if (totalSec > maxSec)
@@ -117,10 +119,6 @@
 		const syncErr = validateDuration(syncInterval, 10, 3600); // 10s – 1h
 		if (syncErr) errors.syncInterval = syncErr;
 
-		if (cacheDir !== undefined && cacheDir.trim() === '' && data.cacheDir !== '') {
-			errors.cacheDir = 'Cannot be empty';
-		}
-
 		validationErrors = errors;
 		return Object.keys(errors).length === 0;
 	}
@@ -134,16 +132,21 @@
 		saved = false;
 
 		try {
-			await updateClientConfig({
+			const result = await updateClientConfig({
 				serverUrl: serverUrl || undefined,
 				refreshInterval: refreshInterval || undefined,
 				syncInterval: syncInterval || undefined,
 				cacheDir: cacheDir || undefined
 			});
-			saved = true;
-			setTimeout(() => {
-				saved = false;
-			}, 3000);
+			// Surface any persistence warnings (settings applied but may not survive restart)
+			if (result.persistWarnings && result.persistWarnings.length > 0) {
+				saveError = '⚠ Settings applied but could not be persisted: ' + result.persistWarnings.join('; ');
+			} else {
+				saved = true;
+				setTimeout(() => {
+					saved = false;
+				}, 3000);
+			}
 		} catch (err) {
 			saveError = err instanceof Error ? err.message : 'Failed to save settings';
 		} finally {

@@ -6,6 +6,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 	"walkthrough-server/source"
@@ -121,8 +122,13 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		syncInterval = d
 	}
 
-	// Validate cacheDir: check it is (or can be made) writable
+	// Validate cacheDir: must be an absolute path and must be (or become) writable
 	if body.CacheDir != "" {
+		if !filepath.IsAbs(body.CacheDir) {
+			respondError(w, http.StatusBadRequest, "cacheDir must be an absolute path")
+			return
+		}
+		body.CacheDir = filepath.Clean(body.CacheDir)
 		if err := os.MkdirAll(body.CacheDir, 0755); err != nil {
 			respondError(w, http.StatusBadRequest, "cacheDir is not writable: "+err.Error())
 			return
@@ -130,6 +136,8 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Apply and persist changes
+	var persistWarnings []string
+
 	if body.ServerURL != "" {
 		if h.RemoteSource != nil {
 			h.RemoteSource.SetServerURL(body.ServerURL)
@@ -141,6 +149,7 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		}
 		if err := h.DB.SetSetting("server_url", body.ServerURL); err != nil {
 			log.Printf("[config] failed to persist server_url: %v", err)
+			persistWarnings = append(persistWarnings, "server_url could not be persisted: "+err.Error())
 		}
 	}
 
@@ -148,6 +157,7 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		h.RemoteSource.SetInterval(refreshInterval)
 		if err := h.DB.SetSetting("refresh_interval", body.RefreshInterval); err != nil {
 			log.Printf("[config] failed to persist refresh_interval: %v", err)
+			persistWarnings = append(persistWarnings, "refresh_interval could not be persisted: "+err.Error())
 		}
 	}
 
@@ -155,6 +165,7 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		h.Sync.SetInterval(syncInterval)
 		if err := h.DB.SetSetting("sync_interval", body.SyncInterval); err != nil {
 			log.Printf("[config] failed to persist sync_interval: %v", err)
+			persistWarnings = append(persistWarnings, "sync_interval could not be persisted: "+err.Error())
 		}
 	}
 
@@ -162,11 +173,26 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		h.RemoteSource.SetCacheDir(body.CacheDir)
 		if err := h.DB.SetSetting("cache_dir", body.CacheDir); err != nil {
 			log.Printf("[config] failed to persist cache_dir: %v", err)
+			persistWarnings = append(persistWarnings, "cache_dir could not be persisted: "+err.Error())
 		}
 	}
 
-	// Return the updated config
-	h.GetConfig(w, r)
+	// Build and return the updated config, including any persistence warnings.
+	cfg := map[string]any{
+		"appMode": h.AppMode,
+	}
+	if h.RemoteSource != nil {
+		cfg["serverUrl"] = h.RemoteSource.GetServerURL()
+		cfg["refreshInterval"] = h.RemoteSource.GetInterval().String()
+		cfg["cacheDir"] = h.RemoteSource.GetCacheDir()
+	}
+	if h.Sync != nil {
+		cfg["syncInterval"] = h.Sync.GetInterval().String()
+	}
+	if len(persistWarnings) > 0 {
+		cfg["persistWarnings"] = persistWarnings
+	}
+	respondJSON(w, http.StatusOK, cfg)
 }
 
 // ListWalkthroughs handles GET /api/walkthroughs

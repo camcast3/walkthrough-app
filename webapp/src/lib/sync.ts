@@ -227,6 +227,7 @@ export interface ClientConfig {
 	refreshInterval?: string;
 	syncInterval?: string;
 	cacheDir?: string;
+	persistWarnings?: string[];
 }
 
 export interface ClientConfigUpdate {

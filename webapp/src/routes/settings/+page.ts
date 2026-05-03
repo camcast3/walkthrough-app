@@ -2,8 +2,12 @@ import { fetchClientConfig } from '$lib/sync.js';
 import type { PageLoad } from './$types.js';
 
 export const load: PageLoad = async () => {
-	const configResult = await Promise.allSettled([fetchClientConfig()]);
-	const config = configResult[0].status === 'fulfilled' ? configResult[0].value : null;
+	let config = null;
+	try {
+		config = await fetchClientConfig();
+	} catch {
+		// Server unreachable — show empty form with defaults
+	}
 
 	return {
 		appMode: config?.appMode ?? '',
