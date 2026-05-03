@@ -1,11 +1,11 @@
 # Walkthrough App — Server
 
-Go HTTP server that serves the walkthrough PWA, manages progress data in SQLite, and synchronizes walkthroughs from GitHub or a remote server instance.
+Go HTTP server that serves the walkthrough PWA, manages progress data in PostgreSQL (server mode) or SQLite (client/dev mode), and synchronizes walkthroughs from GitHub or a remote server instance.
 
 ## Prerequisites
 
 - **Go 1.26+** (see `go.mod`)
-- No CGO required — uses pure-Go SQLite (`modernc.org/sqlite`)
+- No CGO required — uses pure-Go SQLite (`modernc.org/sqlite`) and `pgx` for PostgreSQL
 
 ## Quick start
 
@@ -55,7 +55,7 @@ handlers/
 ├── handlers.go      HTTP handler implementations (CRUD, config, checkouts)
 └── ingest.go        Walkthrough ingestion pipeline (server mode only)
 source/              Walkthrough data sources (GitHub, remote, file)
-store/               SQLite database layer (progress, checkouts, local walkthroughs)
+store/               Database layer — PostgreSQL (pgx) or SQLite; progress, checkouts, local walkthroughs
 upstream/            Progress sync client (client mode → server)
 k8s/                 Kubernetes manifests
 argocd/              ArgoCD application manifest

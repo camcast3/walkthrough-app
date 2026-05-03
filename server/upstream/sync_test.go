@@ -15,7 +15,7 @@ import (
 
 func openTestDB(t *testing.T) *store.DB {
 	t.Helper()
-	db, err := store.Open(":memory:")
+	db, err := store.OpenSQLite(":memory:")
 	if err != nil {
 		t.Fatalf("open test db: %v", err)
 	}

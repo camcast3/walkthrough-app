@@ -7,7 +7,7 @@ This guide covers deploying the walkthrough server — the authoritative hub tha
 The server polls the GitHub repo for walkthrough JSON files and serves them to clients (browsers and local client instances). It is the single source of truth for walkthrough content and progress data.
 
 - Polls the GitHub Trees API on a configurable interval (default: every 5 minutes)
-- Stores all progress in a local SQLite database
+- Stores all progress in PostgreSQL (K8s server mode) or local SQLite (client mode)
 - Serves the PWA webapp to browsers
 - Exposes management APIs under `/api/server/` (ingest jobs, connected devices)
 
@@ -29,7 +29,8 @@ The server polls the GitHub repo for walkthrough JSON files and serves them to c
 
 | Variable | Flag | Default | Description |
 |---|---|---|---|
-| `DB_PATH` | `--db` | `/data/progress.sqlite` | Path to SQLite database file |
+| `DATABASE_URL` | — | *(unset)* | PostgreSQL connection string (e.g. `postgresql://user:pass@host:5432/db`). When set, uses PostgreSQL instead of SQLite |
+| `DB_PATH` | `--db` | `/data/progress.sqlite` | Path to SQLite database file (used when `DATABASE_URL` is not set) |
 | `STATIC_DIR` | `--static` | `/static` | Path to built webapp static files |
 | `LISTEN_ADDR` | `--addr` | `:8080` | Listen address |
 | `WALKTHROUGHS_DIR` | `--walkthroughs` | `/walkthroughs` | Local walkthrough directory (file mode only) |
@@ -43,9 +44,10 @@ The server polls the GitHub repo for walkthrough JSON files and serves them to c
 | Component | Role |
 |---|---|
 | **ArgoCD** | GitOps — watches `server/k8s/` on `main` and applies changes automatically |
-| **Argo Rollouts** | Replaces standard Deployments; canary strategy with maxSurge=0 for recreate behavior (required for RWO PVC) |
+| **Argo Rollouts** | Canary deployments with weighted traffic shifting |
 | **Cilium Gateway API** | Ingress via `HTTPRoute` — no nginx ingress needed |
-| **Rook Ceph** | Block storage for the SQLite PVC (`storageClassName: rook-ceph-block`) |
+| **CloudNativePG** | PostgreSQL operator — manages the `shared-pg` cluster in the `databases` namespace |
+| **Infisical** | Provisions `walkthrough-db-credentials` secret with the PostgreSQL connection URI |
 
 ### One-time setup
 
@@ -67,18 +69,23 @@ On pushes to `main` that touch `server/**`, `webapp/**`, or the workflow file it
 3. Updates the image tag in `server/k8s/rollout.yaml`
 4. Commits that change back to `main` with `[skip ci]`
 
-ArgoCD detects the new commit and syncs — triggering a Rollout (canary with maxSurge=0, which gives recreate behavior for the RWO PVC).
+ArgoCD detects the new commit and syncs — triggering a canary Rollout with weighted traffic shifting (25% → 50% → 100%).
 
 > **No `KUBECONFIG` secret required.** ArgoCD handles all cluster operations. Walkthroughs are fetched at runtime from GitHub (no ConfigMaps).
+
+### Database
+
+The K8s deployment uses PostgreSQL via [CloudNativePG](https://cloudnative-pg.io/). The `shared-pg` cluster runs in the `databases` namespace. The app connects via `DATABASE_URL`, provisioned as a Kubernetes secret by Infisical.
+
+Tables are auto-created on startup — no manual schema setup needed.
 
 ### Kubernetes manifests
 
 | File | Kind | Purpose |
 |---|---|---|
-| `server/k8s/rollout.yaml` | `argoproj.io/v1alpha1/Rollout` | App workload; canary with maxSurge=0 for RWO PVC |
+| `server/k8s/rollout.yaml` | `argoproj.io/v1alpha1/Rollout` | App workload; canary with 25→50→100% traffic shifting |
 | `server/k8s/service.yaml` | `Service` | ClusterIP on port 80 → container 8080 |
 | `server/k8s/httproute.yaml` | `gateway.networking.k8s.io/v1/HTTPRoute` | Cilium Gateway API routing |
-| `server/k8s/pvc.yaml` | `PersistentVolumeClaim` | 1 Gi `rook-ceph-block` volume for SQLite + cache |
 | `server/argocd/app.yaml` | `argoproj.io/v1alpha1/Application` | ArgoCD app definition (add to app-of-apps) |
 
 ---

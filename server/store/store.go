@@ -7,7 +7,15 @@ import (
 	"strings"
 	"time"
 
+	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "modernc.org/sqlite"
+)
+
+type dialect int
+
+const (
+	dialectSQLite   dialect = iota
+	dialectPostgres
 )
 
 type ProgressRecord struct {
@@ -17,59 +25,111 @@ type ProgressRecord struct {
 }
 
 type DB struct {
-	db *sql.DB
+	db      *sql.DB
+	dialect dialect
 }
 
-func Open(path string) (*DB, error) {
+// OpenSQLite opens a SQLite database at the given file path (or ":memory:").
+func OpenSQLite(path string) (*DB, error) {
 	db, err := sql.Open("sqlite", path)
 	if err != nil {
-		return nil, fmt.Errorf("open db: %w", err)
+		return nil, fmt.Errorf("open sqlite: %w", err)
 	}
-	if err := migrate(db); err != nil {
+	s := &DB{db: db, dialect: dialectSQLite}
+	if err := s.migrate(); err != nil {
 		return nil, fmt.Errorf("migrate: %w", err)
 	}
-	return &DB{db: db}, nil
+	return s, nil
+}
+
+// OpenPostgres opens a PostgreSQL database using the given connection string.
+func OpenPostgres(dsn string) (*DB, error) {
+	db, err := sql.Open("pgx", dsn)
+	if err != nil {
+		return nil, fmt.Errorf("open postgres: %w", err)
+	}
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(5)
+	db.SetConnMaxLifetime(30 * time.Minute)
+	db.SetConnMaxIdleTime(5 * time.Minute)
+	if err := db.Ping(); err != nil {
+		return nil, fmt.Errorf("ping postgres: %w", err)
+	}
+	s := &DB{db: db, dialect: dialectPostgres}
+	if err := s.migrate(); err != nil {
+		return nil, fmt.Errorf("migrate: %w", err)
+	}
+	return s, nil
+}
+
+// Open is a backward-compatible alias for OpenSQLite.
+func Open(path string) (*DB, error) {
+	return OpenSQLite(path)
 }
 
 func (s *DB) Close() error {
 	return s.db.Close()
 }
 
-func migrate(db *sql.DB) error {
-	_, err := db.Exec(`
-		CREATE TABLE IF NOT EXISTS progress (
+// q rewrites SQL placeholders from ? to $1, $2, ... for PostgreSQL.
+// SQLite queries are returned unchanged.
+func (s *DB) q(query string) string {
+	if s.dialect == dialectSQLite {
+		return query
+	}
+	var b strings.Builder
+	n := 1
+	for i := 0; i < len(query); i++ {
+		if query[i] == '?' {
+			fmt.Fprintf(&b, "$%d", n)
+			n++
+		} else {
+			b.WriteByte(query[i])
+		}
+	}
+	return b.String()
+}
+
+func (s *DB) migrate() error {
+	tables := []string{
+		`CREATE TABLE IF NOT EXISTS progress (
 			walkthrough_id TEXT PRIMARY KEY,
 			checked_steps  TEXT NOT NULL DEFAULT '[]',
 			updated_at     TEXT NOT NULL
-		);
-		CREATE TABLE IF NOT EXISTS checkouts (
+		)`,
+		`CREATE TABLE IF NOT EXISTS checkouts (
 			walkthrough_id  TEXT PRIMARY KEY,
 			checked_out_at  TEXT NOT NULL
-		);
-		CREATE TABLE IF NOT EXISTS local_walkthroughs (
+		)`,
+		`CREATE TABLE IF NOT EXISTS local_walkthroughs (
 			id       TEXT PRIMARY KEY,
 			data     TEXT NOT NULL,
 			added_at TEXT NOT NULL
-		);
-		CREATE TABLE IF NOT EXISTS device_activity (
+		)`,
+		`CREATE TABLE IF NOT EXISTS device_activity (
 			device_id      TEXT NOT NULL,
 			walkthrough_id TEXT NOT NULL,
 			last_seen      TEXT NOT NULL,
 			PRIMARY KEY (device_id, walkthrough_id)
-		);
-		CREATE TABLE IF NOT EXISTS device_checkouts (
+		)`,
+		`CREATE TABLE IF NOT EXISTS device_checkouts (
 			device_id      TEXT NOT NULL,
 			walkthrough_id TEXT NOT NULL,
 			checked_out_at TEXT NOT NULL,
 			PRIMARY KEY (device_id, walkthrough_id)
-		);
-	`)
-	return err
+		)`,
+	}
+	for _, ddl := range tables {
+		if _, err := s.db.Exec(ddl); err != nil {
+			return fmt.Errorf("exec %q: %w", ddl[:min(len(ddl), 40)], err)
+		}
+	}
+	return nil
 }
 
 func (s *DB) GetProgress(walkthroughID string) (*ProgressRecord, error) {
 	row := s.db.QueryRow(
-		`SELECT walkthrough_id, checked_steps, updated_at FROM progress WHERE walkthrough_id = ?`,
+		s.q(`SELECT walkthrough_id, checked_steps, updated_at FROM progress WHERE walkthrough_id = ?`),
 		walkthroughID,
 	)
 	var id, stepsJSON, updatedAt string
@@ -98,11 +158,11 @@ func (s *DB) PutProgress(r *ProgressRecord) error {
 		return err
 	}
 	_, err = s.db.Exec(
-		`INSERT INTO progress (walkthrough_id, checked_steps, updated_at)
+		s.q(`INSERT INTO progress (walkthrough_id, checked_steps, updated_at)
 		 VALUES (?, ?, ?)
 		 ON CONFLICT(walkthrough_id) DO UPDATE SET
 		   checked_steps = excluded.checked_steps,
-		   updated_at    = excluded.updated_at`,
+		   updated_at    = excluded.updated_at`),
 		r.WalkthroughID,
 		string(stepsJSON),
 		r.UpdatedAt.UTC().Format(time.RFC3339),
@@ -113,9 +173,9 @@ func (s *DB) PutProgress(r *ProgressRecord) error {
 // Checkout marks a walkthrough as checked out on this client.
 func (s *DB) Checkout(walkthroughID string) error {
 	_, err := s.db.Exec(
-		`INSERT INTO checkouts (walkthrough_id, checked_out_at)
+		s.q(`INSERT INTO checkouts (walkthrough_id, checked_out_at)
 		 VALUES (?, ?)
-		 ON CONFLICT(walkthrough_id) DO NOTHING`,
+		 ON CONFLICT(walkthrough_id) DO NOTHING`),
 		walkthroughID,
 		time.Now().UTC().Format(time.RFC3339),
 	)
@@ -124,7 +184,7 @@ func (s *DB) Checkout(walkthroughID string) error {
 
 // Checkin removes a walkthrough from the checkout list on this client.
 func (s *DB) Checkin(walkthroughID string) error {
-	_, err := s.db.Exec(`DELETE FROM checkouts WHERE walkthrough_id = ?`, walkthroughID)
+	_, err := s.db.Exec(s.q(`DELETE FROM checkouts WHERE walkthrough_id = ?`), walkthroughID)
 	return err
 }
 
@@ -154,7 +214,7 @@ func (s *DB) ListCheckoutIDs() ([]string, error) {
 func (s *DB) IsCheckedOut(walkthroughID string) (bool, error) {
 	var count int
 	err := s.db.QueryRow(
-		`SELECT COUNT(*) FROM checkouts WHERE walkthrough_id = ?`, walkthroughID,
+		s.q(`SELECT COUNT(*) FROM checkouts WHERE walkthrough_id = ?`), walkthroughID,
 	).Scan(&count)
 	return count > 0, err
 }
@@ -203,9 +263,9 @@ func ParseMetaFromJSON(data []byte) (*WalkthroughMeta, error) {
 // AddLocalWalkthrough stores a walkthrough JSON in the local database.
 func (s *DB) AddLocalWalkthrough(id string, data []byte) error {
 	_, err := s.db.Exec(
-		`INSERT INTO local_walkthroughs (id, data, added_at)
+		s.q(`INSERT INTO local_walkthroughs (id, data, added_at)
 		 VALUES (?, ?, ?)
-		 ON CONFLICT(id) DO UPDATE SET data = excluded.data, added_at = excluded.added_at`,
+		 ON CONFLICT(id) DO UPDATE SET data = excluded.data, added_at = excluded.added_at`),
 		id,
 		string(data),
 		time.Now().UTC().Format(time.RFC3339),
@@ -216,7 +276,7 @@ func (s *DB) AddLocalWalkthrough(id string, data []byte) error {
 // GetLocalWalkthrough returns raw walkthrough JSON stored locally, or nil if not found.
 func (s *DB) GetLocalWalkthrough(id string) ([]byte, error) {
 	var data string
-	err := s.db.QueryRow(`SELECT data FROM local_walkthroughs WHERE id = ?`, id).Scan(&data)
+	err := s.db.QueryRow(s.q(`SELECT data FROM local_walkthroughs WHERE id = ?`), id).Scan(&data)
 	if err == sql.ErrNoRows {
 		return nil, nil
 	}
@@ -263,9 +323,9 @@ type DeviceActivity struct {
 // RecordDeviceActivity records that a device was active on a specific walkthrough.
 func (s *DB) RecordDeviceActivity(deviceID, walkthroughID string) error {
 	_, err := s.db.Exec(
-		`INSERT INTO device_activity (device_id, walkthrough_id, last_seen)
+		s.q(`INSERT INTO device_activity (device_id, walkthrough_id, last_seen)
 		 VALUES (?, ?, ?)
-		 ON CONFLICT(device_id, walkthrough_id) DO UPDATE SET last_seen = excluded.last_seen`,
+		 ON CONFLICT(device_id, walkthrough_id) DO UPDATE SET last_seen = excluded.last_seen`),
 		deviceID,
 		walkthroughID,
 		time.Now().UTC().Format(time.RFC3339),
@@ -350,9 +410,9 @@ func (s *DB) ListDeviceActivity() ([]DeviceActivity, error) {
 // RecordDeviceCheckout records that a device has checked out a specific walkthrough.
 func (s *DB) RecordDeviceCheckout(deviceID, walkthroughID string) error {
 	_, err := s.db.Exec(
-		`INSERT INTO device_checkouts (device_id, walkthrough_id, checked_out_at)
+		s.q(`INSERT INTO device_checkouts (device_id, walkthrough_id, checked_out_at)
 		 VALUES (?, ?, ?)
-		 ON CONFLICT(device_id, walkthrough_id) DO UPDATE SET checked_out_at = excluded.checked_out_at`,
+		 ON CONFLICT(device_id, walkthrough_id) DO UPDATE SET checked_out_at = excluded.checked_out_at`),
 		deviceID,
 		walkthroughID,
 		time.Now().UTC().Format(time.RFC3339),
@@ -363,7 +423,7 @@ func (s *DB) RecordDeviceCheckout(deviceID, walkthroughID string) error {
 // RecordDeviceCheckin removes a device's checkout record for a specific walkthrough.
 func (s *DB) RecordDeviceCheckin(deviceID, walkthroughID string) error {
 	_, err := s.db.Exec(
-		`DELETE FROM device_checkouts WHERE device_id = ? AND walkthrough_id = ?`,
+		s.q(`DELETE FROM device_checkouts WHERE device_id = ? AND walkthrough_id = ?`),
 		deviceID,
 		walkthroughID,
 	)
