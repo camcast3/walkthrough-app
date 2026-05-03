@@ -2,6 +2,7 @@
 	import type { PageData } from './$types.js';
 	import { countCheckableSteps, computeProgress, loadProgress, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FULL_TITLES } from '$lib/state.js';
 	import { checkout, checkin } from '$lib/sync.js';
+	import { goto } from '$app/navigation';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
@@ -21,6 +22,27 @@
 	// Track which walkthroughs are currently loading a checkout/checkin action
 	let checkoutPending = $state<Set<string>>(new Set());
 
+	// Checkout confirmation dialog state (for gamepad / controller flow)
+	let showCheckoutDialog = $state(false);
+	let checkoutDialogId = $state<string | null>(null);
+
+	function onBrowserOffline() { isOnline = false; }
+	function onBrowserOnline() { pollConnectivity(); }
+
+	async function pollConnectivity() {
+		try {
+			const res = await fetch('/api/config');
+			if (res.ok) {
+				const cfg = await res.json();
+				if (typeof cfg.online === 'boolean') {
+					isOnline = cfg.online;
+				}
+			}
+		} catch {
+			isOnline = false;
+		}
+	}
+
 	onMount(async () => {
 		const results: Record<string, number> = {};
 		for (const wt of data.walkthroughs) {
@@ -38,19 +60,9 @@
 
 		// Poll connectivity state in client mode.
 		if (data.appMode === 'client') {
-			pollTimer = setInterval(async () => {
-				try {
-					const res = await fetch('/api/config');
-					if (res.ok) {
-						const cfg = await res.json();
-						if (typeof cfg.online === 'boolean') {
-							isOnline = cfg.online;
-						}
-					}
-				} catch {
-					// Local server unreachable — keep current state.
-				}
-			}, 30_000);
+			window.addEventListener('offline', onBrowserOffline);
+			window.addEventListener('online', onBrowserOnline);
+			pollTimer = setInterval(pollConnectivity, 30_000);
 		}
 	});
 
@@ -58,11 +70,15 @@
 		gamepad?.stop();
 		window.removeEventListener('keydown', handleKeydown);
 		if (pollTimer !== null) clearInterval(pollTimer);
+		if (data.appMode === 'client') {
+			window.removeEventListener('offline', onBrowserOffline);
+			window.removeEventListener('online', onBrowserOnline);
+		}
 	});
 
-	async function toggleCheckout(event: MouseEvent, id: string) {
-		event.preventDefault();
-		event.stopPropagation();
+	async function toggleCheckout(event: MouseEvent | null, id: string) {
+		event?.preventDefault();
+		event?.stopPropagation();
 		if (checkoutPending.has(id)) return;
 
 		checkoutPending = new Set([...checkoutPending, id]);
@@ -90,6 +106,13 @@
 	};
 	void STEP_TYPE_ICONS;
 
+	// ── Derived walkthrough list — filtered when offline in client mode ───────
+	const visibleWalkthroughs = $derived(
+		(data.appMode === 'client' && !isOnline)
+			? data.walkthroughs.filter((wt) => checkedOutSet.has(wt.id))
+			: data.walkthroughs
+	);
+
 	// ── Gamepad / keyboard navigation ─────────────────────────────────────────
 	let focusedCardIdx = $state(0);
 	let cardRefs: HTMLElement[] = [];
@@ -115,7 +138,20 @@
 	}
 
 	function handleGamepadAction(action: string) {
-		const count = data.walkthroughs.length;
+		// Checkout confirmation dialog intercepts all input
+		if (showCheckoutDialog) {
+			if (action === 'check') {
+				showCheckoutDialog = false;
+				if (checkoutDialogId) toggleCheckout(null, checkoutDialogId);
+				checkoutDialogId = null;
+			} else if (action === 'back') {
+				showCheckoutDialog = false;
+				checkoutDialogId = null;
+			}
+			return;
+		}
+
+		const count = visibleWalkthroughs.length;
 		if (count === 0) return;
 		switch (action) {
 			case 'focus-up':
@@ -127,11 +163,23 @@
 			case 'check':
 				cardRefs[focusedCardIdx]?.click();
 				break;
+			case 'checkout':
+				if (data.appMode === 'client') {
+					const wt = visibleWalkthroughs[focusedCardIdx];
+					if (wt) {
+						checkoutDialogId = wt.id;
+						showCheckoutDialog = true;
+					}
+				}
+				break;
+			case 'settings':
+				goto('/settings');
+				break;
 		}
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
-		const count = data.walkthroughs.length;
+		const count = visibleWalkthroughs.length;
 		if (count === 0) return;
 		if (e.key === 'ArrowUp') { e.preventDefault(); handleGamepadAction('focus-up'); }
 		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
@@ -144,15 +192,55 @@
 		}
 	}
 
-	const listHints = [
-		{ badge: '↕', label: 'Navigate' },
-		{ badge: 'A', label: 'Open' }
-	];
+	const listHints = $derived.by(() => {
+		if (showCheckoutDialog) {
+			return [
+				{ badge: 'A', label: 'Confirm' },
+				{ badge: 'B', label: 'Cancel' }
+			];
+		}
+		const hints = [
+			{ badge: '↕', label: 'Navigate' },
+			{ badge: 'A', label: 'Open' }
+		];
+		if (data.appMode === 'client') {
+			hints.push({ badge: 'X', label: 'Checkout' });
+		}
+		hints.push({ badge: '☰', label: 'Settings' });
+		return hints;
+	});
 </script>
 
 <svelte:head>
 	<title>Walkthrough Checklist</title>
 </svelte:head>
+
+<!-- Checkout confirmation dialog -->
+{#if showCheckoutDialog && checkoutDialogId}
+	{@const isCheckedOut = checkedOutSet.has(checkoutDialogId)}
+	<div class="checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-dialog-title">
+		<div class="checkout-dialog">
+			<p id="checkout-dialog-title" class="dialog-icon">{isCheckedOut ? '📤' : '📥'}</p>
+			<h2>{isCheckedOut ? 'Remove from device?' : 'Download for offline use?'}</h2>
+			<p class="dialog-desc">
+				{#if isCheckedOut}
+					This will remove the walkthrough from your local device. Your progress will be preserved on the server.
+				{:else}
+					This will download the walkthrough to your device so it's available offline.
+				{/if}
+			</p>
+			<div class="dialog-actions">
+				<button
+					class="btn-primary"
+					onclick={() => { showCheckoutDialog = false; if (checkoutDialogId) toggleCheckout(null, checkoutDialogId); checkoutDialogId = null; }}
+				>
+					{isCheckedOut ? 'Remove' : 'Download'}
+				</button>
+				<button class="btn-ghost" onclick={() => { showCheckoutDialog = false; checkoutDialogId = null; }}>Cancel</button>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <div class="page">
 	<header class="hero">
@@ -182,22 +270,20 @@
 		{/if}
 	{/if}
 
-	{#if data.appMode === 'server'}
-		<div class="banner server" role="note">
-			<span aria-hidden="true">🗂️</span>
-			<span> Running as library server. </span>
-			<a href="/server" class="manage-link">Manage Library →</a>
-		</div>
-	{/if}
 
-	{#if data.walkthroughs.length === 0}
+	{#if visibleWalkthroughs.length === 0}
 		<div class="empty">
-			<p>No walkthroughs available.</p>
-			<p class="hint">Add one by running the Copilot walkthrough-ingest skill and committing the JSON to <code>/walkthroughs/</code>.</p>
+			{#if data.appMode === 'client' && !isOnline}
+				<p>No downloaded walkthroughs available offline.</p>
+				<p class="hint">Connect to the server and use <strong>⊕</strong> to download walkthroughs for offline use.</p>
+			{:else}
+				<p>No walkthroughs available.</p>
+				<p class="hint">Add one by running the <code>@walkthrough-writer</code> agent and committing the JSON to <code>/walkthroughs/</code>.</p>
+			{/if}
 		</div>
 	{:else}
 		<ul class="list" role="list">
-			{#each data.walkthroughs as wt, idx (wt.id)}
+			{#each visibleWalkthroughs as wt, idx (wt.id)}
 				{@const checked = progressMap[wt.id] ?? 0}
 				{@const isCheckedOut = checkedOutSet.has(wt.id)}
 				{@const isPending = checkoutPending.has(wt.id)}
@@ -339,27 +425,6 @@
 		gap: 0.4rem;
 	}
 
-	.banner.server {
-		background: rgba(124, 106, 247, 0.07);
-		border: 1px solid rgba(124, 106, 247, 0.22);
-		color: #a89df7;
-		display: flex;
-		align-items: center;
-		gap: 0.4rem;
-	}
-
-	.manage-link {
-		margin-left: auto;
-		color: #c8c0f8;
-		font-weight: 600;
-		font-size: 0.88rem;
-		text-decoration: underline;
-		text-underline-offset: 2px;
-		flex-shrink: 0;
-	}
-	.manage-link:hover {
-		color: #ffffff;
-	}
 
 	.list {
 		list-style: none;
@@ -567,6 +632,94 @@
 			transform: none;
 			transition: none;
 		}
+	}
+
+	/* Checkout confirmation dialog overlay */
+	.checkout-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.65);
+		backdrop-filter: blur(6px);
+	}
+
+	:global(body[data-power-save]) .checkout-overlay {
+		backdrop-filter: none;
+	}
+
+	.checkout-dialog {
+		background: #1a1a2e;
+		border: 1px solid rgba(124, 106, 247, 0.25);
+		border-radius: 16px;
+		padding: 2rem;
+		max-width: 380px;
+		width: 90vw;
+		text-align: center;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+	}
+
+	.dialog-icon {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.checkout-dialog h2 {
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1.3rem;
+		font-weight: 600;
+		color: #f0f0ff;
+		margin-bottom: 0.5rem;
+	}
+
+	.dialog-desc {
+		font-size: 0.88rem;
+		color: #8888aa;
+		line-height: 1.5;
+		margin-bottom: 1.25rem;
+	}
+
+	.dialog-actions {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: center;
+	}
+
+	.btn-primary {
+		padding: 0.6rem 1.2rem;
+		border-radius: 10px;
+		border: none;
+		background: linear-gradient(135deg, #7c6af7, #6a58e5);
+		color: #fff;
+		font-weight: 600;
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: transform 0.1s, box-shadow 0.2s;
+		box-shadow: 0 4px 12px rgba(124, 106, 247, 0.3);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 16px rgba(124, 106, 247, 0.4);
+	}
+
+	.btn-ghost {
+		padding: 0.6rem 1.2rem;
+		border-radius: 10px;
+		border: 1px solid rgba(136, 136, 170, 0.25);
+		background: transparent;
+		color: #8888aa;
+		font-weight: 500;
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.btn-ghost:hover {
+		border-color: rgba(136, 136, 170, 0.5);
+		color: #bbbbdd;
 	}
 </style>
 

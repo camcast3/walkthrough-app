@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
+	import { goto } from '$app/navigation';
 	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
@@ -206,8 +207,44 @@
 
 	// ── Gamepad navigation ─────────────────────────────────────────────────────
 	let gamepad: GamepadNavigator | null = null;
+	/** Ordered list of checkpoint button elements in the current prose section. */
+	let checkpointEls: HTMLElement[] = [];
+	/** Index of the currently focused checkpoint in prose mode (-1 = none). */
+	let focusedCheckpointIdx = $state(-1);
 
-	function handleGamepadAction(action: string) {
+	/** Collect checkpoint buttons from the prose container after rendering. */
+	function collectCheckpointEls() {
+		if (!contentEl) { checkpointEls = []; return; }
+		checkpointEls = Array.from(contentEl.querySelectorAll<HTMLElement>('.checkpoint-btn'));
+	}
+
+	/** Find the checkpoint closest to the vertical center of the viewport. */
+	function nearestCheckpointIdx(): number {
+		if (checkpointEls.length === 0) return -1;
+		const center = window.innerHeight / 2;
+		let best = 0;
+		let bestDist = Infinity;
+		for (let i = 0; i < checkpointEls.length; i++) {
+			const rect = checkpointEls[i].getBoundingClientRect();
+			const dist = Math.abs(rect.top + rect.height / 2 - center);
+			if (dist < bestDist) { bestDist = dist; best = i; }
+		}
+		return best;
+	}
+
+	/** Scroll a checkpoint into view and apply focus highlight. */
+	function focusCheckpoint(idx: number) {
+		// Remove previous highlight
+		checkpointEls.forEach((el) => el.classList.remove('checkpoint-focused'));
+		focusedCheckpointIdx = idx;
+		const el = checkpointEls[idx];
+		if (el) {
+			el.classList.add('checkpoint-focused');
+			el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+		}
+	}
+
+	function handleGamepadAction(action: string, magnitude?: number) {
 		// Checkout confirmation dialog intercepts all input
 		if (showCheckoutDialog) {
 			if (action === 'check') {
@@ -231,10 +268,20 @@
 		const stepsVisible = inProseMode ? showSteps : true;
 
 		switch (action) {
+			case 'scroll-up':
+				window.scrollBy({ top: -(magnitude ?? 8) });
+				break;
+			case 'scroll-down':
+				window.scrollBy({ top: (magnitude ?? 8) });
+				break;
 			case 'focus-up':
 				if (inProseMode && !stepsVisible) {
-					// Prose-only mode: scroll the page upward
-					window.scrollBy({ top: -120, behavior: 'smooth' });
+					// D-pad navigates between checkpoints in prose mode
+					collectCheckpointEls();
+					if (checkpointEls.length > 0) {
+						const idx = focusedCheckpointIdx <= 0 ? 0 : focusedCheckpointIdx - 1;
+						focusCheckpoint(idx);
+					}
 				} else {
 					focusedStepIdx = Math.max(0, focusedStepIdx - 1);
 					tick().then(() => stepRefs[focusedStepIdx]?.focus());
@@ -242,23 +289,39 @@
 				break;
 			case 'focus-down':
 				if (inProseMode && !stepsVisible) {
-					// Prose-only mode: scroll the page downward
-					window.scrollBy({ top: 120, behavior: 'smooth' });
+					// D-pad navigates between checkpoints in prose mode
+					collectCheckpointEls();
+					if (checkpointEls.length > 0) {
+						const idx = focusedCheckpointIdx >= checkpointEls.length - 1
+							? checkpointEls.length - 1
+							: focusedCheckpointIdx + 1;
+						focusCheckpoint(idx);
+					}
 				} else {
 					focusedStepIdx = Math.min(steps.length - 1, focusedStepIdx + 1);
 					tick().then(() => stepRefs[focusedStepIdx]?.focus());
 				}
 				break;
 			case 'check': {
-				const step = steps[focusedStepIdx];
-				if (step) toggleStep(step.id, step.type);
+				if (inProseMode && !stepsVisible) {
+					// A = snap to nearest checkpoint and toggle it
+					collectCheckpointEls();
+					if (checkpointEls.length > 0) {
+						const idx = focusedCheckpointIdx >= 0 ? focusedCheckpointIdx : nearestCheckpointIdx();
+						focusCheckpoint(idx);
+						checkpointEls[idx]?.click();
+					}
+				} else {
+					const step = steps[focusedStepIdx];
+					if (step) toggleStep(step.id, step.type);
+				}
 				break;
 			}
 			case 'prev-section':
-				if (currentSectionIdx > 0) { currentSectionIdx--; focusedStepIdx = 0; }
+				if (currentSectionIdx > 0) { currentSectionIdx--; focusedStepIdx = 0; focusedCheckpointIdx = -1; }
 				break;
 			case 'next-section':
-				if (currentSectionIdx < wt.sections.length - 1) { currentSectionIdx++; focusedStepIdx = 0; }
+				if (currentSectionIdx < wt.sections.length - 1) { currentSectionIdx++; focusedStepIdx = 0; focusedCheckpointIdx = -1; }
 				break;
 			case 'back':
 				history.back();
@@ -267,6 +330,12 @@
 				if (data.appMode === 'client') {
 					showCheckoutDialog = true;
 				}
+				break;
+			case 'cycle-hltb':
+				cycleHltbMode();
+				break;
+			case 'settings':
+				goto('/settings');
 				break;
 		}
 	}
@@ -376,14 +445,19 @@
 		const inProseMode = !!(currentSection?.content);
 		const stepsVisible = inProseMode ? showSteps : true;
 		const hints = [
-			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Scroll' : 'Navigate' },
-			...(stepsVisible && (currentSection?.steps?.length ?? 0) > 0 ? [{ badge: 'A', label: 'Check' }] : []),
+			{ badge: '🕹', label: 'Scroll' },
+			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Checkpoints' : 'Navigate' },
+			{ badge: 'A', label: inProseMode && !stepsVisible ? 'Toggle' : 'Check' },
 			{ badge: 'B', label: 'Back' },
 			{ badge: 'LB/RB', label: 'Sections' }
 		];
+		if (hltbHasToggle) {
+			hints.push({ badge: 'Y', label: 'HLTB Mode' });
+		}
 		if (data.appMode === 'client') {
 			hints.push({ badge: 'X', label: isCheckedOut ? 'Checkin' : 'Checkout' });
 		}
+		hints.push({ badge: '☰', label: 'Settings' });
 		return hints;
 	});
 </script>
@@ -1378,10 +1452,17 @@
 		-webkit-tap-highlight-color: transparent;
 	}
 
-	.prose-container :global(.checkpoint-btn:hover) {
+	.prose-container :global(.checkpoint-btn:hover),
+	.prose-container :global(.checkpoint-btn.checkpoint-focused) {
 		border-color: rgba(124,106,247,0.5);
 		background: rgba(124,106,247,0.1);
 		box-shadow: 0 0 16px rgba(124,106,247,0.1);
+	}
+
+	.prose-container :global(.checkpoint-btn.checkpoint-focused) {
+		outline: 3px solid #7c6af7;
+		outline-offset: 2px;
+		box-shadow: 0 0 16px rgba(124,106,247,0.25);
 	}
 
 	.prose-container :global(.checkpoint-btn:active) {

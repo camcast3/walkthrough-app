@@ -7,6 +7,14 @@
 
 	let { data }: { data: PageData } = $props();
 
+	// ── Tabs ─────────────────────────────────────────────────────────────────
+	type Tab = 'library' | 'devices' | 'ingest';
+	let activeTab = $state<Tab>('library');
+
+	// ── Search / Filter ──────────────────────────────────────────────────────
+	let libraryFilter = $state('');
+	let deviceFilter = $state('');
+
 	// ── Add Walkthrough ──────────────────────────────────────────────────────
 	let ingestInput = $state('');
 	let activeJob = $state<IngestJob | null>(null);
@@ -21,6 +29,21 @@
 
 	// Devices
 	let devices = $state<DeviceActivity[]>(data.devices as DeviceActivity[]);
+
+	// ── Derived filtered lists ───────────────────────────────────────────────
+	let filteredWalkthroughs = $derived.by(() => {
+		const q = libraryFilter.toLowerCase().trim();
+		if (!q) return walkthroughs;
+		return walkthroughs.filter(
+			(wt) => wt.game.toLowerCase().includes(q) || wt.title.toLowerCase().includes(q)
+		);
+	});
+
+	let filteredDevices = $derived.by(() => {
+		const q = deviceFilter.toLowerCase().trim();
+		if (!q) return devices;
+		return devices.filter((d) => d.device_id.toLowerCase().includes(q));
+	});
 
 	// Track the active polling timeout so it can be cleared on destroy or completion.
 	let pollTimeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -114,10 +137,9 @@
 
 <div class="page">
 	<header class="hero">
-		<a href="/" class="back-link" aria-label="Back to walkthroughs">← Back</a>
 		<div class="hero-icon" aria-hidden="true">🗂️</div>
 		<h1 class="hero-title">Library Manager</h1>
-		<p class="subtitle">Add walkthroughs and monitor device activity</p>
+		<p class="subtitle">Manage your walkthrough library</p>
 	</header>
 
 	{#if data.appMode !== 'server'}
@@ -125,7 +147,7 @@
 			<span>⚠ Library management is only available in server mode.</span>
 		</div>
 	{:else}
-		<!-- ── Add Walkthrough ───────────────────────────────────────────── -->
+		<!-- ── Add Walkthrough (always visible) ─────────────────────────── -->
 		<section class="section">
 			<h2 class="section-title">
 				<span aria-hidden="true">➕</span> Add Walkthrough
@@ -211,113 +233,168 @@
 			{/if}
 		</section>
 
-		<!-- ── Library ──────────────────────────────────────────────────── -->
-		<section class="section">
-			<h2 class="section-title">
-				<span aria-hidden="true">📚</span> Library ({walkthroughs.length})
-			</h2>
+		<!-- ── Tab bar ──────────────────────────────────────────────────── -->
+		<nav class="tab-bar" role="tablist" aria-label="Library sections">
+			<button
+				class="tab" class:tab-active={activeTab === 'library'}
+				role="tab" aria-selected={activeTab === 'library'}
+				onclick={() => activeTab = 'library'}
+			>
+				📚 Library <span class="tab-count">{walkthroughs.length}</span>
+			</button>
+			<button
+				class="tab" class:tab-active={activeTab === 'devices'}
+				role="tab" aria-selected={activeTab === 'devices'}
+				onclick={() => activeTab = 'devices'}
+			>
+				🖥️ Devices <span class="tab-count">{devices.length}</span>
+			</button>
+			<button
+				class="tab" class:tab-active={activeTab === 'ingest'}
+				role="tab" aria-selected={activeTab === 'ingest'}
+				onclick={() => activeTab = 'ingest'}
+			>
+				📋 Ingest <span class="tab-count">{recentJobs.length}</span>
+			</button>
+		</nav>
 
-			{#if walkthroughs.length === 0}
-				<p class="empty-msg">No walkthroughs in the library yet.</p>
-			{:else}
-				<ul class="wt-list" role="list">
-					{#each walkthroughs as wt (wt.id)}
-						{@const devicesWithCheckout = devices.filter((d) => d.checked_out?.includes(wt.id))}
-						<li class="wt-card">
-							<div class="wt-info">
-								<a href="/{wt.id}" class="wt-game">{wt.game}</a>
-								<span class="wt-title">{wt.title}</span>
-								<span class="wt-author">by {wt.author}</span>
-							</div>
-							<div class="wt-devices">
-								{#if devicesWithCheckout.length === 0}
-									<span class="no-device">no devices</span>
-								{:else}
-									{#each devicesWithCheckout as dev}
-										<span class="device-badge" title="Last seen {timeAgo(dev.last_seen)}">
-											🖥 {dev.device_id}
-										</span>
-									{/each}
-								{/if}
-							</div>
-						</li>
-					{/each}
-				</ul>
+		<!-- ── Tab panels ──────────────────────────────────────────────── -->
+		<div class="tab-panels">
+			<!-- Library tab -->
+			{#if activeTab === 'library'}
+				<section class="tab-panel" role="tabpanel" aria-label="Library">
+					<div class="filter-bar">
+						<input
+							class="filter-input"
+							type="text"
+							placeholder="Filter by game or title…"
+							bind:value={libraryFilter}
+							aria-label="Filter walkthroughs"
+						/>
+						{#if libraryFilter.trim()}
+							<span class="filter-count">{filteredWalkthroughs.length} of {walkthroughs.length}</span>
+						{/if}
+					</div>
+
+					{#if walkthroughs.length === 0}
+						<p class="empty-msg">No walkthroughs in the library yet.</p>
+					{:else if filteredWalkthroughs.length === 0}
+						<p class="empty-msg">No walkthroughs match "{libraryFilter.trim()}".</p>
+					{:else}
+						<ul class="wt-list" role="list">
+							{#each filteredWalkthroughs as wt (wt.id)}
+								{@const devicesWithCheckout = devices.filter((d) => d.checked_out?.includes(wt.id))}
+								<li class="wt-card">
+									<div class="wt-info">
+										<a href="/{wt.id}" class="wt-game">{wt.game}</a>
+										<span class="wt-title">{wt.title}</span>
+										<span class="wt-author">by {wt.author}</span>
+									</div>
+									<div class="wt-devices">
+										{#if devicesWithCheckout.length === 0}
+											<span class="no-device">no devices</span>
+										{:else}
+											{#each devicesWithCheckout as dev}
+												<span class="device-badge" title="Last seen {timeAgo(dev.last_seen)}">
+													🖥 {dev.device_id}
+												</span>
+											{/each}
+										{/if}
+									</div>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</section>
 			{/if}
-		</section>
 
-		<!-- ── Devices ──────────────────────────────────────────────────── -->
-		<section class="section">
-			<h2 class="section-title">
-				<span aria-hidden="true">🖥️</span> Devices ({devices.length})
-			</h2>
+			<!-- Devices tab -->
+			{#if activeTab === 'devices'}
+				<section class="tab-panel" role="tabpanel" aria-label="Devices">
+					<div class="filter-bar">
+						<input
+							class="filter-input"
+							type="text"
+							placeholder="Filter by device ID…"
+							bind:value={deviceFilter}
+							aria-label="Filter devices"
+						/>
+						{#if deviceFilter.trim()}
+							<span class="filter-count">{filteredDevices.length} of {devices.length}</span>
+						{/if}
+					</div>
 
-			{#if devices.length === 0}
-				<p class="empty-msg">No devices have synced progress yet.</p>
-			{:else}
-				<ul class="device-list" role="list">
-					{#each devices as dev (dev.device_id)}
-						<li class="device-card">
-							<div class="device-header">
-								<span class="device-id">🖥 {dev.device_id}</span>
-								<span class="device-seen">last seen {timeAgo(dev.last_seen)}</span>
-							</div>
-							{#if dev.checked_out?.length}
-								<div class="device-section-label">Checked out</div>
-								<ul class="device-wts" role="list">
-									{#each dev.checked_out as id}
-										<li>
-											<a href="/{id}" class="device-wt-link">{walkthroughLabel(id)}</a>
-										</li>
-									{/each}
-								</ul>
-							{/if}
-							{#if dev.walkthroughs?.length}
-								<div class="device-section-label">Progress synced</div>
-								<ul class="device-wts" role="list">
-									{#each dev.walkthroughs as id}
-										<li>
-											<a href="/{id}" class="device-wt-link">{walkthroughLabel(id)}</a>
-										</li>
-									{/each}
-								</ul>
-							{/if}
-						</li>
-					{/each}
-				</ul>
-			{/if}
-		</section>
-
-		<!-- ── Ingest History ────────────────────────────────────────────── -->
-		{#if recentJobs.length > 0}
-			<section class="section">
-				<h2 class="section-title">
-					<span aria-hidden="true">📋</span> Ingest History
-				</h2>
-				<ul class="history-list" role="list">
-					{#each recentJobs as job (job.id)}
-						<li class="history-item" class:history-done={job.status === 'done'} class:history-error={job.status === 'error'} class:history-running={job.status === 'running'}>
-							<span class="history-icon" aria-hidden="true">
-								{#if job.status === 'done'}✓{:else if job.status === 'error'}✗{:else}⟳{/if}
-							</span>
-							<div class="history-body">
-								<span class="history-input" title={job.input}>
-									{job.input.length > 70 ? job.input.slice(0, 67) + '…' : job.input}
-								</span>
-								<span class="history-meta">
-									{timeAgo(job.started_at)}
-									{#if job.walkthrough_id}
-										·
-										<a href="/{job.walkthrough_id}" class="wt-link">{walkthroughLabel(job.walkthrough_id)}</a>
+					{#if devices.length === 0}
+						<p class="empty-msg">No devices have synced progress yet.</p>
+					{:else if filteredDevices.length === 0}
+						<p class="empty-msg">No devices match "{deviceFilter.trim()}".</p>
+					{:else}
+						<ul class="device-list" role="list">
+							{#each filteredDevices as dev (dev.device_id)}
+								<li class="device-card">
+									<div class="device-header">
+										<span class="device-id">🖥 {dev.device_id}</span>
+										<span class="device-seen">last seen {timeAgo(dev.last_seen)}</span>
+									</div>
+									{#if dev.checked_out?.length}
+										<div class="device-section-label">Checked out</div>
+										<ul class="device-wts" role="list">
+											{#each dev.checked_out as id}
+												<li>
+													<a href="/{id}" class="device-wt-link">{walkthroughLabel(id)}</a>
+												</li>
+											{/each}
+										</ul>
 									{/if}
-									{#if job.error}· {job.error}{/if}
-								</span>
-							</div>
-						</li>
-					{/each}
-				</ul>
-			</section>
-		{/if}
+									{#if dev.walkthroughs?.length}
+										<div class="device-section-label">Progress synced</div>
+										<ul class="device-wts" role="list">
+											{#each dev.walkthroughs as id}
+												<li>
+													<a href="/{id}" class="device-wt-link">{walkthroughLabel(id)}</a>
+												</li>
+											{/each}
+										</ul>
+									{/if}
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</section>
+			{/if}
+
+			<!-- Ingest tab -->
+			{#if activeTab === 'ingest'}
+				<section class="tab-panel" role="tabpanel" aria-label="Ingest history">
+					{#if recentJobs.length === 0}
+						<p class="empty-msg">No ingest jobs yet. Use the form above to add a walkthrough.</p>
+					{:else}
+						<ul class="history-list" role="list">
+							{#each recentJobs as job (job.id)}
+								<li class="history-item" class:history-done={job.status === 'done'} class:history-error={job.status === 'error'} class:history-running={job.status === 'running'}>
+									<span class="history-icon" aria-hidden="true">
+										{#if job.status === 'done'}✓{:else if job.status === 'error'}✗{:else}⟳{/if}
+									</span>
+									<div class="history-body">
+										<span class="history-input" title={job.input}>
+											{job.input.length > 70 ? job.input.slice(0, 67) + '…' : job.input}
+										</span>
+										<span class="history-meta">
+											{timeAgo(job.started_at)}
+											{#if job.walkthrough_id}
+												·
+												<a href="/{job.walkthrough_id}" class="wt-link">{walkthroughLabel(job.walkthrough_id)}</a>
+											{/if}
+											{#if job.error}· {job.error}{/if}
+										</span>
+									</div>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</section>
+			{/if}
+		</div>
 	{/if}
 </div>
 
@@ -332,19 +409,6 @@
 		text-align: center;
 		padding: 2rem 0 1.75rem;
 		position: relative;
-	}
-
-	.back-link {
-		position: absolute;
-		left: 0;
-		top: 2rem;
-		font-size: 0.9rem;
-		color: #7c6af7;
-		opacity: 0.8;
-		transition: opacity 0.15s;
-	}
-	.back-link:hover {
-		opacity: 1;
 	}
 
 	.hero-icon {
@@ -571,6 +635,97 @@
 		padding: 0.5rem 0.75rem;
 	}
 
+	/* ── Tab bar ──────────────────────────────────────────────────────── */
+	.tab-bar {
+		display: flex;
+		gap: 0.25rem;
+		border-bottom: 1px solid rgba(124,106,247,0.15);
+		margin-bottom: 1.25rem;
+	}
+
+	.tab {
+		background: none;
+		border: none;
+		border-bottom: 2px solid transparent;
+		color: #6a6a8a;
+		font-size: 0.9rem;
+		font-weight: 600;
+		padding: 0.6rem 1rem;
+		cursor: pointer;
+		transition: color 0.15s, border-color 0.15s;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+	.tab:hover {
+		color: #c8c0f8;
+	}
+	.tab-active {
+		color: #c8c0f8;
+		border-bottom-color: #7c6af7;
+	}
+
+	.tab-count {
+		font-size: 0.72rem;
+		background: rgba(124,106,247,0.15);
+		color: #a89df7;
+		border-radius: 10px;
+		padding: 0.1rem 0.45rem;
+		min-width: 1.3rem;
+		text-align: center;
+	}
+	.tab-active .tab-count {
+		background: rgba(124,106,247,0.25);
+		color: #c8c0f8;
+	}
+
+	/* ── Tab panels ──────────────────────────────────────────────────── */
+	.tab-panels {
+		min-height: 200px;
+	}
+
+	.tab-panel {
+		animation: fadeIn 0.15s ease-out;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; transform: translateY(4px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	/* ── Filter bar ──────────────────────────────────────────────────── */
+	.filter-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin-bottom: 1rem;
+	}
+
+	.filter-input {
+		flex: 1;
+		background: rgba(20, 20, 36, 0.7);
+		border: 1px solid rgba(124,106,247,0.15);
+		border-radius: 10px;
+		color: #e8e8f0;
+		font-size: 0.85rem;
+		padding: 0.5rem 0.85rem;
+		transition: border-color 0.2s;
+	}
+	.filter-input::placeholder {
+		color: #444466;
+	}
+	.filter-input:focus {
+		outline: none;
+		border-color: rgba(124,106,247,0.45);
+	}
+
+	.filter-count {
+		font-size: 0.78rem;
+		color: #6a6a8a;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
 	/* ── Library ──────────────────────────────────────────────────────── */
 	.wt-list {
 		display: flex;
@@ -792,6 +947,9 @@
 
 	@media (prefers-reduced-motion: reduce) {
 		.spinner, .spinner-sm, .history-running .history-icon, .step-running .step-icon {
+			animation: none;
+		}
+		.tab-panel {
 			animation: none;
 		}
 	}

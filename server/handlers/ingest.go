@@ -209,6 +209,8 @@ func (m *IngestManager) runPipeline(job *IngestJob) {
 			fail(stepIdxFetch, fmt.Sprintf("Failed to build request: %v", err))
 			return
 		}
+		req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36")
+		req.Header.Set("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,application/json,*/*;q=0.8")
 		// SSRF mitigations applied before this point:
 		//   1. validateIngestURL (above) resolves the hostname and rejects loopback,
 		//      private, and link-local addresses.

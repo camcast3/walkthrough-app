@@ -95,10 +95,39 @@ jobs:
           context: .
           file: server/Dockerfile
           push: true
+          build-args: SERVER_VERSION=${{ steps.version.outputs.tag }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      # ── Cross-compile binaries + bundle static files ──────────────────────
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: webapp/package-lock.json
+
+      - name: Build webapp static files
+        working-directory: webapp
+        run: npm ci --legacy-peer-deps && npm run build
+
+      - name: Cross-compile server binaries
+        run: |
+          mkdir -p dist
+          cd server
+          LDFLAGS="-X main.Version=${{ steps.version.outputs.tag }}"
+          GOOS=linux   GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "$LDFLAGS" -o ../dist/walkthrough-server-linux-amd64 .
+          GOOS=linux   GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "$LDFLAGS" -o ../dist/walkthrough-server-linux-arm64 .
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "$LDFLAGS" -o ../dist/walkthrough-server-windows-amd64.exe .
+
+      - name: Bundle static files
+        run: tar -czf dist/static.tar.gz -C webapp/build .
 
       # ── Create GitHub release ────────────────────────────────────────────
       - name: Create release
@@ -108,4 +137,8 @@ jobs:
           gh release create "${{ steps.version.outputs.tag }}" \
             --title "${{ steps.version.outputs.tag }}" \
             --generate-notes \
-            --target "${{ github.sha }}"
+            --target "${{ github.sha }}" \
+            dist/walkthrough-server-linux-amd64 \
+            dist/walkthrough-server-linux-arm64 \
+            dist/walkthrough-server-windows-amd64.exe \
+            dist/static.tar.gz
