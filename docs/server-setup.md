@@ -87,7 +87,7 @@ ArgoCD detects the new commit and syncs — triggering a Rollout (canary with ma
 
 ```bash
 # Build the webapp first (the compose file mounts ./webapp/build)
-cd webapp && npm ci && npm run build && cd ..
+cd webapp && npm ci --legacy-peer-deps && npm run build && cd ..
 
 docker compose up
 ```
