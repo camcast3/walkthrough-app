@@ -11,12 +11,12 @@ Writer  →  Reviewer  →  Gamer  →  Completionist
 ## The Pipeline
 
 ### Agent 1: Writer
-**Skill:** `walkthrough-writer`
+**Agent:** `@walkthrough-writer`
 
-The Writer creates the initial walkthrough draft from the user's **trusted source URL**. It does deep, multi-query research for each section and produces rich, detailed prose (8,000-25,000+ chars per section) with embedded checkpoints and granular steps.
+The Writer creates the initial walkthrough draft from the user's **trusted source URL** (or raw pasted text). It does deep, multi-query research for each section and produces rich, detailed prose (8,000-25,000+ chars per section) with embedded checkpoints and granular steps.
 
 ```
-@copilot Use the walkthrough-writer skill.
+@walkthrough-writer
 Source: https://www.neoseeker.com/game-name/walkthrough
 Game: Example Game
 ```
@@ -34,12 +34,12 @@ The Writer will:
 ---
 
 ### Agent 2: Reviewer
-**Skill:** `walkthrough-reviewer`
+**Agent:** `@walkthrough-reviewer`
 
 The Reviewer audits the draft **against the original trusted source only**. It does not compare against other walkthroughs or its own knowledge — the user's chosen source is the single source of truth.
 
 ```
-@copilot Use the walkthrough-reviewer skill.
+@walkthrough-reviewer
 Draft: walkthroughs/game-name/main-walkthrough.json
 Trusted source: https://www.neoseeker.com/game-name/walkthrough
 ```
@@ -57,12 +57,12 @@ The Reviewer checks:
 ---
 
 ### Agent 3: Gamer
-**Skill:** `walkthrough-gamer`
+**Agent:** `@walkthrough-gamer`
 
 The Gamer reads the walkthrough as if they're **actually playing the game**. They care about usability, clarity, and not missing fun stuff.
 
 ```
-@copilot Use the walkthrough-gamer skill.
+@walkthrough-gamer
 Walkthrough: walkthroughs/game-name/main-walkthrough.json
 ```
 
@@ -78,12 +78,12 @@ The Gamer checks:
 ---
 
 ### Agent 4: Completionist
-**Skill:** `walkthrough-completionist`
+**Agent:** `@walkthrough-completionist`
 
 The Completionist cross-references the walkthrough against the **game's full achievement/trophy list** to ensure 100% completion is possible.
 
 ```
-@copilot Use the walkthrough-completionist skill.
+@walkthrough-completionist
 Walkthrough: walkthroughs/game-name/main-walkthrough.json
 Game: Example Game
 ```
@@ -98,17 +98,6 @@ The Completionist checks:
 **Output:** An achievement coverage report with ✅/⚠️/❌/🔒 ratings. Returns to Writer if missable achievements lack warnings.
 
 ---
-
-## Quick single-pass alternative
-
-For simple walkthroughs or quick drafts, you can use the legacy single-pass ingest:
-
-```
-@copilot Use the walkthrough-ingest skill.
-Please convert this walkthrough: https://example.com/game-walkthrough
-```
-
-This skips the review pipeline. Best for short games or when you plan to manually review.
 
 ## After the pipeline
 

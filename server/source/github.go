@@ -52,6 +52,15 @@ func NewGitHubSource(cfg GitHubConfig) *GitHubSource {
 		cfg.Path = "walkthroughs"
 	}
 	if cfg.Interval == 0 {
+		// Unauthenticated: 60 req/hr limit — use a conservative interval.
+		// Authenticated (token set): 5000 req/hr — can poll more frequently.
+		if cfg.Token == "" {
+			cfg.Interval = 15 * time.Minute
+		} else {
+			cfg.Interval = 5 * time.Minute
+		}
+	}
+	if cfg.Interval < 5*time.Minute {
 		cfg.Interval = 5 * time.Minute
 	}
 	return &GitHubSource{
