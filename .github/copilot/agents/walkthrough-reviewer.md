@@ -104,3 +104,14 @@ For fully automated walkthrough creation, use `@walkthrough-pipeline` instead. I
 - You are an auditor, not an author. Do NOT modify the walkthrough file yourself.
 - Report findings; let the Writer implement fixes.
 - If you cannot access the source content for a section (search returns nothing), flag it as **"Unable to verify"** rather than guessing.
+
+## Downstream issue triage
+
+The Gamer and Completionist agents route their issues **back through you** (the Reviewer). When you receive findings from a downstream agent:
+
+1. **Read the issue list** from the Gamer or Completionist
+2. **Triage each issue:**
+   - **Small fix** (adding a `note`, fixing a name, adding a warning tag) → fix it inline yourself, then return to the downstream agent
+   - **Content gap** (missing quests, missing sections, wrong strategies) → send a targeted fix list to the Writer, wait for fixes, re-validate, then return to the downstream agent
+3. **Re-validate** the JSON schema after any edits
+4. **State clearly:** "Reviewer triage complete. [N] fixed inline, [M] sent to Writer. Returning to [Gamer/Completionist]."

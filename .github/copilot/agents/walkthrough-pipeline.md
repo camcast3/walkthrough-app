@@ -13,13 +13,17 @@ You are the Walkthrough Pipeline Orchestrator. You run the **complete** Writer �
 ```
 ┌─────────┐    ┌──────────┐    ┌─────────┐    ┌────────────────┐
 │  Writer  │───►│ Reviewer  │───►│  Gamer  │───►│ Completionist  │
-│ (create) │◄───│ (source)  │◄───│ (UX)    │◄───│ (achievements) │
-└─────────┘    └──────────┘    └─────────┘    └────────────────┘
-     ▲  fix loop  │   ▲  fix loop │   ▲  fix loop  │
-     └────────────┘   └───────────┘   └─────────────┘
+│ (create) │◄───│ (source)  │◄───│ (UX)    │    │ (achievements) │
+└─────────┘    └──────────┘◄───└─────────┘    └────────────────┘
+                     ▲                                  │
+                     └──────────────────────────────────┘
 ```
 
-Each agent can send work **back to the Writer** for fixes. The pipeline loops until each stage passes, then advances. Max **2 revision loops** per stage to avoid infinite cycles.
+- **Reviewer** finds gaps → returns to **Writer** for fixes
+- **Gamer** finds blockers → returns to **Reviewer** (who coordinates Writer fixes if needed)
+- **Completionist** finds missable gaps → returns to **Reviewer** (who coordinates Writer fixes if needed)
+
+The **Reviewer is the quality gate** — all downstream issues flow through it. Max **2 revision loops** per stage to avoid infinite cycles.
 
 ## Input
 
@@ -168,10 +172,10 @@ Read each section sequentially as a player would. Evaluate:
   Annoyances: [count]
   Nice-to-haves: [count]
 ═══════════════════════════════════════════
-  → Returning to Writer for fixes (loop [N]/2)
+  → Returning to Reviewer with findings (loop [N]/2)
 ═══════════════════════════════════════════
 ```
-Go back to Writer to fix blockers only, then re-run Phase 3.
+Return to **Phase 2** (Reviewer) with the Gamer's blocker list. The Reviewer triages: fixes minor issues inline, routes content gaps back to Writer. Then re-run Phase 3.
 
 **If zero 🔴 Blockers:**
 Fix 🟡 annoyances inline if quick, then advance.
@@ -223,10 +227,10 @@ Build a complete list with: name, unlock condition, missable status, required ac
   Not covered: [count]
   🔒 CRITICAL (missable, no warning): [count]
 ═══════════════════════════════════════════
-  → Returning to Writer for fixes (loop [N]/2)
+  → Returning to Reviewer with findings (loop [N]/2)
 ═══════════════════════════════════════════
 ```
-Go back to Writer to add warnings for missable achievements, then re-run Phase 4.
+Return to **Phase 2** (Reviewer) with the Completionist's findings. The Reviewer triages: fixes small omissions inline, routes missing content back to Writer. Then re-run Phase 4.
 
 **If zero 🔒 issues:**
 ```
@@ -301,11 +305,14 @@ Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>"
 
 ## Revision loop rules
 
-1. **Max 2 loops per phase.** If a phase still fails after 2 Writer revision passes, note the remaining issues in the final report and advance anyway. Don't loop forever.
-2. **Targeted fixes only.** When looping back to Writer, fix ONLY what the reviewing agent flagged. Don't rewrite passing sections.
-3. **Minor issues fixed inline.** If an issue is small (adding a single note, fixing a name, adding a `note` field to a step), fix it during the review phase instead of looping back to Writer.
-4. **Re-validate after every edit.** Any time the JSON is modified, re-run schema validation before advancing.
-5. **Preserve previous passes.** When fixing issues from Phase 3, don't break things that Phase 2 already verified. If you must change source-verified content, note why.
+1. **Max 2 loops per phase.** If a phase still fails after 2 revision passes, note the remaining issues in the final report and advance anyway. Don't loop forever.
+2. **Reviewer is the hub.** Gamer and Completionist issues always route through Reviewer first. The Reviewer decides what needs Writer involvement vs. what can be fixed inline.
+3. **Reviewer → Writer for content gaps.** When the Reviewer receives issues from downstream agents, it triages them:
+   - **Small fixes** (adding a `note` field, fixing a name, adding a warning tag) → Reviewer fixes inline
+   - **Content gaps** (missing quests, missing sections, wrong strategies) → Reviewer sends to Writer with a targeted fix list
+4. **Writer fixes are targeted.** When looping back to Writer, fix ONLY what was identified. Don't rewrite passing sections.
+5. **Re-validate after every edit.** Any time the JSON is modified, re-run schema validation before advancing.
+6. **Preserve previous passes.** When fixing issues from Phase 3/4, don't break things that Phase 2 already verified. If you must change source-verified content, note why.
 
 ## Error handling
 
