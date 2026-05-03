@@ -22,6 +22,10 @@
 	// Track which walkthroughs are currently loading a checkout/checkin action
 	let checkoutPending = $state<Set<string>>(new Set());
 
+	// Checkout confirmation dialog state (for gamepad / controller flow)
+	let showCheckoutDialog = $state(false);
+	let checkoutDialogId = $state<string | null>(null);
+
 	function onBrowserOffline() { isOnline = false; }
 	function onBrowserOnline() { pollConnectivity(); }
 
@@ -72,9 +76,9 @@
 		}
 	});
 
-	async function toggleCheckout(event: MouseEvent, id: string) {
-		event.preventDefault();
-		event.stopPropagation();
+	async function toggleCheckout(event: MouseEvent | null, id: string) {
+		event?.preventDefault();
+		event?.stopPropagation();
 		if (checkoutPending.has(id)) return;
 
 		checkoutPending = new Set([...checkoutPending, id]);
@@ -134,6 +138,19 @@
 	}
 
 	function handleGamepadAction(action: string) {
+		// Checkout confirmation dialog intercepts all input
+		if (showCheckoutDialog) {
+			if (action === 'check') {
+				showCheckoutDialog = false;
+				if (checkoutDialogId) toggleCheckout(null, checkoutDialogId);
+				checkoutDialogId = null;
+			} else if (action === 'back') {
+				showCheckoutDialog = false;
+				checkoutDialogId = null;
+			}
+			return;
+		}
+
 		const count = visibleWalkthroughs.length;
 		if (count === 0) return;
 		switch (action) {
@@ -145,6 +162,15 @@
 				break;
 			case 'check':
 				cardRefs[focusedCardIdx]?.click();
+				break;
+			case 'checkout':
+				if (data.appMode === 'client') {
+					const wt = visibleWalkthroughs[focusedCardIdx];
+					if (wt) {
+						checkoutDialogId = wt.id;
+						showCheckoutDialog = true;
+					}
+				}
 				break;
 			case 'settings':
 				goto('/settings');
@@ -166,16 +192,55 @@
 		}
 	}
 
-	const listHints = [
-		{ badge: '↕', label: 'Navigate' },
-		{ badge: 'A', label: 'Open' },
-		{ badge: '☰', label: 'Settings' }
-	];
+	const listHints = $derived.by(() => {
+		if (showCheckoutDialog) {
+			return [
+				{ badge: 'A', label: 'Confirm' },
+				{ badge: 'B', label: 'Cancel' }
+			];
+		}
+		const hints = [
+			{ badge: '↕', label: 'Navigate' },
+			{ badge: 'A', label: 'Open' }
+		];
+		if (data.appMode === 'client') {
+			hints.push({ badge: 'X', label: 'Checkout' });
+		}
+		hints.push({ badge: '☰', label: 'Settings' });
+		return hints;
+	});
 </script>
 
 <svelte:head>
 	<title>Walkthrough Checklist</title>
 </svelte:head>
+
+<!-- Checkout confirmation dialog -->
+{#if showCheckoutDialog && checkoutDialogId}
+	{@const isCheckedOut = checkedOutSet.has(checkoutDialogId)}
+	<div class="checkout-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-dialog-title">
+		<div class="checkout-dialog">
+			<p id="checkout-dialog-title" class="dialog-icon">{isCheckedOut ? '📤' : '📥'}</p>
+			<h2>{isCheckedOut ? 'Remove from device?' : 'Download for offline use?'}</h2>
+			<p class="dialog-desc">
+				{#if isCheckedOut}
+					This will remove the walkthrough from your local device. Your progress will be preserved on the server.
+				{:else}
+					This will download the walkthrough to your device so it's available offline.
+				{/if}
+			</p>
+			<div class="dialog-actions">
+				<button
+					class="btn-primary"
+					onclick={() => { showCheckoutDialog = false; if (checkoutDialogId) toggleCheckout(null, checkoutDialogId); checkoutDialogId = null; }}
+				>
+					{isCheckedOut ? 'Remove' : 'Download'}
+				</button>
+				<button class="btn-ghost" onclick={() => { showCheckoutDialog = false; checkoutDialogId = null; }}>Cancel</button>
+			</div>
+		</div>
+	</div>
+{/if}
 
 <div class="page">
 	<header class="hero">
@@ -567,6 +632,94 @@
 			transform: none;
 			transition: none;
 		}
+	}
+
+	/* Checkout confirmation dialog overlay */
+	.checkout-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: rgba(0, 0, 0, 0.65);
+		backdrop-filter: blur(6px);
+	}
+
+	:global(body[data-power-save]) .checkout-overlay {
+		backdrop-filter: none;
+	}
+
+	.checkout-dialog {
+		background: #1a1a2e;
+		border: 1px solid rgba(124, 106, 247, 0.25);
+		border-radius: 16px;
+		padding: 2rem;
+		max-width: 380px;
+		width: 90vw;
+		text-align: center;
+		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+	}
+
+	.dialog-icon {
+		font-size: 2.5rem;
+		margin-bottom: 0.5rem;
+	}
+
+	.checkout-dialog h2 {
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1.3rem;
+		font-weight: 600;
+		color: #f0f0ff;
+		margin-bottom: 0.5rem;
+	}
+
+	.dialog-desc {
+		font-size: 0.88rem;
+		color: #8888aa;
+		line-height: 1.5;
+		margin-bottom: 1.25rem;
+	}
+
+	.dialog-actions {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: center;
+	}
+
+	.btn-primary {
+		padding: 0.6rem 1.2rem;
+		border-radius: 10px;
+		border: none;
+		background: linear-gradient(135deg, #7c6af7, #6a58e5);
+		color: #fff;
+		font-weight: 600;
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: transform 0.1s, box-shadow 0.2s;
+		box-shadow: 0 4px 12px rgba(124, 106, 247, 0.3);
+	}
+
+	.btn-primary:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 6px 16px rgba(124, 106, 247, 0.4);
+	}
+
+	.btn-ghost {
+		padding: 0.6rem 1.2rem;
+		border-radius: 10px;
+		border: 1px solid rgba(136, 136, 170, 0.25);
+		background: transparent;
+		color: #8888aa;
+		font-weight: 500;
+		font-size: 0.9rem;
+		cursor: pointer;
+		transition: border-color 0.2s, color 0.2s;
+	}
+
+	.btn-ghost:hover {
+		border-color: rgba(136, 136, 170, 0.5);
+		color: #bbbbdd;
 	}
 </style>
 
