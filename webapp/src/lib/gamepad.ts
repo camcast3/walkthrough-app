@@ -10,12 +10,15 @@
  *   0 = A (South) — check/uncheck focused step
  *   1 = B (East)  — navigate back
  *   2 = X (West)  — checkout / context action
+ *   3 = Y (North) — cycle HLTB mode
  *   4 = LB        — previous section
  *   5 = RB        — next section
  *   12 = D-pad Up   (repeat-on-hold)
  *   13 = D-pad Down (repeat-on-hold)
  *   14 = D-pad Left  (previous section alias)
  *   15 = D-pad Right (next section alias)
+ *
+ * Left stick Y-axis: analog scroll (fires scroll-up / scroll-down each tick)
  */
 
 export type GamepadAction =
@@ -25,7 +28,10 @@ export type GamepadAction =
 	| 'next-section'
 	| 'focus-up'
 	| 'focus-down'
-	| 'checkout';
+	| 'checkout'
+	| 'cycle-hltb'
+	| 'scroll-up'
+	| 'scroll-down';
 
 interface ButtonState {
 	pressed: boolean;
@@ -49,6 +55,7 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	0: 'check',
 	1: 'back',
 	2: 'checkout',
+	3: 'cycle-hltb',
 	4: 'prev-section',
 	5: 'next-section',
 	12: 'focus-up',
@@ -57,15 +64,21 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	15: 'next-section'
 };
 
+/** Deadzone for the left-stick Y-axis to avoid drift. */
+const STICK_DEADZONE = 0.25;
+
+/** Pixels to scroll per poll tick at full stick deflection. */
+const STICK_SCROLL_PX = 12;
+
 const POLL_INTERVAL_MS = 66; // ~15 fps — responsive enough for button presses
 
 export class GamepadNavigator {
 	private timerId: ReturnType<typeof setTimeout> | null = null;
 	private buttonStates: Map<number, ButtonState> = new Map();
-	private onAction: (action: GamepadAction) => void;
+	private onAction: (action: GamepadAction, magnitude?: number) => void;
 	private gamepadCount = 0;
 
-	constructor(onAction: (action: GamepadAction) => void) {
+	constructor(onAction: (action: GamepadAction, magnitude?: number) => void) {
 		this.onAction = onAction;
 	}
 
@@ -163,6 +176,16 @@ export class GamepadNavigator {
 						heldSince: null,
 						lastRepeat: null
 					});
+				}
+			}
+
+			// Left-stick Y-axis: analog free-scroll
+			const axisY = gp.axes[1] ?? 0;
+			if (Math.abs(axisY) > STICK_DEADZONE) {
+				const magnitude = (Math.abs(axisY) - STICK_DEADZONE) / (1 - STICK_DEADZONE);
+				const pixels = Math.round(magnitude * STICK_SCROLL_PX * Math.sign(axisY));
+				if (pixels !== 0) {
+					this.onAction(pixels < 0 ? 'scroll-up' : 'scroll-down', Math.abs(pixels));
 				}
 			}
 		}

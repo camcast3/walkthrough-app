@@ -21,6 +21,23 @@
 	// Track which walkthroughs are currently loading a checkout/checkin action
 	let checkoutPending = $state<Set<string>>(new Set());
 
+	function onBrowserOffline() { isOnline = false; }
+	function onBrowserOnline() { pollConnectivity(); }
+
+	async function pollConnectivity() {
+		try {
+			const res = await fetch('/api/config');
+			if (res.ok) {
+				const cfg = await res.json();
+				if (typeof cfg.online === 'boolean') {
+					isOnline = cfg.online;
+				}
+			}
+		} catch {
+			isOnline = false;
+		}
+	}
+
 	onMount(async () => {
 		const results: Record<string, number> = {};
 		for (const wt of data.walkthroughs) {
@@ -38,19 +55,9 @@
 
 		// Poll connectivity state in client mode.
 		if (data.appMode === 'client') {
-			pollTimer = setInterval(async () => {
-				try {
-					const res = await fetch('/api/config');
-					if (res.ok) {
-						const cfg = await res.json();
-						if (typeof cfg.online === 'boolean') {
-							isOnline = cfg.online;
-						}
-					}
-				} catch {
-					// Local server unreachable — keep current state.
-				}
-			}, 30_000);
+			window.addEventListener('offline', onBrowserOffline);
+			window.addEventListener('online', onBrowserOnline);
+			pollTimer = setInterval(pollConnectivity, 30_000);
 		}
 	});
 
@@ -58,6 +65,10 @@
 		gamepad?.stop();
 		window.removeEventListener('keydown', handleKeydown);
 		if (pollTimer !== null) clearInterval(pollTimer);
+		if (data.appMode === 'client') {
+			window.removeEventListener('offline', onBrowserOffline);
+			window.removeEventListener('online', onBrowserOnline);
+		}
 	});
 
 	async function toggleCheckout(event: MouseEvent, id: string) {
@@ -90,6 +101,13 @@
 	};
 	void STEP_TYPE_ICONS;
 
+	// ── Derived walkthrough list — filtered when offline in client mode ───────
+	const visibleWalkthroughs = $derived(
+		(data.appMode === 'client' && !isOnline)
+			? data.walkthroughs.filter((wt) => checkedOutSet.has(wt.id))
+			: data.walkthroughs
+	);
+
 	// ── Gamepad / keyboard navigation ─────────────────────────────────────────
 	let focusedCardIdx = $state(0);
 	let cardRefs: HTMLElement[] = [];
@@ -115,7 +133,7 @@
 	}
 
 	function handleGamepadAction(action: string) {
-		const count = data.walkthroughs.length;
+		const count = visibleWalkthroughs.length;
 		if (count === 0) return;
 		switch (action) {
 			case 'focus-up':
@@ -131,7 +149,7 @@
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
-		const count = data.walkthroughs.length;
+		const count = visibleWalkthroughs.length;
 		if (count === 0) return;
 		if (e.key === 'ArrowUp') { e.preventDefault(); handleGamepadAction('focus-up'); }
 		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
@@ -183,14 +201,19 @@
 	{/if}
 
 
-	{#if data.walkthroughs.length === 0}
+	{#if visibleWalkthroughs.length === 0}
 		<div class="empty">
-			<p>No walkthroughs available.</p>
-			<p class="hint">Add one by running the <code>@walkthrough-writer</code> agent and committing the JSON to <code>/walkthroughs/</code>.</p>
+			{#if data.appMode === 'client' && !isOnline}
+				<p>No downloaded walkthroughs available offline.</p>
+				<p class="hint">Connect to the server and use <strong>⊕</strong> to download walkthroughs for offline use.</p>
+			{:else}
+				<p>No walkthroughs available.</p>
+				<p class="hint">Add one by running the <code>@walkthrough-writer</code> agent and committing the JSON to <code>/walkthroughs/</code>.</p>
+			{/if}
 		</div>
 	{:else}
 		<ul class="list" role="list">
-			{#each data.walkthroughs as wt, idx (wt.id)}
+			{#each visibleWalkthroughs as wt, idx (wt.id)}
 				{@const checked = progressMap[wt.id] ?? 0}
 				{@const isCheckedOut = checkedOutSet.has(wt.id)}
 				{@const isPending = checkoutPending.has(wt.id)}
