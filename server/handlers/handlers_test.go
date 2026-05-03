@@ -457,6 +457,35 @@ func TestDeleteCheckout(t *testing.T) {
 	}
 }
 
+func TestDeleteCheckout_EvictsRemoteCache(t *testing.T) {
+	h, _ := newTestHandler(t, "client")
+	rs := source.NewRemoteSource(source.RemoteConfig{})
+	rs.SetData("wt1", []byte(minimalWalkthrough("wt1", "G", "T")))
+	rs.SetData("wt2", []byte(minimalWalkthrough("wt2", "G", "T2")))
+	h.RemoteSource = rs
+
+	if err := h.DB.Checkout("wt1"); err != nil {
+		t.Fatal(err)
+	}
+
+	req := httptest.NewRequest(http.MethodDelete, "/api/checkouts/wt1", nil)
+	req.SetPathValue("id", "wt1")
+	w := httptest.NewRecorder()
+	h.DeleteCheckout(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d", w.Code)
+	}
+	// wt1 should be evicted from the remote source cache.
+	if rs.HasCached("wt1") {
+		t.Error("expected wt1 to be evicted from remote source cache after checkin")
+	}
+	// wt2 should remain untouched.
+	if !rs.HasCached("wt2") {
+		t.Error("expected wt2 to remain in remote source cache")
+	}
+}
+
 // ── GetDevices ────────────────────────────────────────────────────────────────
 
 func TestGetDevices_ServerMode(t *testing.T) {

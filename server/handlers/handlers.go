@@ -312,6 +312,11 @@ func (h *Handler) DeleteCheckout(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Evict the cached content immediately so storage is freed on the device.
+	if h.RemoteSource != nil {
+		h.RemoteSource.Evict(id)
+	}
+
 	respondJSON(w, http.StatusOK, map[string]string{"walkthroughId": id, "status": "checked_in"})
 }
 
