@@ -148,7 +148,9 @@ func (ps *ProgressSync) syncLoop(ctx context.Context) {
 
 	for {
 		// Re-subscribe to connectivity notifications at the start of each iteration.
-		if notifyCh == nil {
+		// Only when a monitor is configured; a nil channel in select blocks forever,
+		// which is the desired no-op behaviour when no monitor is set.
+		if notifyCh == nil && ps.Monitor != nil {
 			notifyCh = ps.Monitor.Notify()
 		}
 
@@ -160,12 +162,12 @@ func (ps *ProgressSync) syncLoop(ctx context.Context) {
 		case d := <-ps.resetCh:
 			ticker.Reset(d)
 		case <-ticker.C:
-			if ps.serverURL() != "" && ps.Monitor.IsOnline() {
+			if ps.serverURL() != "" && (ps.Monitor == nil || ps.Monitor.IsOnline()) {
 				ps.flush(ctx)
 			}
 		case <-notifyCh:
 			notifyCh = nil // re-subscribe on next iteration
-			if ps.Monitor.IsOnline() && ps.serverURL() != "" {
+			if ps.Monitor != nil && ps.Monitor.IsOnline() && ps.serverURL() != "" {
 				// Connectivity restored — flush queued changes immediately.
 				ps.flush(ctx)
 			}

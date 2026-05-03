@@ -68,7 +68,11 @@ func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
 		cfg["syncInterval"] = h.Sync.GetInterval().String()
 	}
 	if h.AppMode == "client" {
-		cfg["online"] = h.Monitor.IsOnline()
+		online := true // default to online when no monitor is configured
+		if h.Monitor != nil {
+			online = h.Monitor.IsOnline()
+		}
+		cfg["online"] = online
 	}
 	respondJSON(w, http.StatusOK, cfg)
 }

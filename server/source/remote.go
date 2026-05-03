@@ -198,7 +198,9 @@ func (s *RemoteSource) refreshLoop(ctx context.Context) {
 
 	for {
 		// Re-subscribe to connectivity notifications at the start of each iteration.
-		if notifyCh == nil {
+		// Only when a monitor is configured; a nil channel in select blocks forever,
+		// which is the desired no-op behaviour when no monitor is set.
+		if notifyCh == nil && s.Monitor != nil {
 			notifyCh = s.Monitor.Notify()
 		}
 
@@ -208,7 +210,7 @@ func (s *RemoteSource) refreshLoop(ctx context.Context) {
 		case d := <-s.resetCh:
 			ticker.Reset(d)
 		case <-ticker.C:
-			if s.serverURL() == "" || !s.Monitor.IsOnline() {
+			if s.serverURL() == "" || (s.Monitor != nil && !s.Monitor.IsOnline()) {
 				continue
 			}
 			if err := s.refresh(ctx); err != nil {
@@ -216,7 +218,7 @@ func (s *RemoteSource) refreshLoop(ctx context.Context) {
 			}
 		case <-notifyCh:
 			notifyCh = nil // re-subscribe on next iteration
-			if s.Monitor.IsOnline() && s.serverURL() != "" {
+			if s.Monitor != nil && s.Monitor.IsOnline() && s.serverURL() != "" {
 				// Connectivity restored — trigger an immediate refresh.
 				if err := s.refresh(ctx); err != nil {
 					log.Printf("[remote-source] refresh failed (serving cached data): %v", err)
