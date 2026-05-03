@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
           cache-dependency-path: webapp/package-lock.json
       - run: npm ci --legacy-peer-deps
@@ -63,6 +63,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      # ── Determine next version ─────────────────────────────────────────
+      - name: Determine next version
+        id: version
+        run: |
+          # Get latest semver tag, default to v0.0.0 if none exist
+          LATEST=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | head -n1)
+          if [ -z "$LATEST" ]; then
+            LATEST="v0.0.0"
+          fi
+          # Bump patch version
+          MAJOR=$(echo "$LATEST" | cut -d. -f1)
+          MINOR=$(echo "$LATEST" | cut -d. -f2)
+          PATCH=$(echo "$LATEST" | cut -d. -f3)
+          NEXT="${MAJOR}.${MINOR}.$((PATCH + 1))"
+          echo "tag=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Next version: $NEXT (previous: $LATEST)"
 
       # ── Build + push Docker image ─────────────────────────────────────────
       # The multi-stage Dockerfile builds the webapp, Go server, and bakes in
@@ -75,13 +93,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push server image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: server/Dockerfile
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.tag }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       # ── Update manifests — ArgoCD detects the commit and syncs ───────────
@@ -99,3 +118,13 @@ jobs:
             git commit -m "ci: update image to ${GITHUB_SHA::8} [skip ci]"
           git pull --rebase origin main
           git push
+
+      # ── Create GitHub release ────────────────────────────────────────────
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --generate-notes \
+            --target main
