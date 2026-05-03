@@ -565,3 +565,57 @@ func TestGetIngestJob_ServerMode(t *testing.T) {
 		t.Errorf("expected job ID %q, got %q", job.ID, snap.ID)
 	}
 }
+
+// ── GetHealth ─────────────────────────────────────────────────────────────────
+
+func TestGetHealth(t *testing.T) {
+	h, _ := newTestHandler(t, "")
+
+	for _, method := range []string{http.MethodGet, http.MethodHead} {
+		req := httptest.NewRequest(method, "/api/health", nil)
+		w := httptest.NewRecorder()
+		h.GetHealth(w, req)
+
+		if w.Code != http.StatusOK {
+			t.Errorf("%s /api/health: expected 200, got %d", method, w.Code)
+		}
+	}
+}
+
+// ── GetConfig online field ────────────────────────────────────────────────────
+
+func TestGetConfig_ClientMode_OnlineField(t *testing.T) {
+	h, _ := newClientTestHandler(t)
+	// No monitor set — Monitor is nil, IsOnline() returns true.
+
+	req := httptest.NewRequest(http.MethodGet, "/api/config", nil)
+	w := httptest.NewRecorder()
+	h.GetConfig(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Fatalf("expected 200, got %d", w.Code)
+	}
+	var cfg map[string]any
+	decodeJSON(t, w, &cfg)
+	online, ok := cfg["online"]
+	if !ok {
+		t.Fatal("expected 'online' field in client-mode config response")
+	}
+	if online != true {
+		t.Errorf("expected online=true when no monitor is set, got %v", online)
+	}
+}
+
+func TestGetConfig_FileMode_NoOnlineField(t *testing.T) {
+	h, _ := newTestHandler(t, "")
+
+	req := httptest.NewRequest(http.MethodGet, "/api/config", nil)
+	w := httptest.NewRecorder()
+	h.GetConfig(w, req)
+
+	var cfg map[string]any
+	decodeJSON(t, w, &cfg)
+	if _, ok := cfg["online"]; ok {
+		t.Error("'online' field should not be present in non-client-mode config response")
+	}
+}

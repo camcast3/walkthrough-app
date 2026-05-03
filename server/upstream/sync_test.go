@@ -9,6 +9,7 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"walkthrough-server/connectivity"
 	"walkthrough-server/store"
 )
 
@@ -276,5 +277,104 @@ func TestProgressSync_FlushOnShutdown(t *testing.T) {
 		}
 	case <-time.After(5 * time.Second):
 		t.Error("timeout: expected push on shutdown, got none")
+	}
+}
+
+// ── Monitor integration: offline gating ──────────────────────────────────────
+
+func TestProgressSync_SkipsFlushWhenOffline(t *testing.T) {
+	requests := make(chan struct{}, 10)
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut && strings.HasPrefix(r.URL.Path, "/api/progress/") {
+			requests <- struct{}{}
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer srv.Close()
+
+	db := openTestDB(t)
+	rec := &store.ProgressRecord{
+		WalkthroughID: "wt-offline",
+		CheckedSteps:  []string{"s1"},
+		UpdatedAt:     time.Now().UTC(),
+	}
+	if err := db.PutProgress(rec); err != nil {
+		t.Fatal(err)
+	}
+
+	// Build an offline monitor (threshold=1, one failure → offline).
+	mon := connectivity.New(srv.URL)
+	mon.FailThreshold = 1
+	mon.RecordFailureForTest()
+	if mon.IsOnline() {
+		t.Fatal("monitor should be offline after RecordFailureForTest")
+	}
+
+	ps := NewProgressSync(srv.URL, db, 10*time.Millisecond) // short interval
+	ps.Monitor = mon
+	ps.MarkDirty("wt-offline")
+
+	ctx := context.Background()
+	ps.Start(ctx)
+	defer ps.Close()
+
+	// Allow several tick cycles while offline — no push requests should be made.
+	time.Sleep(80 * time.Millisecond)
+
+	select {
+	case <-requests:
+		t.Error("expected no HTTP push requests while offline")
+	default:
+		// Good — no requests.
+	}
+}
+
+func TestProgressSync_FlushesImmediatelyOnReconnect(t *testing.T) {
+	pushed := make(chan struct{}, 1)
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPut && strings.HasPrefix(r.URL.Path, "/api/progress/") {
+			select {
+			case pushed <- struct{}{}:
+			default:
+			}
+		}
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer srv.Close()
+
+	db := openTestDB(t)
+	rec := &store.ProgressRecord{
+		WalkthroughID: "wt-reconnect",
+		CheckedSteps:  []string{"s1"},
+		UpdatedAt:     time.Now().UTC(),
+	}
+	if err := db.PutProgress(rec); err != nil {
+		t.Fatal(err)
+	}
+
+	// Build an offline monitor.
+	mon := connectivity.New(srv.URL)
+	mon.FailThreshold = 1
+	mon.RecordFailureForTest()
+
+	ps := NewProgressSync(srv.URL, db, time.Hour) // long interval — no auto-tick
+	ps.Monitor = mon
+	ps.MarkDirty("wt-reconnect")
+
+	ctx := context.Background()
+	ps.Start(ctx)
+	defer ps.Close()
+
+	// Give loop time to start and see the offline state.
+	time.Sleep(20 * time.Millisecond)
+
+	// Simulate coming back online — the loop should flush immediately.
+	mon.RecordSuccessForTest()
+
+	select {
+	case <-pushed:
+		// Good — flushed on reconnect.
+	case <-time.After(3 * time.Second):
+		t.Error("timeout: expected immediate flush after reconnect")
 	}
 }

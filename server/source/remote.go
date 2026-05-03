@@ -11,6 +11,7 @@ import (
 	"path/filepath"
 	"sync"
 	"time"
+	"walkthrough-server/connectivity"
 	"walkthrough-server/store"
 )
 
@@ -21,6 +22,10 @@ type RemoteSource struct {
 	Interval     time.Duration
 	CacheDir     string
 	CheckedOutFn func() ([]string, error)
+
+	// Monitor, when non-nil, gates refresh calls on connectivity state and
+	// triggers an immediate refresh when the monitor reports back online.
+	Monitor *connectivity.Monitor
 
 	mu      sync.RWMutex
 	metas   []store.WalkthroughMeta
@@ -39,6 +44,8 @@ type RemoteConfig struct {
 	// but will not be proactively downloaded. When nil, all walkthroughs are
 	// prefetched (backward-compatible behaviour).
 	CheckedOutFn func() ([]string, error)
+	// Monitor, if non-nil, gates refresh calls on network connectivity state.
+	Monitor *connectivity.Monitor
 }
 
 func NewRemoteSource(cfg RemoteConfig) *RemoteSource {
@@ -50,6 +57,7 @@ func NewRemoteSource(cfg RemoteConfig) *RemoteSource {
 		Interval:     cfg.Interval,
 		CacheDir:     cfg.CacheDir,
 		CheckedOutFn: cfg.CheckedOutFn,
+		Monitor:      cfg.Monitor,
 		byID:         make(map[string][]byte),
 		resetCh:      make(chan time.Duration, 1),
 	}
@@ -185,18 +193,36 @@ func (s *RemoteSource) Get(id string) ([]byte, error) {
 func (s *RemoteSource) refreshLoop(ctx context.Context) {
 	ticker := time.NewTicker(s.getInterval())
 	defer ticker.Stop()
+
+	var notifyCh <-chan struct{}
+
 	for {
+		// Re-subscribe to connectivity notifications at the start of each iteration.
+		// Only when a monitor is configured; a nil channel in select blocks forever,
+		// which is the desired no-op behaviour when no monitor is set.
+		if notifyCh == nil && s.Monitor != nil {
+			notifyCh = s.Monitor.Notify()
+		}
+
 		select {
 		case <-ctx.Done():
 			return
 		case d := <-s.resetCh:
 			ticker.Reset(d)
 		case <-ticker.C:
-			if s.serverURL() == "" {
+			if s.serverURL() == "" || (s.Monitor != nil && !s.Monitor.IsOnline()) {
 				continue
 			}
 			if err := s.refresh(ctx); err != nil {
 				log.Printf("[remote-source] refresh failed (serving cached data): %v", err)
+			}
+		case <-notifyCh:
+			notifyCh = nil // re-subscribe on next iteration
+			if s.Monitor != nil && s.Monitor.IsOnline() && s.serverURL() != "" {
+				// Connectivity restored — trigger an immediate refresh.
+				if err := s.refresh(ctx); err != nil {
+					log.Printf("[remote-source] refresh failed (serving cached data): %v", err)
+				}
 			}
 		}
 	}

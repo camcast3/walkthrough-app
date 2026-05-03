@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 	"walkthrough-server/configstore"
+	"walkthrough-server/connectivity"
 	"walkthrough-server/handlers"
 	"walkthrough-server/source"
 	"walkthrough-server/store"
@@ -57,6 +58,7 @@ func main() {
 	var src source.WalkthroughSource
 	var progressSync *upstream.ProgressSync
 	var cfgStore *configstore.Store
+	var connMonitor *connectivity.Monitor
 
 	switch appMode {
 	case "server":
@@ -139,6 +141,18 @@ func main() {
 		// pushed to or pulled from the remote server.
 		progressSync = upstream.NewProgressSync(serverURL, db, syncInterval)
 		progressSync.IsCheckedOutFn = db.IsCheckedOut
+
+		// Create and start a connectivity monitor when a remote server is configured.
+		// Both the remote source and progress sync use the monitor to skip HTTP calls
+		// when the server is unreachable, preventing log spam and wasted CPU/battery.
+		if serverURL != "" {
+			connMonitor = connectivity.New(serverURL)
+			connMonitor.Start(context.Background())
+			defer connMonitor.Stop()
+			remoteSrc.Monitor = connMonitor
+			progressSync.Monitor = connMonitor
+		}
+
 		progressSync.Start(context.Background())
 		defer progressSync.Close()
 
@@ -172,11 +186,14 @@ func main() {
 		Ingest:       handlers.NewIngestManager(db),
 		RemoteSource: remoteSrcForHandler(src),
 		ConfigStore:  cfgStore,
+		Monitor:      connMonitor,
 	}
 
 	mux := http.NewServeMux()
 
 	// API routes
+	mux.HandleFunc("GET /api/health", h.GetHealth)
+	mux.HandleFunc("HEAD /api/health", h.GetHealth)
 	mux.HandleFunc("GET /api/config", h.GetConfig)
 	mux.HandleFunc("PUT /api/config", h.PutConfig)
 	mux.HandleFunc("GET /api/walkthroughs", h.ListWalkthroughs)
