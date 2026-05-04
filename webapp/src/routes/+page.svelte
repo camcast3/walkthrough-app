@@ -269,6 +269,12 @@
 				<a href="/settings" class="manage-link">⚙ Settings →</a>
 			</div>
 		{/if}
+	{:else if !data.appMode || data.appMode === ''}
+		<div class="banner info" role="note">
+			<span aria-hidden="true">🔧</span>
+			<span> Not connected to a server.</span>
+			<a href="/settings" class="manage-link">⚙ Configure Connection →</a>
+		</div>
 	{/if}
 
 
@@ -277,9 +283,12 @@
 			{#if data.appMode === 'client' && !isOnline}
 				<p>No downloaded walkthroughs available offline.</p>
 				<p class="hint">Connect to the server and use <strong>⊕</strong> to download walkthroughs for offline use.</p>
+			{:else if data.appMode === 'client'}
+				<p>No walkthroughs available from the server.</p>
+				<p class="hint">Check that the server is running and has walkthroughs, or review your <a href="/settings">connection settings</a>.</p>
 			{:else}
 				<p>No walkthroughs available.</p>
-				<p class="hint">Add one by running the <code>@walkthrough-writer</code> agent and committing the JSON to <code>/walkthroughs/</code>.</p>
+				<p class="hint">Go to <a href="/settings">Settings</a> to connect to a walkthrough server, or add walkthroughs to the <code>/walkthroughs/</code> directory.</p>
 			{/if}
 		</div>
 	{:else}
@@ -635,6 +644,12 @@
 		margin-top: 0.75rem;
 		font-size: 0.85rem;
 		color: #444466;
+	}
+
+	.empty .hint a {
+		color: #7c6af7;
+		text-decoration: underline;
+		text-underline-offset: 2px;
 	}
 
 	.empty code {
