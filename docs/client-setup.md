@@ -33,18 +33,24 @@ Running a local client server gives you a dedicated background service that keep
 
 ### On a handheld running Bazzite (Steam Deck / ROG Ally)
 
-Bazzite is an immutable (atomic) OS, so the easiest way to run the server is by extracting the pre-built binary from the container image.
+Bazzite is an immutable (atomic) OS. The easiest way to run the server is to download the pre-built binary and static files directly from the [latest GitHub Release](https://github.com/camcast3/walkthrough-app/releases/latest).
 
-**1. Extract the server binary:**
+**1. Download the server binary and static files:**
 
 ```bash
-# Pull the image and copy the binary out
-podman create --name wt-extract ghcr.io/camcast3/walkthrough-server:latest
-podman cp wt-extract:/app/walkthrough-server ~/.local/bin/walkthrough-server
-podman cp wt-extract:/static ~/.local/share/walkthrough-app/static
-podman rm wt-extract
+# Fetch the latest release tag
+LATEST=$(curl -fsSL https://api.github.com/repos/camcast3/walkthrough-app/releases/latest \
+  | grep '"tag_name"' | head -n1 | cut -d'"' -f4)
 
+# Download the amd64 binary (Steam Deck and ROG Ally are x86_64)
+mkdir -p ~/.local/bin ~/.local/share/walkthrough-app/static
+curl -fsSL "https://github.com/camcast3/walkthrough-app/releases/download/${LATEST}/walkthrough-server-linux-amd64" \
+  -o ~/.local/bin/walkthrough-server
 chmod +x ~/.local/bin/walkthrough-server
+
+# Download and extract the webapp static files
+curl -fsSL "https://github.com/camcast3/walkthrough-app/releases/download/${LATEST}/static.tar.gz" \
+  | tar -xz -C ~/.local/share/walkthrough-app/static
 ```
 
 **2. Create a systemd user service:**
@@ -84,7 +90,6 @@ EOF
 **3. Enable and start:**
 
 ```bash
-mkdir -p ~/.local/share/walkthrough-app
 systemctl --user daemon-reload
 systemctl --user enable walkthroughs.service
 systemctl --user start walkthroughs.service
@@ -106,15 +111,21 @@ curl -s http://localhost:8080/api/config | head
 
 ### Updating the binary
 
-When a new version is released, re-extract from the latest image:
+When a new version is released, download the new artifacts and restart the service:
 
 ```bash
 systemctl --user stop walkthroughs.service
-podman pull ghcr.io/camcast3/walkthrough-server:latest
-podman create --name wt-extract ghcr.io/camcast3/walkthrough-server:latest
-podman cp wt-extract:/app/walkthrough-server ~/.local/bin/walkthrough-server
-podman cp wt-extract:/static ~/.local/share/walkthrough-app/static
-podman rm wt-extract
+
+LATEST=$(curl -fsSL https://api.github.com/repos/camcast3/walkthrough-app/releases/latest \
+  | grep '"tag_name"' | head -n1 | cut -d'"' -f4)
+
+curl -fsSL "https://github.com/camcast3/walkthrough-app/releases/download/${LATEST}/walkthrough-server-linux-amd64" \
+  -o ~/.local/bin/walkthrough-server
+chmod +x ~/.local/bin/walkthrough-server
+
+curl -fsSL "https://github.com/camcast3/walkthrough-app/releases/download/${LATEST}/static.tar.gz" \
+  | tar -xz -C ~/.local/share/walkthrough-app/static
+
 systemctl --user start walkthroughs.service
 ```
 
