@@ -102,7 +102,7 @@ systemctl --user status walkthroughs.service
 curl -s http://localhost:8080/api/config | head
 ```
 
-> **Boot safety:** The service uses `Restart=on-failure` with a 10-second backoff. Each HTTP request to the remote server has a built-in 30-second timeout, preventing any individual call from hanging indefinitely. Initial startup fetches a list of walkthroughs and then each walkthrough in sequence, so total startup time depends on catalog size and network conditions. If the remote server is unreachable, the server starts immediately and serves cached data.
+> **Boot safety:** The service restarts on failure (`RestartSec=10`). HTTP requests to the remote server have a 30-second per-request timeout, so no single call can hang indefinitely — but total startup time scales with catalog size. If the remote is unreachable, the server starts immediately on cached data.
 
 **4. Verify it works in Desktop Mode — do this before touching Game Mode:**
 
