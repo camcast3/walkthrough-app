@@ -15,6 +15,13 @@ import (
 	"walkthrough-server/store"
 )
 
+// remoteHTTPClient is used for all requests made by RemoteSource.
+// A 30-second timeout prevents startup from hanging indefinitely when the
+// remote server accepts a TCP connection but never sends an HTTP response —
+// a common occurrence when the server is still booting or behind a firewall
+// that accepts and then silently drops packets.
+var remoteHTTPClient = &http.Client{Timeout: 30 * time.Second}
+
 // RemoteSource fetches walkthroughs from another walkthrough-server instance.
 // Used in client mode — the handheld pulls content from the k8s server.
 type RemoteSource struct {
@@ -336,7 +343,7 @@ func (s *RemoteSource) fetchList(ctx context.Context) ([]store.WalkthroughMeta, 
 		return nil, err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := remoteHTTPClient.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("fetch list: %w", err)
 	}
@@ -364,7 +371,7 @@ func (s *RemoteSource) fetchWalkthrough(ctx context.Context, id string) ([]byte,
 		return nil, err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := remoteHTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

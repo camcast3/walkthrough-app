@@ -27,7 +27,7 @@ var Version = "dev"
 
 func main() {
 	addr := flag.String("addr", ":8080", "listen address")
-	dbPath := flag.String("db", "/data/progress.sqlite", "path to SQLite database file")
+	dbPath := flag.String("db", defaultDBPath(), "path to SQLite database file")
 	walkthroughsDir := flag.String("walkthroughs", "/walkthroughs", "path to walkthrough JSON directory (file mode)")
 	staticDir := flag.String("static", "/static", "path to built webapp static files")
 	flag.Parse()
@@ -274,6 +274,23 @@ func main() {
 	if err := http.ListenAndServe(*addr, corsMiddleware(mux)); err != nil {
 		log.Fatalf("server error: %v", err)
 	}
+}
+
+// defaultDBPath returns the default SQLite database path.
+// On user systems (Linux handhelds, Windows) it resolves to a writable
+// directory under the XDG data home or the OS user home directory, so the
+// binary works without any environment variables being set. Container /
+// Docker deployments set DB_PATH explicitly, so they are unaffected by this
+// default.
+func defaultDBPath() string {
+	if xdg := os.Getenv("XDG_DATA_HOME"); xdg != "" {
+		return filepath.Join(xdg, "walkthrough-app", "progress.sqlite")
+	}
+	if home, err := os.UserHomeDir(); err == nil {
+		return filepath.Join(home, ".local", "share", "walkthrough-app", "progress.sqlite")
+	}
+	// Fallback for container environments where no user home can be resolved.
+	return "/data/progress.sqlite"
 }
 
 func envOrDefault(key, defaultVal string) string {

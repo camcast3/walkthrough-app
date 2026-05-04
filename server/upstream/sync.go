@@ -13,6 +13,12 @@ import (
 	"walkthrough-server/store"
 )
 
+// syncHTTPClient is used for all push/pull requests made by ProgressSync.
+// A 30-second timeout matches remoteHTTPClient in the source package, ensuring
+// that background sync calls don't block goroutines indefinitely when the
+// server is slow or unreachable.
+var syncHTTPClient = &http.Client{Timeout: 30 * time.Second}
+
 // ProgressSync handles background sync of progress data to a remote server.
 // Used in client mode to push local progress upstream without blocking the user.
 type ProgressSync struct {
@@ -219,7 +225,7 @@ func (ps *ProgressSync) pushRemote(ctx context.Context, record *store.ProgressRe
 	}
 	req.Header.Set("Content-Type", "application/json")
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := syncHTTPClient.Do(req)
 	if err != nil {
 		return err
 	}
@@ -238,7 +244,7 @@ func (ps *ProgressSync) pullRemote(ctx context.Context, walkthroughID string) (*
 		return nil, err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := syncHTTPClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

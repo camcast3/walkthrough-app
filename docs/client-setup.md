@@ -76,8 +76,9 @@ Environment=LOCAL_CACHE_DIR=%h/.local/share/walkthrough-app
 Environment=STATIC_DIR=%h/.local/share/walkthrough-app/static
 Environment=LISTEN_ADDR=:8080
 
-# Graceful startup — don't hang boot if the network or server is unreachable
-TimeoutStartSec=10
+# Give the binary time to exec; HTTP requests use a per-request 30-second
+# timeout so individual calls won't hang indefinitely.
+TimeoutStartSec=60
 TimeoutStopSec=5
 
 # Auto-restart on failure, but with backoff to avoid spinning
@@ -101,7 +102,7 @@ systemctl --user status walkthroughs.service
 curl -s http://localhost:8080/api/config | head
 ```
 
-> **Boot safety:** The service uses `TimeoutStartSec=10` and `Restart=on-failure` with a 10-second backoff. If the remote server is unreachable on boot, the server starts anyway and serves cached data. It will never hang the boot process.
+> **Boot safety:** The service restarts on failure (`RestartSec=10`). HTTP requests to the remote server have a 30-second per-request timeout, so no single call can hang indefinitely — but total startup time scales with catalog size. If the remote is unreachable, the server starts immediately on cached data.
 
 **4. Verify it works in Desktop Mode — do this before touching Game Mode:**
 
@@ -121,6 +122,15 @@ Game Mode is difficult to troubleshoot. Always confirm the app is fully working 
 6. If anything looks wrong, fix it now — check the journal output for errors, correct the service environment variables, then `systemctl --user restart walkthroughs.service` and reload the browser
 
 Only proceed to step 5 once the app loads cleanly and the settings are correct.
+
+> **Troubleshooting:** If the service fails to start (`status=1/FAILURE`), check the journal first:
+> ```bash
+> journalctl --user -u walkthroughs.service -n 20
+> ```
+> Common errors and fixes:
+> - **`server error: listen tcp :8080: bind: address already in use`** — something else is using port 8080. Find it with `ss -tlnp | grep 8080`, stop it, or change `LISTEN_ADDR` in the service file to a free port (e.g. `:8765`), then `systemctl --user daemon-reload && systemctl --user restart walkthroughs.service`.
+> - **`create db dir: … permission denied`** — the DB directory could not be created. Verify `DB_PATH` in the service file expands to a writable path and that `~/.local/share/walkthrough-app` exists (`mkdir -p ~/.local/share/walkthrough-app`).
+> - **`fetch list: … context deadline exceeded`** — the remote server URL timed out. The server still starts (this is non-fatal), but check that `REMOTE_SERVER_URL` is correct and the server is reachable.
 
 **5. Add to Steam Game Mode:**
 
