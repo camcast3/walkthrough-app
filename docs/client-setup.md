@@ -76,9 +76,9 @@ Environment=LOCAL_CACHE_DIR=%h/.local/share/walkthrough-app
 Environment=STATIC_DIR=%h/.local/share/walkthrough-app/static
 Environment=LISTEN_ADDR=:8080
 
-# Give the binary time to exec and let the 30-second HTTP timeout handle
-# slow or unreachable remote servers gracefully.
-TimeoutStartSec=10
+# Give the binary time to exec; HTTP requests use a per-request 30-second
+# timeout so individual calls won't hang indefinitely.
+TimeoutStartSec=60
 TimeoutStopSec=5
 
 # Auto-restart on failure, but with backoff to avoid spinning
@@ -102,7 +102,7 @@ systemctl --user status walkthroughs.service
 curl -s http://localhost:8080/api/config | head
 ```
 
-> **Boot safety:** The service uses `Restart=on-failure` with a 10-second backoff. The server has a built-in 30-second HTTP timeout, so if the remote server is unreachable or slow on boot, startup completes (at most ~30 seconds late) and the server serves cached data. It will never hang the boot process indefinitely.
+> **Boot safety:** The service uses `Restart=on-failure` with a 10-second backoff. Each HTTP request to the remote server has a built-in 30-second timeout, preventing any individual call from hanging indefinitely. Initial startup fetches a list of walkthroughs and then each walkthrough in sequence, so total startup time depends on catalog size and network conditions. If the remote server is unreachable, the server starts immediately and serves cached data.
 
 **4. Verify it works in Desktop Mode — do this before touching Game Mode:**
 
