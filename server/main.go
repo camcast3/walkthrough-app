@@ -278,17 +278,18 @@ func main() {
 
 // defaultDBPath returns the default SQLite database path.
 // On user systems (Linux handhelds, Windows) it resolves to a writable
-// directory under the XDG data home or HOME, so the binary works without
-// any environment variables being set. Container / Docker deployments set
-// DB_PATH explicitly, so they are unaffected by this default.
+// directory under the XDG data home or the OS user home directory, so the
+// binary works without any environment variables being set. Container /
+// Docker deployments set DB_PATH explicitly, so they are unaffected by this
+// default.
 func defaultDBPath() string {
 	if xdg := os.Getenv("XDG_DATA_HOME"); xdg != "" {
 		return filepath.Join(xdg, "walkthrough-app", "progress.sqlite")
 	}
-	if home := os.Getenv("HOME"); home != "" {
+	if home, err := os.UserHomeDir(); err == nil {
 		return filepath.Join(home, ".local", "share", "walkthrough-app", "progress.sqlite")
 	}
-	// Fallback for container environments where HOME is not set to a user directory.
+	// Fallback for container environments where no user home can be resolved.
 	return "/data/progress.sqlite"
 }
 
