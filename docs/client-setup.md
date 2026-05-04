@@ -35,6 +35,8 @@ Running a local client server gives you a dedicated background service that keep
 
 Bazzite is an immutable (atomic) OS. The easiest way to run the server is to download the pre-built binary and static files directly from the [latest GitHub Release](https://github.com/camcast3/walkthrough-app/releases/latest).
 
+> **What you're downloading:** `walkthrough-server-linux-amd64` is a single statically-linked ELF binary — no installer, no runtime dependencies, no container needed. `static.tar.gz` contains the compiled webapp UI that the binary serves. That's it.
+
 **1. Download the server binary and static files:**
 
 ```bash
@@ -101,7 +103,26 @@ curl -s http://localhost:8080/api/config | head
 
 > **Boot safety:** The service uses `TimeoutStartSec=10` and `Restart=on-failure` with a 10-second backoff. If the remote server is unreachable on boot, the server starts anyway and serves cached data. It will never hang the boot process.
 
-**4. Add to Steam Game Mode:**
+**4. Verify it works in Desktop Mode — do this before touching Game Mode:**
+
+Game Mode is difficult to troubleshoot. Always confirm the app is fully working in Desktop Mode first.
+
+1. Make sure you are in **Desktop Mode** (not Game Mode)
+2. Open **Chromium** and navigate to `http://localhost:8080`
+3. The walkthrough app should load — you should see the home/catalog page
+4. Open the **Settings** page (`http://localhost:8080/settings`) and confirm:
+   - The server URL is set correctly (or set it now)
+   - Mode shows `client`
+5. Check the service is healthy in a terminal:
+   ```bash
+   systemctl --user status walkthroughs.service
+   journalctl --user -u walkthroughs.service -n 50
+   ```
+6. If anything looks wrong, fix it now — check the journal output for errors, correct the service environment variables, then `systemctl --user restart walkthroughs.service` and reload the browser
+
+Only proceed to step 5 once the app loads cleanly and the settings are correct.
+
+**5. Add to Steam Game Mode:**
 
 1. Switch to Desktop Mode
 2. Open Steam → **Games → Add a Non-Steam Game → Browse**
