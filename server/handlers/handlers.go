@@ -82,8 +82,16 @@ func (h *Handler) GetConfig(w http.ResponseWriter, r *http.Request) {
 		}
 		cfg["online"] = online
 	}
-	if h.AppMode == "client" && h.ConfigStore != nil {
-		cfg["powerSaverMode"] = h.ConfigStore.Get().PowerSaverMode
+	if h.ConfigStore != nil {
+		saved := h.ConfigStore.Get()
+		if h.AppMode == "client" {
+			cfg["powerSaverMode"] = saved.PowerSaverMode
+		}
+		// In non-client modes, expose the persisted server URL so the
+		// settings UI can show what the user previously configured.
+		if h.AppMode != "client" && saved.ServerURL != "" {
+			cfg["serverUrl"] = saved.ServerURL
+		}
 	}
 	respondJSON(w, http.StatusOK, cfg)
 }
@@ -95,23 +103,67 @@ func (h *Handler) GetHealth(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 }
 
-// PutConfig handles PUT /api/config — updates runtime settings without a restart.
-// Only available in client mode.
+// PutConfig handles PUT /api/config — updates runtime settings.
+// In client mode, changes take effect immediately. In other modes, only
+// serverUrl and appMode are persisted and require a restart to apply.
 func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
-	if h.AppMode != "client" {
-		respondError(w, http.StatusForbidden, "config updates are only available in client mode")
-		return
-	}
-
 	var body struct {
 		ServerURL       string `json:"serverUrl"`
 		RefreshInterval string `json:"refreshInterval"`
 		SyncInterval    string `json:"syncInterval"`
 		CacheDir        string `json:"cacheDir"`
 		PowerSaverMode  *bool  `json:"powerSaverMode"`
+		AppMode         string `json:"appMode"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		respondError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
+	// In non-client modes, only persist serverUrl and appMode to the config
+	// file. Live-apply is not possible because RemoteSource/Sync/Monitor are
+	// nil; changes take effect on the next restart.
+	if h.AppMode != "client" {
+		if h.ConfigStore == nil {
+			respondError(w, http.StatusInternalServerError, "config store not available")
+			return
+		}
+		// Validate serverUrl
+		if body.ServerURL != "" {
+			if !strings.HasPrefix(body.ServerURL, "http://") && !strings.HasPrefix(body.ServerURL, "https://") {
+				respondError(w, http.StatusBadRequest, "serverUrl must start with http:// or https://")
+				return
+			}
+			body.ServerURL = strings.TrimRight(body.ServerURL, "/")
+		}
+		// Validate appMode
+		if body.AppMode != "" && body.AppMode != "client" && body.AppMode != "server" {
+			respondError(w, http.StatusBadRequest, "appMode must be 'client' or 'server'")
+			return
+		}
+
+		cur := h.ConfigStore.Get()
+		changed := false
+		if body.ServerURL != "" && body.ServerURL != cur.ServerURL {
+			cur.ServerURL = body.ServerURL
+			changed = true
+		}
+		if body.AppMode != "" && body.AppMode != cur.AppMode {
+			cur.AppMode = body.AppMode
+			changed = true
+		}
+		if changed {
+			if err := h.ConfigStore.Set(cur); err != nil {
+				log.Printf("[config] failed to persist settings: %v", err)
+				respondError(w, http.StatusInternalServerError, "settings could not be persisted: "+err.Error())
+				return
+			}
+		}
+		respondJSON(w, http.StatusOK, map[string]any{
+			"appMode":         h.AppMode,
+			"serverUrl":       cur.ServerURL,
+			"restartRequired": changed,
+		})
 		return
 	}
 

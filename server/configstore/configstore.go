@@ -24,10 +24,14 @@ const (
 	DefaultProbe   = 30 * time.Second
 )
 
-// Config holds all runtime-configurable settings for client mode.
+// Config holds all runtime-configurable settings.
 // Zero/empty values mean "use the startup default"; they are omitted when
 // writing the file so the file only records explicit overrides.
 type Config struct {
+	// AppMode overrides the APP_MODE env var on subsequent startups.
+	// When set via the settings UI, it persists across restarts so the user
+	// does not need to set environment variables manually.
+	AppMode         string `json:"appMode,omitempty"`
 	ServerURL       string `json:"serverUrl,omitempty"`
 	RefreshInterval string `json:"refreshInterval,omitempty"`
 	SyncInterval    string `json:"syncInterval,omitempty"`

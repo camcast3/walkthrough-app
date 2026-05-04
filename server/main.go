@@ -77,8 +77,25 @@ func main() {
 
 	var src source.WalkthroughSource
 	var progressSync *upstream.ProgressSync
-	var cfgStore *configstore.Store
 	var connMonitor *connectivity.Monitor
+
+	// Always initialise the config store so the settings UI can persist
+	// configuration in any mode. Users can switch to client mode from the
+	// settings page without needing to set environment variables.
+	cfgPath := filepath.Join(filepath.Dir(*dbPath), "client-config.json")
+	cfgStore, cfgErr := configstore.Open(cfgPath)
+	if cfgErr != nil {
+		log.Printf("[config] failed to load config file (%s): %v — using defaults", cfgPath, cfgErr)
+		cfgStore = configstore.NewInMemory()
+	}
+
+	// Persisted appMode overrides the default (empty) mode but NOT an explicit
+	// APP_MODE env var, so Docker / k8s deployments keep full control.
+	if appMode == "" {
+		if saved := cfgStore.Get(); saved.AppMode != "" {
+			appMode = saved.AppMode
+		}
+	}
 
 	switch appMode {
 	case "server":
@@ -118,13 +135,6 @@ func main() {
 		syncInterval := parseDuration(os.Getenv("PROGRESS_SYNC_INTERVAL"), 30*time.Second)
 
 		// Persisted settings (config file) override env-var defaults.
-		cfgPath := filepath.Join(filepath.Dir(*dbPath), "client-config.json")
-		var cfgErr error
-		cfgStore, cfgErr = configstore.Open(cfgPath)
-		if cfgErr != nil {
-			log.Printf("[config] failed to load config file (%s): %v — using defaults", cfgPath, cfgErr)
-			cfgStore = configstore.NewInMemory()
-		}
 		saved := cfgStore.Get()
 		if saved.ServerURL != "" {
 			serverURL = saved.ServerURL

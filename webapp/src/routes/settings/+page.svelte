@@ -15,6 +15,12 @@
 	let cacheDir = $state(data.cacheDir);
 	let powerSaverMode = $state(data.powerSaverMode);
 
+	// Setup form (non-client mode)
+	let setupServerUrl = $state(data.serverUrl ?? '');
+	let setupSaving = $state(false);
+	let setupError = $state('');
+	let restartRequired = $state(false);
+
 	// Form state
 	let saving = $state(false);
 	let saved = $state(false);
@@ -178,6 +184,36 @@
 		}
 	}
 
+	async function handleSetupSave(e?: SubmitEvent) {
+		e?.preventDefault();
+		const errors: Record<string, string> = {};
+		if (!setupServerUrl) {
+			errors.serverUrl = 'Server URL is required';
+		} else if (!setupServerUrl.startsWith('http://') && !setupServerUrl.startsWith('https://')) {
+			errors.serverUrl = 'Must start with http:// or https://';
+		}
+		validationErrors = errors;
+		if (Object.keys(errors).length > 0) return;
+
+		setupSaving = true;
+		setupError = '';
+		restartRequired = false;
+
+		try {
+			const result = await updateClientConfig({
+				serverUrl: setupServerUrl,
+				appMode: 'client'
+			});
+			if (result.restartRequired) {
+				restartRequired = true;
+			}
+		} catch (err) {
+			setupError = err instanceof Error ? err.message : 'Failed to save settings';
+		} finally {
+			setupSaving = false;
+		}
+	}
+
 	// ── Update actions ────────────────────────────────────────────────────────
 
 	async function handleCheckUpdate() {
@@ -228,29 +264,79 @@
 		<a href="/" class="back-link" aria-label="Back to walkthroughs">← Back</a>
 		<div class="hero-icon" aria-hidden="true">⚙️</div>
 		<h1 class="hero-title">Settings</h1>
-		<p class="subtitle">Runtime configuration for client mode</p>
+		<p class="subtitle">{data.appMode === 'client' ? 'Runtime configuration for client mode' : 'Configure your walkthrough device'}</p>
 	</header>
 
 	{#if data.appMode !== 'client'}
-		<div class="banner warning" role="alert">
-			<span>⚠ Settings are only configurable in client mode. Set <code>APP_MODE=client</code> and <code>REMOTE_SERVER_URL</code> to connect to a walkthrough server.</span>
-		</div>
-		{#if data.version}
-			<div class="field">
-				<div class="field-label">
-					<span class="label-icon" aria-hidden="true">📋</span>
-					App Info
-				</div>
-				<p class="field-desc">
-					Version: <code class="version-badge">{data.version}</code>
-					{#if data.appMode}
-						· Mode: <code class="version-badge">{data.appMode}</code>
-					{:else}
-						· Mode: <code class="version-badge">file (default)</code>
-					{/if}
-				</p>
+		<div class="setup-section">
+			<div class="banner info" role="status">
+				<span>🔧 Configure this device to connect to a walkthrough server. Changes require a restart to take effect.</span>
 			</div>
-		{/if}
+
+			{#if restartRequired}
+				<div class="banner success" role="status">
+					<span>✓ Settings saved — restart the application to apply changes.</span>
+				</div>
+			{/if}
+
+			{#if setupError}
+				<div class="banner warning" role="alert">
+					<span>⚠ {setupError}</span>
+				</div>
+			{/if}
+
+			<form class="settings-form" onsubmit={handleSetupSave} novalidate>
+				<!-- Server URL -->
+				<div class="field" class:field-error={!!validationErrors.serverUrl}>
+					<label class="field-label" for="setupServerUrl">
+						<span class="label-icon" aria-hidden="true">📡</span>
+						Server URL
+					</label>
+					<p class="field-desc">URL of the walkthrough server to sync from.</p>
+					<input
+						id="setupServerUrl"
+						class="field-input"
+						type="url"
+						placeholder="http://walkthroughs.local"
+						bind:value={setupServerUrl}
+						disabled={setupSaving}
+						autocomplete="off"
+						spellcheck={false}
+					/>
+					{#if validationErrors.serverUrl}
+						<span class="field-error-msg" role="alert">{validationErrors.serverUrl}</span>
+					{/if}
+				</div>
+
+				<div class="actions">
+					<button class="save-btn" type="submit" disabled={setupSaving}>
+						{#if setupSaving}
+							<span class="spinner" aria-hidden="true"></span>
+							Saving…
+						{:else}
+							💾 Save & Enable Client Mode
+						{/if}
+					</button>
+				</div>
+			</form>
+
+			{#if data.version}
+				<div class="field">
+					<div class="field-label">
+						<span class="label-icon" aria-hidden="true">📋</span>
+						App Info
+					</div>
+					<p class="field-desc">
+						Version: <code class="version-badge">{data.version}</code>
+						{#if data.appMode}
+							· Mode: <code class="version-badge">{data.appMode}</code>
+						{:else}
+							· Mode: <code class="version-badge">file (default)</code>
+						{/if}
+					</p>
+				</div>
+			{/if}
+		</div>
 	{:else}
 		<form class="settings-form" onsubmit={handleSave} novalidate>
 			<!-- Server URL -->

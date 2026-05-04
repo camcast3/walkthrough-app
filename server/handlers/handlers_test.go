@@ -135,13 +135,23 @@ func TestGetConfig_ClientMode(t *testing.T) {
 
 func TestPutConfig_NonClientMode(t *testing.T) {
 	h, _ := newTestHandler(t, "server")
+	h.ConfigStore = configstore.NewInMemory()
 
-	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{}`))
+	body := `{"serverUrl":"http://example.com","appMode":"client"}`
+	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(body))
 	w := httptest.NewRecorder()
 	h.PutConfig(w, req)
 
-	if w.Code != http.StatusForbidden {
-		t.Errorf("expected 403, got %d", w.Code)
+	if w.Code != http.StatusOK {
+		t.Errorf("expected 200, got %d", w.Code)
+	}
+
+	var resp map[string]any
+	if err := json.NewDecoder(w.Body).Decode(&resp); err != nil {
+		t.Fatalf("failed to decode response: %v", err)
+	}
+	if resp["restartRequired"] != true {
+		t.Errorf("expected restartRequired=true, got %v", resp["restartRequired"])
 	}
 }
 
