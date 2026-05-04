@@ -235,7 +235,9 @@ export interface ClientConfig {
 	refreshInterval?: string;
 	syncInterval?: string;
 	cacheDir?: string;
+	powerSaverMode?: boolean;
 	persistWarnings?: string[];
+	restartRequired?: boolean;
 }
 
 export interface ClientConfigUpdate {
@@ -243,6 +245,8 @@ export interface ClientConfigUpdate {
 	refreshInterval?: string;
 	syncInterval?: string;
 	cacheDir?: string;
+	powerSaverMode?: boolean;
+	appMode?: string;
 }
 
 /** Fetches the current runtime configuration from the server. */

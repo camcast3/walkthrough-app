@@ -13,6 +13,13 @@
 	let refreshInterval = $state(data.refreshInterval);
 	let syncInterval = $state(data.syncInterval);
 	let cacheDir = $state(data.cacheDir);
+	let powerSaverMode = $state(data.powerSaverMode);
+
+	// Setup form (non-client mode)
+	let setupServerUrl = $state(data.serverUrl ?? '');
+	let setupSaving = $state(false);
+	let setupError = $state('');
+	let restartRequired = $state(false);
 
 	// Form state
 	let saving = $state(false);
@@ -28,8 +35,8 @@
 	let updateProgress = $state('');
 	let updateError = $state('');
 
-	// Dynamic field count: 4 inputs + save button + check button + (optional) apply button
-	const BASE_FIELD_COUNT = 6; // indices 0-4 = form fields/save, 5 = check
+	// Dynamic field count: 4 inputs + PSM toggle + save button + check button + (optional) apply button
+	const BASE_FIELD_COUNT = 7; // indices 0-3 = inputs, 4 = PSM toggle, 5 = save, 6 = check
 	let fieldCount = $derived(
 		data.appMode === 'client' && updateInfo?.updateAvailable && !updating
 			? BASE_FIELD_COUNT + 1
@@ -38,9 +45,9 @@
 
 	// Gamepad / keyboard focus management
 	let focusedIdx = $state(0);
-	// Fixed size of 7: indices 0-3 = inputs, 4 = save, 5 = check-updates, 6 = apply-update.
-	// Index 6 is only navigable when fieldCount reaches 7 (update available).
-	let fieldRefs: (HTMLElement | null)[] = Array(7).fill(null);
+	// Fixed size of 8: indices 0-3 = inputs, 4 = PSM toggle, 5 = save, 6 = check-updates, 7 = apply-update.
+	// Index 7 is only navigable when fieldCount reaches 8 (update available).
+	let fieldRefs: (HTMLElement | null)[] = Array(8).fill(null);
 	let gamepad: GamepadNavigator | null = null;
 
 	onMount(() => {
@@ -80,7 +87,10 @@
 				focusField(Math.min(fieldCount - 1, focusedIdx + 1));
 				break;
 			case 'check':
-				if (focusedIdx >= 4) {
+				if (focusedIdx === 4) {
+					// PSM toggle
+					powerSaverMode = !powerSaverMode;
+				} else if (focusedIdx >= 5) {
 					// Save / check-updates / apply-update buttons
 					fieldRefs[focusedIdx]?.click();
 				} else {
@@ -155,7 +165,8 @@
 				serverUrl: serverUrl || undefined,
 				refreshInterval: refreshInterval || undefined,
 				syncInterval: syncInterval || undefined,
-				cacheDir: cacheDir || undefined
+				cacheDir: cacheDir || undefined,
+				powerSaverMode
 			});
 			// Surface any persistence warnings (settings applied but may not survive restart)
 			if (result.persistWarnings && result.persistWarnings.length > 0) {
@@ -170,6 +181,36 @@
 			saveError = err instanceof Error ? err.message : 'Failed to save settings';
 		} finally {
 			saving = false;
+		}
+	}
+
+	async function handleSetupSave(e?: SubmitEvent) {
+		e?.preventDefault();
+		const errors: Record<string, string> = {};
+		if (!setupServerUrl) {
+			errors.serverUrl = 'Server URL is required';
+		} else if (!setupServerUrl.startsWith('http://') && !setupServerUrl.startsWith('https://')) {
+			errors.serverUrl = 'Must start with http:// or https://';
+		}
+		validationErrors = errors;
+		if (Object.keys(errors).length > 0) return;
+
+		setupSaving = true;
+		setupError = '';
+		restartRequired = false;
+
+		try {
+			const result = await updateClientConfig({
+				serverUrl: setupServerUrl,
+				appMode: 'client'
+			});
+			if (result.restartRequired) {
+				restartRequired = true;
+			}
+		} catch (err) {
+			setupError = err instanceof Error ? err.message : 'Failed to save settings';
+		} finally {
+			setupSaving = false;
 		}
 	}
 
@@ -223,12 +264,78 @@
 		<a href="/" class="back-link" aria-label="Back to walkthroughs">← Back</a>
 		<div class="hero-icon" aria-hidden="true">⚙️</div>
 		<h1 class="hero-title">Settings</h1>
-		<p class="subtitle">Runtime configuration for client mode</p>
+		<p class="subtitle">{data.appMode === 'client' ? 'Runtime configuration for client mode' : 'Configure your walkthrough device'}</p>
 	</header>
 
 	{#if data.appMode !== 'client'}
-		<div class="banner warning" role="alert">
-			<span>⚠ Settings are only configurable in client mode.</span>
+		<div class="setup-section">
+			<div class="banner info" role="status">
+				<span>🔧 Configure this device to connect to a walkthrough server. Changes require a restart to take effect.</span>
+			</div>
+
+			{#if restartRequired}
+				<div class="banner success" role="status">
+					<span>✓ Settings saved — restart the application to apply changes.</span>
+				</div>
+			{/if}
+
+			{#if setupError}
+				<div class="banner warning" role="alert">
+					<span>⚠ {setupError}</span>
+				</div>
+			{/if}
+
+			<form class="settings-form" onsubmit={handleSetupSave} novalidate>
+				<!-- Server URL -->
+				<div class="field" class:field-error={!!validationErrors.serverUrl}>
+					<label class="field-label" for="setupServerUrl">
+						<span class="label-icon" aria-hidden="true">📡</span>
+						Server URL
+					</label>
+					<p class="field-desc">URL of the walkthrough server to sync from.</p>
+					<input
+						id="setupServerUrl"
+						class="field-input"
+						type="url"
+						placeholder="http://walkthroughs.local"
+						bind:value={setupServerUrl}
+						disabled={setupSaving}
+						autocomplete="off"
+						spellcheck={false}
+					/>
+					{#if validationErrors.serverUrl}
+						<span class="field-error-msg" role="alert">{validationErrors.serverUrl}</span>
+					{/if}
+				</div>
+
+				<div class="actions">
+					<button class="save-btn" type="submit" disabled={setupSaving}>
+						{#if setupSaving}
+							<span class="spinner" aria-hidden="true"></span>
+							Saving…
+						{:else}
+							💾 Save & Enable Client Mode
+						{/if}
+					</button>
+				</div>
+			</form>
+
+			{#if data.version}
+				<div class="field">
+					<div class="field-label">
+						<span class="label-icon" aria-hidden="true">📋</span>
+						App Info
+					</div>
+					<p class="field-desc">
+						Version: <code class="version-badge">{data.version}</code>
+						{#if data.appMode}
+							· Mode: <code class="version-badge">{data.appMode}</code>
+						{:else}
+							· Mode: <code class="version-badge">file (default)</code>
+						{/if}
+					</p>
+				</div>
+			{/if}
 		</div>
 	{:else}
 		<form class="settings-form" onsubmit={handleSave} novalidate>
@@ -336,6 +443,38 @@
 				{/if}
 			</div>
 
+			<!-- Power Saver Mode -->
+			<div class="field">
+				<div class="field-label-row">
+					<label class="field-label" for="powerSaverMode">
+						<span class="label-icon" aria-hidden="true">🔋</span>
+						Power Saver Mode
+					</label>
+					<button
+						id="powerSaverMode"
+						role="switch"
+						aria-checked={powerSaverMode}
+						class="toggle-btn"
+						class:on={powerSaverMode}
+						class:focused={focusedIdx === 4}
+						type="button"
+						disabled={saving}
+						onclick={() => (powerSaverMode = !powerSaverMode)}
+						onfocus={() => (focusedIdx = 4)}
+						use:setFieldRef={4}
+					>
+						<span class="toggle-track">
+							<span class="toggle-thumb"></span>
+						</span>
+						<span class="toggle-label">{powerSaverMode ? 'On' : 'Off'}</span>
+					</button>
+				</div>
+				<p class="field-desc">
+					Reduces refresh, sync, and connectivity probe frequency to conserve battery. No restart
+					required.
+				</p>
+			</div>
+
 			{#if saveError}
 				<div class="banner warning" role="alert">
 					<span>⚠ {saveError}</span>
@@ -351,11 +490,11 @@
 			<div class="actions">
 				<button
 					class="save-btn"
-					class:focused={focusedIdx === 4}
+					class:focused={focusedIdx === 5}
 					type="submit"
 					disabled={saving}
-					onfocus={() => (focusedIdx = 4)}
-					use:setFieldRef={4}
+					onfocus={() => (focusedIdx = 5)}
+					use:setFieldRef={5}
 				>
 					{#if saving}
 						<span class="spinner" aria-hidden="true"></span>
@@ -414,22 +553,22 @@
 				{#if updateInfo?.updateAvailable && !updating}
 					<button
 						class="update-btn apply-btn"
-						class:focused={focusedIdx === 6}
+						class:focused={focusedIdx === 7}
 						onclick={handleApplyUpdate}
 						disabled={updating}
-						onfocus={() => (focusedIdx = 6)}
-						use:setFieldRef={6}
+						onfocus={() => (focusedIdx = 7)}
+						use:setFieldRef={7}
 					>
 						⬆ Update Now
 					</button>
 				{/if}
 				<button
 					class="update-btn check-btn"
-					class:focused={focusedIdx === 5}
+					class:focused={focusedIdx === 6}
 					onclick={handleCheckUpdate}
 					disabled={checking || updating}
-					onfocus={() => (focusedIdx = 5)}
-					use:setFieldRef={5}
+					onfocus={() => (focusedIdx = 6)}
+					use:setFieldRef={6}
 				>
 					{#if checking}
 						<span class="spinner spinner-sm" aria-hidden="true"></span>
@@ -554,6 +693,79 @@
 		font-size: 0.8rem;
 		color: #6a6a8a;
 		margin-bottom: 0.65rem;
+	}
+
+	/* ── Power Saver toggle ─────────────────────────────────────────────────── */
+	.field-label-row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 0.3rem;
+	}
+
+	.toggle-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0.25rem 0;
+		color: #8888aa;
+		transition: color 0.2s;
+	}
+
+	.toggle-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.toggle-track {
+		position: relative;
+		display: flex;
+		align-items: center;
+		width: 2.5rem;
+		height: 1.25rem;
+		border-radius: 0.625rem;
+		background: rgba(42, 42, 68, 0.8);
+		border: 1px solid rgba(124, 106, 247, 0.2);
+		transition: background 0.2s, border-color 0.2s;
+	}
+
+	.toggle-btn.on .toggle-track {
+		background: rgba(84, 214, 106, 0.18);
+		border-color: rgba(84, 214, 106, 0.5);
+	}
+
+	.toggle-thumb {
+		position: absolute;
+		left: 0.125rem;
+		width: 0.875rem;
+		height: 0.875rem;
+		border-radius: 50%;
+		background: #55556a;
+		transition: transform 0.2s, background 0.2s;
+	}
+
+	.toggle-btn.on .toggle-thumb {
+		transform: translateX(1.25rem);
+		background: #54d66a;
+	}
+
+	.toggle-label {
+		font-size: 0.85rem;
+		font-weight: 600;
+		min-width: 1.75rem;
+	}
+
+	.toggle-btn.focused .toggle-track,
+	.toggle-btn:focus-visible .toggle-track {
+		outline: 3px solid rgba(124, 106, 247, 0.4);
+		outline-offset: 2px;
+	}
+
+	.toggle-btn:focus-visible {
+		outline: none;
 	}
 
 	.field-input {

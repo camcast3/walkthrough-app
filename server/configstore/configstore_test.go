@@ -108,3 +108,43 @@ func TestConcurrentGetSet(t *testing.T) {
 	}
 	wg.Wait()
 }
+
+// ── PowerSaverMode ────────────────────────────────────────────────────────────
+
+func TestPowerSaverMode_RoundTrip(t *testing.T) {
+	dir := t.TempDir()
+	path := filepath.Join(dir, "config.json")
+
+	s, err := Open(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Enable PSM and persist.
+	cfg := Config{PowerSaverMode: true}
+	if err := s.Set(cfg); err != nil {
+		t.Fatalf("Set: %v", err)
+	}
+
+	// Reload and verify the flag survived.
+	s2, err := Open(path)
+	if err != nil {
+		t.Fatalf("Open after Set: %v", err)
+	}
+	if !s2.Get().PowerSaverMode {
+		t.Error("expected PowerSaverMode=true after round-trip")
+	}
+
+	// Disable PSM — the flag should default back to false after reload.
+	cfg.PowerSaverMode = false
+	if err := s2.Set(cfg); err != nil {
+		t.Fatalf("Set(false): %v", err)
+	}
+	s3, err := Open(path)
+	if err != nil {
+		t.Fatalf("Open after Set(false): %v", err)
+	}
+	if s3.Get().PowerSaverMode {
+		t.Error("expected PowerSaverMode=false after setting to false")
+	}
+}
