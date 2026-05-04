@@ -233,8 +233,24 @@
 
 	{#if data.appMode !== 'client'}
 		<div class="banner warning" role="alert">
-			<span>⚠ Settings are only configurable in client mode.</span>
+			<span>⚠ Settings are only configurable in client mode. Set <code>APP_MODE=client</code> and <code>REMOTE_SERVER_URL</code> to connect to a walkthrough server.</span>
 		</div>
+		{#if data.version}
+			<div class="field">
+				<div class="field-label">
+					<span class="label-icon" aria-hidden="true">📋</span>
+					App Info
+				</div>
+				<p class="field-desc">
+					Version: <code class="version-badge">{data.version}</code>
+					{#if data.appMode}
+						· Mode: <code class="version-badge">{data.appMode}</code>
+					{:else}
+						· Mode: <code class="version-badge">file (default)</code>
+					{/if}
+				</p>
+			</div>
+		{/if}
 	{:else}
 		<form class="settings-form" onsubmit={handleSave} novalidate>
 			<!-- Server URL -->

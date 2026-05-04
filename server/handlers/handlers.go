@@ -200,6 +200,12 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		h.RemoteSource.SetCacheDir(body.CacheDir)
 	}
 
+	// Capture the current PSM state before persisting so we can detect actual changes.
+	var oldPSM bool
+	if h.ConfigStore != nil {
+		oldPSM = h.ConfigStore.Get().PowerSaverMode
+	}
+
 	// Persist updated settings to the config file.
 	var persistWarnings []string
 	if h.ConfigStore != nil {
@@ -225,11 +231,13 @@ func (h *Handler) PutConfig(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	// Apply PSM interval overrides when PowerSaverMode is being toggled.
+	// Apply PSM interval overrides only when the PowerSaverMode state actually changes.
 	// If toggling ON: use the PSM presets live, regardless of user-configured values.
 	// If toggling OFF: restore live intervals to the user-configured values (just
 	// persisted above), falling back to defaults when no override exists.
-	if body.PowerSaverMode != nil {
+	// Skipping when the state is unchanged prevents accidental interval resets on
+	// every settings save (the client always sends powerSaverMode as a boolean).
+	if body.PowerSaverMode != nil && *body.PowerSaverMode != oldPSM {
 		var effectiveRefresh, effectiveSync, effectiveProbe time.Duration
 		if *body.PowerSaverMode {
 			effectiveRefresh = configstore.PSMRefresh

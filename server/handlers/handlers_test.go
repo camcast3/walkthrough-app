@@ -329,6 +329,33 @@ func TestPutConfig_PowerSaverMode_RestoresIntervalsOnOff(t *testing.T) {
 	}
 }
 
+func TestPutConfig_PowerSaverMode_NoopWhenAlreadyOff(t *testing.T) {
+	h, _ := newClientTestHandler(t)
+
+	// Set a custom refresh interval (PSM stays off).
+	req := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"refreshInterval":"3m"}`))
+	w := httptest.NewRecorder()
+	h.PutConfig(w, req)
+	if w.Code != http.StatusOK {
+		t.Fatalf("set interval: expected 200, got %d", w.Code)
+	}
+	if got := h.RemoteSource.GetInterval(); got != 3*time.Minute {
+		t.Fatalf("expected 3m after explicit set, got %v", got)
+	}
+
+	// Save settings with powerSaverMode:false (the client always sends this).
+	// Intervals must NOT be reset to defaults.
+	req2 := httptest.NewRequest(http.MethodPut, "/api/config", strings.NewReader(`{"powerSaverMode":false}`))
+	w2 := httptest.NewRecorder()
+	h.PutConfig(w2, req2)
+	if w2.Code != http.StatusOK {
+		t.Fatalf("noop save: expected 200, got %d", w2.Code)
+	}
+	if got := h.RemoteSource.GetInterval(); got != 3*time.Minute {
+		t.Errorf("expected interval preserved at 3m, got %v (was incorrectly reset)", got)
+	}
+}
+
 // ── ListWalkthroughs ──────────────────────────────────────────────────────────
 
 

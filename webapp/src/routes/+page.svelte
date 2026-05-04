@@ -244,6 +244,7 @@
 
 <div class="page">
 	<header class="hero">
+		<a href="/settings" class="settings-gear" aria-label="Settings" title="Settings">⚙</a>
 		<div class="hero-icon" aria-hidden="true">🎮</div>
 		<h1 class="hero-title">Walkthroughs</h1>
 		<p class="subtitle">Select a walkthrough to continue</p>
@@ -363,8 +364,25 @@
 	}
 
 	.hero {
+		position: relative;
 		text-align: center;
 		padding: 2.5rem 0 2rem;
+	}
+
+	.settings-gear {
+		position: absolute;
+		top: 1rem;
+		right: 0;
+		font-size: 1.4rem;
+		text-decoration: none;
+		color: #6a6a8a;
+		transition: color 0.2s;
+		padding: 0.25rem;
+	}
+
+	.settings-gear:hover,
+	.settings-gear:focus-visible {
+		color: #a89df7;
 	}
 
 	.hero-icon {
