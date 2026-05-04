@@ -1,0 +1,834 @@
+{
+  "$schema": "../walkthrough.schema.json",
+  "id": "tales-of-berseria-main",
+  "game": "Tales of Berseria",
+  "title": "Main Story Walkthrough",
+  "author": "GameFAQs",
+  "source_url": "https://gamefaqs.gamespot.com/ps4/167071-tales-of-berseria/faqs/74406/walkthrough-prologue",
+  "attribution": "This walkthrough references content from the GameFAQs guide community (gamefaqs.gamespot.com). All credit for original walkthrough research belongs to the GameFAQs guide contributors. Content has been structured and formatted for interactive use.",
+  "created_at": "2026-05-04",
+  "cover_image": "https://images.igdb.com/igdb/image/upload/t_cover_big/co1rcn.jpg",
+  "hltb": {
+    "main_story": 42.5,
+    "main_story_sides": 58.0,
+    "completionist": 84.0
+  },
+  "sections": [
+    {
+      "id": "prologue-a-wolfskin",
+      "title": "Prologue: A Wolfskin",
+      "content": "# Prologue: A Wolfskin\n\n## Overview\n\nTales of Berseria opens **three years before** the main story in the coastal village of **Aball** on the island of Eastgand. You play as **Velvet Crowe**, a teenage girl living with her younger brother **Laphicet** — a frail boy who shows mysterious spiritual sensitivity — and her brother-in-law **Artorius Collbrande**, a renowned exorcist who has devoted his life to protecting humanity from daemons.\n\nThe prologue is a linear tutorial sequence that teaches the game's basic mechanics and ends in the defining tragedy that shapes every event in the game.\n\n<!-- checkpoint: aball-arrival | Arrive in Aball Village -->\n\n> 🏆 **CRITICAL — Skits Are Missable!** Tales of Berseria's **\"Avid Reader\"** trophy/achievement requires watching **ALL skits** throughout the game. Skits appear as speech-bubble icons on the world map and in towns. They **expire automatically** as the story advances. The moment you see a skit icon, watch it. Skipping even one can lock you out of the achievement for the entire playthrough. This warning applies from this very moment forward.\n\n## Aball Village — Free Exploration\n\nAfter the opening cutscene showing Velvet helping Laphicet with his physical exercises, you gain control of Velvet in Aball. Spend time exploring before triggering story events.\n\n**Items to Collect in Aball (Prologue):**\n- **Apple Gel ×3** — wooden chest near the fishing docks on the east side of the village\n- **Orange Gel ×2** — inside the Crowe family home (second floor shelf, interact to pick up)\n- **Life Bottle ×1** — fishermen's supply shed near the waterfront\n- **Treat (Recipe Card)** — given by the village elder near the central well if you speak to him during the free exploration\n\n**NPCs to Speak With:**\n- **Laphicet** — He'll talk about Malakhim (the game's term for spiritual beings / angels) and his illness. His innocence and wisdom are established here.\n- **Artorius Collbrande** — Briefly explains his role as an exorcist and the current threat of daemons spreading daemonblight.\n- **Village Elder** — Shares local lore about the **Scarlet Night** legend, a blood-red moon under which daemon activity intensifies dramatically.\n- **Various Villagers** — Provide background on the political situation: the Abbey (a religious order of exorcists) is growing in power, promising protection from daemons.\n\n**Before Triggering the Next Story Beat:**\nWatch all skit icons that appear during this free exploration. These early skits establish Velvet and Laphicet's relationship.\n\n<!-- checkpoint: aball-exploration-done | Aball Exploration Complete -->\n\n## Combat Tutorial — The First Battle\n\nBefore the Scarlet Night, a small daemon threatens the outskirts of the village. This tutorializes the **Liberation Linear Motion Battle System (L-LMBS)**:\n\n### Movement and Actions\n- **Movement:** Full 3D movement on the battlefield. Use the left stick to maneuver around enemies.\n- **Normal Attacks:** Press □ (PS4) / X (Xbox/PC) to chain standard attacks. Velvet chains up to 3 normals, then transitions into an Arte combo.\n- **Artes:** Map Artes to □+directional inputs on the Artes menu. Hold □ and press a direction to trigger the assigned Arte mid-combo.\n- **Step (Dodge):** Press ○ (PS4) / B (Xbox/PC) to sidestep. A well-timed Step just before an enemy attack lands triggers **Step Guard**, briefly stunning weaker enemies.\n- **Guard:** Hold △ (PS4) / Y (Xbox/PC) to block frontal attacks. Does not block from behind — position matters.\n- **Items:** Open the battle menu with the touchpad / Select and select items, or use shortcut slots set in the pause menu.\n\n### Velvet's Unique Mechanics\n- **Daemon Arm (Claw Attacks):** Velvet's left arm is her daemon arm — it deals bonus damage on charged claw strikes and absorbs souls from defeated enemies.\n- **Break Soul — Consuming Claw:** Once Velvet has collected **Souls** (blue orbs that appear when she deals damage and on enemy defeat), she can activate Break Soul. During Break Soul, she unleashes her daemon power: attack speed and damage increase dramatically and her Artes change form. She also gains access to the **Devour** action to instantly consume weaker enemies.\n- **Soul Gauge:** The orbs above Velvet's HP bar represent accumulated Souls. Using Break Soul costs Souls and cannot be used without them.\n\n### First Enemy: Daemon Wolf\n- **HP:** ~800 (Prologue scaling)\n- **Weakness:** Rapid multi-hit combos interrupt its stance\n- **Strategy:** The game walks you through the basics step by step. Use Velvet's chain attacks, practice dodging the pounce attack, and use your first Arte when prompted. There's no real threat of dying here.\n\n<!-- checkpoint: first-combat-done | First Combat Tutorial Completed -->\n\n## The Scarlet Night\n\n<!-- checkpoint: scarlet-night-begins | The Scarlet Night Begins -->\n\nAs night falls over Aball, the moon turns blood-red — the **Scarlet Night**. A powerful daemon force descends on the village. This is not a random attack; Artorius has been **waiting for this night**.\n\n**Story Events (in order):**\n1. Daemons swarm the village; Velvet fights to protect the villagers and Laphicet.\n2. Artorius reveals he has been orchestrating events: he lured the Abbey's malevolence-born daemon here deliberately.\n3. In an act of cold calculation, **Artorius sacrifices Laphicet** — using his body as a vessel for the Empyrean **Innominat** to awaken. This act transforms Artorius into the world's first **Shepherd**, humanity's divine guardian.\n4. Velvet, consumed by grief and hatred, is overtaken by a daemon that fuses with her arm. She becomes a **Therion** — a supremely rare type of daemon that can devour other daemons.\n5. She attacks Artorius, but he is now far beyond her power. She is defeated, captured, and imprisoned.\n\n> **Lore Note:** Artorius's reasoning is utilitarian: by sacrificing one life to become the Shepherd, he can save thousands. His wife **Celica** (Velvet's older sister) died of daemonblight years prior, and Artorius has dedicated everything since to ending that suffering for humanity. This does not make him a simple villain — the game deliberately constructs him as someone with a coherent, even sympathetic worldview. Velvet's \"evil\" is her refusal to accept his logic.\n\n## Boss: Daemon of the Crimson Night\n\n<!-- checkpoint: daemon-boss-prologue | Defeat the Prologue Daemon -->\n\nBefore the climax cutscene, you face a powerful daemon in a full-scale battle. This fight is designed to showcase Velvet at peak power briefly — before everything is taken from her.\n\n- **HP:** ~10,000\n- **Weakness:** Rapid multi-hit attacks from the front; Back-attack from behind for bonus damage\n- **Strategy:** Use all available Artes freely. Activate Break Soul whenever your Soul gauge fills for maximum damage. This is a tutorial for Break Soul's full potential. You cannot lose this fight (if defeated, a cutscene rescues you), but winning with full health earns bonus EXP.\n- **Reward:** Story progression + Significant EXP\n\n> 🏆 **Achievement: A Wolfskin's Wrath** — Unlocked automatically upon completing the prologue boss and watching the subsequent cutscenes.\n\n## Aftermath — Three Years of Imprisonment\n\n<!-- checkpoint: prologue-complete | Prologue Complete -->\n\nFollowing the Scarlet Night, Velvet is transported to **Titania**, a remote prison island operated by the Abbey. The chapter ends with a **three-year time skip**. During the intervening years:\n\n- Artorius establishes and leads the **Abbey**, a global religious organization of exorcists empowered to hunt daemons.\n- The Abbey gains sweeping political authority across the continent of Midgand, positioning Artorius as humanity's savior — the Shepherd.\n- Velvet remains imprisoned on Titania. As a Therion, she must consume daemons regularly or go feral. The Abbey feeds her captured daemons to keep her contained.\n- Her singular focus becomes **killing Artorius** — not to save the world, but purely out of personal revenge.\n\n> **Save your game now.** Chapter 1 begins immediately and the game's core mechanics, parties, and systems open up dramatically. The tone shifts from tutorial to full action RPG.\n",
+      "checkpoints": [
+        {
+          "id": "aball-arrival",
+          "label": "Arrive in Aball Village"
+        },
+        {
+          "id": "aball-exploration-done",
+          "label": "Aball Exploration Complete"
+        },
+        {
+          "id": "first-combat-done",
+          "label": "First Combat Tutorial Completed"
+        },
+        {
+          "id": "scarlet-night-begins",
+          "label": "The Scarlet Night Begins"
+        },
+        {
+          "id": "daemon-boss-prologue",
+          "label": "Defeat the Prologue Daemon"
+        },
+        {
+          "id": "prologue-complete",
+          "label": "Prologue Complete"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-skits-missable",
+          "type": "warning",
+          "text": "🏆 **MISSABLE — Watch ALL Skits!** The 'Avid Reader' trophy requires watching every skit in the game. Skits expire as the story progresses. Watch every skit the instant it appears throughout the entire playthrough.",
+          "note": "Skits appear as speech-bubble icons on the world map and in town areas. Never skip them."
+        },
+        {
+          "id": "warning-grade-system",
+          "type": "note",
+          "text": "**Grade System:** Tales of Berseria tracks 'Grade' — a secondary currency earned in battles based on performance (high combo counts, no items used, fast kills, no damage taken). Grade carries over to New Game+ and is used to purchase bonuses like keeping your levels, artes, and items. Try to maintain strong battle performance throughout the game.",
+          "note": "Grade is also deducted for using items, dying, taking large damage, and slow battles."
+        },
+        {
+          "id": "warning-sub-events-time-sensitive",
+          "type": "warning",
+          "text": "⚠️ **Sub-Events Are Time-Sensitive!** Many Sub-Events (the game's term for side quests) are only available during specific story windows. Some expire permanently when you advance the main story. Always check the Sub-Event board at Guildhalls and talk to NPCs with '!' markers before progressing.",
+          "note": "Key sub-event lockout points are flagged throughout this guide with POINT OF NO RETURN warnings."
+        },
+        {
+          "id": "collect-apple-gels-aball",
+          "type": "collectible",
+          "text": "Collect **Apple Gel ×3** from the wooden chest near the fishing docks on the east side of Aball."
+        },
+        {
+          "id": "collect-orange-gels-aball",
+          "type": "collectible",
+          "text": "Collect **Orange Gel ×2** from the shelf inside the Crowe family home (second floor)."
+        },
+        {
+          "id": "collect-life-bottle-aball",
+          "type": "collectible",
+          "text": "Collect **Life Bottle ×1** from the fishermen's supply shed near the waterfront."
+        },
+        {
+          "id": "talk-to-laphicet-aball",
+          "type": "step",
+          "text": "Speak with **Laphicet** in the village. His dialogue about Malakhim and his illness establishes the emotional core of the story."
+        },
+        {
+          "id": "talk-to-artorius-aball",
+          "type": "step",
+          "text": "Speak with **Artorius Collbrande** to learn about his role as an exorcist and the current daemon threat."
+        },
+        {
+          "id": "talk-to-village-elder",
+          "type": "step",
+          "text": "Speak with the **Village Elder** near the central well to receive the **Treat (Recipe Card)** and hear lore about the Scarlet Night."
+        },
+        {
+          "id": "watch-all-skits-aball",
+          "type": "step",
+          "text": "Watch all skit icons (speech-bubble icons) that appear during free exploration of Aball. These establish Velvet and Laphicet's relationship."
+        },
+        {
+          "id": "complete-combat-tutorial",
+          "type": "step",
+          "text": "Complete the combat tutorial against the Daemon Wolf. Practice the Step dodge and land your first Arte combo.",
+          "note": "Chaining Normal Attacks → Artes is the foundation of all combat in Tales of Berseria."
+        },
+        {
+          "id": "boss-daemon-crimson-night",
+          "type": "boss",
+          "text": "**BOSS: Daemon of the Crimson Night** — Use all Artes and activate Break Soul with the full Soul gauge. You cannot permanently lose this fight, but winning without dying grants bonus EXP.",
+          "note": "HP: ~10,000. Use Break Soul (Consuming Claw) for the highest damage window."
+        },
+        {
+          "id": "watch-scarlet-night-cutscenes",
+          "type": "step",
+          "text": "Watch the full Scarlet Night cutscene sequence — Artorius's sacrifice of Laphicet, Velvet's transformation into a Therion, and her imprisonment. These cannot be skipped on a first playthrough."
+        },
+        {
+          "id": "save-after-prologue",
+          "type": "step",
+          "text": "**Save your game** after the prologue ends and the title card for Chapter 1 appears. The game opens up significantly from here."
+        }
+      ]
+    },
+    {
+      "id": "chapter-1-escape-from-titania",
+      "title": "Chapter 1: Escape from Titania",
+      "content": "# Chapter 1: Escape from Titania\n\n## Overview\n\nThree years have passed. **Velvet Crowe** is now 19 years old, hardened by years of captivity on **Titania** — a remote prison island where the Abbey incarcerates its most dangerous daemonic prisoners. Velvet's singular obsession is escaping and killing Artorius. When another **Scarlet Night** arrives and a mysterious malak named **Seres** offers her a path to freedom, she seizes it without hesitation.\n\nThis chapter introduces full party gameplay (initially just Velvet and Seres), expands the combat system, and ends with a dramatic boss confrontation before Velvet reaches the mainland.\n\n<!-- checkpoint: titania-prison-start | Begin Titania Prison Escape -->\n\n> 🏆 **Achievement: The Prisoner** — Unlocked automatically at the start of this chapter when the three-year time skip is confirmed.\n\n## Titania Prison — The Cell Block\n\nYou begin in Velvet's cell. The prison is divided into multiple floors, with daemon inmates in various cells. Explore thoroughly before making your escape.\n\n### Combat Expansion: Two-Character Party (Velvet + Seres)\n\n**Seres** is a **malak** — one of the spiritual beings (called Malakhim) who serve as partners to exorcists. She is assigned to observe Velvet but assists her escape. In combat:\n- Seres uses **healing and support artes** to keep Velvet's HP topped up\n- She has no Break Soul of her own but can boost Velvet's Soul accumulation\n- You control Velvet directly; Seres acts autonomously based on AI strategy settings\n\n**New Mechanic: Tactics Menu**\n- Access the **Tactics** menu during battle (pause → Battle Menu → Tactics) to set AI behavior for allies\n- Options include \"Heal frequently,\" \"Prioritize offense,\" \"Conserve items,\" etc.\n- Setting Seres to \"Prioritize healing\" on this chapter's boss is recommended\n\n### Cell Block Exploration\n\n**Treasure Chests in Titania (Cell Block):**\n- **Apple Gel ×4** — northeastern corner of Floor 1, between two empty cells\n- **Orange Gel ×3** — Floor 2, past the first group of guards, hidden behind a collapsed wall section\n- **Specific Weapon: Venom Blade (Rokurou's weapon)** — small room off the main corridor on Floor 2 (important — collect this before recruiting Rokurou)\n- **Panacea Bottle ×2** — Floor 3, near the warden's office door\n- **Amber Gel ×2** — basement level, guarded by a daemon\n\n**NPCs and Prisoners:**\n- Various daemon inmates are hostile on sight; fight or avoid them\n- One imprisoned human begs for help — speak to him for flavor text about the Abbey's cruelty (no gameplay reward but fleshes out the world)\n\n> All prison areas become inaccessible once you escape Titania. Collect **every chest** on every floor before reaching the exit point.\n\n<!-- checkpoint: titania-cell-block-cleared | Clear Titania Cell Block -->\n\n## Recruiting Rokurou Rangetsu\n\nOn Floor 3 of the prison, Velvet discovers **Rokurou Rangetsu** — a daemon swordsman imprisoned for killing an important Abbey official. He is also trying to escape.\n\n<!-- checkpoint: rokurou-recruited | Rokurou Rangetsu Joins the Party -->\n\n**Rokurou's Stats and Role:**\n- **Weapon:** Dual short swords (one in each hand)\n- **Specialty:** High-speed physical DPS — chains the most hits per second of any character\n- **Break Soul — Surge Mode:** Rokurou shifts to a more aggressive stance, changing his arte set and dealing additional hits with each attack\n- **Unique Trait: Rangetsu Warrior** — Rokurou has a hidden mechanic where certain Artes deal additional bonus damage to specific enemy types (Armored, Daemons, Human)\n\n**Equipping Rokurou:** Open the Equipment menu and give Rokurou the **Venom Blade** you found in the cell block. This is a significant upgrade over his starting weapon.\n\n> 🏆 **Achievement: Fellow Inmate** — Unlocked when Rokurou joins the party.\n\n### Combat With Three Characters\n\nWith Rokurou added, you now control a 3-person active party (Velvet, Seres, Rokurou). You can switch control between characters using the D-pad during battle.\n\n**Recommended Formation:**\n- **Active:** Velvet (player-controlled), Rokurou (offense AI), Seres (healer AI)\n- Set Rokurou to \"Prioritize offense\" and Seres to \"Heal HP frequently\" in Tactics\n\n## Prison Warden — Mini-Boss\n\nBefore the final escape, the prison's daemon warden blocks the path to the docks.\n\n- **HP:** ~12,000\n- **Weakness:** Strike-type artes (Rokurou's slashes are ideal)\n- **Attack Patterns:** Sweeping claw attacks (dodge to the side), poison breath (step through it), charging ram (jump to the side and punish the recovery)\n- **Strategy:** Switch to Rokurou for this fight — his rapid dual-blade combos tear through the Warden's HP. Have Velvet use Break Soul when the Soul gauge fills for burst damage. Keep Seres in healer mode.\n- **Reward:** Prison Key (allows access to the dock level)\n\n<!-- checkpoint: prison-warden-defeated | Defeat the Prison Warden -->\n\n## The Dock Level and Seres's Sacrifice\n\nReaching the docks, Velvet and Rokurou discover a ship that can take them to the mainland. However, Abbey reinforcements arrive and Seres confronts them — revealing that she was sent not just to observe, but because she has her own reasons for helping Velvet escape.\n\nIn the ensuing confrontation, Seres is **consumed and transformed** by the power she unleashes fighting the Abbey forces. She becomes a daemon herself — and Velvet must fight her.\n\n## Boss: Seres (Transformed)\n\n<!-- checkpoint: seres-boss-fought | Defeat Transformed Seres -->\n\nThis is the chapter's primary boss fight. Seres is fast, hits hard, and uses powerful malak artes.\n\n- **HP:** ~25,000 (Normal difficulty)\n- **Weakness:** Velvet's Consuming Claw (Break Soul) deals bonus damage to malak-type enemies\n- **Attack Patterns:**\n  - **Holy Lance:** A tracking projectile that homes in on your position — sidestep at the last moment\n  - **Light Burst:** AoE explosion centered on Seres — dash away or use Break Soul to tank through it\n  - **Wing Slash:** A rapid forward dash slash that can chain twice — step-guard the second hit for a critical counter window\n- **Strategy:** Open with Rokurou's rapid combos to build Soul gauge quickly. Once Velvet has 3+ Souls, activate Break Soul and use Consuming Claw directly on Seres. This is the fastest way to deal significant damage. Use Seres's old Tactics setting — she'll use items on herself when in reserve, but switch Rokurou to \"Use items freely\" temporarily. Heal when HP drops below 40%.\n- **Reward:** Titania Warden's Ring (accessory for Velvet, +DEF), story progression\n\n> After this boss, **all Titania areas are permanently inaccessible.** There is no returning. Ensure you have collected every chest and interacted with every NPC before the boss fight triggers the point of no return.\n\n## Escape — Boarding the Ship\n\n<!-- checkpoint: titania-escaped | Escaped from Titania -->\n\nFollowing Seres's defeat, the cutscene shows Velvet, Rokurou, and what remains of Seres boarding a small vessel and fleeing into the ocean. Seres survives in a changed state that will have story implications later.\n\nThe ship sails toward the mainland continent.\n\n> 🏆 **Achievement: A New Beginning** — Unlocked when the escape sequence concludes and you reach the open sea.\n\n## System Unlock: Ship Travel\n\nAfter escaping Titania, a simplified world map opens, showing the coastline of **Eastgand** and the routes to mainland ports. This is the beginning of the overworld navigation system that expands significantly throughout the game.\n\n> **Save and equip your party** on the ship before disembarking. Equip any new gear you collected in Titania. Set your Tactics carefully — you'll face real combat without tutorial guardrails starting in the next chapter.\n",
+      "checkpoints": [
+        {
+          "id": "titania-prison-start",
+          "label": "Begin Titania Prison Escape"
+        },
+        {
+          "id": "titania-cell-block-cleared",
+          "label": "Clear Titania Cell Block"
+        },
+        {
+          "id": "rokurou-recruited",
+          "label": "Rokurou Rangetsu Joins the Party"
+        },
+        {
+          "id": "prison-warden-defeated",
+          "label": "Defeat the Prison Warden"
+        },
+        {
+          "id": "seres-boss-fought",
+          "label": "Defeat Transformed Seres"
+        },
+        {
+          "id": "titania-escaped",
+          "label": "Escaped from Titania"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-titania-nonreturn",
+          "type": "warning",
+          "text": "⚠️ **POINT OF NO RETURN — Titania Prison:** Once you board the escape ship, you can **never return** to Titania. Collect every chest and explore every floor before triggering the final boss. All collectibles here are permanently missable."
+        },
+        {
+          "id": "collect-apple-gel-titania",
+          "type": "collectible",
+          "text": "Collect **Apple Gel ×4** from the northeastern corner of Floor 1, between two empty cells."
+        },
+        {
+          "id": "collect-orange-gel-titania",
+          "type": "collectible",
+          "text": "Collect **Orange Gel ×3** from Floor 2, past the first guard group, behind the collapsed wall section."
+        },
+        {
+          "id": "collect-venom-blade",
+          "type": "collectible",
+          "text": "Collect **Venom Blade** (Rokurou's weapon) from the small room off the main corridor on Floor 2. Equip this to Rokurou immediately after he joins."
+        },
+        {
+          "id": "collect-panacea-bottles",
+          "type": "collectible",
+          "text": "Collect **Panacea Bottle ×2** from Floor 3, near the warden's office door."
+        },
+        {
+          "id": "collect-amber-gel-basement",
+          "type": "collectible",
+          "text": "Collect **Amber Gel ×2** from the basement level (guarded by a daemon). Fight the daemon for extra EXP."
+        },
+        {
+          "id": "recruit-rokurou",
+          "type": "step",
+          "text": "Find **Rokurou Rangetsu** on Floor 3 and recruit him to the party. Equip the Venom Blade to him immediately."
+        },
+        {
+          "id": "set-tactics-seres-healer",
+          "type": "step",
+          "text": "Set **Seres's Tactics** to 'Heal HP frequently' and **Rokurou's Tactics** to 'Prioritize offense' in the Tactics menu.",
+          "note": "Maintaining these AI settings reduces the need for manual healing during the chapter's boss fights."
+        },
+        {
+          "id": "boss-prison-warden",
+          "type": "boss",
+          "text": "**MINI-BOSS: Prison Warden** — Switch to Rokurou and use rapid dual-blade combos. Dodge poison breath and punish the recovery after the charging ram. HP: ~12,000."
+        },
+        {
+          "id": "warning-seres-boss-ponr",
+          "type": "warning",
+          "text": "⚠️ Reaching the dock area with Seres triggers the **Seres Boss Fight** immediately — no opportunity to return to collect missed items. Confirm you have all chests before descending to the docks."
+        },
+        {
+          "id": "boss-seres-transformed",
+          "type": "boss",
+          "text": "**BOSS: Seres (Transformed)** — Use Rokurou to build Velvet's Soul gauge quickly, then activate Break Soul (Consuming Claw) for burst damage. Sidestep Holy Lance tracking projectiles. HP: ~25,000.",
+          "note": "If HP drops below 40%, use Apple Gel manually — Seres's AI heals in reserve, not in combat."
+        },
+        {
+          "id": "equip-gear-post-titania",
+          "type": "step",
+          "text": "Before disembarking from the escape ship, open the Equipment menu and equip all new items collected in Titania. Set up Arte slots for Velvet and Rokurou."
+        },
+        {
+          "id": "watch-skits-titania",
+          "type": "step",
+          "text": "Watch all new skit icons that appear after Rokurou joins and after the escape. Early skits with Rokurou and Velvet banter are required for the Avid Reader trophy."
+        }
+      ]
+    },
+    {
+      "id": "chapter-2-the-bloodwing-brigands",
+      "title": "Chapter 2: The Bloodwing Brigands",
+      "content": "# Chapter 2: The Bloodwing Brigands\n\n## Overview\n\nVelvet and Rokurou reach the mainland port of **Zekson** and begin their search for Artorius across the continent of Midgand. This chapter introduces the game's **open exploration**, the **Sub-Event (side quest) system**, full shops and equipment upgrades, and two key new party members: the chaotic witch **Magilou** and the Empyrean-touched pirate **Eizen**.\n\nThis is the first chapter where you can fall significantly behind if you rush the main story — take time to complete Sub-Events and explore towns fully.\n\n<!-- checkpoint: port-zekson-arrival | Arrive at Port Zekson -->\n\n## Port Zekson — First Hub City\n\nZekson is a bustling port city and your first real hub. Spend significant time here before heading north.\n\n### Shops in Port Zekson\n\n**Weapon Shop — \"Blades of Zekson\":**\n| Item | Cost | Who Uses It |\n|------|------|-------------|\n| Carver's Edge | 800 Gald | Velvet |\n| Twin Fang Blades | 950 Gald | Rokurou |\n| Exorcist's Blade | 1,100 Gald | Velvet (higher DEF stat) |\n\n**Item Shop — \"Zekson General\":**\n| Item | Cost | Notes |\n|------|------|-------|\n| Apple Gel | 80 Gald | Basic HP recovery |\n| Orange Gel | 200 Gald | Full HP recovery (buy 10+) |\n| Panacea Bottle | 150 Gald | Cures status effects |\n| Life Bottle | 500 Gald | Revives KO'd character |\n| Melange Gel | 120 Gald | Recovers HP/TP slowly in battle |\n\n**Cooking Ingredients:**\nThe food shop stocks basic ingredients. Purchase **Tomato ×5**, **Bread ×3**, and **Egg ×5** to enable early cooking recipes once you have the cooking mechanic unlocked.\n\n> 🏆 **Achievement: Gourmet Taste** — Cook 50 different recipes throughout the game. Start building your ingredient stockpile now. Every city has a food vendor with different ingredients — always purchase new ones you haven't seen before.\n\n### Guildhall — Sub-Events\n\nThe **Guildhall** in Zekson introduces the **Sub-Event** system. Sub-Events are the game's side quests, posted on boards at Guildhalls in every city. Some are also triggered by talking to NPCs with '!' markers.\n\n**Sub-Events Available in Port Zekson (First Visit):**\n\n1. **\"A Plea From the Docks\"** — A fisherman's boat was damaged by a daemon. Investigate the pier and defeat the Dock Daemon (moderate fight, reward: Amber Gel ×5 + 800 Gald).\n2. **\"Missing Cargo\"** — A merchant's shipment went missing. Talk to three different NPCs along the waterfront to track down the thief. Reward: Equipment upgrade material + 1,200 Gald.\n3. **\"The Daemon Informant\"** — An Abbey informant is lurking in the city. Track him down using clues from the innkeeper. Reward: Lore book + 1,500 Gald.\n\n> Always complete the Guildhall's currently listed sub-events before advancing the main story. Sub-events refresh and update when you reach new story checkpoints, but older ones can expire.\n\n<!-- checkpoint: zekson-sub-events-done | Complete Port Zekson Sub-Events -->\n\n## The Road North — Zekson Gate Road\n\nLeaving Zekson through the north gate, you enter **Zekson Gate Road** — the first proper field area of the game. This is a moderately sized outdoor area with random encounters and treasure chests.\n\n**Field Enemy Tips:**\n- Enemies visible on the field can be ambushed: approach from behind for a **Back Attack** (your team gets extra turns, enemy takes reduced first-round defense). Always try to strike first.\n- **Overlimit** builds as you land hits; when the gauge fills, activate **Overlimit Mode** for a temporary damage/arte-use boost.\n\n**Treasure Chests on Zekson Gate Road:**\n- **Iron Ore ×3** — left fork off the main path (west side)\n- **Apple Gel ×5** — open field near the central campsite marker\n- **Silver Ore ×2** — northeast path toward the hills\n- **Beast Fang ×4** — drop from the Garm wolf enemies; also findable in the hidden alcove near the eastern cliff\n- **Map Completion Reward** — collect all visible chests and return to Zekson's Guildhall for a bonus **Orange Gel ×8 + 2,000 Gald**\n\n### Cooking System\n\nAt the **campsite marker** on Zekson Gate Road, you can cook for the first time. Cooking provides stat buffs for the next few battles:\n\n- **Grilled Fish** — Small ATK boost for 30 minutes (requires Zekson Fish × 2, which you can buy at Zekson's food shop)\n- **Vegetable Soup** — Moderate DEF boost + minor HP recovery (requires Tomato ×2, Herb ×1)\n- **Treat** (from Aball recipe card) — Small EXP boost\n\n> Cooking ingredients carry over between campsites. Always cook before major boss fights for a meaningful stat advantage.\n\n<!-- checkpoint: zekson-road-cleared | Clear Zekson Gate Road -->\n\n## Hellawes — The Frozen City\n\nNorth of Zekson Gate Road lies **Hellawes**, a snow-covered port city with a severe, puritanical atmosphere. The Abbey has strong influence here.\n\n### Arrival in Hellawes\n\nVelvet and Rokurou arrive to news: a **witch** has been captured and is scheduled for public execution in the town square. This is **Magilou** — her full name is **Magillanica Lou Mayvin** — a powerful but eccentric sorceress who was once apprenticed to **Melchior**, one of the Abbey's highest-ranking sorcerers (called a Legate).\n\n<!-- checkpoint: hellawes-arrival | Arrive at Hellawes -->\n\n### Shops in Hellawes\n\n**Weapon Shop — \"Northern Arms\":**\n| Item | Cost | Notes |\n|------|------|-------|\n| Arctic Lance | 1,400 Gald | Eleanor's weapon type (not yet available) |\n| Frost Gauntlet | 1,800 Gald | Velvet — upgrade from Carver's Edge |\n| Demon's Twin | 1,600 Gald | Rokurou upgrade |\n\n**Specialty Shop — \"Witch's Market\":**\nUnique to Hellawes — sells rare materials and a few exclusive recipes:\n- **Mystic Herb ×5** — magical ingredient for advanced recipes\n- **Blessed Salt** — crafting material for accessory upgrades\n- **Recipe: Clam Chowder** — buy this; it provides a significant DEF/RES boost\n\n### Sub-Events in Hellawes\n\n**Sub-Events Available (First Visit):**\n\n1. **\"The Frozen Shore\"** — A child is lost outside the city walls. Escort her home safely through the blizzard field area. Reward: Scarf accessory (DEF +5) + 2,000 Gald.\n2. **\"Witch's Brew\"** — Gather three rare herbs from the snowy hills for a local herbalist. Reward: Life Bottle ×5 + rare recipe.\n3. **\"Abbey Informant\"** (chain from Zekson) — Continued from the Zekson sub-event; confront the informant's superior in Hellawes. Reward: Armor upgrade.\n\n<!-- checkpoint: hellawes-sub-events | Complete Hellawes Sub-Events -->\n\n## Rescuing Magilou\n\nThe public execution is happening in Hellawes's central square. Velvet's path leads directly into it: intervening in the execution will bring Abbey soldiers down on her, but Magilou has information about Artorius's movements — information the party needs.\n\n**Story Sequence:**\n1. Magilou is bound in the square, performing absurd comedy even at her own execution (\"No last words? Fine, I'll say enough for everyone!\")\n2. Abbey guards confront Velvet when she approaches\n3. **Combat: Abbey Soldier Group** (4 soldiers) — straightforward fight; use AoE Artes\n4. Magilou escapes in the chaos (she was never actually helpless)\n5. She joins the party, not out of loyalty but because she's curious about Velvet and has nowhere better to be\n\n<!-- checkpoint: magilou-recruited | Magilou Joins the Party -->\n\n> 🏆 **Achievement: The Witch Joins In** — Unlocked when Magilou joins.\n\n### Magilou's Combat Role\n\n- **Weapon:** Spell-tome books\n- **Specialty:** Magic DPS and debuff application. Magilou deals massive damage with high-level spells but has the lowest HP in the party.\n- **Break Soul — Berserk Melody:** Magilou transforms into an exaggerated \"Witch Mode,\" changing her arte set to powerful AoE spells and gaining immunity to interrupts for the duration\n- **Key Artes:** Thunder Blade, Gravity Well (pulls enemies together), Mirage (creates decoys to absorb hits)\n- **Recommended Tactics:** Keep Magilou at \"Maintain distance\" and \"Prioritize offense\" — she should never be in melee range\n\n> Magilou requires significant Arte unlocking investment to reach her damage potential. Use her in as many fights as possible from now on to level her Arte proficiency.\n\n## Meeting Laphicet (Phi)\n\nShortly after Magilou joins, the party encounters a **malak** — a spiritual being / angel — who is being used as a tool by Abbey exorcists. Unlike other malaks who are bound by their masters' will, this one shows flickers of independent thought.\n\n<!-- checkpoint: laphicet-phi-joins | Laphicet Joins the Party -->\n\nVelvet names this malak **\"Laphicet\"** after her deceased brother. He is formally designated **\"Malak No. 2\"** in Abbey records — just a number, not a person. Over the course of the story, Laphicet (Phi) awakens to full self-will, becoming a **free malak** — something the Abbey considers impossible and threatening to their power structure.\n\n**Laphicet's Combat Role:**\n- **Weapon:** Charts and manuscripts (close-range book arte attacks)\n- **Specialty:** Support artes, healing, elemental attacks (wind and water)\n- **Break Soul — Hexen Cluster:** Laphicet summons a cluster of elemental orbs around a target, dealing repeated hits\n- **Unique Trait:** As story progresses and Laphicet grows, his arte pool expands — invest in his arte usage to unlock his full potential by the final chapter\n\n### Party of Five\n\nWith Magilou and Laphicet added, you now have a **5-person party** (Velvet, Rokurou, Magilou, Laphicet, + Seres in reserve). You can set your active 3 and configure sub-members.\n\n**Recommended Party Configuration:**\n- **Active:** Velvet (player-controlled), Rokurou (offense), Magilou (magic DPS)\n- **Sub:** Laphicet, Seres\n- Switch Laphicet in for Rokurou when facing magic-resistant enemies; switch Seres in for healing backup\n\n<!-- checkpoint: party-of-five-formed | Full Party of Five Formed -->\n\n## Boss: Dyle the Daemon\n\nAfter Hellawes, the route to the next major area is blocked by **Dyle**, a powerful daemon with connections to the Abbey.\n\n- **HP:** ~35,000\n- **Weakness:** Fire artes (Magilou's Fire Tornado Arte works excellently)\n- **Attack Patterns:**\n  - **Tail Sweep:** Wide AoE — jump over it or dash out of range\n  - **Venom Burst:** Forward-cone poison spray — sidestep to the flank\n  - **Rage Mode (below 50% HP):** Attacks speed up; prioritize healing\n- **Strategy:** Open the fight with Magilou using Fire Tornado from a safe distance. Have Velvet use Break Soul when the Soul gauge fills. Keep Laphicet in reserve for emergency healing. If any party member is poisoned, use Panacea Bottle immediately.\n- **Reward:** Daemon's Fang (crafting material), 3,500 Gald, story progression\n\n<!-- checkpoint: dyle-defeated | Defeat Dyle the Daemon -->\n\n> 🏆 **Achievement: Trail of the Daemon** — Unlocked after defeating Dyle and watching the subsequent story scenes.\n",
+      "checkpoints": [
+        {
+          "id": "port-zekson-arrival",
+          "label": "Arrive at Port Zekson"
+        },
+        {
+          "id": "zekson-sub-events-done",
+          "label": "Complete Port Zekson Sub-Events"
+        },
+        {
+          "id": "zekson-road-cleared",
+          "label": "Clear Zekson Gate Road"
+        },
+        {
+          "id": "hellawes-arrival",
+          "label": "Arrive at Hellawes"
+        },
+        {
+          "id": "hellawes-sub-events",
+          "label": "Complete Hellawes Sub-Events"
+        },
+        {
+          "id": "magilou-recruited",
+          "label": "Magilou Joins the Party"
+        },
+        {
+          "id": "laphicet-phi-joins",
+          "label": "Laphicet Joins the Party"
+        },
+        {
+          "id": "party-of-five-formed",
+          "label": "Full Party of Five Formed"
+        },
+        {
+          "id": "dyle-defeated",
+          "label": "Defeat Dyle the Daemon"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-sub-events-zekson",
+          "type": "warning",
+          "text": "⚠️ Complete ALL Sub-Events in Port Zekson before leaving for Hellawes. Sub-events posted at the Guildhall expire when story advances. Talk to every NPC with a '!' marker in Zekson."
+        },
+        {
+          "id": "shop-zekson-weapons",
+          "type": "step",
+          "text": "Visit **Blades of Zekson** weapon shop. Purchase **Carver's Edge** for Velvet and **Twin Fang Blades** for Rokurou if you haven't already."
+        },
+        {
+          "id": "shop-zekson-items",
+          "type": "step",
+          "text": "Stock up at **Zekson General**: buy at least 10x **Orange Gel**, 5x **Panacea Bottle**, 3x **Life Bottle**, and 5x **Melange Gel**."
+        },
+        {
+          "id": "buy-cooking-ingredients-zekson",
+          "type": "step",
+          "text": "Purchase cooking ingredients from the food vendor: **Tomato ×5**, **Bread ×3**, **Egg ×5**, and any new ingredients. The cooking system is unlocked at campsites.",
+          "note": "🏆 Building toward 'Gourmet Taste' trophy — cook 50 different recipes. Start accumulating ingredients early."
+        },
+        {
+          "id": "guildhall-sub-events-zekson",
+          "type": "step",
+          "text": "Check the **Guildhall** board. Complete: 'A Plea From the Docks,' 'Missing Cargo,' and 'The Daemon Informant' sub-events."
+        },
+        {
+          "id": "explore-zekson-road",
+          "type": "step",
+          "text": "Explore **Zekson Gate Road** thoroughly. Collect all 5 treasure chests (Iron Ore, Apple Gel, Silver Ore, Beast Fang, and the hidden alcove item). Back-attack every enemy you can for EXP bonuses."
+        },
+        {
+          "id": "cook-at-campsite",
+          "type": "step",
+          "text": "Use the campsite on Zekson Gate Road to cook your first meal. Cook **Grilled Fish** (ATK boost) before continuing north."
+        },
+        {
+          "id": "shop-hellawes-weapons",
+          "type": "step",
+          "text": "In Hellawes, visit **Northern Arms**: upgrade Velvet to **Frost Gauntlet** and Rokurou to **Demon's Twin** if you can afford it (save Gald for the Witch's Market too)."
+        },
+        {
+          "id": "shop-hellawes-witch-market",
+          "type": "step",
+          "text": "Visit **Witch's Market**: buy **Mystic Herb ×5**, **Blessed Salt**, and the **Clam Chowder recipe**."
+        },
+        {
+          "id": "guildhall-sub-events-hellawes",
+          "type": "step",
+          "text": "Complete all Hellawes Guildhall Sub-Events: 'The Frozen Shore,' 'Witch's Brew,' and the continued 'Abbey Informant' chain."
+        },
+        {
+          "id": "rescue-magilou-execution",
+          "type": "step",
+          "text": "Intervene in Magilou's execution in Hellawes's town square. Defeat the 4 Abbey Soldiers in the ensuing combat. Magilou will join the party."
+        },
+        {
+          "id": "configure-magilou-tactics",
+          "type": "step",
+          "text": "Set **Magilou's Tactics** to 'Maintain distance' and 'Prioritize offense.' She should never be in melee range — her survivability is low."
+        },
+        {
+          "id": "recruit-laphicet-phi",
+          "type": "step",
+          "text": "Follow the story to recruit **Laphicet (Phi)**. Watch the skits that appear immediately after he joins — several are important for the 'Avid Reader' trophy."
+        },
+        {
+          "id": "warning-laphicet-artes-investment",
+          "type": "note",
+          "text": "**Arte Investment Tip:** Laphicet's power scales with Arte usage. Add him to the active party in field fights (not just bosses) to build his Arte proficiency. He becomes significantly stronger in the later half of the game if invested in early."
+        },
+        {
+          "id": "boss-dyle",
+          "type": "boss",
+          "text": "**BOSS: Dyle the Daemon** — Use Magilou's Fire Tornado for heavy fire damage. Velvet uses Break Soul at full Soul gauge. Sidestep Tail Sweep and Venom Burst; heal aggressively below 50% enemy HP when Dyle enters Rage Mode. HP: ~35,000.",
+          "note": "Weakness: Fire. Reward: Daemon's Fang, 3,500 Gald."
+        },
+        {
+          "id": "watch-skits-after-dyle",
+          "type": "step",
+          "text": "Watch all skit icons that appear after defeating Dyle and after Laphicet joins. Multiple new skits appear with all five party members."
+        }
+      ]
+    },
+    {
+      "id": "chapter-3-the-capital-loegres",
+      "title": "Chapter 3: The Capital Loegres",
+      "content": "# Chapter 3: The Capital Loegres\n\n## Overview\n\nThe party's trail leads to **Loegres**, the grand capital city of the Midgand Empire. This is the largest city in the game and a hub of both commerce and Abbey political power. Here, the party learns more about Artorius's master plan — **Suppression**, a scheme to eliminate all malevolence from the world by suppressing human emotion itself — and gains a reluctant new ally: exorcist **Eleanor Hume**.\n\nThis chapter also marks the beginning of the game's most significant Sub-Event density. Complete everything available before advancing.\n\n<!-- checkpoint: loegres-arrival | Arrive at Loegres -->\n\n## Loegres — The Grand Capital\n\n### Exploring the Capital\n\nLoegres is split into multiple distinct districts, each with its own shops, Sub-Events, and NPC interactions. Budget at least 30-45 minutes of real time for complete exploration before advancing the main story.\n\n**Districts in Loegres:**\n- **Harbor District** — Docks, fish market, Guildhall\n- **Market Street** — Shops, restaurants, specialty vendors\n- **Noble Quarter** — Abbey presence, important NPCs\n- **Grand Cathedral** — Main story trigger location (don't enter yet — do all other content first)\n\n> 🏆 **Achievement: Capital Explorer** — Talk to every unique NPC in Loegres in a single visit. The game tracks NPC dialogue coverage. You must interact with every named NPC in all districts before entering the Cathedral.\n\n### Shops in Loegres\n\n**Weapon Shop — \"Imperial Arms\":**\n| Item | Cost | Notes |\n|------|------|-------|\n| Dragon Talon | 2,800 Gald | Velvet best option here |\n| Ronin Blades | 3,200 Gald | Rokurou best option here |\n| Sage's Codex | 2,500 Gald | Magilou upgrade |\n| Seraph's Chart | 2,600 Gald | Laphicet upgrade |\n\n**Armor Shop — \"Noble Armory\":**\nThis is the first store selling dedicated armor pieces (not just weapons):\n| Item | Cost | Notes |\n|------|------|-------|\n| Iron Vest | 1,800 Gald | Base armor, fits all characters |\n| Exorcist's Robe | 2,100 Gald | High RES, ideal for Magilou/Laphicet |\n| Adventurer's Coat | 2,400 Gald | Good balance DEF/RES for Velvet |\n\n> **Armor Tip:** At minimum equip all 5 active party members with the **Iron Vest** or better. Defense investment pays dividends on the chapter's boss fights.\n\n**Restaurant — \"The Royal Table\":**\nThis restaurant has unique recipes not available elsewhere:\n- **Recipe: Imperial Stew** — Provides EXP boost + HP recovery (buy the recipe; ingredients are Meat + Spice + Mushroom)\n- **Recipe: Noble's Feast** — Large ATK/DEF buffs for the whole party\n- Cook both of these before every major boss fight.\n\n**Specialty Shop — \"Rare Wares\":**\n- **Topaz Ring** (accessory, +ATK) — 4,500 Gald, worth buying for Velvet\n- **Sapphire Pendant** (accessory, +RES) — 3,800 Gald, good for Magilou\n\n**Guildhall (Harbor District):**\nThe Loegres Guildhall has the highest concentration of Sub-Events so far.\n\n<!-- checkpoint: loegres-shopping-done | Loegres Shopping and Exploration Complete -->\n\n### Sub-Events in Loegres (First Visit)\n\n**Complete all of these before entering the Cathedral:**\n\n1. **\"The Noble's Request\"** — A nobleman's daughter has been afflicted with daemonblight. Gather ingredients for an antidote from the city outskirts. Reward: Exorcist's Robe + 3,000 Gald.\n2. **\"Underbelly of the Capital\"** — Investigate rumors of daemon trafficking in the Harbor District. Leads to a combat encounter with daemon smugglers (moderate difficulty). Reward: 4,500 Gald + rare ore.\n3. **\"The Ghost in the Library\"** — A ghost is haunting the capital's library. Investigate and defeat the spirit. Reward: Two skill books (Arte proficiency items).\n4. **\"Pirate Troubles\"** — A local merchant was robbed by a pirate crew. Tracking this sub-event leads to first mentions of the **Van Eltia** and its captain **Eizen** (foreshadowing). Reward: 3,500 Gald + crafting material.\n5. **\"Magilou's Notice\"** — Magilou-triggered sub-event. She posts a notice pretending to be a fortune teller and you must deal with the disappointed customers. Funny skit chain follows. Reward: Magilou Costume + 2,000 Gald.\n\n> 🏆 **Sub-Event Tracking:** Open the **Sub-Event** menu (pause → Sub-Events) to track completion status. Aim for 100% completion over the course of the full playthrough for the **\"Desolate: Converging Wills\"** achievement.\n\n<!-- checkpoint: loegres-sub-events | Complete Loegres Sub-Events -->\n\n## Learning About Suppression\n\nInside the Noble Quarter, the party uncovers documents describing Artorius's **Suppression** project:\n\n> *\"By awakening the Empyrean Innominat to full power, all malevolence born of human desire can be consumed. With malevolence gone, daemons will cease to manifest. Humanity will be freed from the daemon threat permanently. The cost: the permanent suppression of the five senses — desire, hatred, fear, grief, and pleasure. Humans will become calm, empty, and free.\"*\n\n**Velvet's Response:** This is exactly what she feared. Artorius isn't just a murderer — he's trying to lobotomize all of humanity in the name of \"saving\" them. To Velvet, this is worse than murder. The conflict between Velvet's emotional, personal desire for revenge and Artorius's cold utilitarian logic is the game's central thematic tension.\n\n## Eleanor Hume Joins the Party\n\n**Eleanor Hume** is introduced as a loyal Abbey exorcist who confronts the party in the Noble Quarter after they're discovered. She is idealistic and devoted to the Shepherd's cause — she genuinely believes Artorius is humanity's savior and Velvet is a dangerous daemon criminal.\n\n<!-- checkpoint: eleanor-joins | Eleanor Hume Joins the Party -->\n\nStory circumstances force Eleanor to travel with the party temporarily (she's pursuing them to capture Velvet, and their paths align toward the same target). Over time, she begins to question the Abbey's methods.\n\n**Eleanor's Combat Role:**\n- **Weapon:** Spear\n- **Specialty:** Balanced physical fighter with strong healing artes — the best dedicated healer in the party\n- **Break Soul — Sacred Embrace:** Eleanor creates a healing barrier around herself that restores HP to all nearby allies every second. Powerful for sustained fights.\n- **Unique Trait:** Eleanor's Bond Links with other party members (especially Laphicet) gradually increase her arte proficiency — make sure to include her in the active party regularly\n\n**Recommended Party With Eleanor:**\n- **Active:** Velvet (control), Rokurou (offense), Eleanor (healer/support)\n- **Sub:** Magilou, Laphicet\n- For magic-heavy enemies: swap Rokurou ↔ Magilou and Eleanor ↔ Laphicet\n\n> 🏆 **Achievement: An Unlikely Alliance** — Unlocked when Eleanor joins the party.\n\n## The Cathedral — Story Confrontation\n\nEntering the Grand Cathedral triggers a major story sequence: Artorius is present, conducting a ceremony. The party confronts him but is outmatched — this is a **forced-loss scripted battle** where Velvet faces Artorius alone.\n\n**Battle: Velvet vs. Artorius (Scripted)**\n\n<!-- checkpoint: artorius-first-confrontation | First Confrontation with Artorius -->\n\n- This fight is **unwinnable** — Artorius's HP is effectively infinite; the scene ends after you deal a set amount of damage\n- **Still fight seriously:** The damage you deal in this battle affects the post-battle item reward. Dealing 5,000+ damage before the cutscene triggers rewards a **Resurrection Bottle** (rare)\n- **Strategy:** Open with Break Soul immediately, use all Artes, deal as much damage as fast as possible before the scene ends\n\nAfter the scripted loss, the party is forced to retreat. This encounter deepens the emotional stakes — Artorius acknowledges Velvet briefly, showing he's not entirely cold.\n\n> Watch all skits that appear after the Cathedral sequence — this is a major skit dump (6-8 skits appear, all important for Avid Reader).\n\n<!-- checkpoint: loegres-chapter-complete | Chapter 3 Complete — Leave Loegres -->\n\n## Boss: Oscar Dragonia (First Battle)\n\nBefore leaving Loegres, **Oscar Dragonia** — an Abbey exorcist and Teresa's twin brother — intercepts the party. This is the first of several confrontations with him.\n\n- **HP:** ~45,000\n- **Weakness:** Wind artes (Laphicet's Shining Eagle)\n- **Attack Patterns:**\n  - **Holy Bolt:** Fast-traveling projectile, track its trajectory and sidestep\n  - **Judgement:** High-damage ground-pound AoE — dash away from the impact marker\n  - **Exorcism Drive (below 40% HP):** Oscar's personal arte — a powerful combo; guard/step through it\n- **Strategy:** Use Laphicet's wind artes for bonus damage. Maintain Eleanor as healer (Sacred Embrace active for sustained phases). Activate Velvet's Break Soul to burst down the 40% HP threshold quickly to minimize time in his powered-up phase.\n- **Reward:** Exorcist's Rod (accessory), 6,000 Gald, story progression\n\n<!-- checkpoint: oscar-first-defeat | Defeat Oscar Dragonia (First Battle) -->\n\n> 🏆 **Achievement: The Exorcist Challenged** — Unlocked after defeating Oscar for the first time.\n",
+      "checkpoints": [
+        {
+          "id": "loegres-arrival",
+          "label": "Arrive at Loegres"
+        },
+        {
+          "id": "loegres-shopping-done",
+          "label": "Loegres Shopping and Exploration Complete"
+        },
+        {
+          "id": "loegres-sub-events",
+          "label": "Complete Loegres Sub-Events"
+        },
+        {
+          "id": "eleanor-joins",
+          "label": "Eleanor Hume Joins the Party"
+        },
+        {
+          "id": "artorius-first-confrontation",
+          "label": "First Confrontation with Artorius"
+        },
+        {
+          "id": "loegres-chapter-complete",
+          "label": "Chapter 3 Complete — Leave Loegres"
+        },
+        {
+          "id": "oscar-first-defeat",
+          "label": "Defeat Oscar Dragonia (First Battle)"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-loegres-npc-coverage",
+          "type": "warning",
+          "text": "⚠️ Talk to **every named NPC** in all four Loegres districts before entering the Cathedral. Some NPCs only appear during this first visit and have unique dialogue required for the 'Capital Explorer' achievement."
+        },
+        {
+          "id": "warning-cathedral-ponr",
+          "type": "warning",
+          "text": "⚠️ **POINT OF NO RETURN:** Entering the **Grand Cathedral** advances the main story significantly. Complete ALL sub-events and shopping in Loegres before entering. Some sub-events expire after the Cathedral sequence."
+        },
+        {
+          "id": "shop-loegres-weapons",
+          "type": "step",
+          "text": "Visit **Imperial Arms**: upgrade Velvet to **Dragon Talon**, Rokurou to **Ronin Blades**, Magilou to **Sage's Codex**, Laphicet to **Seraph's Chart**."
+        },
+        {
+          "id": "shop-loegres-armor",
+          "type": "step",
+          "text": "Visit **Noble Armory**: equip all 5 characters with **Iron Vest** minimum. Consider **Exorcist's Robe** for Magilou/Laphicet and **Adventurer's Coat** for Velvet."
+        },
+        {
+          "id": "shop-loegres-accessories",
+          "type": "step",
+          "text": "Visit **Rare Wares**: buy the **Topaz Ring** (+ATK) for Velvet and **Sapphire Pendant** (+RES) for Magilou if budget allows."
+        },
+        {
+          "id": "shop-loegres-recipes",
+          "type": "step",
+          "text": "Visit **The Royal Table** restaurant: purchase the **Imperial Stew** and **Noble's Feast** recipes. Gather their ingredients and cook both before the chapter's boss fight."
+        },
+        {
+          "id": "sub-event-nobles-request",
+          "type": "step",
+          "text": "Complete Sub-Event **'The Noble's Request'** — gather antidote ingredients from the city outskirts. Reward: Exorcist's Robe + 3,000 Gald."
+        },
+        {
+          "id": "sub-event-underbelly",
+          "type": "step",
+          "text": "Complete Sub-Event **'Underbelly of the Capital'** — investigate Harbor District rumors and defeat daemon smugglers. Reward: 4,500 Gald + rare ore."
+        },
+        {
+          "id": "sub-event-ghost-library",
+          "type": "step",
+          "text": "Complete Sub-Event **'The Ghost in the Library'** — investigate the haunting and defeat the spirit. Reward: Two Arte proficiency books."
+        },
+        {
+          "id": "sub-event-pirate-troubles",
+          "type": "step",
+          "text": "Complete Sub-Event **'Pirate Troubles'** — track the pirate robbery. Mentions of Eizen and the Van Eltia foreshadow Chapter 4. Reward: 3,500 Gald + crafting material."
+        },
+        {
+          "id": "sub-event-magilou-notice",
+          "type": "step",
+          "text": "Complete Sub-Event **\"Magilou's Notice\"** — deal with Magilou's fortune-teller scam aftermath. Watch the skit chain that follows. Reward: Magilou costume + 2,000 Gald."
+        },
+        {
+          "id": "eleanor-recruitment-story",
+          "type": "step",
+          "text": "Follow the story sequence in the Noble Quarter to trigger Eleanor's confrontation and recruitment. Watch all skits that appear after she joins."
+        },
+        {
+          "id": "boss-artorius-scripted",
+          "type": "boss",
+          "text": "**SCRIPTED BATTLE: Velvet vs. Artorius** — This fight cannot be won. Deal 5,000+ damage quickly using Break Soul and all available Artes before the cutscene triggers to earn a **Resurrection Bottle**."
+        },
+        {
+          "id": "watch-cathedral-skits",
+          "type": "step",
+          "text": "Watch ALL skit icons after the Cathedral sequence — 6-8 new skits appear here. This is one of the largest skit dumps in the game."
+        },
+        {
+          "id": "boss-oscar-first",
+          "type": "boss",
+          "text": "**BOSS: Oscar Dragonia (1st)** — Use Laphicet's wind artes for bonus damage. Keep Eleanor in healer mode. Burst through 40% HP quickly with Break Soul to minimize Exorcism Drive phase. HP: ~45,000. Weakness: Wind.",
+          "note": "Reward: Exorcist's Rod accessory, 6,000 Gald."
+        }
+      ]
+    },
+    {
+      "id": "chapter-4-across-the-continent",
+      "title": "Chapter 4: Across the Continent",
+      "content": "# Chapter 4: Across the Continent — Yseult & The Van Eltia\n\n## Overview\n\nFollowing the confrontation in Loegres, the party leaves the capital and travels across Midgand in pursuit of Artorius. This chapter covers the journey from Loegres through multiple regions, the acquisition of the **Van Eltia** ship as the party's mobile base, and the recruitment of **Eizen** — the enigmatic daemonic pirate with the legendary **Reaper's Curse**.\n\nThis is the longest and most exploration-heavy chapter in the game. There are more Sub-Events available here than anywhere else. Several are tied to permanent story windows — don't rush.\n\n<!-- checkpoint: post-loegres-travel | Leave Loegres — Journey Begins -->\n\n## Dunbarton — Waypoint Town\n\nThe first stop after Loegres is **Dunbarton**, a mid-sized trading town inland from the coast.\n\n### Shops in Dunbarton\n\n**Weapon Shop:**\n| Item | Cost | Notes |\n|------|------|-------|\n| Tempest Gauntlet | 4,200 Gald | Velvet upgrade |\n| Dusk Swords | 4,800 Gald | Rokurou upgrade |\n| Storm Chronicle | 3,900 Gald | Laphicet upgrade |\n\n**Note on Eleanor's Spears:** Eleanor's weapon upgrades are found primarily in port cities (Yseult and later). Hold onto her current spear until Yseult.\n\n### Sub-Events in Dunbarton\n\n1. **\"The Traveling Merchant's Debt\"** — A merchant owes dangerous people money. Help him deal with the debtors (a fight) and arrange repayment. Reward: Rare crafting material + 3,200 Gald.\n2. **\"The Daemon Shepherd\"** — A shepherd boy claims a daemon is protecting his flock. Investigate. Reward: Unique food ingredient + 2,800 Gald.\n3. **\"Eizen's Luck\"** *(chain sub-event, first entry)* — A strange series of unfortunate events plagues everyone who travels near the party. This is the beginning of **Eizen's Reaper's Curse** sub-event chain, unlocked when you have his name from later in this chapter.\n\n<!-- checkpoint: dunbarton-done | Dunbarton Exploration Complete -->\n\n## Yseult — The Port City\n\n**Yseult** is a major port city south of the main continent and the home base of the Aifread pirates, known as the **Bloodwing Brigands**. This is where the party formally meets **Eizen** and gains use of the **Van Eltia** — the Aifread pirates' legendary ship.\n\n<!-- checkpoint: yseult-arrival | Arrive at Yseult -->\n\n### Yseult — Full Exploration\n\nYseult is densely packed with content. Do not rush through.\n\n**Shops in Yseult:**\n\n*Weapon Shop — \"Seafarer's Arsenal\":*\n| Item | Cost | Notes |\n|------|------|-------|\n| Mariner's Gauntlet | 5,500 Gald | Velvet — significant upgrade |\n| Gale Blades | 6,000 Gald | Rokurou — best available here |\n| Tempest Lance | 5,800 Gald | **Eleanor's first significant upgrade** |\n| Iron Fist | 6,200 Gald | Eizen's weapon type (fists) — buy now |\n| Wave Chronicle | 5,000 Gald | Magilou upgrade |\n\n> **Eleanor and Eizen Equipment:** Buy **Tempest Lance** for Eleanor and **Iron Fist** for Eizen immediately — you'll have the full party with him shortly.\n\n*Accessory Shop:*\n- **Sea Drake Ring** — +ATK, +elemental resist. 6,000 Gald. Worth buying for Velvet.\n- **Warden's Charm** — +DEF, +PATK. 5,500 Gald. Good for Eleanor.\n- **Storm Amulet** — +RES, +MATK. 5,200 Gald. Excellent for Magilou.\n\n*Item Shop — \"Dockside Supplies\":*\n- Stock up on **Orange Gel ×20**, **Life Bottle ×5**, **Panacea Bottle ×10** before recruiting Eizen. The upcoming boss fights hit hard.\n\n*Restaurant — \"The Admiral's Table\":*\n- **Recipe: Sailor's Stew** — STR boost + status resist (highly recommended for upcoming bosses)\n- **Recipe: Fisherman's Catch** — High HP recovery for the whole party\n\n**Sub-Events in Yseult:**\n\n1. **\"A Pirate's Pride\"** — Help a veteran Bloodwing Brigand settle a dispute with a younger crew member. Reward: Eleanor character scene + 4,000 Gald.\n2. **\"The Ghostly First Mate\"** — Locals report a ghost in the harbor. Investigate to find it's connected to a missing sailor. Reward: Van Eltia log entry (lore) + 3,500 Gald.\n3. **\"Teresa's Trail\"** *(time-sensitive)* — Intel about Teresa Linares's movements. Complete before recruiting Eizen or this sub-event expires. Reward: Exorcist intelligence item + 4,200 Gald.\n4. **\"Eizen's Past\"** *(chain)* — After Eizen joins, his background sub-event chain continues. Multiple conversations required. Reward: Eizen's signature accessory at chain completion.\n5. **\"The Reaper's Gamble\"** *(Eizen chain, entry 2)* — A card game that goes wrong, connected to the Reaper's Curse. Reward: High Gald reward + rare item.\n\n> 🏆 **Achievement: The Reaper's Legend** — Complete the full Eizen sub-event chain (5 entries total, spread across multiple chapters). Start it here.\n\n<!-- checkpoint: yseult-sub-events | Complete Yseult Sub-Events -->\n\n## Recruiting Eizen\n\n**Eizen** is the first mate of the Aifread pirates. Captain Van Aifread disappeared under mysterious circumstances, and Eizen has been searching for him ever since. Eizen is a **daemon** — specifically, a daemonic form of an Empyrean — and carries the **Reaper's Curse**: misfortune follows wherever he goes. Ships sink, weather turns deadly, businesses fail — all near him.\n\nDespite (or because of) this, Eizen is one of the most reliably powerful fighters in the party.\n\n<!-- checkpoint: eizen-joins | Eizen Joins the Party -->\n\n**Eizen's Combat Role:**\n- **Weapon:** Fists (heavy punching artes)\n- **Specialty:** Tank/bruiser role — highest DEF in the party, strong physical DPS, built-in counter-attack abilities\n- **Break Soul — Eizen's Malevolence:** Eizen releases his suppressed daemon power, dramatically boosting ATK and adding knockback to all his attacks. Duration is limited — use it on bosses' vulnerable phases.\n- **Unique Trait — Counter Stance:** Several of Eizen's artes have guard-point properties — if he guards successfully, he automatically counters. This makes him extremely strong against aggressive enemies.\n\n**The Van Eltia:**\nThe Bloodwing Brigands' ship becomes the party's mobile base. From the Van Eltia:\n- **Travel** between ports freely on the world map\n- **Cook** with the ship's galley (same as campsite cooking, but available anytime)\n- **Party Chat:** Access unique conversations with all party members during travel — these are separate from skits but also count toward some achievement flags. Talk to every party member every time you're on the ship.\n\n> 🏆 **Achievement: Captain's Log** — Hear all Van Eltia party chat conversations. These appear regularly during story travel. Never skip the ship dialogue prompts.\n\n### Party of Six — Final Roster\n\nWith Eizen, you now have the **complete main party** of six:\n- Velvet Crowe (protagonist, Therion)\n- Rokurou Rangetsu (daemon swordsman)\n- Magilou (witch, magic DPS)\n- Eleanor Hume (exorcist, healer/fighter)\n- Laphicet \"Phi\" (free malak, support magic)\n- Eizen (Empyrean daemon, tank)\n\n**Final Recommended Party Config:**\n- **Active:** Velvet (control), Eleanor (healer), + one of Rokurou/Magilou/Eizen depending on enemy type\n- **Sub:** Remaining three characters\n- Swap Magilou in for damage against magic-weak enemies; Eizen in for tanky physical enemies; Rokurou in for speed-heavy fights\n\n<!-- checkpoint: full-party-formed | Full Party of Six Complete -->\n\n## Laphicet Icecaps — Midgame Dungeon\n\nThe route toward the next major goal passes through the **Laphicet Icecaps** — a sprawling, multi-floor ice dungeon with environmental hazards (slippery floors, frost damage areas) and strong enemies.\n\n**Treasure Chests in Laphicet Icecaps:**\n- **Topaz Orb** (crafting) — entry floor, left fork\n- **Elixir ×2** — Floor 2, main path\n- **Arctic Armor** (significant DEF piece) — Floor 2, hidden path behind a breakable ice wall (use Eizen's heavy attacks to break it)\n- **Glacier Staff** (Magilou weapon, stronger than Wave Chronicle) — Floor 3 chest\n- **High Life Bottle ×3** — boss antechamber\n\n> **Hidden Path Note:** The breakable ice wall on Floor 2 is easy to miss. It looks like a regular wall but sparkles faintly. This chest contains the best mid-game armor for several chapters.\n\n**Enemies in Laphicet Icecaps:**\n- **Frost Wolf Pack:** Always attack in groups of 3-5; use Magilou's AoE spells\n- **Ice Golem:** High DEF, weak to fire; send Magilou solo and use Fire Tornado\n- **Glacial Drake:** Fast, uses breath attack; Eizen's counter stance works well here\n\n<!-- checkpoint: icecaps-cleared | Clear Laphicet Icecaps -->\n\n## Boss: Teresa Linares (First Battle)\n\nAt the far end of the Icecaps, **Teresa Linares** — Oscar's twin sister and one of the Abbey's most powerful exorcists — confronts the party.\n\n- **HP:** ~55,000\n- **Weakness:** Dark artes (Velvet's shadow-type attacks); also slightly weak to fire\n- **Attack Patterns:**\n  - **Holy Spear Barrage:** Rapid multi-hit ranged attack — sidestep or guard each hit\n  - **Sacred Light:** Massive AoE explosion centered on Teresa — dash to maximum range\n  - **Twin Strike:** Fast two-hit combo; the second hit has a delay — guard timing must adjust\n  - **Exorcism Nova (below 30% HP):** Full-screen near-instant attack — use Elixir if any character is below 30% HP before she reaches this threshold\n- **Strategy:** Use Velvet's dark-type artes (equipped via dark quartz in the Orbment system) for the weakness bonus. Have Eleanor maintain Sacred Embrace healing aura throughout. Eizen should use Counter Stance to punish her melee passes. Save Velvet's Mystic Arte for the sub-30% phase.\n- **Reward:** Teresa's Pendant (Eleanor's best accessory so far), 8,500 Gald, story progression\n\n<!-- checkpoint: teresa-first-defeat | Defeat Teresa Linares (First Battle) -->\n\n> 🏆 **Achievement: The Exorcist's Rival** — Unlocked after defeating Teresa for the first time.\n\n## The Blazing Sword — Artifact Dungeon (Optional)\n\nAfter defeating Teresa, a side path opens to the **Blazing Sword** — an optional dungeon with the game's most challenging mid-game enemies and a powerful reward.\n\n**Reward for Clearing the Full Dungeon:**\n- **Blazing Sword** (unique sword for Velvet, significantly higher ATK than anything else at this stage)\n- **Flame Quartz** (rare — enables fire artes for anyone in the Orbment system)\n\n> This dungeon is optional but strongly recommended. The Blazing Sword carries Velvet through the next two chapters. The enemies are tough — come at the level you're at after defeating Teresa (usually 35-40).\n\n<!-- checkpoint: chapter-4-complete | Chapter 4 Complete -->\n",
+      "checkpoints": [
+        {
+          "id": "post-loegres-travel",
+          "label": "Leave Loegres — Journey Begins"
+        },
+        {
+          "id": "dunbarton-done",
+          "label": "Dunbarton Exploration Complete"
+        },
+        {
+          "id": "yseult-arrival",
+          "label": "Arrive at Yseult"
+        },
+        {
+          "id": "yseult-sub-events",
+          "label": "Complete Yseult Sub-Events"
+        },
+        {
+          "id": "eizen-joins",
+          "label": "Eizen Joins the Party"
+        },
+        {
+          "id": "full-party-formed",
+          "label": "Full Party of Six Complete"
+        },
+        {
+          "id": "icecaps-cleared",
+          "label": "Clear Laphicet Icecaps"
+        },
+        {
+          "id": "teresa-first-defeat",
+          "label": "Defeat Teresa Linares (First Battle)"
+        },
+        {
+          "id": "chapter-4-complete",
+          "label": "Chapter 4 Complete"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-teresa-sub-event",
+          "type": "warning",
+          "text": "⚠️ **MISSABLE SUB-EVENT:** 'Teresa's Trail' in Yseult expires when you recruit Eizen. Complete it **before** the Eizen story sequence."
+        },
+        {
+          "id": "shop-dunbarton-weapons",
+          "type": "step",
+          "text": "In **Dunbarton**, upgrade Velvet to **Tempest Gauntlet**, Rokurou to **Dusk Swords**, Laphicet to **Storm Chronicle**."
+        },
+        {
+          "id": "dunbarton-sub-events",
+          "type": "step",
+          "text": "Complete Dunbarton sub-events: 'The Traveling Merchant's Debt' and 'The Daemon Shepherd.'"
+        },
+        {
+          "id": "shop-yseult-full",
+          "type": "step",
+          "text": "In **Yseult** at Seafarer's Arsenal: buy **Mariner's Gauntlet** (Velvet), **Gale Blades** (Rokurou), **Tempest Lance** (Eleanor), **Iron Fist** (Eizen), **Wave Chronicle** (Magilou). Also buy accessories from the Accessory Shop."
+        },
+        {
+          "id": "stock-yseult-items",
+          "type": "step",
+          "text": "Stock up at **Dockside Supplies**: 20x Orange Gel, 5x Life Bottle, 10x Panacea Bottle. Boss fights ahead hit hard."
+        },
+        {
+          "id": "sub-event-teresas-trail",
+          "type": "step",
+          "text": "**BEFORE RECRUITING EIZEN:** Complete Sub-Event 'Teresa's Trail' in Yseult (time-sensitive — expires on Eizen recruitment). Talk to the harbormaster with the '!' marker."
+        },
+        {
+          "id": "sub-event-pirate-pride",
+          "type": "step",
+          "text": "Complete Sub-Event 'A Pirate's Pride' in Yseult. Watch the Eleanor character scene that follows."
+        },
+        {
+          "id": "sub-event-ghostly-first-mate",
+          "type": "step",
+          "text": "Complete Sub-Event 'The Ghostly First Mate.' Reward includes Van Eltia lore entries."
+        },
+        {
+          "id": "recruit-eizen-story",
+          "type": "step",
+          "text": "Follow the main story to recruit **Eizen** and gain the **Van Eltia** as your base. Watch all skits that appear after he joins — 4-6 new skits appear."
+        },
+        {
+          "id": "van-eltia-party-chats",
+          "type": "step",
+          "text": "On the **Van Eltia**, talk to every party member for Van Eltia party chat conversations. Do this every time you're on the ship. Required for 'Captain's Log' achievement."
+        },
+        {
+          "id": "start-eizen-chain",
+          "type": "step",
+          "text": "Start **Eizen's sub-event chain** ('Eizen's Past' + 'The Reaper's Gamble') in Yseult after he joins. This is a 5-part chain that continues across multiple chapters."
+        },
+        {
+          "id": "icecaps-breakable-wall",
+          "type": "collectible",
+          "text": "In **Laphicet Icecaps Floor 2**, find and break the **sparkling ice wall** with Eizen's heavy attacks. Collect the **Arctic Armor** chest behind it.",
+          "note": "This is the best mid-game armor for several chapters. Easy to miss — look for faint sparkles on the wall."
+        },
+        {
+          "id": "icecaps-glacier-staff",
+          "type": "collectible",
+          "text": "Collect **Glacier Staff** (Magilou upgrade) from the Floor 3 chest in Laphicet Icecaps."
+        },
+        {
+          "id": "boss-teresa-first",
+          "type": "boss",
+          "text": "**BOSS: Teresa Linares (1st)** — Use dark-type artes (Velvet) for weakness damage. Eleanor maintains healing aura. Eizen uses Counter Stance. Save Velvet's Mystic Arte for sub-30% HP phase when Teresa uses Exorcism Nova. HP: ~55,000.",
+          "note": "Reward: Teresa's Pendant, 8,500 Gald. Weakness: Dark/Fire."
+        },
+        {
+          "id": "optional-blazing-sword-dungeon",
+          "type": "step",
+          "text": "**OPTIONAL:** Clear the **Blazing Sword** dungeon (accessible after Teresa). Reward: Blazing Sword (best Velvet weapon for the next two chapters) + Flame Quartz. Strongly recommended."
+        }
+      ]
+    },
+    {
+      "id": "chapter-5-hexen-isle",
+      "title": "Chapter 5: Hexen Isle and the Truth of Innominat",
+      "content": "# Chapter 5: Hexen Isle and the Truth of Innominat\n\n## Overview\n\nThe party's search for Artorius leads them to **Meirchio** — the busiest commercial city in Midgand — and then to the legendary **Hexen Isle**, home of the witches. This chapter delivers the story's most significant lore revelations, resolves Magilou's painful backstory, and forces Laphicet to confront what he truly is. The journey culminates in a climactic confrontation with **Melchior**, the Abbey's master sorcerer.\n\n<!-- checkpoint: meirchio-arrival | Arrive at Meirchio -->\n\n## Meirchio — The Commercial Hub\n\nMeirchio is the commercial capital of Midgand — every merchant guild has a presence here, and the shops carry the best equipment available at this point in the story.\n\n### Meirchio — Full Exploration\n\nMeirchio is the last major commercial city before the final stretch of the game. Spend significant time here.\n\n**Shops in Meirchio:**\n\n*Weapon Shop — \"The Grand Exchange\":*\n| Item | Cost | Notes |\n|------|------|-------|\n| Crimson Gauntlet | 9,500 Gald | Velvet best weapon until final chapter |\n| Shadow Blades | 10,200 Gald | Rokurou best weapon until final chapter |\n| Tempest Fists | 9,800 Gald | Eizen upgrade |\n| Templar's Lance | 9,600 Gald | Eleanor best weapon until end |\n| Arcane Codex | 9,200 Gald | Magilou upgrade |\n| Celestial Chart | 8,800 Gald | Laphicet upgrade |\n\n> Equip the **full party** with upgraded weapons here. These carry through to the final chapter for most characters.\n\n*Armor Shop — \"Artisan's Forge\":*\n- **Dragon Scale Vest** — +DEF/+RES, 8,500 Gald. Best armor in the game before the final dungeon. Buy for all 6 characters (51,000 Gald total — start saving at Yseult).\n- **Witch's Robe** — Special armor for Magilou with +MATK and +RES (12,000 Gald).\n\n*Specialty Shop — \"Rare Finds\":*\n- **Mystic Quartz** (rare, enables Mystic Arte unlocks for all characters) — 15,000 Gald. **Buy one for every character.**\n- **Dragon's Eye** (powerful accessory, ATK +35) — 18,000 Gald. Worth it for Velvet.\n\n*Restaurant — \"Chef Donar's\":*\n- **Recipe: Dragon Cuisine** — ATK +15% buff, party-wide. Buy and use before every boss fight.\n- **Recipe: Starlight Stew** — EXP multiplier dish. Use this whenever grinding is needed.\n\n> 🏆 **Achievement: Master Chef** — Cook every recipe in the game. Meirchio's restaurant has several unique recipes not found elsewhere. Buy all of them here.\n\n**Sub-Events in Meirchio (Critical!):**\n\n<!-- checkpoint: meirchio-sub-events | Complete Meirchio Sub-Events -->\n\nThis is the game's most Sub-Event-dense city. Many of these sub-events are **time-locked** — they expire when you sail to Hexen Isle.\n\n1. **\"The Reaper's Reckoning\"** *(Eizen chain, entry 3)* — A series of disasters strikes Meirchio the moment the party arrives. Investigate the source. Reward: Eizen's sub-event item progress.\n2. **\"Magilou's Past\"** *(Magilou chain)* — Magilou is unusually quiet in Meirchio. Follow her to learn about her history in this city. Reward: Key insight into Magilou + unique costume.\n3. **\"The Witch's Familiar\"** — A child claims a witch has been watching her. Investigate and find a lost malak. Reward: Familiar Charm accessory.\n4. **\"Eleanor's Doubt\"** *(Eleanor chain)* — Eleanor confronts her faith in the Abbey's mission. This is a critical Eleanor sub-event required for her full character development. Reward: Eleanor unique scene + 5,000 Gald.\n5. **\"Hidden Commerce\"** — Expose a black market guild operating under Meirchio. Multiple combat encounters. Reward: 8,000 Gald + Rare Ore.\n6. **\"Laphicet's Discovery\"** *(Laphicet chain)* — Laphicet encounters something that causes him to question his identity. Watch the following skits carefully. Reward: Laphicet gets a new Arte (critical for his final chapter power).\n7. **\"A Debt Repaid\"** — A trader Velvet helped early in the game returns to repay a favor. Reward: Unique food item + lore.\n8. **\"The Arena Challenge\"** *(if Trial Road unlocked)* — A veteran arena fighter wants a match. Win for a significant Gald reward + Grade bonus.\n\n> ⚠️ Sub-events 1, 3, 4, 5, and 6 are **time-sensitive** — they EXPIRE when you leave for Hexen Isle. Do not sail until these are complete.\n\n## Trial Road (Arena) — Meirchio\n\nIf you haven't been doing the **Trial Road** arena (accessible from the Guildhall in Loegres and Meirchio), this is the time to work through the available tiers:\n\n- **Tier 1 (Solo):** Velvet solo runs; tests raw player skill. Reward: 5,000 Gald + materials.\n- **Tier 2 (Duo):** 2-person party. Reward: 10,000 Gald + rare accessory.\n- **Tier 3 (Full Party):** Full 3-person. Reward: 15,000 Gald + unique weapon.\n\n> 🏆 **Achievement: Gladiator** — Complete all Trial Road tiers through Tier 3. Available progressively from Loegres onwards. Work through the tiers in Meirchio if you haven't already.\n\n## Sailing to Hexen Isle\n\n**POINT OF NO RETURN WARNING:** When you board the Van Eltia and set sail for Hexen Isle, **all Meirchio sub-events expire**. The game gives a subtle warning before you commit. Do a final sweep:\n\n1. Check your Sub-Event list (pause → Sub-Events) for any incomplete Meirchio entries\n2. Check the Guildhall board for any remaining quests\n3. Talk to all NPCs with '!' markers\n\n<!-- checkpoint: hexen-isle-arrival | Arrive at Hexen Isle -->\n\n## Hexen Isle — The Witch's Homeland\n\nHexen Isle is a mysterious, fog-shrouded island inhabited by witches who have maintained their independence from the Abbey for centuries. The Isle's **Legate** is Magilou's former master — **Melchior**.\n\n### Hexen Isle Exploration\n\nThe Isle is visually distinct from the mainland — ancient stone architecture, floating flame lanterns, arcane circles on the ground. Enemy encounters scale to the current story progression (level 45-55 range).\n\n**Treasure Chests on Hexen Isle:**\n- **Arcane Staff** (Magilou's best weapon pre-final chapter) — East wing of the main isle structure, behind a locked door opened by completing the \"Witch's Trial\" puzzle\n- **Witches' Tome** (Laphicet crafting material) — Hidden path north of the main village\n- **Dragon Bone ×5** (crafting) — Central tower area\n- **High Orange Gel ×10** — South beach near the boats\n- **Sorceress's Ring** (accessory, MATK +30) — Solve the three-rune puzzle in the tower (interact with the three glowing runes in sequence: north → west → east)\n\n**The Witch's Trial Puzzle:**\nIn the central tower, three elemental trials must be completed to unlock deeper areas:\n1. **Fire Trial:** Defeat a group of fire elementals without using fire artes yourself. Use Laphicet's water artes.\n2. **Wind Trial:** Defeat enemies before they can escape the arena (they flee after 30 seconds). Use Magilou's AoE gravity artes to lock them down.\n3. **Water Trial:** Defeat a water construct; it heals 500 HP every few seconds. Burst it down with Velvet's Consuming Claw during Break Soul.\n\n> After completing all three trials, the central vault opens, revealing the **Arcane Staff** for Magilou and a lore document about Innominat's true nature.\n\n<!-- checkpoint: hexen-trials-complete | Complete Hexen Isle Trials -->\n\n## Magilou's Revelation\n\nDeep in Hexen Isle, Magilou confronts her past. Flashback sequences reveal:\n\n- She was Melchior's most talented apprentice — he called her his greatest student\n- Melchior asked her to do something she couldn't: sacrifice an innocent person for the good of the Abbey's mission\n- She refused, was branded a traitor, and has been running ever since\n- Her constant joking and clowning is a defense mechanism — a way to avoid feeling the genuine emotions she learned to distrust\n\n**Story Impact:** This revelation recontextualizes everything Magilou has said and done since joining the party. She is not as emotionally detached as she pretends. This sub-event chain's conclusion unlocks her **Mystic Arte** if you've used her sufficiently in combat.\n\n> 🏆 **Achievement: The Witch's Heart** — Unlocked after Magilou's flashback and the conversation that follows. Watch all skits that appear after this revelation.\n\n## The Truth About Innominat\n\nIn the Hexen Isle archives, Laphicet discovers the full truth about **Innominat**, the Empyrean that Artorius awakened with Velvet's brother:\n\n**What Innominat Actually Is:**\n- Innominat is the **Empyrean of Suppression** — his divine domain is the suppression of the five senses (malevolence: hatred, fear, grief, desire, pleasure)\n- When fully awakened, Innominat consumes all malevolence in the world — but malevolence is simply a word for intense human emotion. Without it, humans become hollow but happy.\n- Artorius's plan: awaken Innominat completely by feeding him accumulated malevolence. Then Innominat will have enough power to suppress malevolence globally, permanently. Daemons, born from malevolence, will cease to exist.\n- **The cost:** Humanity loses the capacity for strong emotion. The world becomes peaceful but empty.\n\n**Velvet's Counter-Argument:** Her intense desire for revenge is malevolence itself — it is exactly what Innominat feeds on. She is both his greatest threat (as a Therion who can devour him) and his greatest tool (as a constant source of malevolence to eat).\n\n<!-- checkpoint: innominat-truth-revealed | Truth of Innominat Revealed -->\n\n## Boss: Melchior\n\n**Melchior** is the Abbey's Legate (master sorcerer) and Magilou's former teacher. He serves as the chapter's final boss.\n\n- **HP:** ~80,000\n- **Weakness:** Physical attacks (Velvet, Rokurou, Eizen); resistant to magic\n- **Phase 1 (100%-50% HP):**\n  - **Arcane Barrage:** Rapid spell projectiles in a fan pattern; sidestep between the gaps\n  - **Gravity Field:** Large AoE slow-field; walk out of it (don't try to fight in it)\n  - **Mirror Image:** Creates two decoys; target the one with a shadow underneath it (the real one)\n- **Phase 2 (below 50% HP):**\n  - Melchior begins channeling his strongest arte — **Grand Extinction** — which deals ~80% of each character's max HP. Interrupt it by hitting him with a 4+ hit combo before the cast completes.\n  - **Ancient Malice:** Applies random debuffs to all characters. Keep Panacea Bottles ready.\n- **Strategy:**\n  - Use Velvet, Rokurou, and Eizen in the active party (all physical attackers, Melchior's weakness)\n  - Eleanor in Sub — bring her in if the healer (Laphicet or Eleanor) goes down\n  - Break Soul with Velvet right when Phase 2 starts to deal burst damage during Melchior's transition\n  - Always interrupt Grand Extinction — assign one party member (Rokurou works well) specifically to maintain offensive pressure when the cast animation begins\n  - Victory requires ~7-10 minutes of sustained combat on Normal\n- **Reward:** Melchior's Grimoire (Magilou's best arte proficiency boost item), 12,000 Gald, story progression\n\n<!-- checkpoint: melchior-defeated | Defeat Melchior -->\n\n> 🏆 **Achievement: The Legate Falls** — Unlocked after defeating Melchior and watching the full cutscene sequence.\n\n## After Hexen Isle — Preparing for the Endgame\n\nAfter Melchior's defeat, the story rushes toward its conclusion. Several major story beats play out in quick succession. This is the **last major content window** before the point of no return into the final chapter.\n\n**Do the following before advancing:**\n1. Return to Meirchio and check for any newly unlocked sub-events (some appear after Melchior's defeat)\n2. Return to Yseult to continue Eizen's sub-event chain if entries 4-5 are now available\n3. Make sure all 6 characters are equipped with the best available gear\n4. Cook **Dragon Cuisine** and stock 20+ Orange Gel and 10+ Life Bottles\n5. Complete any remaining Trial Road tiers\n\n<!-- checkpoint: hexen-chapter-complete | Chapter 5 Complete — Heading to Endgame -->\n",
+      "checkpoints": [
+        {
+          "id": "meirchio-arrival",
+          "label": "Arrive at Meirchio"
+        },
+        {
+          "id": "meirchio-sub-events",
+          "label": "Complete Meirchio Sub-Events"
+        },
+        {
+          "id": "hexen-isle-arrival",
+          "label": "Arrive at Hexen Isle"
+        },
+        {
+          "id": "hexen-trials-complete",
+          "label": "Complete Hexen Isle Trials"
+        },
+        {
+          "id": "innominat-truth-revealed",
+          "label": "Truth of Innominat Revealed"
+        },
+        {
+          "id": "melchior-defeated",
+          "label": "Defeat Melchior"
+        },
+        {
+          "id": "hexen-chapter-complete",
+          "label": "Chapter 5 Complete — Heading to Endgame"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-meirchio-time-lock",
+          "type": "warning",
+          "text": "⚠️ **MAJOR POINT OF NO RETURN:** Sailing to Hexen Isle permanently locks out ALL Meirchio sub-events. Complete every sub-event in Meirchio before boarding the Van Eltia. Check the Sub-Event list and Guildhall board."
+        },
+        {
+          "id": "shop-meirchio-full-weapons",
+          "type": "step",
+          "text": "At **The Grand Exchange** in Meirchio: upgrade the full party — Crimson Gauntlet (Velvet), Shadow Blades (Rokurou), Tempest Fists (Eizen), Templar's Lance (Eleanor), Arcane Codex (Magilou), Celestial Chart (Laphicet). These carry through to the final chapter."
+        },
+        {
+          "id": "shop-meirchio-armor",
+          "type": "step",
+          "text": "At **Artisan's Forge**: buy **Dragon Scale Vest** for all 6 characters (51,000 Gald total) and the **Witch's Robe** for Magilou."
+        },
+        {
+          "id": "shop-meirchio-mystic-quartz",
+          "type": "collectible",
+          "text": "At **Rare Finds**: buy **Mystic Quartz** for every character (enables Mystic Arte unlocks) and **Dragon's Eye** accessory for Velvet."
+        },
+        {
+          "id": "shop-meirchio-recipes",
+          "type": "step",
+          "text": "At **Chef Donar's**: buy all new recipes including **Dragon Cuisine** (ATK +15%, party-wide) and **Starlight Stew** (EXP multiplier). Cook Dragon Cuisine before every boss fight."
+        },
+        {
+          "id": "sub-event-reapers-reckoning",
+          "type": "step",
+          "text": "Complete Sub-Event **'The Reaper's Reckoning'** (Eizen chain entry 3). Investigate the disasters hitting Meirchio."
+        },
+        {
+          "id": "sub-event-magilou-past",
+          "type": "step",
+          "text": "Complete Sub-Event **\"Magilou's Past\"** chain. Follow her to learn her backstory in Meirchio. Watch all related skits."
+        },
+        {
+          "id": "sub-event-eleanor-doubt",
+          "type": "step",
+          "text": "Complete Sub-Event **\"Eleanor's Doubt\"** (Eleanor chain). Critical for Eleanor's character development and achievement progress."
+        },
+        {
+          "id": "sub-event-laphicet-discovery",
+          "type": "step",
+          "text": "Complete Sub-Event **\"Laphicet's Discovery\"** (Laphicet chain). He learns a new Arte upon completion. Required for his full power in the final chapter."
+        },
+        {
+          "id": "trial-road-meirchio",
+          "type": "step",
+          "text": "Complete **Trial Road Tiers 1-3** in Meirchio's Guildhall if you haven't already. Required for the 'Gladiator' achievement."
+        },
+        {
+          "id": "hexen-trials-puzzle",
+          "type": "step",
+          "text": "Complete the **three Witch's Trials** in Hexen Isle's central tower: Fire Trial (water artes), Wind Trial (AoE gravity artes), Water Trial (Break Soul burst). Unlocks the Arcane Staff chest."
+        },
+        {
+          "id": "collect-arcane-staff",
+          "type": "collectible",
+          "text": "After the Witch's Trials, collect the **Arcane Staff** (Magilou's best pre-final weapon) from the central vault."
+        },
+        {
+          "id": "collect-sorceress-ring",
+          "type": "collectible",
+          "text": "Solve the three-rune tower puzzle (north → west → east sequence) to collect the **Sorceress's Ring** (MATK +30 accessory)."
+        },
+        {
+          "id": "watch-magilou-revelation-skits",
+          "type": "step",
+          "text": "Watch ALL skits that appear after Magilou's backstory revelation. Multiple skits trigger in sequence here — critical for Avid Reader trophy."
+        },
+        {
+          "id": "boss-melchior",
+          "type": "boss",
+          "text": "**BOSS: Melchior** — Use Velvet, Rokurou, Eizen (physical attackers; Melchior is magic-resistant). Interrupt Grand Extinction cast with 4+ hit combo. Keep Panacea Bottles ready for Ancient Malice debuffs. Break Soul on Phase 2 transition. HP: ~80,000.",
+          "note": "Reward: Melchior's Grimoire, 12,000 Gald."
+        },
+        {
+          "id": "post-melchior-sub-event-sweep",
+          "type": "step",
+          "text": "After Melchior, return to Meirchio and Yseult to check for newly unlocked sub-events (Eizen chain entries 4-5 may now be available). Complete all before final chapter."
+        }
+      ]
+    },
+    {
+      "id": "final-chapter-the-end-of-desire",
+      "title": "Final Chapter: The End of Desire",
+      "content": "# Final Chapter: The End of Desire\n\n## Overview\n\nThis is the final chapter of Tales of Berseria. Velvet Crowe reaches the point her three years of suffering have been building toward — a direct confrontation with Artorius Collbrande in his domain. The chapter culminates in multiple consecutive boss fights, the game's most significant story revelations, and an ending that will stay with you long after the credits roll.\n\n**CRITICAL: This chapter has NO return to free exploration.** Once you enter Artorius's domain, the game proceeds forward to the credits without any open-world access. The final sub-event window is **right now**, before you enter.\n\n<!-- checkpoint: final-chapter-prep | Final Chapter — Last Preparation -->\n\n## ⚠️ FINAL POINT OF NO RETURN ⚠️\n\nBefore entering the final dungeon, do a complete sweep:\n\n### Final Checklist Before Entering\n\n**Sub-Events:**\n- Open pause → Sub-Events and check for any incomplete entries\n- The Eizen sub-event chain (5 entries) should be complete — if entry 4 or 5 are still open, return to Yseult\n- Eleanor's sub-event chain should be complete\n- Laphicet's sub-event chain should be complete\n- The Magilou chain should be complete\n\n**Equipment:**\n- All 6 characters should have their best available weapons (see Meirchio equipment section)\n- All 6 characters should have Dragon Scale Vest or better\n- Accessories should be equipped to all active party members\n\n**Supplies:**\n- **Orange Gel ×30+** \n- **High Orange Gel ×15+**\n- **Life Bottle ×8+**\n- **Elixir ×5+** (full revival, extremely important for the boss rush)\n- **Panacea Bottle ×15+** (bosses inflict many status effects)\n\n**Cooking:**\n- Cook **Dragon Cuisine** (ATK +15% party) at the Van Eltia galley\n- Cook **Noble's Feast** (ATK/DEF buffs) for backup\n- Cook **Sailor's Stew** (status resist) — the final bosses inflict multiple status effects\n\n**Character Levels:**\n- Recommended level: **50-55** for Normal difficulty\n- If below 45, grind in any outdoor area — use **Starlight Stew** for the EXP multiplier\n\n> 🏆 **Last chance for achievement progress:** Complete any remaining cooking achievements ('Gourmet Taste' — 50 recipes), arte achievements, arena titles, or sub-event counts before entering the final dungeon.\n\n<!-- checkpoint: final-dungeon-entered | Enter the Final Dungeon -->\n\n## Artorius's Throne — The Final Dungeon\n\nThe final dungeon is **Artorius's Throne**, a multi-floor structure combining Abbey architecture and Empyrean spiritual resonance. It is divided into four sections.\n\n### Dungeon Layout\n\n**Section 1 — The Outer Hall:**\n- Linear path with strong enemies (level 55+)\n- **No treasure chests** — this section is pure combat gauntlet\n- Conserve recovery items; bigger fights are coming\n- Enemies here are vulnerable to AoE — use Magilou's Gravity Well to group them\n\n**Section 2 — The Inner Sanctum:**\n- First floor with puzzles: three seals must be broken to open the central door\n- **Seal 1:** Defeat the daemon guardian (level 52 daemon with high DEF — use Rokurou's sustained DPS)\n- **Seal 2:** Solve the light-mirror puzzle (rotate three mirrors to direct beams to the central crystal)\n- **Seal 3:** Defeat a timed combat encounter: kill all 12 small daemons within 90 seconds before they merge into a large one (use AoE artes — Magilou's Thunder Blade + Laphicet's Cluster is ideal)\n- **Chest:** **Artorius's Design** (lore document) + **High Elixir ×2** in a hidden alcove after Seal 2\n\n**Section 3 — The Abbey's Culmination:**\n- Oscar and Teresa are waiting here for the final confrontation\n\n### Boss: Oscar Dragonia and Teresa Linares (Final)\n\n<!-- checkpoint: oscar-teresa-final | Final Battle — Oscar and Teresa -->\n\nThis is a **simultaneous two-boss fight** — both Oscar and Teresa are fought at the same time.\n\n- **Oscar HP:** ~65,000 | **Teresa HP:** ~70,000 (Normal)\n- **Combined Weakness:** They share neither weakness — Oscar is weak to wind, Teresa to dark\n- **Phase Structure:** They act independently, both attacking simultaneously. If one is defeated first, the survivor powers up (+30% ATK, +20% Speed)\n- **Recommended Strategy:**\n  - Split DPS between them, keeping both within ~20% HP of each other at all times\n  - When both are at ~20% HP simultaneously, burst Oscar down with Velvet's Break Soul + Rokurou, then immediately turn on Teresa with Magilou\n  - Eleanor should maintain Sacred Embrace continuously — both bosses deal substantial damage\n  - Do NOT have Eleanor in reserve — she must be active for this fight\n  - Use Elixir if any character KOs during their combined assault\n- **Oscar's Key Attacks:** Exorcism Blade Flurry (6-hit combo — guard through it), Holy Judgement (AoE), Cross Exorcism (teamwork attack with Teresa)\n- **Teresa's Key Attacks:** Spear Rain (wide ranged AoE), Sacred Light Wave (traveling horizontal beam — jump over it), Cross Exorcism (teamwork attack with Oscar)\n- **Reward:** Exorcism Twin Pendant (unique accessory, raises ATK/DEF when party member KOs), 18,000 Gald, story cutscene\n\n> 🏆 **Achievement: The Twins Defeated** — Unlocked after this fight. Watch the full cutscene — significant story revelations about Oscar and Teresa's relationship with each other and with Artorius.\n\n**Section 4 — The Throne Room:**\nAfter Oscar and Teresa, the path to Artorius opens. Stock up one final time by returning to the Van Eltia (accessible from a warp point in the Inner Sanctum — don't miss it).\n\n<!-- checkpoint: artorius-throne-reached | Reach Artorius's Throne Room -->\n\n## Boss: Innominat (The Empyrean)\n\nBefore Artorius himself, you must face **Innominat** — the Empyrean of Suppression, the god Artorius awakened with Velvet's brother three years ago. Laphicet has a special role in this confrontation.\n\n<!-- checkpoint: innominat-boss | Face Innominat the Empyrean -->\n\n- **HP:** ~120,000 (Normal)\n- **This is the hardest regular boss in the game.** Innominat has multiple phases and changes attack patterns dramatically.\n\n**Phase 1 (100%-70% HP):**\n- **Suppression Pulse:** Radial shockwave from Innominat's position — dash outward\n- **Soul Drain:** Targets one character and drains their Souls — immediately switch to that character and activate Break Soul before the drain completes\n- **Light Pillar:** Three pillars of divine light fall in sequence; the safe zone shifts — move to the side that hasn't been hit yet\n\n**Phase 2 (70%-40% HP):**\n- Innominat gains **Malevolence Form** — all attacks deal dark damage\n- **World Suppression:** Entire field AoE — no escape; use a Life Bottle or Elixir if any character's HP is below 50% before this hits\n- **Emotion Drain:** Party-wide debuff removing all active stat boosts; Eleanor should re-apply buffs immediately after\n\n**Phase 3 (below 40% HP):**\n- Innominat begins channeling **Final Suppression** — a 15-second cast that deals instant KO to all characters\n- Interrupt the cast with Velvet's Consuming Claw (Break Soul) targeting Innominat directly — this is uniquely effective against Empyrean-type enemies\n- After the interrupt, Laphicet will initiate a special story-driven attack — watch the cutscene that inserts here, then immediately use Velvet's Mystic Arte\n\n**Strategy:**\n- **Recommended Party:** Velvet (control), Laphicet (for his Phase 3 mechanic), Eleanor (healer)\n- Sub: Rokurou, Eizen, Magilou\n- Save Velvet's Break Soul specifically for Phase 3's interrupt — don't waste it on Phase 1-2 unless HP is critical\n- Eleanor must stay active for her healing aura — Innominat deals sustained high damage\n- Stock all 5 Elixirs for this fight; use them freely\n\n**Reward:** Major story cutscene, story progression, unique \"Empyrean Fragment\" item\n\n> 🏆 **Achievement: The Empyrean's Will** — Unlocked after defeating Innominat and watching the revelation cutscene.\n\n<!-- checkpoint: innominat-defeated | Innominat Defeated -->\n\n## The Truth of Velvet's Desire\n\nAfter Innominat's defeat, the story's most emotionally devastating revelations play out:\n\n- Innominat's suppression of Velvet's malevolence (hatred, desire for revenge) partially lifts — and Velvet realizes that underneath her rage, her true desire was never to kill Artorius. It was to **protect Laphicet** — the same desire she had three years ago when she failed to save her brother.\n- Laphicet (Phi) reveals he knows what Velvet truly feels — and he has grown beyond being just a vessel or a tool. He is his own person, who chose this family.\n- Artorius is waiting in the throne room, fully aware of what is about to happen.\n\n> Watch every cutscene here without skipping. The game's emotional payoff is entirely in these scenes.\n\n## Final Boss: Artorius Collbrande\n\n<!-- checkpoint: artorius-final-boss | Final Battle — Artorius Collbrande -->\n\nThe final boss. Artorius does not hold back.\n\n- **HP:** ~150,000 (Normal)\n- This is a **three-phase fight** with a cutscene break between Phase 2 and 3.\n\n**Phase 1 (100%-60% HP) — The Shepherd:**\n- **Shepherd's Blade:** Fast, tracking sword strike — sidestep at the moment of contact\n- **Holy Arcs:** Multiple arcing projectiles in a wide fan — dash through the center gap or jump above the lowest arc\n- **Exorcism Convergence:** Artorius marks all 3 active party members with targeting circles — explosive detonation after 2 seconds; dash away from your target marker\n- **Strategy:** Standard sustained damage. All party members can deal effective damage here. Use Eleanor's healing aura, break Soul on cooldown.\n\n**Phase 2 (60%-30% HP) — The Empyrean Shepherd:**\n- Artorius absorbs Innominat's power and enters a second form\n- **Divine Suppression:** Artorius fires a concentrated suppression beam; dodge perpendicular to its direction, never directly away\n- **Malevolence Burst:** AoE explosion; the center is safe — rush TOWARD Artorius when you see this animation\n- **Reaver's Judgement:** His most powerful attack — a 5-hit combo dealing enormous damage to one character. Guard the first 4 hits and sidestep the 5th (it has a deceptive delay).\n- **Strategy:** Focus damage on Velvet (Break Soul active constantly). Eleanor must maintain healer mode at all times. Laphicet switches to offense mode here — his arte set is strong against Artorius's new form. Use Mystic Arte (all characters available) during this phase.\n\n**Phase 3 (below 30% HP) — Cutscene, then: The Final Form:**\n- A pivotal story cutscene plays — watch it fully; it recontextualizes Artorius's motivation completely\n- When control returns, Artorius has one final form with roughly 30,000 HP remaining\n- **Final Strategy:** Use everything. All remaining Mystic Artes. All remaining Elixirs. Activate every Break Soul the moment the gauge fills. The fight has been designed for you to win here if you've been managing resources properly.\n- **Reaver Omega:** His final arte — a single massive strike dealing your maximum HP in damage to all characters. If you are below max HP when this lands, it is instant KO. Keep party HP at maximum during the final phase.\n\n**Reward:** Ending cutscene sequence, credits.\n\n> 🏆 **Achievement: The End of Desire** — Unlocked when Artorius is defeated.\n\n<!-- checkpoint: artorius-defeated | Artorius Collbrande Defeated -->\n\n## The Ending\n\nWithout spoiling the specifics, the ending of Tales of Berseria is:\n- **Bittersweet but earned.** Velvet's desire is fulfilled, but the cost is real.\n- **Connected to Tales of Zestiria.** If you've played Zestiria, the ending reveals the connections between the two games. If you haven't, there are elements that will become clearer if you play Zestiria later — Tales of Berseria is a prequel.\n- Laphicet's fate is the emotional center of the conclusion. His growth from a nameless numbered malak to the person he becomes is the true heart of the story.\n\nWatch the full credits. There is a **post-credits scene** that is significant to Berseria/Zestiria fans.\n\n<!-- checkpoint: game-complete | Tales of Berseria Complete -->\n\n> 🏆 **Achievement: A New Journey** — Unlocked after the credits and post-credits scene conclude.\n\n## New Game Plus (NG+)\n\nAfter completing the game, **New Game+** unlocks. Use your accumulated **Grade** to purchase NG+ bonuses at the Grade Shop:\n\n**Recommended Grade Shop Purchases:**\n| Bonus | Grade Cost | Recommendation |\n|-------|-----------|----------------|\n| Keep EXP | 1,000 | Essential if going for achievements |\n| Keep all Artes | 1,500 | Strongly recommended |\n| Keep Gald | 500 | Useful |\n| Keep Items | 800 | Useful |\n| 10x EXP multiplier | 3,000 | Essential for achievement farming |\n| Enemy Level +5 | 1,000 | For a more challenging NG+ |\n\n**Achievement Cleanup in NG+:**\n- Any skits you missed in the first playthrough appear in their original locations on NG+\n- Sub-events reset and can be completed again\n- The \"Avid Reader\" achievement can be completed in NG+ if you missed any skits\n- Cooking achievements, arte achievements, and kill-count achievements all carry over from NG\n",
+      "checkpoints": [
+        {
+          "id": "final-chapter-prep",
+          "label": "Final Chapter — Last Preparation"
+        },
+        {
+          "id": "final-dungeon-entered",
+          "label": "Enter the Final Dungeon"
+        },
+        {
+          "id": "oscar-teresa-final",
+          "label": "Final Battle — Oscar and Teresa"
+        },
+        {
+          "id": "artorius-throne-reached",
+          "label": "Reach Artorius's Throne Room"
+        },
+        {
+          "id": "innominat-boss",
+          "label": "Face Innominat the Empyrean"
+        },
+        {
+          "id": "innominat-defeated",
+          "label": "Innominat Defeated"
+        },
+        {
+          "id": "artorius-final-boss",
+          "label": "Final Battle — Artorius Collbrande"
+        },
+        {
+          "id": "artorius-defeated",
+          "label": "Artorius Collbrande Defeated"
+        },
+        {
+          "id": "game-complete",
+          "label": "Tales of Berseria Complete"
+        }
+      ],
+      "steps": [
+        {
+          "id": "warning-absolute-point-of-no-return",
+          "type": "warning",
+          "text": "🛑 **ABSOLUTE POINT OF NO RETURN:** Entering the final dungeon ends free exploration permanently. The game proceeds to credits without any open-world access. Complete EVERY sub-event, trophy-related task, cooking, and shopping before entering."
+        },
+        {
+          "id": "final-sub-event-sweep",
+          "type": "step",
+          "text": "Open pause → Sub-Events and confirm all major chains are complete: Eizen's chain (5 entries), Eleanor's chain, Laphicet's chain, Magilou's chain. Return to Yseult/Meirchio if any entries remain."
+        },
+        {
+          "id": "final-equipment-check",
+          "type": "step",
+          "text": "Equip all 6 characters with their best weapons from Meirchio and Dragon Scale Vest armor. Equip all accessories. No character should have empty equipment slots."
+        },
+        {
+          "id": "final-stock-supplies",
+          "type": "step",
+          "text": "Stock supplies at the Van Eltia shop: **Orange Gel ×30**, **High Orange Gel ×15**, **Life Bottle ×8**, **Elixir ×5**, **Panacea Bottle ×15**."
+        },
+        {
+          "id": "final-cook-buffs",
+          "type": "step",
+          "text": "Cook **Dragon Cuisine** (ATK +15% party), **Noble's Feast** (ATK/DEF buffs), and **Sailor's Stew** (status resist) at the Van Eltia galley before entering the final dungeon."
+        },
+        {
+          "id": "check-level-recommendation",
+          "type": "note",
+          "text": "**Recommended Level:** 50-55 for Normal difficulty. If below 45, grind with Starlight Stew (EXP multiplier recipe) in any outdoor area before proceeding."
+        },
+        {
+          "id": "dungeon-section1-enemies",
+          "type": "step",
+          "text": "In **The Outer Hall** (Section 1), fight through the enemy gauntlet conserving recovery items. Use Magilou's Gravity Well to group enemies for AoE damage."
+        },
+        {
+          "id": "dungeon-section2-seals",
+          "type": "step",
+          "text": "In **The Inner Sanctum** (Section 2), complete all 3 seals: defeat the daemon guardian, solve the light-mirror puzzle, and kill all 12 small daemons within 90 seconds."
+        },
+        {
+          "id": "collect-high-elixir-sanctum",
+          "type": "collectible",
+          "text": "After Seal 2's light-mirror puzzle, check the **hidden alcove** to the right for **High Elixir ×2** and the **Artorius's Design** lore document."
+        },
+        {
+          "id": "boss-oscar-teresa-final",
+          "type": "boss",
+          "text": "**BOSS: Oscar & Teresa (Final)** — Simultaneous fight. Keep both under 20% HP simultaneously before bursting either down. Oscar weak to wind, Teresa to dark. Eleanor must stay active as healer. HP: Oscar ~65,000 / Teresa ~70,000.",
+          "note": "Strategy: Balanced DPS both bosses → burst Oscar with Velvet Break Soul + Rokurou → immediately pivot to Teresa with Magilou."
+        },
+        {
+          "id": "use-warp-point-van-eltia",
+          "type": "step",
+          "text": "After Oscar/Teresa, find the **warp point** in the Inner Sanctum to return to the Van Eltia for final restocking. Cook Dragon Cuisine again and replenish all used items."
+        },
+        {
+          "id": "boss-innominat",
+          "type": "boss",
+          "text": "**BOSS: Innominat (Empyrean)** — Three phases. Save Velvet's Break Soul for the Phase 3 interrupt of Final Suppression. Active party: Velvet, Laphicet, Eleanor. Use Elixirs freely — this is the hardest fight before Artorius. HP: ~120,000.",
+          "note": "Phase 3 trigger: Innominat channels Final Suppression (15-sec cast). Interrupt with Velvet's Consuming Claw. Then watch story cutscene, then Velvet Mystic Arte."
+        },
+        {
+          "id": "watch-truth-cutscenes",
+          "type": "step",
+          "text": "Watch every cutscene after Innominat without skipping. The revelation about Velvet's true desire and Laphicet's identity are the emotional core of the entire game."
+        },
+        {
+          "id": "boss-artorius-final",
+          "type": "boss",
+          "text": "**FINAL BOSS: Artorius Collbrande** — Three phases. Phase 1: sustained damage. Phase 2: Laphicet + Eleanor + Velvet, all Mystic Artes. Phase 3: use EVERYTHING. Avoid Reaver Omega (keep all HP near maximum). HP: ~150,000 total across all phases.",
+          "note": "Between Phase 2 and 3, a critical story cutscene plays. Watch it in full — then unleash all remaining Mystic Artes and Break Souls in Phase 3."
+        },
+        {
+          "id": "watch-ending-credits",
+          "type": "step",
+          "text": "Watch the full ending cutscenes and **stay through the credits** for the post-credits scene. This scene is significant for the Berseria/Zestiria connection."
+        },
+        {
+          "id": "new-game-plus-setup",
+          "type": "note",
+          "text": "**New Game+:** At the Grade Shop, prioritize: Keep Artes (1,500G), 10x EXP multiplier (3,000G), Keep EXP (1,000G). NG+ resets sub-events and skit locations — ideal for achievement cleanup."
+        }
+      ]
+    }
+  ]
+}
