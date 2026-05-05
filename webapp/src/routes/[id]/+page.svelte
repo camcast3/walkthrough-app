@@ -360,10 +360,10 @@
 				goto('/settings');
 				break;
 			case 'zoom-in':
-				adjustZoom(ZOOM_STEP);
+				adjustZoom(magnitude ?? ZOOM_STEP);
 				break;
 			case 'zoom-out':
-				adjustZoom(-ZOOM_STEP);
+				adjustZoom(-(magnitude ?? ZOOM_STEP));
 				break;
 		}
 	}

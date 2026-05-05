@@ -14,8 +14,8 @@
  *   3 = Y (North) — cycle HLTB mode
  *   4 = LB        — previous section
  *   5 = RB        — next section
- *   6 = LT        — zoom out (repeat-on-hold)
- *   7 = RT        — zoom in  (repeat-on-hold)
+ *   6 = LT        — zoom out (analog: pressure controls speed)
+ *   7 = RT        — zoom in  (analog: pressure controls speed)
  *   9 = Start/Menu/Pause — open settings
  *   12 = D-pad Up   (repeat-on-hold)
  *   13 = D-pad Down (repeat-on-hold)
@@ -49,8 +49,8 @@ interface ButtonState {
 	lastRepeat: number | null;
 }
 
-/** Buttons that fire repeat events while held (D-pad Up / Down for scrolling, triggers for zoom). */
-const REPEAT_BUTTONS = new Set([6, 7, 12, 13]);
+/** Buttons that fire repeat events while held (D-pad Up / Down for scrolling). */
+const REPEAT_BUTTONS = new Set([12, 13]);
 
 /** Delay before the first repeat fires (ms). */
 const HOLD_DELAY_MS = 400;
@@ -65,8 +65,6 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	3: 'cycle-hltb',
 	4: 'prev-section',
 	5: 'next-section',
-	6: 'zoom-out',
-	7: 'zoom-in',
 	12: 'focus-up',
 	13: 'focus-down',
 	9: 'settings',
@@ -79,6 +77,15 @@ const STICK_DEADZONE = 0.25;
 
 /** Pixels to scroll per frame at full stick deflection (tuned for 60 fps). */
 const STICK_SCROLL_PX = 5;
+
+/** Minimum trigger value before zoom is applied (prevents drift). */
+const TRIGGER_DEADZONE = 0.05;
+
+/**
+ * Zoom delta per frame at full trigger press.
+ * At 60 fps this gives ~0.9× per second across the full range.
+ */
+const TRIGGER_ZOOM_RATE = 0.015;
 
 export class GamepadNavigator {
 	private rafId: number | null = null;
@@ -197,6 +204,12 @@ export class GamepadNavigator {
 					this.onAction(pixels < 0 ? 'scroll-up' : 'scroll-down', Math.abs(pixels));
 				}
 			}
+
+			// Triggers: analog zoom proportional to squeeze pressure
+			const lt = gp.buttons[6]?.value ?? 0;
+			const rt = gp.buttons[7]?.value ?? 0;
+			if (lt > TRIGGER_DEADZONE) this.onAction('zoom-out', lt * TRIGGER_ZOOM_RATE);
+			if (rt > TRIGGER_DEADZONE) this.onAction('zoom-in', rt * TRIGGER_ZOOM_RATE);
 		}
 		this.rafId = requestAnimationFrame(this.poll);
 	};
