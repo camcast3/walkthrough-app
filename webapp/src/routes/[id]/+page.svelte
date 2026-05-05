@@ -213,7 +213,7 @@
 
 	let zoomLevel = $state(
 		typeof localStorage !== 'undefined'
-			? parseFloat(localStorage.getItem(ZOOM_STORAGE_KEY) ?? '1') || 1
+			? (() => { const v = parseFloat(localStorage.getItem(ZOOM_STORAGE_KEY) ?? ''); return isNaN(v) ? 1 : v; })()
 			: 1
 	);
 
@@ -224,9 +224,7 @@
 	});
 
 	function adjustZoom(delta: number) {
-		zoomLevel = parseFloat(
-			Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel + delta)).toFixed(2)
-		);
+		zoomLevel += delta;
 	}
 
 	// ── Gamepad navigation ─────────────────────────────────────────────────────
