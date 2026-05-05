@@ -13,13 +13,15 @@
  *   3 = Y (North) — cycle HLTB mode
  *   4 = LB        — previous section
  *   5 = RB        — next section
+ *   6 = LT        — zoom out (repeat-on-hold)
+ *   7 = RT        — zoom in  (repeat-on-hold)
  *   9 = Start/Menu/Pause — open settings
  *   12 = D-pad Up   (repeat-on-hold)
  *   13 = D-pad Down (repeat-on-hold)
  *   14 = D-pad Left  (previous section alias)
  *   15 = D-pad Right (next section alias)
  *
- * Left stick Y-axis: analog scroll (fires scroll-up / scroll-down each tick)
+ * Left stick Y-axis: analog scroll with quadratic response curve (fires scroll-up / scroll-down each tick)
  */
 
 export type GamepadAction =
@@ -33,7 +35,9 @@ export type GamepadAction =
 	| 'cycle-hltb'
 	| 'scroll-up'
 	| 'scroll-down'
-	| 'settings';
+	| 'settings'
+	| 'zoom-in'
+	| 'zoom-out';
 
 interface ButtonState {
 	pressed: boolean;
@@ -44,8 +48,8 @@ interface ButtonState {
 	lastRepeat: number | null;
 }
 
-/** Buttons that fire repeat events while held (D-pad Up / Down for scrolling). */
-const REPEAT_BUTTONS = new Set([12, 13]);
+/** Buttons that fire repeat events while held (D-pad Up / Down for scrolling, triggers for zoom). */
+const REPEAT_BUTTONS = new Set([6, 7, 12, 13]);
 
 /** Delay before the first repeat fires (ms). */
 const HOLD_DELAY_MS = 400;
@@ -60,6 +64,8 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	3: 'cycle-hltb',
 	4: 'prev-section',
 	5: 'next-section',
+	6: 'zoom-out',
+	7: 'zoom-in',
 	12: 'focus-up',
 	13: 'focus-down',
 	9: 'settings',
@@ -71,7 +77,7 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 const STICK_DEADZONE = 0.25;
 
 /** Pixels to scroll per poll tick at full stick deflection. */
-const STICK_SCROLL_PX = 12;
+const STICK_SCROLL_PX = 20;
 
 const POLL_INTERVAL_MS = 66; // ~15 fps — responsive enough for button presses
 
@@ -182,11 +188,12 @@ export class GamepadNavigator {
 				}
 			}
 
-			// Left-stick Y-axis: analog free-scroll
+			// Left-stick Y-axis: analog free-scroll with quadratic curve for smoothness
 			const axisY = gp.axes[1] ?? 0;
 			if (Math.abs(axisY) > STICK_DEADZONE) {
 				const magnitude = (Math.abs(axisY) - STICK_DEADZONE) / (1 - STICK_DEADZONE);
-				const pixels = Math.round(magnitude * STICK_SCROLL_PX * Math.sign(axisY));
+				// Quadratic curve: gentle near centre, fast at full deflection
+				const pixels = Math.round(magnitude * magnitude * STICK_SCROLL_PX * Math.sign(axisY));
 				if (pixels !== 0) {
 					this.onAction(pixels < 0 ? 'scroll-up' : 'scroll-down', Math.abs(pixels));
 				}

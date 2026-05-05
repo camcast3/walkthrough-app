@@ -205,6 +205,30 @@
 		showStalePrompt = false;
 	}
 
+	// ── Zoom ──────────────────────────────────────────────────────────────────
+	const ZOOM_MIN = 0.5;
+	const ZOOM_MAX = 2.0;
+	const ZOOM_STEP = 0.1;
+	const ZOOM_STORAGE_KEY = 'wt-zoom';
+
+	let zoomLevel = $state(
+		typeof localStorage !== 'undefined'
+			? parseFloat(localStorage.getItem(ZOOM_STORAGE_KEY) ?? '1') || 1
+			: 1
+	);
+
+	$effect(() => {
+		const clamped = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel));
+		document.documentElement.style.zoom = String(clamped);
+		try { localStorage.setItem(ZOOM_STORAGE_KEY, String(clamped)); } catch { /* ignore */ }
+	});
+
+	function adjustZoom(delta: number) {
+		zoomLevel = parseFloat(
+			Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel + delta)).toFixed(2)
+		);
+	}
+
 	// ── Gamepad navigation ─────────────────────────────────────────────────────
 	let gamepad: GamepadNavigator | null = null;
 	/** Ordered list of checkpoint button elements in the current prose section. */
@@ -337,6 +361,12 @@
 			case 'settings':
 				goto('/settings');
 				break;
+			case 'zoom-in':
+				adjustZoom(ZOOM_STEP);
+				break;
+			case 'zoom-out':
+				adjustZoom(-ZOOM_STEP);
+				break;
 		}
 	}
 
@@ -348,7 +378,11 @@
 		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
 		else if (e.key === 'ArrowLeft') handleGamepadAction('prev-section');
 		else if (e.key === 'ArrowRight') handleGamepadAction('next-section');
-		else if (e.key === ' ' || e.key === 'Enter') {
+		else if ((e.key === '=' || e.key === '+') && (e.ctrlKey || e.metaKey)) {
+			e.preventDefault(); handleGamepadAction('zoom-in');
+		} else if (e.key === '-' && (e.ctrlKey || e.metaKey)) {
+			e.preventDefault(); handleGamepadAction('zoom-out');
+		} else if (e.key === ' ' || e.key === 'Enter') {
 			e.preventDefault();
 			const step = steps[focusedStepIdx];
 			if (step) toggleStep(step.id, step.type);
@@ -457,6 +491,7 @@
 		if (data.appMode === 'client') {
 			hints.push({ badge: 'X', label: isCheckedOut ? 'Checkin' : 'Checkout' });
 		}
+		hints.push({ badge: 'LT/RT', label: 'Zoom' });
 		hints.push({ badge: '☰', label: 'Settings' });
 		return hints;
 	});
