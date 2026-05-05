@@ -1,10 +1,11 @@
 /**
  * Gamepad navigation for the walkthrough viewer.
  *
- * Power-optimised: polling only runs when a gamepad is connected and the page
- * is visible.  Uses setTimeout (~15 fps) instead of requestAnimationFrame so
- * the browser can coalesce timers during idle and the CPU can sleep between
- * ticks — a significant battery saving on handhelds like the ROG Ally.
+ * Polling runs via requestAnimationFrame — at least 60 fps on modern displays —
+ * so stick scroll and button repeats feel instantaneous.  Polling is
+ * automatically suspended by the browser when the page is not visible, and is
+ * also stopped explicitly on gamepaddisconnected / visibilitychange so there is
+ * no busy-loop when no gamepad is in use.
  *
  * Button mapping (standard gamepad layout):
  *   0 = A (South) — check/uncheck focused step
@@ -76,13 +77,11 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 /** Deadzone for the left-stick Y-axis to avoid drift. */
 const STICK_DEADZONE = 0.25;
 
-/** Pixels to scroll per poll tick at full stick deflection. */
-const STICK_SCROLL_PX = 20;
-
-const POLL_INTERVAL_MS = 66; // ~15 fps — responsive enough for button presses
+/** Pixels to scroll per frame at full stick deflection (tuned for 60 fps). */
+const STICK_SCROLL_PX = 5;
 
 export class GamepadNavigator {
-	private timerId: ReturnType<typeof setTimeout> | null = null;
+	private rafId: number | null = null;
 	private buttonStates: Map<number, ButtonState> = new Map();
 	private onAction: (action: GamepadAction, magnitude?: number) => void;
 	private gamepadCount = 0;
@@ -127,14 +126,14 @@ export class GamepadNavigator {
 	};
 
 	private startPolling(): void {
-		if (this.timerId !== null) return;
+		if (this.rafId !== null) return;
 		this.poll();
 	}
 
 	private stopPolling(): void {
-		if (this.timerId !== null) {
-			clearTimeout(this.timerId);
-			this.timerId = null;
+		if (this.rafId !== null) {
+			cancelAnimationFrame(this.rafId);
+			this.rafId = null;
 		}
 	}
 
@@ -199,6 +198,6 @@ export class GamepadNavigator {
 				}
 			}
 		}
-		this.timerId = setTimeout(this.poll, POLL_INTERVAL_MS);
+		this.rafId = requestAnimationFrame(this.poll);
 	};
 }
