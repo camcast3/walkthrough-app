@@ -270,6 +270,10 @@ func main() {
 
 	log.Printf("walkthrough-server listening on %s", *addr)
 	log.Printf("  static: %s", *staticDir)
+	if _, err := os.Stat(filepath.Join(*staticDir, "index.html")); os.IsNotExist(err) {
+		log.Printf("  [warning] static/index.html not found — the webapp will not load")
+		log.Printf("  [warning] extract static files: curl -fsSL .../static.tar.gz | tar -xz -C %s", *staticDir)
+	}
 
 	if err := http.ListenAndServe(*addr, corsMiddleware(mux)); err != nil {
 		log.Fatalf("server error: %v", err)
@@ -316,13 +320,69 @@ func remoteSrcForHandler(src source.WalkthroughSource) *source.RemoteSource {
 	return nil
 }
 
-// spaHandler serves static files and falls back to index.html for unknown paths.
+// setupNeededHTML is served when the static directory does not contain index.html,
+// indicating that the webapp static files have not been extracted yet.
+const setupNeededHTML = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setup required — Walkthrough Server</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#0a0a14;color:#e8e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+  .box{max-width:540px;padding:2rem;border:1px solid rgba(124,106,247,.25);border-radius:16px;background:rgba(20,20,36,.8)}
+  h1{font-size:1.5rem;margin-bottom:1rem;color:#a89df7}
+  p{margin:.75rem 0;color:#8888aa;line-height:1.6}
+  code,pre{background:rgba(42,42,68,.8);border-radius:6px;font-size:.88rem}
+  code{padding:.15rem .4rem}
+  pre{padding:1rem;overflow-x:auto;white-space:pre-wrap;margin:.5rem 0 1rem}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>⚙ Static files not found</h1>
+  <p>The walkthrough server is running, but the webapp static files have not been extracted yet.</p>
+  <p>Run the following command to fix this:</p>
+  <pre>LATEST=$(curl -fsSL https://api.github.com/repos/camcast3/walkthrough-app/releases/latest \
+  | grep '"tag_name"' | head -n1 | cut -d'"' -f4)
+
+curl -fsSL "https://github.com/camcast3/walkthrough-app/releases/download/${LATEST}/static.tar.gz" \
+  | tar -xz -C ~/.local/share/walkthrough-app/static</pre>
+  <p>Then reload this page. If you used a custom <code>STATIC_DIR</code>, adjust the path above accordingly.</p>
+  <p>The API is running — <a href="/api/config" style="color:#7c6af7">/api/config</a> works.</p>
+</div>
+</body>
+</html>`
+
+// spaHandler serves static files and falls back to index.html for SPA routes.
+// If the static directory does not contain index.html (i.e. static files have
+// not been extracted yet), a helpful setup page is served instead so the user
+// sees actionable instructions rather than a blank white page.
 func spaHandler(staticDir string) http.Handler {
 	fs := http.FileServer(http.Dir(staticDir))
+	indexPath := filepath.Join(staticDir, "index.html")
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// If index.html is missing, the webapp has not been deployed yet.
+		// Serve a setup instructions page for all non-API requests.
+		if _, err := os.Stat(indexPath); os.IsNotExist(err) {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.WriteHeader(http.StatusServiceUnavailable)
+			_, _ = w.Write([]byte(setupNeededHTML))
+			return
+		}
+
 		path := filepath.Join(staticDir, filepath.Clean("/"+r.URL.Path))
 		if _, err := os.Stat(path); os.IsNotExist(err) {
-			http.ServeFile(w, r, filepath.Join(staticDir, "index.html"))
+			// Hashed build assets (/_app/...) must exist if index.html does.
+			// Serving index.html for these would send HTML as CSS/JS, causing
+			// the browser to silently discard them and show a blank white page.
+			// Return 404 so missing assets produce visible errors instead.
+			if strings.HasPrefix(r.URL.Path, "/_app/") {
+				http.NotFound(w, r)
+				return
+			}
+			// Unknown path — SPA route; let the client-side router handle it.
+			http.ServeFile(w, r, indexPath)
 			return
 		}
 		fs.ServeHTTP(w, r)
