@@ -17,7 +17,7 @@
     {
       "id": "prologue",
       "title": "Prologue: November 29–30",
-      "content": "# Prologue\n\nThe Prologue of Trails of Cold Steel II picks up one month after the devastating Erebonian Civil War outbreak that ended the first game. Rean Schwarzer awakens alone in the Eisengard Mountains near Ymir, separated from his classmates. This tutorial chapter reintroduces you to the combat system and sets the stage for the journey to reunite Class VII.\n\n## November 29 — Eisengard Range\n\n<!-- checkpoint: eisengard-start | Begin Eisengard Descent -->\n\n### Starting Out\n\nYou begin in the snowy Eisengard Mountain Canyon. The path is mostly linear with side branches leading to treasure.\n\n**Difficulty Selection:** Choose from Easy, Normal, Hard, or Nightmare. If you have a Clear Save from Trails of Cold Steel I, you'll receive transfer bonuses including items and Sepith based on your old save's level and rank.\n\n> 🏆 **Achievement: Conquering Hero** — Complete the game on Hard difficulty or above. **Banisher of Nightmares** — Complete on Nightmare. Difficulty trophies stack, so Nightmare earns both.\n\nAfter the opening cinematic summarizing the civil war, you gain control of **Rean**.\n\n### Navigation Tutorial\n\nThe game introduces saving, Cross-Save, and the Navigation Menu (press Square to highlight objectives). Get into the habit of pressing Square whenever you're unsure where to go.\n\n### Descending the Mountain\n\nHead downhill along the canyon path. Watch for a **shining object** on the ground — this restores some of Rean's equipment. Open your Orbment menu when prompted and equip your **Master Quartz**.\n\n**Treasure Chests in Eisengard Range:**\n- **Tear** — early in the path, right side\n- **Teara Balm** — branching left path\n- **Proxy Puppet** — hidden alcove past the second monster group\n- **Celestial Balm** — final chest before the boss area\n\n> Collect ALL chests on side branches before proceeding. You cannot return to the upper areas later.\n\n### First Battles\n\nYour first monster encounter acts as a combat tutorial:\n- **Field Attack:** Hit enemies on the field before combat starts for an Advantage (extra turns, reduced enemy HP)\n- **Link System:** Connect party members for Follow-Up attacks after Unbalancing enemies\n- After each fight, the **Monster Notebook** fills with data. Analyze every new enemy with the Battle Scope for 100% completion\n\n> 🏆 **Achievement: Face of the Enemy** — Fill the Monster Notebook to 100%. Start scanning from the very first fight.\n\n### Boss: Magic Knight Ortheim\n\n<!-- checkpoint: ortheim-defeated | Defeat Magic Knight Ortheim -->\n\n**Magic Knight Ortheim** blocks your path at the bottom of the range.\n\n- **HP:** ~10,000 (Normal difficulty)\n- **Weakness:** None specific; use physical Crafts\n- **Strategy:** This is a scripted encounter — you only need to reduce its HP to a threshold before a cutscene triggers. Use Rean's **Arc Slash** for consistent damage and heal with items if HP drops below 50%.\n- The fight ends via cutscene regardless of outcome — don't waste rare items here.\n\nAfter the battle, story scenes play and you're transported to Ymir.\n\n## November 30 — Ymir\n\n<!-- checkpoint: ymir-arrival | Arrive in Ymir -->\n\n### Exploring Ymir Village\n\nYou wake in the **Schwarzer Mansion** in Ymir, Rean's hometown. This is a free exploration day — talk to everyone and gather items before heading to the canyon.\n\n**Required NPC Visits** (red \"!\" markers on map):\n- **Lucia and Teo Schwarzer** — Baron Schwarzer's mansion (Rean's parents)\n- **Elise and Celine** — at the footbath area\n- **Princess Alfin** — Ymir Chapel\n- **Toval Randonneur** — Valley's Echo Tavern\n- **Head Chef Werner** — Phoenix Wings restaurant\n- **Annabelle** — Ymir Valley path\n- **Manager Baggins** — Phoenix Wings\n\n**Bonus Items:**\n- Speak with **Gerald** for **Fluffy Pancake ×2**\n- If you imported Clear Data from Cold Steel I, receive **Groundbait** (amount depends on fishing rank)\n\n**Books (Missable!):**\n- **Imperial Chronicle - Issue 1** — Buy from **Plover Goods & Souvenirs** in Ymir\n- **Gambler Jack Reprint #1** — Buy from **Plover Goods & Souvenirs** in Ymir\n- **Gambler Jack II - Chapter 1** — Talk to **Ploval** directly at the General Store counter (do NOT just browse the shop menu — you must speak to her in person to receive this book)\n\n> 🏆 **Achievement: Lending Library** — Gambler Jack II Ch.1 is missable. Grab it now or lose it forever. Also buy Imperial Chronicle Issue 1 and Gambler Jack Reprint #1 from Plover Goods before leaving Ymir.\n\n**Recipes to obtain:**\n- **Salty Onigiri (Recipe)** — given during story progression\n\n**Shop Items:**\n- **Coarse Rock Salt ×3** — available for purchase\n- **Assorted Grains ×3** — available for purchase\n\n> **Save your game before the bath event.** After visiting all required NPCs, enter the bath for a story scene that advances the day.\n\n### Ymir Canyon Path\n\n<!-- checkpoint: ymir-canyon-cleared | Clear Ymir Canyon -->\n\nAfter the village events, you head out to **Ymir Canyon Path** with a **fixed party of Rean, Elise, and Toval**. The path is mostly linear — defeat monsters and collect treasure chests along the way.\n\n**Treasure Chests in Ymir Canyon:**\n- **Teara Balm**\n- **U-Material ×3**\n- **Lighter**\n- **Zeram Powder**\n- **Tearal Balm**\n- **Poison Quartz**\n- **All Sepith ×50**\n\n### Boss: Magic Knight\n\nAt the end of the canyon you face another **Magic Knight** enemy.\n\n- **Strategy:** Apply buffs early (use Toval for support arts). Focus physical damage with Rean's Crafts. Use S-Craft if health is comfortable.\n- After reducing its HP, a cutscene triggers leading directly into the **Valimar Divine Knight tutorial battle**.\n\n### Valimar Tutorial — Panzer Soldat Type-D\n\n<!-- checkpoint: valimar-tutorial | Valimar Tutorial Mech Battle -->\n\nThis is your **first Divine Knight mech battle**. After the Magic Knight fight, Rean boards Valimar to face a **Panzer Soldat Type-D**.\n\n- **Mechanics:** Select attack targets (Head, Body, Arms) to find weak points. When a weak point is revealed, focus attacks there for bonus damage.\n- **Strategy:** Use Valimar's standard attacks to probe for weak points. When the Soldat charges a powerful attack, use defensive stance. Heal with Restore when HP drops below 50%.\n- **Reward:** Large EXP bonus + story progression\n\n> This tutorial teaches the Divine Knight battle system used throughout the rest of the game. Pay attention to the targeting mechanics.\n\n> After defeating the Panzer Soldat, story events conclude the Prologue and open up Act 1.\n\n<!-- checkpoint: prologue-complete | Prologue Complete -->",
+      "content": "# Prologue\n\nThe Prologue of Trails of Cold Steel II picks up one month after the devastating Erebonian Civil War outbreak that ended the first game. Rean Schwarzer awakens alone in the Eisengard Mountains near Ymir, separated from his classmates. This tutorial chapter reintroduces you to the combat system and sets the stage for the journey to reunite Class VII.\n\n## November 29 — Eisengard Range\n\n<!-- checkpoint: eisengard-start | Begin Eisengard Descent -->\n\n### Starting Out\n\nYou begin in the snowy Eisengard Mountain Canyon. The path is mostly linear with side branches leading to treasure.\n\n**Difficulty Selection:** Choose from Easy, Normal, Hard, or Nightmare. If you have a Clear Save from Trails of Cold Steel I, you'll receive transfer bonuses including items and Sepith based on your old save's level and rank.\n\n> 🏆 **Achievement: Conquering Hero** — Complete the game on Hard difficulty or above. **Banisher of Nightmares** — Complete on Nightmare. Difficulty trophies stack, so Nightmare earns both.\n\nAfter the opening cinematic summarizing the civil war, you gain control of **Rean**.\n\n### Navigation Tutorial\n\nThe game introduces saving, Cross-Save, and the Navigation Menu (press Square to highlight objectives). Get into the habit of pressing Square whenever you're unsure where to go.\n\n### Descending the Mountain\n\nHead downhill along the canyon path. Watch for a **shining object** on the ground — this restores some of Rean's equipment. Open your Orbment menu when prompted and equip your **Master Quartz**.\n\n**Treasure Chests in Eisengard Range:**\n- **Tear** — early in the path, right side\n- **Teara Balm** — branching left path\n- **Proxy Puppet** — hidden alcove past the second monster group\n- **Celestial Balm** — final chest before the boss area\n\n> Collect ALL chests on side branches before proceeding. You cannot return to the upper areas later.\n\n### First Battles\n\nYour first monster encounter acts as a combat tutorial:\n- **Field Attack:** Hit enemies on the field before combat starts for an Advantage (extra turns, reduced enemy HP)\n- **Link System:** Connect party members for Follow-Up attacks after Unbalancing enemies\n- After each fight, the **Monster Notebook** fills with data. Analyze every new enemy with the Battle Scope for 100% completion\n\n> 🏆 **Achievement: Face of the Enemy** — Fill the Monster Notebook to 100%. Start scanning from the very first fight.\n\n### Boss: Magic Knight Ortheim\n\n<!-- checkpoint: ortheim-defeated | Defeat Magic Knight Ortheim -->\n\n**Magic Knight Ortheim** blocks your path at the bottom of the range.\n\n- **HP:** 33,768\n- **Weakness:** All elements equally effective; all unbalance types ★★★☆\n- **Strategy:** This is a scripted encounter — use Rean's **Flame Strike** for damage (chance to inflict Burn). Heal with Tear or Teara Balm when HP drops below 3000. The battle ends automatically once you bring its HP under 15,000.\n- Don't waste rare items — the fight ends at the HP threshold regardless.\n\nAfter the battle, story scenes play and you're transported to Ymir.\n\n## November 30 — Ymir\n\n<!-- checkpoint: ymir-arrival | Arrive in Ymir -->\n\n### Exploring Ymir Village\n\nYou wake in the **Schwarzer Mansion** in Ymir, Rean's hometown. This is a free exploration day — talk to everyone and gather items before heading to the canyon.\n\n**Required NPC Visits** (red \"!\" markers on map):\n- **Lucia and Teo Schwarzer** — Baron Schwarzer's mansion (Rean's parents)\n- **Elise and Celine** — at the footbath area\n- **Princess Alfin** — Ymir Chapel\n- **Toval Randonneur** — Valley's Echo Tavern\n- **Head Chef Werner** — Phoenix Wings restaurant\n- **Annabelle** — Ymir Valley path\n- **Manager Baggins** — Phoenix Wings\n\n**Bonus Items:**\n- Speak with **Gerald** for **Fluffy Pancake ×2**\n- If you imported Clear Data from Cold Steel I, receive **Groundbait** (amount depends on fishing rank)\n\n**Books (Missable!):**\n- **Imperial Chronicle - Issue 1** — Buy from **Plover Goods & Souvenirs** in Ymir\n- **Gambler Jack Reprint #1** — Buy from **Plover Goods & Souvenirs** in Ymir\n- **Gambler Jack II - Chapter 1** — Talk to **Ploval** directly at the General Store counter (do NOT just browse the shop menu — you must speak to her in person to receive this book)\n\n> 🏆 **Achievement: Lending Library** — Gambler Jack II Ch.1 is missable. Grab it now or lose it forever. Also buy Imperial Chronicle Issue 1 and Gambler Jack Reprint #1 from Plover Goods before leaving Ymir.\n\n**Recipes to obtain:**\n- **Salty Onigiri (Recipe)** — given during story progression\n\n**Shop Items:**\n- **Coarse Rock Salt ×3** — available for purchase\n- **Assorted Grains ×3** — available for purchase\n\n> **Save your game before the bath event.** After visiting all required NPCs, enter the bath for a story scene that advances the day.\n\n### Ymir Canyon Path\n\n<!-- checkpoint: ymir-canyon-cleared | Clear Ymir Canyon -->\n\nAfter the village events, you head out to **Ymir Canyon Path** with a **fixed party of Rean, Elise, and Toval**. The path is mostly linear — defeat monsters and collect treasure chests along the way.\n\n**Treasure Chests in Ymir Canyon:**\n- **Lighter**\n- **Zeram Powder**\n- **U-Material ×3**\n- **Tearal Balm**\n- **Poison Quartz**\n- **All Sepith ×50**\n\n### Boss: Magic Knight Ortheim\n\nAt the end of the canyon you face **Magic Knight Ortheim** (HP: 45,225).\n\n- **Skills:** Sword Slash (frontal AoE), Ground Stab (area around boss), Boost (STR +50% and heals 15,000 HP)\n- **Strategy:** Use Elise as main healer (Holy Squall restores 60% HP in radius). Rean and Toval focus physical Crafts. Use S-Crafts on critical bonus turns. Watch for Boost — it extends the fight.\n- After reducing its HP, a cutscene triggers leading directly into the **Valimar Divine Knight mech battle**.\n\n### Valimar Tutorial — Magic Knight Ortheim Phase 2\n\n<!-- checkpoint: valimar-tutorial | Valimar Tutorial Mech Battle -->\n\nThis is your **first Divine Knight mech battle**. After the Magic Knight fight, Rean boards Valimar to face **Magic Knight Ortheim Phase 2** (HP: 84,400).\n\n- **Mechanics:** Mech combat is rock-paper-scissors — select a body part (Head, Body, Arms) to attack. Hitting the correct weak point lands a critical hit, triggering a Link Attack for bonus damage.\n- **Weak Points:** Idle Stance → attack **Head** (★★★★). Attack Stance → attack **Arms** (★★★★).\n- **Strategy:** Attack the Head during idle stance and the Arms during attack stance. Link Attacks are the optimal way to deal damage.\n- **Reward:** Large EXP bonus + story progression\n\n> This tutorial teaches the Divine Knight battle system used throughout the rest of the game. Pay attention to the stance-based targeting.\n\n> After defeating Magic Knight Ortheim, story events conclude the Prologue and open up Act 1.\n\n<!-- checkpoint: prologue-complete | Prologue Complete -->",
       "checkpoints": [
         {
           "id": "eisengard-start",
@@ -115,8 +115,8 @@
         {
           "id": "boss-ortheim",
           "type": "boss",
-          "text": "**BOSS: Magic Knight Ortheim** (~10,000 HP) — Use Arc Slash for damage. This is scripted; reduce HP to threshold for cutscene. Don't waste rare items.",
-          "note": "The fight ends via cutscene regardless of outcome."
+          "text": "**BOSS: Magic Knight Ortheim** (33,768 HP) — Use **Flame Strike** for damage (chance to inflict Burn). Heal with Tear or Teara Balm when HP drops below 3000. Battle ends automatically once you bring it under 15,000 HP.",
+          "note": "This is a scripted encounter — the fight ends via cutscene at the HP threshold. Don't waste rare items."
         },
         {
           "id": "talk-lucia-teo",
@@ -189,129 +189,99 @@
         {
           "id": "clear-ymir-canyon-chests",
           "type": "step",
-          "text": "Collect all treasure chests in **Ymir Canyon Path**: Teara Balm, U-Material ×3, Lighter, Zeram Powder, Tearal Balm, Poison Quartz, All Sepith ×50."
+          "text": "Collect all treasure chests in **Ymir Canyon Path**: Lighter, Zeram Powder, U-Material ×3, Tearal Balm, Poison Quartz, All Sepith ×50."
         },
         {
           "id": "boss-magic-knight-ymir",
           "type": "boss",
-          "text": "**BOSS: Magic Knight** (Ymir Canyon) — Buff party with Toval support arts, focus physical damage with Rean's Crafts. Triggers Valimar mech battle upon HP threshold.",
-          "note": "After reducing its HP, a cutscene leads directly into the Valimar tutorial battle."
+          "text": "**BOSS: Magic Knight Ortheim** (45,225 HP, Ymir Canyon) — Use Elise as healer (Holy Squall restores 60% HP in radius). Rean and Toval focus physical attacks and Crafts. Use S-Crafts on critical bonus turns. Watch for its Boost skill which grants STR +50% and heals 15,000 HP.",
+          "note": "Boss has area sword slash and ground stab attacks. After reducing its HP, a cutscene leads directly into the Valimar mech battle."
         },
         {
           "id": "mech-battle-valimar-tutorial",
           "type": "boss",
-          "text": "**MECH BATTLE: Valimar vs Panzer Soldat Type-D** — First Divine Knight battle. Probe for weak points (Head/Body/Arms), use defensive stance against charged attacks, Restore when HP drops below 50%.",
-          "note": "Tutorial fight that teaches mech battle targeting mechanics used throughout the game."
+          "text": "**MECH BATTLE: Valimar vs Magic Knight Ortheim Phase 2** (84,400 HP) — First Divine Knight battle. Target **Head** during idle stance (★★★★ weakness) and **Arms** during attack stance (★★★★ weakness). Landing the correct part triggers Link Attacks for bonus damage.",
+          "note": "Mech combat is rock-paper-scissors targeting. This tutorial teaches the Divine Knight system used throughout the game."
         }
       ]
     },
     {
       "id": "act-1-part-1",
       "title": "Act 1, Part 1: Celdic",
-      "content": "# Act 1, Part 1 — Celdic\n\nAct 1 begins the search for Class VII members scattered across Erebonia. In Part 1, you travel to the occupied town of **Celdic** and the surrounding **Lunaria Nature Park** to reunite with allies and complete key quests.\n\n<!-- checkpoint: arrive-celdic | Arrive in Celdic -->\n\n## Arriving in Celdic\n\n**Quick Travel** becomes available from this point forward — use it freely between discovered locations.\n\n### Town Exploration\n\nBefore heading to quest objectives, explore Celdic thoroughly:\n\n- **Raio** (General Store, right side) — weapon synthesis and orbment slot upgrades available here\n- **Camillia** (Trading Post) — item trading similar to the pawn shop from Cold Steel I. On NG+, trade Zemurian Ore Shards for U-Materials\n- **Luke** (near wrecked station) — gives you **Tear Balm** items for free\n- **Rosine** (Celdic Chapel) — speak to her for **3 free Tear Balm**\n\n> Do NOT leave Celdic before visiting all shops and NPCs — free items and setup opportunities are easily missed.\n\n### Books (Missable!)\n| Item | Location | Missable? |\n|------|----------|----------|\n| **Imperial Chronicle - Issue 2** | Buy from **Chris the Newsboy** in Celdic (also at Plover Goods, Ymir or Kilte's Store, Nord) | Yes |\n| **Gambler Jack Reprint #2** | Buy from **Cornette's General Goods** at Celdic Grand Market | Yes |\n| **Gambler Jack II - Chapter 2** | Talk to **Arbekker** at the Rest Area, Garrelia Fortress Proving Grounds | Yes — NPC dialogue only |\n\n> 🏆 **Achievement: Lending Library** — Pick up all three books during your time in Celdic. Gambler Jack II Ch.2 requires talking to Arbekker directly.\n\n### Story Quests\n\n**Exploring Celdic:** Talk to **Becky**, **Owner Margot** (Weathercock Inn), and **Rosine/Provincial Army Soldiers** at Grand Market to progress.\n\n**Herbal Remedies:** Speak to the priest at the church. He needs herbs from Lunaria Nature Park. Proceed to the park, gather the herbs from glowing spots, and return for completion.\n\n<!-- checkpoint: celdic-explored | Celdic Town Explored -->\n\n## Side Quests\n\n### Munch No More (Side Quest)\n- **Location:** East Celdic Highway 2\n- **Objective:** Defeat the marked quest monster\n- **Tips:** The monster is weak to fire. Use S-Crafts for efficiency.\n- **Availability:** Available upon arriving in Celdic. **Expires when you advance the main story past the Nature Park dungeon.**\n\n### A Cry For Help (Hidden Quest)\n- **How to find:** Go to Twin Dragons Bridge (Celdic Side), talk to the guard AND the civilian on the left. The civilian runs off.\n- **Objective:** Head toward East Celdic Highway 2/3; an event triggers ~75% of the way there, leading to a rescue fight.\n- **Availability:** Only available during free time in Celdic. **Missable if you don't check Twin Dragons Bridge.**\n\n> ⚠️ **All three side quests expire when you progress the main story.** Complete them during your initial free time in Celdic.\n\n> 🏆 **Achievement: Honor Roll** — Requires completing ALL quests including hidden ones. Missing any hidden quest here locks you out.\n\n### Leaf it to Me (Hidden Quest — Ymir)\n- **How to find:** When you return to Ymir before Celdic operations, talk to **Father Bernard** at Ymir Chapel\n- **Objective:** Help Father Bernard sweep and collect fallen leaves around the chapel grounds using a broom.\n- **Reward:** U-Material ×2, 500 Mira, AP\n- **Availability:** Only available before advancing the story (bathing in hot spring or leaving Ymir). **Easily missable!**\n\n> ⏰ **Timing Note:** This quest is available during the brief free period in Ymir between the end of the Prologue (after the Valimar tutorial) and departing for Celdic. Once you leave Ymir for Act 1 operations, you cannot return for this quest.\n\n<!-- checkpoint: celdic-side-quests-done | Side Quests Complete -->\n\n## Bonding Events (Free Day)\n\nDuring your free day in Celdic, you receive **2 Bonding Points**. Spend them with Class VII members (yellow \"!\" markers on map):\n\n**Available characters:** Alisa, Elliot, Laura, Gaius, Fie, Machias, Jusis, Emma, Millium\n\n> Save before using Bonding Points if you want to see all scenes, then reload for your preferred characters. Bonding choices affect Link Levels in combat and determine your final cutscene partner.\n\n> The guest character (Claire/Sharon/Toval) with the highest Link EXP by end of Act 1 grants a powerful accessory in Act 2. Prioritize accordingly.\n\n## Lunaria Nature Park\n\n<!-- checkpoint: lunaria-nature-park | Enter Lunaria Nature Park -->\n\nThe park is a multi-level dungeon area east of Celdic.\n\n### Treasure Chest Locations\n\n**Nature Park Area 3 (southeast → southwest):**\n- **Stone Brooch** — southeast corner chest\n- **Sepith Mass** — southwest chest\n\n**Nature Park Area 2 (west → east):**\n- **Teara Balm** — west side chest\n- **Citrus Bottle** — east side chest\n- Fishing spot available near the western chest\n\n**Nature Park Bridge (Area 2–3 connection):**\n- **Scepter Master Quartz** — monster chest (west side, must defeat enemies)\n- **EP Charge II** — east side chest\n\n**Nature Park Area 1 (northeast → southwest):**\n- **HP 1** — northeast chest\n- **Sepith** — southwest chest\n- **Orbment Charging Station** — use it before the boss fight!\n\n### Monster Guide (Nature Park)\n| Monster | Drops |\n|---------|-------|\n| Blade Horn | Chitinous Shell, Hearty Powder |\n| Polyjelly | Clear Gelatin, Globby Fan |\n| Purple Ooze | Clear Gelatin, Globby Fan |\n| Gordi Chief | Red Beast Flesh, U-Material |\n| Sasa Panda | Red Beast Flesh, U-Material |\n\n> Scan ALL monsters with Battle Scope for the Monster Notebook.\n\n### East Celdic Highway\n\n- **Old Key** — easternmost chest on Highway Map 1. Opens the windmill for story progression.\n- Quest monster for \"Munch No More\" is in Highway 2 (northeast area)\n\n<!-- checkpoint: nature-park-cleared | Lunaria Nature Park Cleared -->\n\n## Boss: Grunoja\n\nAt the end of Lunaria Nature Park, you face the dungeon boss.\n\n- **Boss:** Grunoja (the Nature Park guardian)\n- **Recommended Level:** 45+\n- **Strategy:** Use the Orbment Charging Station before entering. Apply buffs (STR Up, DEF Up), focus physical attacks, and use AoE arts for any adds. Heal with Teara/Tear arts when needed.\n- **Reward:** AP bonus if defeated without KOs\n\n> **Save before the boss fight.** The charging station is your last rest point.\n\n<!-- checkpoint: act-1-part-1-complete | Act 1 Part 1 Complete -->",
+      "content": "# Act 1, Part 1 — Celdic\n\nAct 1 begins the search for Class VII members scattered across Erebonia. Part 1 starts in **Ymir** on December 1st, takes you through **Lunaria Nature Park**, the highways around **Celdic**, and on to **Twin Dragons Bridge**, **Garrelia Byroad**, the **Terra Shrine**, and **Garrelia Fortress** before returning to Ymir on December 4th.\n\n<!-- checkpoint: december-1-ymir | December 1st — Ymir -->\n\n## December 1st — Ymir\n\nAs soon as you gain control of Rean, **Quick Travel** is available in the navigation menu.\n\n### Town Preparation\n\nBefore leaving Ymir, visit the following NPCs:\n\n- **Raio** (General Store, right side) — introduces weapon synthesis and orbment slot upgrades\n- **Camillia** (General Store) — unlocks item trading (similar to pawn shop from CS1). On NG+, trade Zemurian Ore Shards for 50 U-Materials\n- **Luke** (near the wrecked station) — gives you free **Tear Balm** items\n\n> Do NOT leave Ymir through Ymir Canyon without speaking to Luke — free Tear Balms are easy to miss.\n\n<!-- checkpoint: lunaria-nature-park | Enter Lunaria Nature Park -->\n\n## Lunaria Nature Park\n\nAfter the event scene you are warped into Lunaria Nature Park. This area contains **high elements** — Time, Space, and Mirage elements have enhanced effects on monsters here. Bonus effects on turn order may also appear (can be an advantage or disadvantage).\n\n### Treasure Chest Locations\n\n**Nature Park Area 3 (start here, head south):**\n- **Stone Brooch** — southeast corner chest\n- **Sepith Mass ×100** — southwest corner chest\n\n**Nature Park Area 2 (west → east):**\n- **Teara Balm** — west end chest\n- **Citrus Bottle** — east end chest (keep this — it grants Faint resistance, useful later)\n- Fishing spot near the western chest\n- **Scepter Master Quartz** — monster chest at the very southwest corner\n- **EP Charge II** — east area chest\n\n**Nature Park Area 1 (south to exit):**\n- **HP 1** — northeast corner chest\n- **All Sepith ×100** — southwest corner chest\n- **Orbment Charging Station** — near the park exit. Use it before the boss!\n\n### Monster Guide (Nature Park)\n| Monster | Drop 1 | Drop 2 |\n|---------|--------|--------|\n| Blade Horn | Chitinous Shell | Hearty Powder |\n| Polyjelly | Clear Gelatin | Globby Fan |\n| Purple Ooze | Clear Gelatin | Globby Fan |\n| Gordi Chief | Red Beast Flesh | U-Material |\n| Sasa Panda | Red Beast Flesh | U-Material |\n\n> Scan ALL monsters with Battle Scope for the Monster Notebook.\n\n<!-- checkpoint: boss-grunoja | Boss: Grunoja -->\n\n## Boss: Grunoja\n\nAt the park exit you face the dungeon boss. The game introduces the **Overdrive** function during this fight.\n\n| Stat | Value |\n|------|-------|\n| **HP** | 21,800 |\n| **Item Drop** | Attack 2 |\n| **Elemental Efficacy** | Earth 120, Water 100, **Fire 140**, Wind 100, Time 100, Space 100, Mirage 100 |\n| **Unbalance** | Slash ★★☆☆, Thrust ★★☆☆, Pierce ★★☆☆, Strike ★★☆☆ |\n\n**Overdrive Tutorial:** Highlight the attack icon, hold Right until the icon changes, then press confirm. Overdrive restores HP/EP/CP, grants three extra turns, and instant magic cast between linked characters.\n\n**Strategy:**\n- Buff your characters first, then attack the boss\n- Use **Toval's wind magic** — he casts quickly\n- Use **Rean's Autumn Leaf Cutter or Arc Slash** to delay the boss\n- Boss can buff itself, paralyze with Seal, or hit a single target hard\n- Save S-Craft for when the boss's HP is low\n\n> **Save before the boss fight.** The Orbment Charging Station is your last rest point.\n\n<!-- checkpoint: west-celdic-highway | West Celdic Highway -->\n\n## West Celdic Highway & East Trista Highway\n\nAfter defeating Grunoja, leave the park. Visit the **farmhouse** on the east side of the map for a small event. Head south — two treasure chests are near the southwest corner. Take the south exit for a scene, then head west. Pick up the treasure near the small tower and take the southwest exit to **East Trista Highway**.\n\nEast Trista Highway is a short area with three treasure chests and a fishing location to the west. Near the bridge, an event plays — Rean notices guards stationed there. Return to West Celdic Highway and take the southeast exit to **Celdic**.\n\n### Treasure List (Highways)\n| Treasure | Location |\n|----------|----------|\n| Celestial Balm | West Celdic Highway 2 |\n| White Glasses | West Celdic Highway 2 |\n| Shield 2 | West Celdic Highway 1 |\n| EP Charge I | East Trista Highway 1 |\n| Earth Lance | East Trista Highway 1 |\n| Curia Balm | East Trista Highway 1 |\n\n### Monster Guide (Highways)\n| Monster | Drop 1 | Drop 2 | Note |\n|---------|--------|--------|------|\n| Crop Muncher | Assorted Grains | Red Beast Flesh | East Celdic Highway only |\n| Deathcargot | Clear Gelatin | Chitinous Shell | |\n| Fanged Wolf | Red Beast Flesh | Globby Fan | |\n| Ripper Squirrel | Tear Balm | Red Beast Flesh | |\n| Evil Crow | Fresh Egg | Red Beast Flesh | |\n| King Dragonfly | Hearty Powder | Curia Balm | |\n| Acerbic Tomartian | Acerbic Tomato | U-Material | |\n| Zwordar | Hearty Powder | U-Material | East Celdic Highway only |\n\n<!-- checkpoint: arrive-celdic | Arrive in Celdic -->\n\n## Celdic\n\nWhen you enter Celdic, three key event locations are marked with red exclamation marks:\n\n- **Becky** — Celdic House (near the West Celdic Highway entrance)\n- **Margot** — Weathercock Inn (behind the counter)\n- **Rosine** — Grand Market\n\nAfter visiting all three, an event scene unfolds in which Rean purchases the **Imperial Chronicle Issue #2**.\n\n### Books & Recipes (Missable!)\n| Item | Location | Note |\n|------|----------|------|\n| **Imperial Chronicle Issue #2** | Purchased during story event | Missable |\n| **Gambler Jack Reprint #2** | Buy from **Cornette's General Goods** (Grand Market, center) | Missable |\n| **Black Records #2** | Buy from **Cornette's General Goods** (Grand Market, center) | NG+ only |\n| **Fresh Vegetable Juice** (Recipe) | Speak to old lady **Moulbaix** at the Celdic Chapel (west end) | |\n\n> 🏆 **Achievement: Lending Library** — Don't miss these books. Black Records #2 is only available on NG+.\n\nAfter finishing in town, exit toward **East Celdic Highway**.\n\n<!-- checkpoint: east-celdic-highway | East Celdic Highway -->\n\n## East Celdic Highway\n\n### Treasure List\n| Treasure | Location |\n|----------|----------|\n| Silver Earring | East Celdic Highway 1 (north) |\n| Tearal Balm | East Celdic Highway 1 |\n| U-Material ×3 | East Celdic Highway 2 |\n| Mute | East Celdic Highway 2 |\n\n### Key Events\n\n1. **Gambler Jack II — Chapter 1:** Talk to **Tarim**, the NPC near the farmhouse in the northeast corner. These books have a very limited collection window — all 14 volumes are needed to exchange for the strongest weapon later. If you miss a volume, the pawn shop Inspect Curios function can sometimes offer them, but this is luck-based.\n\n2. **Old Key:** Open the treasure chest just past the bridge in the southeast. This triggers an event where Rean discovers an Old Key.\n\n3. **Machias Joins:** Go to the windmill in the center-south of the map. After the event scene, **Machias** joins your party.\n\nReturn to Celdic.\n\n### Back in Celdic\n\n- Visit **Market Manager Otto** at the Market Manager's House (southwest). He introduces the quest system, AP (Academic Points), and the Notebook quest section. Earning max AP in each chapter results in an S Rank.\n- Visit the **Chapel** and speak to **Rosine** — she provides **3 Tear Balms** and adds Page 1 to her Character Profile.\n\n> **Note:** Mira from quests are received at the end of each Act.\n\n### New Character Profiles\n| Date | Character | Requirements |\n|------|-----------|-------------|\n| December 1 | Rean [Page 1] | Automatic |\n| December 1 | Toval [Page 1] | Key event (Automatic) |\n| December 1 | Rosine [Page 1] | Speak to Rosine after Machias joins |\n| December 1 | Elliot [Page 1] | Automatic |\n\n<!-- checkpoint: side-quests | Side Quests -->\n\n## Side Quests\n\n### Munch No More (Side Quest)\n\nHead to **East Celdic Highway 2** and find the quest monster at the **northeast corner** of the map.\n\n| Boss | HP | Elemental Efficacy | Unbalance |\n|------|----|--------------------|-----------|\n| **Giant Crop Muncher** | 40,250 | Earth 110, Water 90, **Fire 120**, Wind 100 | All ★★★☆ |\n| Crop Muncher ×7 | 3,680 each | Earth 100, Water 80, **Fire 180**, Wind 120 | All ★★★☆ |\n\nAfter defeating the monster, choose to return to Celdic and report to **Market Manager Otto**.\n\n- **Client:** Market Manager Otto\n- **Reward:** Detection Quartz, 1,500 Mira, 4 AP\n\n> Equip the **Detection Quartz** — it displays all treasure chests on the mini-map.\n\n### Herbal Remedies (Story Quest)\n\n1. Go to the **Celdic Chapel** and speak to **Father Zirbel** behind the altar\n2. Go to the **Grand Market** and speak to **Flint** by the stall on the northwest side\n3. Leave town via **West Celdic Highway** and head north toward the Lunaria Nature Park entrance\n4. Speak to **Johnson**, the NPC near the gate\n5. Enter Lunaria Nature Park and find the **Cure Herb** at the **northeast corner** of the map near a treasure chest\n6. Choose to return to Celdic and give the Cure Herb to Father Zirbel\n\n- **Client:** Father Zirbel\n- **Reward:** Teara Balm ×2, Celestial Balm ×2, 4 AP\n\n### After Quests\n\nExit Celdic via East Celdic Highway. Go to the **windmill** on the south area of the map. Examine the communication device and select the **second choice** to advance the story. After the event scene, rendezvous at **Point D** on East Celdic Highway 3 (take the east exit of East Celdic Highway 2).\n\n<!-- checkpoint: east-celdic-highway-3 | East Celdic Highway 3 -->\n\n## East Celdic Highway 3\n\nPick up the **Sepith Mass ×100** from the treasure chest at the northeast corner. Head to **Point D** at the northeast end — **Elliot and Fie** join your party.\n\nThe game explains that the **Overdrive** function only works between Rean and his friends by default. For other Class VII members, you must clear **Trial Chests** (blue treasure chests with prearranged party fights) to unlock Overdrive between them. The **Burst** function during Link Attacks and the ability to **switch party members in battle** are also introduced.\n\n### Treasure List\n| Treasure | Location |\n|----------|----------|\n| Sepith Mass ×100 | East Celdic Highway 3 (NE) |\n| Celestial Balm | East Celdic Highway 3 |\n| Feather Boots | East Celdic Highway 3 |\n| Coral Ring | East Celdic Highway 3 |\n| Gladiator Headband | Twin Dragons Bridge — Celdic Side (monster chest, SW) |\n\n### Trial Chest: Senior Bear Mole (Southwest)\n\n| Boss | HP | Elemental Efficacy | Drop | Unbalance |\n|------|----|--------------------|------|-----------|\n| **Senior Bear Mole** | 20,250 | Earth 110, Water 60, **Fire 180**, Wind 110 | Crest R | All ★☆☆☆ |\n| Bear Mole ×4 | 5,145 each | Earth 110, Water 60, **Fire 180**, Wind 110 | Red Beast Flesh, U-Material | All ★☆☆☆ |\n\n**Skills:** Hammer Swing (single, knockback + Faint), Jump Slam (single, Faint).\n\n> ⚠️ **Equip a Faint Resistant accessory** (the Citrus Bottle from Lunaria Nature Park works). Enter with full CP. Wait until moles group up, then use S-Craft to clear them. Alternatively, have Machias use Petrify Shell on grouped enemies. Use Elliot for area attack arts and healing.\n\n### Monster Guide (ECH 3)\n| Monster | Drop 1 | Drop 2 |\n|---------|--------|--------|\n| Flying Feline | Red Beast Flesh | Globby Fat |\n| Eerie Bug | Clear Gelatin | Hearty Powder |\n| Axebird | Red Beast Flesh | U-Material |\n| Bear Mole | Red Beast Flesh | U-Material |\n| Scary Dinosaur | White Beast Flesh | Chitinous Shell |\n\nTake the **southeast exit** to Twin Dragons Bridge.\n\n<!-- checkpoint: twin-dragons-bridge | Twin Dragons Bridge -->\n\n## Twin Dragons Bridge\n\nHead to the **waiting lounge** (north side of map).\n\n- **Recipe: Cheese Omelet** — speak to **Morize** in the northwest corner of the waiting lounge\n- Exit the building and go near the bridge to trigger an event: **Merchant Albel** arguing with a soldier\n\n### Hidden Quest: A Cry For Help\n\nAfter witnessing the Merchant Albel argument, leave Twin Dragons Bridge and head north toward East Celdic Highway 2. An event scene triggers on the way.\n\nFind the Merchant on **East Celdic Highway 3**, near where you found the Sepith Mass chest. Defeat the monsters, then choose to return to Twin Dragons Bridge.\n\n- **Client:** Merchant Albel\n- **Reward:** Red Pendulum, 2,000 Mira, 4 AP\n\n### Continuing Through the Bridge\n\nReturn to the waiting lounge and speak to the **three merchants** (marked with red exclamation marks) on the right, left, and center. Go to the east side of the building for an event scene. When ready, **examine the duct** to advance the story. Move through the duct to the east exit, then take the east exit again to reach the **Garrelia Side** of Twin Dragons Bridge.\n\n<!-- checkpoint: garrelia-byroad | Garrelia Byroad -->\n\n## Garrelia Byroad\n\nFrom the Garrelia Side, take the southeast exit to Garrelia Byroad. Take the north exit near the entrance — this loops back to the Garrelia Side where a **merchant under the bridge** sells the costume attachment **Contact Lens** (can buy instead of exchanging U-Material later).\n\n### Treasure List (Garrelia Byroad)\n| Treasure | Location |\n|----------|----------|\n| Celestial Balm | Garrelia Byroad 1 (NW at path split) |\n| Defense 2 | Garrelia Byroad 1 (N at path split) |\n| Flexible Coat | Garrelia Byroad 1 |\n| Sepith ×100 | Garrelia Byroad 1 |\n| Tearal Balm | Garrelia Byroad 1 |\n| Holy Chain | Garrelia Byroad 2 (S at path split) |\n| EP Charge I | Garrelia Byroad 2 |\n| Reaper | Garrelia Byroad 2 (SE monster chest) |\n\n### Trial Chest: Queen Bee (Garrelia Byroad 1)\n\nClearing this Trial Chest unlocks **Overdrive for Elliot and Fie**.\n\n| Boss | HP | Elemental Efficacy | Drop | Unbalance |\n|------|----|--------------------|------|-----------|\n| **Queen Bee** | 22,419 | Earth 110, Water 60, **Fire 180**, Wind 110 | Luminous Ray R | Slash ★★☆☆, Thrust ☆, **Pierce ★★★★**, Strike ☆ |\n| Thunder Bee ×2 | 4,836 each | Earth 110, Water 60, **Fire 180**, Wind 110 | Red Beast Flesh, U-Material | Same |\n\n**Skills:** Sting (single, Poison).\n\n**Strategy:** Have Fie use Sweep every turn until trash mobs die, then switch to Scud Reaper. Elliot uses Resounding Beat on Fie and Holy Song for healing; use Heatwave when no healing is needed.\n\n### Monster Guide (Garrelia Byroad)\n| Monster | Drop 1 | Drop 2 |\n|---------|--------|--------|\n| Turtle Bug | Chitinous Shell | U-Material |\n| Dirty Rat | Red Beast Flesh | U-Material |\n| Moon Mole | Red Beast Flesh | Globby Fat |\n| Scavenger Crow | Fresh Egg | Red Beast Flesh |\n| Cockatrice | Red Beast Flesh | Globby Fat |\n| Thunder Bee | Chitinous Shell | Hearty Powder |\n\nIn Garrelia Byroad 2, go south at the path split to find an optional area leading to the **Terra Shrine**.\n\n<!-- checkpoint: terra-shrine | Terra Shrine -->\n\n## Terra Shrine\n\nHead downstairs and open the gate to enter the main area.\n\n### Treasure List\n| Treasure | Location |\n|----------|----------|\n| Seal | Terra Spirit Cave |\n| Tearal Balm | Terra Spirit Cave |\n| Septium Vein | Terra Spirit Cave (monster chest, N side) |\n\n### Trial Chest: Giant Amalgam (South Side)\n\nClearing this Trial Chest unlocks **Overdrive for Fie and Machias**.\n\n| Boss | HP | Elemental Efficacy | Drop | Unbalance |\n|------|----|--------------------|------|-----------|\n| **Giant Amalgam** | 22,462 | Earth 100, Water 80, Fire 120, Wind 100, Time 100, Space 100, Mirage 100 | Frost Edge R | Slash ★☆☆☆, Thrust ★★★☆, Pierce ★★☆☆, **Strike ★★★★** |\n| Dastardly Amalgam | 5,145 each | Same | Coarse Rock Salt, Chitinous Shell | Same |\n\n**Skills:** Roll (single, Petrify).\n\n**Strategy:** Fie uses Sweep until mobs die, then Scud Reaper. Machias uses Energy Shell when Fie is under 2/3 HP, otherwise Heatwave.\n\n### Navigation\n\nGo west, then south to find the Seal Quartz. Continue northwest to a dead end, then go southeast to find a **switch** — press it to raise stairs to the south area. Go west, pick up the Tearal Balm near the Giant Beetle. Head north for a monster chest with **Septium Vein**. Go south past the Giant Beetle to find another **switch** that raises stairs to the boss area on the west end.\n\n### Boss: Tildawn Gaia ×3\n\nDefeating this boss grants **3 AP**.\n\n| Boss | HP | Elemental Efficacy | Drop | Unbalance |\n|------|----|--------------------|------|-----------|\n| **Tildawn Gaia ×3** | 32,670 each | **Earth 0**, Water 100, Fire 100, Wind 120, Time 130, Space 130, Mirage 130 | Curia Balm, U-Material | Slash ★☆☆☆, Thrust ★☆☆☆, Pierce ★☆☆☆, Strike ★★☆☆ |\n\n**Skills:** Eye Laser (line), Black Energy (all, Poison), Green Energy (all, Petrify), Needle Shot (single, Earth art).\n\n**Strategy:**\n- **Elliot** as main healer\n- **Fie** as dodge tank — her Bullet Cyclone provides AT delay\n- **Toval** can Seal enemies with Double Strike\n- **Machias** as backup healer with Energy Shell\n- Each boss has deadly area attacks that can poison the party\n\nTake the elevator to leave.\n\n<!-- checkpoint: garrelia-fortress | Garrelia Fortress -->\n\n## Garrelia Fortress\n\nReturn to Garrelia Byroad 2. Go northeast — pick up the **EP Charge I** along the way and the **Reaper** quartz from the southeast monster chest. Continue to the northeast end to reach **Garrelia Fortress**. Use the Orbment Station and save before entering.\n\n### Boss: Xeno & Leonidas (Unwinnable)\n\n| Boss | HP | Elemental Efficacy | Unbalance |\n|------|----|--------------------|-----------|\n| **Xeno** | 87,175 | All elements 90 | Thrust ★☆☆☆, Strike ★☆☆☆ |\n| **Leonidas** | 89,375 | All elements 90 | Slash ★☆☆☆, Pierce ★☆☆☆ |\n\nThis battle is **unwinnable**. For **bonus AP (3 AP)**, reduce one boss's HP to **30% or below within 40 turns**.\n\n**Strategy:**\n- Enter with full CP on all party members\n- Have Rean buff the entire party, then use everyone's S-Crafts and Overdrive\n- Use AT Delay skills: Rean's **Arc Slash**, Fie's **Bullet Cyclone**\n- **Elliot** as main healer\n- At 50% HP, they use their S-Craft dealing ~70% of your party's health — be ready to heal\n- Xeno can lay mines — **scan a mine** for the Battle Trophy\n\n### Mech Battle: Drakkhen (Sword) ×2\n\n| Boss | HP | Elemental Efficacy | Stance Weaknesses |\n|------|----|--------------------|-------------------|\n| **Drakkhen (Sword)** | 95,000 | Earth 100, Water 120, Fire 120, Wind 100 | Idle: **Body ★★★★**; Attack: **Head ★★★★** |\n\nFocus on defeating one Drakkhen unit. Attack the **Body during Idle Stance**, attack the **Head during Attack Stance**. When one unit is defeated, a scene ends the battle.\n\n### Mech Battle: Drakkhen (Sword + Gun)\n\n| Boss | HP | Stance Weaknesses |\n|------|----|--------------------|\n| **Drakkhen (Sword)** | 95,000 | Idle: Body ★★★★; Attack: Head ★★★★ |\n| **Drakkhen (Gun)** | 104,800 | Idle: **Head ★★★☆**; Attack: **Body ★★★★** |\n\nThe **backup pilot** system is introduced — your partner gets an additional turn with three abilities: **EX Arts** (partner-based skills), **Shinki** (restore HP using EP), **Charge** (restore EP). Switch partners with R button. Victory grants **100 Link EXP** with your partner.\n\n### After the Battle\n\nHead to the **Resting Area** (building on the north side).\n\n- **Gambler Jack II — Chapter 2:** Speak to **Arbekker** to receive the book\n- Speak to **Monica** (General Store) and **Munk** (dining tables, southeast) to add their profiles to your notebook\n\nWhen ready, examine Valimar and pick the first choice to advance.\n\n<!-- checkpoint: december-4-ymir | December 4 — Ymir -->\n\n## December 4 — Ymir\n\n### Recipes & Books (Missable!)\n| Item | Location |\n|------|----------|\n| **Tomato Jelly** (Recipe) | Purchase the recipe book from the **General Store** |\n\n### Bonding Events\n\nThe game introduces bonding events (yellow \"!\" markers). You receive a **limited number of Bonding Points** — it is impossible to see all events on a single playthrough. Additional points are available on NG+.\n\nDoing **Machias** and **Claire's** bonding events adds Page 1 to their profiles.\n\n| Character | Location | Notes |\n|-----------|----------|-------|\n| **Claire** | Near Station | Profile Page 1 + Link EXP +500 |\n| **Elliot** | Inn & Pub | Link EXP +500 |\n| **Fie** | Baron's Mansion | Link EXP +500 |\n| **Machias** | Near Phoenix Wings | Profile Page 1 + Link EXP +500 |\n| **Toval** | Footbath | Link EXP +500 |\n\n### Other Activities\n\n- **Snowboard Mini Game** — leave town via southeast exit. Prizes depend on your performance per course.\n- Purchase the **Tomato Jelly** recipe from the General Store before leaving.\n\n### Hidden Quest: Leaf it to Me\n\nTalk to **Alf or Kiki** (the two kids near the station). Choose the **first dialogue option** to offer your assistance.\n\n**Objective:** Go to **Ymir Valley** and find two different types of colored leaves:\n1. **Leaf 1:** Northwest corner of Ymir Valley 1\n2. **Leaf 2:** Upper southeast corner of Ymir Valley 2 (near a treasure chest)\n\nReturn both leaves to Alf and Kiki.\n\n> There is a **monkey-like monster** in Ymir Valley — scan it for the Battle Trophy.\n\n- **Client:** Alf & Kiki\n- **Reward:** Mishy Plushie, 1,500 Mira, 4 AP\n\n<!-- checkpoint: end-part-1 | End of Part 1 -->\n\n## End of Part 1\n\nAfter finishing all side activities, go to your room at the **Baron's Mansion** and pick the first choice to end Part 1.\n\n### AP Summary (S-Rank: 35 AP)\n| Objective | AP |\n|-----------|-----|\n| Regroup with Friends — Celdic | 5 |\n| Meet up with 4th Panzer Division | 8 |\n| Put up a fight against Xeno and Leonidas | 3 |\n| Explore the Terra Shrine | 3 |\n| Quest: Munch No More | 4 |\n| Quest: Herbal Remedies | 4 |\n| Quest: A Cry For Help [Hidden] | 4 |\n| Quest: Leaf it to Me [Hidden] | 4 |\n| **Total** | **35** |\n\n> Earning 35 AP results in an **S-Rank** for this chapter.",
       "checkpoints": [
         {
-          "id": "arrive-celdic",
-          "label": "Arrive in Celdic"
-        },
-        {
-          "id": "celdic-explored",
-          "label": "Celdic Town Explored"
-        },
-        {
-          "id": "celdic-side-quests-done",
-          "label": "Side Quests Complete"
+          "id": "december-1-ymir",
+          "label": "December 1st — Ymir"
         },
         {
           "id": "lunaria-nature-park",
           "label": "Enter Lunaria Nature Park"
         },
         {
-          "id": "nature-park-cleared",
-          "label": "Lunaria Nature Park Cleared"
+          "id": "boss-grunoja",
+          "label": "Boss: Grunoja"
         },
         {
-          "id": "act-1-part-1-complete",
-          "label": "Act 1 Part 1 Complete"
+          "id": "west-celdic-highway",
+          "label": "West Celdic Highway"
+        },
+        {
+          "id": "arrive-celdic",
+          "label": "Arrive in Celdic"
+        },
+        {
+          "id": "east-celdic-highway",
+          "label": "East Celdic Highway"
+        },
+        {
+          "id": "side-quests",
+          "label": "Side Quests"
+        },
+        {
+          "id": "east-celdic-highway-3",
+          "label": "East Celdic Highway 3"
+        },
+        {
+          "id": "twin-dragons-bridge",
+          "label": "Twin Dragons Bridge"
+        },
+        {
+          "id": "garrelia-byroad",
+          "label": "Garrelia Byroad"
+        },
+        {
+          "id": "terra-shrine",
+          "label": "Terra Shrine"
+        },
+        {
+          "id": "garrelia-fortress",
+          "label": "Garrelia Fortress"
+        },
+        {
+          "id": "december-4-ymir",
+          "label": "December 4 — Ymir"
+        },
+        {
+          "id": "end-part-1",
+          "label": "End of Part 1"
         }
       ],
       "steps": [
         {
-          "id": "arrive-at-celdic",
-          "type": "step",
-          "text": "Travel to **Celdic** — Quick Travel unlocks from this point forward."
-        },
-        {
           "id": "visit-raio-shop",
           "type": "step",
-          "text": "Visit **Raio** at the General Store for weapon synthesis and orbment slot upgrades."
+          "text": "Visit **Raio** at the General Store in Ymir for weapon synthesis and orbment slot upgrades."
         },
         {
           "id": "visit-camillia-trading",
           "type": "step",
-          "text": "Speak to **Camillia** at the Trading Post for item trading opportunities."
+          "text": "Speak to **Camillia** at the General Store for item trading. On NG+, trade Zemurian Ore Shards for 50 U-Materials."
         },
         {
           "id": "free-tear-balm-luke",
           "type": "collectible",
-          "text": "Talk to **Luke** near the wrecked station for free **Tear Balm** items."
-        },
-        {
-          "id": "free-tear-balm-rosine",
-          "type": "collectible",
-          "text": "Speak to **Rosine** in the chapel for **3 free Tear Balm**."
-        },
-        {
-          "id": "quest-exploring-celdic",
-          "type": "step",
-          "text": "Complete **Exploring Celdic**: talk to Becky, Owner Margot (Weathercock Inn), and soldiers at Grand Market."
-        },
-        {
-          "id": "quest-herbal-remedies",
-          "type": "step",
-          "text": "Accept **Herbal Remedies** from the priest at the church. Gather herbs in Lunaria Nature Park and return."
-        },
-        {
-          "id": "get-imperial-chronicle-2",
-          "type": "collectible",
-          "text": "Buy **Imperial Chronicle - Issue 2** from **Chris the Newsboy** in Celdic.",
-          "note": "Also available at Plover Goods (Ymir) or Kilte's Store (Nord). Required for Lending Library achievement."
-        },
-        {
-          "id": "get-gambler-jack-reprint2",
-          "type": "collectible",
-          "text": "Buy **Gambler Jack Reprint #2** from **Cornette's General Goods** at Celdic Grand Market.",
-          "note": "Required for Lending Library achievement."
-        },
-        {
-          "id": "get-gj2-ch2",
-          "type": "collectible",
-          "text": "Talk to **Arbekker** at the Rest Area in **Garrelia Fortress Proving Grounds** for **Gambler Jack II - Chapter 2**.",
-          "note": "Missable! NPC dialogue only. Required for Lending Library achievement."
-        },
-        {
-          "id": "quest-munch-no-more",
-          "type": "step",
-          "text": "Complete **Munch No More**: defeat the quest monster on East Celdic Highway 2 (weak to fire).",
-          "note": "Expires when main story advances past the Nature Park dungeon."
-        },
-        {
-          "id": "quest-cry-for-help-hidden",
-          "type": "warning",
-          "text": "**Hidden Quest: A Cry For Help** — Go to Twin Dragons Bridge (Celdic Side), talk to guard AND civilian. Follow the civilian to Highway 2/3 for a rescue fight.",
-          "note": "Missable! Only available during free time. Required for Honor Roll achievement."
-        },
-        {
-          "id": "quest-leaf-it-to-me-hidden",
-          "type": "warning",
-          "text": "**Hidden Quest: Leaf it to Me** (Ymir) — Talk to **Father Bernard** at Ymir Chapel. Help him sweep and collect fallen leaves around the chapel grounds.",
-          "note": "Missable! Available during Ymir free time AFTER the Prologue Valimar tutorial but BEFORE departing for Celdic. Reward: U-Material ×2 + 500 Mira. Required for Honor Roll achievement."
-        },
-        {
-          "id": "bonding-events-celdic",
-          "type": "step",
-          "text": "Spend your **2 Bonding Points** during the free day in Celdic with Class VII members (Alisa, Elliot, Laura, Gaius, Fie, Machias, Jusis, Emma, Millium).",
-          "note": "Save before choosing. Affects Link Levels, combat bonuses, and final cutscene partner."
+          "text": "Talk to **Luke** near the wrecked station in Ymir for free **Tear Balm** items."
         },
         {
           "id": "loot-stone-brooch",
@@ -319,40 +289,44 @@
           "text": "Pick up **Stone Brooch** from the southeast corner chest in Nature Park Area 3."
         },
         {
-          "id": "loot-sepith-mass",
+          "id": "loot-sepith-mass-park",
           "type": "collectible",
-          "text": "Grab **Sepith Mass** from the southwest chest in Nature Park Area 3."
+          "text": "Grab **Sepith Mass ×100** from the southwest chest in Nature Park Area 3."
         },
         {
           "id": "loot-teara-balm-park",
           "type": "collectible",
-          "text": "Collect **Teara Balm** from the west side chest in Nature Park Area 2."
+          "text": "Collect **Teara Balm** from the west end chest in Nature Park Area 2."
         },
         {
           "id": "loot-citrus-bottle",
           "type": "collectible",
-          "text": "Grab **Citrus Bottle** from the east side chest in Nature Park Area 2."
+          "text": "Grab **Citrus Bottle** from the east end chest in Nature Park Area 2. Keep this equipped — it grants Faint resistance for an upcoming Trial Chest."
         },
         {
           "id": "loot-scepter-mq",
           "type": "collectible",
-          "text": "Defeat the monster chest enemies for the **Scepter Master Quartz** on the west bridge."
+          "text": "Defeat the monster chest enemies for the **Scepter Master Quartz** at the southwest corner of the bridge area."
         },
         {
           "id": "loot-ep-charge-bridge",
           "type": "collectible",
-          "text": "Collect **EP Charge II** from the east side of the Nature Park bridge."
+          "text": "Collect **EP Charge II** from the east side of the bridge area."
         },
         {
-          "id": "loot-old-key-highway",
+          "id": "loot-hp1-park",
           "type": "collectible",
-          "text": "Find the **Old Key** in the easternmost chest on Highway Map 1.",
-          "note": "Opens the windmill for story progression."
+          "text": "Pick up **HP 1** quartz from the northeast corner chest in Nature Park Area 1."
+        },
+        {
+          "id": "loot-sepith-park1",
+          "type": "collectible",
+          "text": "Grab **All Sepith ×100** from the southwest corner chest in Nature Park Area 1."
         },
         {
           "id": "use-charging-station",
           "type": "step",
-          "text": "Use the **Orbment Charging Station** before the boss fight in Nature Park Area 1."
+          "text": "Use the **Orbment Charging Station** near the Nature Park exit before the boss fight."
         },
         {
           "id": "save-before-park-boss",
@@ -360,10 +334,213 @@
           "text": "**Save your game** before entering the boss arena. The charging station is your last rest point."
         },
         {
-          "id": "boss-nature-park",
+          "id": "boss-grunoja",
           "type": "boss",
-          "text": "**BOSS: Grunoja** — Apply buffs (STR Up, DEF Up), use AoE arts for adds, focus physical attacks on the boss. Recommended level 45+.",
-          "note": "Bonus AP if defeated without any party member KO."
+          "text": "**BOSS: Grunoja** (HP: 21,800) — Fire weakness (140). The Overdrive function is introduced here. Use Toval's wind magic for speed, Rean's Autumn Leaf Cutter/Arc Slash to delay. Save S-Craft for low HP.",
+          "note": "Item Drop: Attack 2. Boss can buff itself, inflict Seal (paralyze), or hit a single target hard."
+        },
+        {
+          "id": "visit-farmhouse",
+          "type": "step",
+          "text": "After defeating Grunoja, visit the **farmhouse** on the east side of the map for a small event."
+        },
+        {
+          "id": "loot-celestial-balm-wch",
+          "type": "collectible",
+          "text": "Pick up **Celestial Balm** and **White Glasses** from chests in West Celdic Highway 2."
+        },
+        {
+          "id": "loot-shield2-wch",
+          "type": "collectible",
+          "text": "Grab **Shield 2** from West Celdic Highway 1."
+        },
+        {
+          "id": "explore-east-trista",
+          "type": "step",
+          "text": "Detour to **East Trista Highway** — collect **EP Charge I**, **Earth Lance**, and **Curia Balm**. Note the fishing spot to the west. Guards block the bridge to Trista."
+        },
+        {
+          "id": "celdic-key-events",
+          "type": "step",
+          "text": "In Celdic, visit the three key event locations (red \"!\" marks): **Becky** (house near W entrance), **Margot** (Weathercock Inn), **Rosine** (Grand Market)."
+        },
+        {
+          "id": "get-imperial-chronicle-2",
+          "type": "collectible",
+          "text": "**Imperial Chronicle Issue #2** is obtained during the Celdic story event scene.",
+          "note": "Missable book. Required for Lending Library achievement."
+        },
+        {
+          "id": "get-gambler-jack-reprint2",
+          "type": "collectible",
+          "text": "Buy **Gambler Jack Reprint #2** from **Cornette's General Goods** at the Grand Market (center stall).",
+          "note": "Missable. Required for Lending Library achievement."
+        },
+        {
+          "id": "get-black-records-2",
+          "type": "collectible",
+          "text": "Buy **Black Records #2** from **Cornette's General Goods** at the Grand Market (center stall).",
+          "note": "NG+ only."
+        },
+        {
+          "id": "recipe-fresh-vegetable-juice",
+          "type": "collectible",
+          "text": "Learn the **Fresh Vegetable Juice** recipe from old lady **Moulbaix** at the Celdic Chapel (west end).",
+          "note": "Required for recipe completion."
+        },
+        {
+          "id": "loot-silver-earring",
+          "type": "collectible",
+          "text": "Pick up **Silver Earring** from the northern part of East Celdic Highway 1."
+        },
+        {
+          "id": "get-gambler-jack-2-ch1",
+          "type": "collectible",
+          "text": "Talk to **Tarim** near the farmhouse in the northeast corner of East Celdic Highway for **Gambler Jack II — Chapter 1**.",
+          "note": "Missable! Collect all 14 volumes of Gambler Jack II to exchange for the strongest weapon later."
+        },
+        {
+          "id": "loot-old-key",
+          "type": "collectible",
+          "text": "Open the treasure chest past the bridge (southeast) to trigger the **Old Key** event.",
+          "note": "Opens the windmill for story progression."
+        },
+        {
+          "id": "machias-joins",
+          "type": "step",
+          "text": "Visit the **windmill** (center-south) for an event scene. **Machias** joins your party."
+        },
+        {
+          "id": "visit-otto-quests",
+          "type": "step",
+          "text": "Return to Celdic. Visit **Market Manager Otto** (Market Manager's House, southwest) to unlock the quest system and AP tracking."
+        },
+        {
+          "id": "visit-rosine-tearbalm",
+          "type": "collectible",
+          "text": "Speak to **Rosine** at the Chapel for **3 Tear Balms** and her Character Profile Page 1."
+        },
+        {
+          "id": "quest-munch-no-more",
+          "type": "step",
+          "text": "Complete **Munch No More**: defeat the Giant Crop Muncher (HP: 40,250) + 7 Crop Munchers on East Celdic Highway 2 (northeast corner). Report to Market Manager Otto.",
+          "note": "Reward: Detection Quartz + 1,500 Mira + 4 AP. Equip Detection Quartz to show treasure chests on the mini-map."
+        },
+        {
+          "id": "quest-herbal-remedies",
+          "type": "step",
+          "text": "Complete **Herbal Remedies**: speak to Father Zirbel (Chapel) → Flint (Grand Market NW stall) → Johnson (near Lunaria Park gate on W Celdic Highway) → find the Cure Herb (NE corner of Lunaria Nature Park) → return to Father Zirbel.",
+          "note": "Reward: Teara Balm ×2 + Celestial Balm ×2 + 4 AP."
+        },
+        {
+          "id": "windmill-communication",
+          "type": "step",
+          "text": "Exit Celdic via East Celdic Highway. At the windmill, examine the communication device and select the **second choice**. Head to **Point D** on East Celdic Highway 3 (east exit of Highway 2)."
+        },
+        {
+          "id": "loot-sepith-mass-ech3",
+          "type": "collectible",
+          "text": "Pick up **Sepith Mass ×100** at the northeast corner of East Celdic Highway 3."
+        },
+        {
+          "id": "elliot-fie-join",
+          "type": "step",
+          "text": "Head to Point D (northeast end). **Elliot** and **Fie** join your party. Overdrive, Burst, and party switching in battle are introduced."
+        },
+        {
+          "id": "loot-gladiator-headband",
+          "type": "collectible",
+          "text": "Grab **Gladiator Headband** from the monster chest in the southwest area."
+        },
+        {
+          "id": "trial-chest-bear-mole",
+          "type": "boss",
+          "text": "**Trial Chest: Senior Bear Mole** (HP: 20,250) + Bear Mole ×4 (HP: 5,145) — prearranged party fight at the southwest blue chest. Equip **Citrus Bottle** for Faint resistance. Enter with full CP and S-Craft grouped enemies.",
+          "note": "Boss can inflict Faint. Use Machias' Petrify Shell on grouped moles. Elliot for area arts and healing."
+        },
+        {
+          "id": "recipe-cheese-omelet",
+          "type": "collectible",
+          "text": "Learn the **Cheese Omelet** recipe from **Morize** in the northwest corner of the Twin Dragons Bridge waiting lounge."
+        },
+        {
+          "id": "quest-cry-for-help-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: A Cry For Help** — After witnessing Merchant Albel arguing with a soldier near the bridge, leave Twin Dragons Bridge and head north toward East Celdic Highway 2. Find the merchant on ECH 3 near the Sepith Mass chest, defeat the monsters, and return.",
+          "note": "Missable! Client: Merchant Albel. Reward: Red Pendulum + 2,000 Mira + 4 AP."
+        },
+        {
+          "id": "bridge-merchants-duct",
+          "type": "step",
+          "text": "Speak to the three merchants in the waiting lounge (red marks), trigger the east-side event, then **examine the duct** to progress. Navigate through to the Garrelia Side."
+        },
+        {
+          "id": "contact-lens-merchant",
+          "type": "step",
+          "text": "From Garrelia Side, take the SE exit to Garrelia Byroad, then quickly loop back north to find a **merchant under the bridge** selling the **Contact Lens** costume attachment."
+        },
+        {
+          "id": "trial-chest-queen-bee",
+          "type": "boss",
+          "text": "**Trial Chest: Queen Bee** (HP: 22,419) + Thunder Bee ×2 (HP: 4,836) — unlocks **Overdrive for Elliot and Fie**. Fie uses Sweep then Scud Reaper; Elliot uses Resounding Beat and Holy Song.",
+          "note": "Queen Bee's Sting can inflict Poison. Weak to Pierce (★★★★)."
+        },
+        {
+          "id": "trial-chest-giant-amalgam",
+          "type": "boss",
+          "text": "**Trial Chest: Giant Amalgam** (HP: 22,462) in Terra Shrine — unlocks **Overdrive for Fie and Machias**. Roll attack can inflict Petrify. Weak to Strike (★★★★).",
+          "note": "Fie: Sweep then Scud Reaper. Machias: Energy Shell when Fie is below 2/3 HP, otherwise Heatwave."
+        },
+        {
+          "id": "boss-tildawn-gaia",
+          "type": "boss",
+          "text": "**BOSS: Tildawn Gaia ×3** (HP: 32,670 each) — immune to Earth. Use Fie's Bullet Cyclone for AT delay, Elliot as main healer, Toval to Seal with Double Strike. Deadly AoE attacks can Poison or Petrify.",
+          "note": "Grants 3 AP. Drop: Curia Balm, U-Material."
+        },
+        {
+          "id": "boss-xeno-leonidas",
+          "type": "boss",
+          "text": "**BOSS: Xeno (HP: 87,175) & Leonidas (HP: 89,375)** — Unwinnable battle. For **3 bonus AP**, reduce one boss to 30% HP within 40 turns. Enter with full CP, buff, S-Craft everyone, then use AT delay skills.",
+          "note": "At 50% HP they use S-Craft dealing ~70% of party HP. Xeno can lay mines — scan one for Battle Trophy."
+        },
+        {
+          "id": "mech-drakkhen-sword",
+          "type": "boss",
+          "text": "**Mech Battle: Drakkhen (Sword) ×2** (HP: 95,000 each) — Idle Stance: attack Body; Attack Stance: attack Head. Defeat one unit to end the battle."
+        },
+        {
+          "id": "mech-drakkhen-gun",
+          "type": "boss",
+          "text": "**Mech Battle: Drakkhen Sword + Gun** — Gun type (HP: 104,800) reverses weaknesses: Idle → Head, Attack → Body. Backup pilot system introduced (EX Arts, Shinki, Charge). Victory gives 100 Link EXP."
+        },
+        {
+          "id": "get-gambler-jack-2-ch2",
+          "type": "collectible",
+          "text": "At the Resting Area, speak to **Arbekker** for **Gambler Jack II — Chapter 2**. Also speak to Monica and Munk for notebook profiles.",
+          "note": "Missable! NPC dialogue only."
+        },
+        {
+          "id": "recipe-tomato-jelly",
+          "type": "collectible",
+          "text": "Purchase the **Tomato Jelly** recipe book from the **General Store** in Ymir.",
+          "note": "Required for recipe completion."
+        },
+        {
+          "id": "bonding-events-ymir",
+          "type": "step",
+          "text": "Spend your **Bonding Points** in Ymir. Available: **Claire** (Station), **Elliot** (Inn), **Fie** (Baron's Mansion), **Machias** (Phoenix Wings), **Toval** (Footbath). Machias and Claire's events add Profile Page 1.",
+          "note": "Link EXP +500 per event. Limited points — impossible to see all on first playthrough."
+        },
+        {
+          "id": "quest-leaf-it-to-me-hidden",
+          "type": "warning",
+          "text": "**Hidden Quest: Leaf it to Me** — Talk to **Alf or Kiki** (kids near the station in Ymir). Go to Ymir Valley and find two colored leaves: Leaf 1 at the NW corner of Valley 1, Leaf 2 at the upper SE corner of Valley 2 (near a treasure chest). Return to the kids.",
+          "note": "Missable! Client: Alf & Kiki. Reward: Mishy Plushie + 1,500 Mira + 4 AP. Scan the monkey-like monster in Ymir Valley for the Battle Trophy."
+        },
+        {
+          "id": "end-part-1",
+          "type": "step",
+          "text": "Go to your room at the **Baron's Mansion** and choose the first option to end Part 1. S-Rank requires **35 AP**."
         }
       ]
     },
