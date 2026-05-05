@@ -1,10 +1,11 @@
 /**
  * Gamepad navigation for the walkthrough viewer.
  *
- * Power-optimised: polling only runs when a gamepad is connected and the page
- * is visible.  Uses setTimeout (~15 fps) instead of requestAnimationFrame so
- * the browser can coalesce timers during idle and the CPU can sleep between
- * ticks — a significant battery saving on handhelds like the ROG Ally.
+ * Polling runs via requestAnimationFrame — at least 60 fps on modern displays —
+ * so stick scroll and button repeats feel instantaneous.  Polling is
+ * automatically suspended by the browser when the page is not visible, and is
+ * also stopped explicitly on gamepaddisconnected / visibilitychange so there is
+ * no busy-loop when no gamepad is in use.
  *
  * Button mapping (standard gamepad layout):
  *   0 = A (South) — check/uncheck focused step
@@ -13,13 +14,15 @@
  *   3 = Y (North) — cycle HLTB mode
  *   4 = LB        — previous section
  *   5 = RB        — next section
+ *   6 = LT        — zoom out (analog: pressure controls speed)
+ *   7 = RT        — zoom in  (analog: pressure controls speed)
  *   9 = Start/Menu/Pause — open settings
  *   12 = D-pad Up   (repeat-on-hold)
  *   13 = D-pad Down (repeat-on-hold)
  *   14 = D-pad Left  (previous section alias)
  *   15 = D-pad Right (next section alias)
  *
- * Left stick Y-axis: analog scroll (fires scroll-up / scroll-down each tick)
+ * Left stick Y-axis: analog scroll with quadratic response curve (fires scroll-up / scroll-down each tick)
  */
 
 export type GamepadAction =
@@ -33,7 +36,9 @@ export type GamepadAction =
 	| 'cycle-hltb'
 	| 'scroll-up'
 	| 'scroll-down'
-	| 'settings';
+	| 'settings'
+	| 'zoom-in'
+	| 'zoom-out';
 
 interface ButtonState {
 	pressed: boolean;
@@ -70,13 +75,27 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 /** Deadzone for the left-stick Y-axis to avoid drift. */
 const STICK_DEADZONE = 0.25;
 
-/** Pixels to scroll per poll tick at full stick deflection. */
-const STICK_SCROLL_PX = 12;
+/** Pixels to scroll per second at full stick deflection. */
+const STICK_SCROLL_PPS = 300;
 
-const POLL_INTERVAL_MS = 66; // ~15 fps — responsive enough for button presses
+/** Minimum trigger value before zoom is applied (prevents drift). */
+const TRIGGER_DEADZONE = 0.05;
+
+/**
+ * Zoom delta per second at full trigger press.
+ * At full squeeze this gives ~0.9 zoom units/second.
+ */
+const TRIGGER_ZOOM_RATE = 0.9;
+
+/** Assumed frame time (seconds) used for the very first poll frame when no previous timestamp exists. */
+const DEFAULT_FRAME_TIME_SEC = 1 / 60;
+
+/** Maximum elapsed time (seconds) clamped per frame to avoid large jumps after tab switches / pauses. */
+const MAX_FRAME_TIME_SEC = 0.1;
 
 export class GamepadNavigator {
-	private timerId: ReturnType<typeof setTimeout> | null = null;
+	private rafId: number | null = null;
+	private prevTimestamp: number | null = null;
 	private buttonStates: Map<number, ButtonState> = new Map();
 	private onAction: (action: GamepadAction, magnitude?: number) => void;
 	private gamepadCount = 0;
@@ -121,18 +140,24 @@ export class GamepadNavigator {
 	};
 
 	private startPolling(): void {
-		if (this.timerId !== null) return;
-		this.poll();
+		if (this.rafId !== null) return;
+		this.rafId = requestAnimationFrame(this.poll);
 	}
 
 	private stopPolling(): void {
-		if (this.timerId !== null) {
-			clearTimeout(this.timerId);
-			this.timerId = null;
+		if (this.rafId !== null) {
+			cancelAnimationFrame(this.rafId);
+			this.rafId = null;
 		}
+		this.prevTimestamp = null;
 	}
 
-	private poll = (): void => {
+	private poll = (timestamp: DOMHighResTimeStamp): void => {
+		// Elapsed seconds since last frame; cap to avoid jumps after pauses.
+		const elapsed = this.prevTimestamp !== null
+			? Math.min((timestamp - this.prevTimestamp) / 1000, MAX_FRAME_TIME_SEC)
+			: DEFAULT_FRAME_TIME_SEC;
+		this.prevTimestamp = timestamp;
 		const gamepads = navigator.getGamepads?.() ?? [];
 		const now = Date.now();
 		for (const gp of gamepads) {
@@ -182,16 +207,23 @@ export class GamepadNavigator {
 				}
 			}
 
-			// Left-stick Y-axis: analog free-scroll
+			// Left-stick Y-axis: analog free-scroll with quadratic curve for smoothness
 			const axisY = gp.axes[1] ?? 0;
 			if (Math.abs(axisY) > STICK_DEADZONE) {
 				const magnitude = (Math.abs(axisY) - STICK_DEADZONE) / (1 - STICK_DEADZONE);
-				const pixels = Math.round(magnitude * STICK_SCROLL_PX * Math.sign(axisY));
+				// Quadratic curve: gentle near centre, fast at full deflection
+				const pixels = Math.round(magnitude * magnitude * STICK_SCROLL_PPS * elapsed * Math.sign(axisY));
 				if (pixels !== 0) {
 					this.onAction(pixels < 0 ? 'scroll-up' : 'scroll-down', Math.abs(pixels));
 				}
 			}
+
+			// Triggers: analog zoom proportional to squeeze pressure
+			const lt = gp.buttons[6]?.value ?? 0;
+			const rt = gp.buttons[7]?.value ?? 0;
+			if (lt > TRIGGER_DEADZONE) this.onAction('zoom-out', lt * TRIGGER_ZOOM_RATE * elapsed);
+			if (rt > TRIGGER_DEADZONE) this.onAction('zoom-in', rt * TRIGGER_ZOOM_RATE * elapsed);
 		}
-		this.timerId = setTimeout(this.poll, POLL_INTERVAL_MS);
+		this.rafId = requestAnimationFrame(this.poll);
 	};
 }

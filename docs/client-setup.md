@@ -137,7 +137,12 @@ Only proceed to step 5 once the app loads cleanly and the settings are correct.
 1. Switch to Desktop Mode
 2. Open Steam → **Games → Add a Non-Steam Game → Browse**
 3. Find Chromium (e.g. `/usr/bin/chromium-browser` or `flatpak run com.github.nickvergessen.chromium`)
-4. Set **Launch Options** to: `--new-window --app=http://localhost:8080`
+4. Set **Launch Options** to:
+   ```
+   --new-window --app=http://localhost:8080 --window-size=1280,800 --password-store=basic
+   ```
+   - `--window-size=1280,800` — opens the app at a fixed size so it fills the screen correctly in Game Mode (adjust to your device's resolution if needed)
+   - `--password-store=basic` — prevents Chromium from prompting for a keyring/keychain password on launch, which would block the app from opening unattended
 5. Rename the shortcut to **"Walkthroughs"**
 
 ### Updating the binary
