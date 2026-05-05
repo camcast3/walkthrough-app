@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
+	"html"
 	"log"
 	"net/http"
 	"os"
@@ -347,12 +349,12 @@ func setupNeededPage(staticDir string) []byte {
 <div class="box">
   <h1>⚙ Static files not found</h1>
   <p>The walkthrough server is running, but the webapp static files have not been extracted yet.</p>
-  <p>Run the following command to fix this (STATIC_DIR = <code>` + staticDir + `</code>):</p>
+  <p>Run the following command to fix this (STATIC_DIR = <code>` + html.EscapeString(staticDir) + `</code>):</p>
   <pre>LATEST=$(curl -fsSL https://api.github.com/repos/camcast3/walkthrough-app/releases/latest \
   | grep '"tag_name"' | head -n1 | cut -d'"' -f4)
 
 curl -fsSL "https://github.com/camcast3/walkthrough-app/releases/download/${LATEST}/static.tar.gz" \
-  | tar -xz -C ` + staticDir + `</pre>
+  | tar -xz -C ` + fmt.Sprintf("%q", staticDir) + `</pre>
   <p>Then reload this page.</p>
   <p>The API is running — <a href="/api/config" style="color:#7c6af7">/api/config</a> works.</p>
 </div>
@@ -378,7 +380,16 @@ func spaHandler(staticDir string) http.Handler {
 			return
 		}
 
-		path := filepath.Join(staticDir, filepath.Clean("/"+r.URL.Path))
+		// Trim leading slash(es) so filepath.Join stays rooted inside staticDir.
+		// Then verify the resolved path is still within staticDir to guard
+		// against any remaining path-traversal attempts (e.g. "/../etc").
+		urlPath := strings.TrimLeft(r.URL.Path, "/")
+		path := filepath.Join(staticDir, filepath.Clean(urlPath))
+		rel, err := filepath.Rel(staticDir, path)
+		if err != nil || strings.HasPrefix(rel, "..") {
+			http.NotFound(w, r)
+			return
+		}
 		if _, err := os.Stat(path); os.IsNotExist(err) {
 			// Hashed build assets (/_app/...) must exist if index.html does.
 			// Serving index.html for these would send HTML as CSS/JS, causing

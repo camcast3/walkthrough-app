@@ -75,20 +75,27 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 /** Deadzone for the left-stick Y-axis to avoid drift. */
 const STICK_DEADZONE = 0.25;
 
-/** Pixels to scroll per frame at full stick deflection (tuned for 60 fps). */
-const STICK_SCROLL_PX = 5;
+/** Pixels to scroll per second at full stick deflection. */
+const STICK_SCROLL_PPS = 300;
 
 /** Minimum trigger value before zoom is applied (prevents drift). */
 const TRIGGER_DEADZONE = 0.05;
 
 /**
- * Zoom delta per frame at full trigger press.
- * At 60 fps this gives ~0.9× per second across the full range.
+ * Zoom delta per second at full trigger press.
+ * At full squeeze this gives ~0.9 zoom units/second.
  */
-const TRIGGER_ZOOM_RATE = 0.015;
+const TRIGGER_ZOOM_RATE = 0.9;
+
+/** Assumed frame time (seconds) used for the very first poll frame when no previous timestamp exists. */
+const DEFAULT_FRAME_TIME_SEC = 1 / 60;
+
+/** Maximum elapsed time (seconds) clamped per frame to avoid large jumps after tab switches / pauses. */
+const MAX_FRAME_TIME_SEC = 0.1;
 
 export class GamepadNavigator {
 	private rafId: number | null = null;
+	private prevTimestamp: number | null = null;
 	private buttonStates: Map<number, ButtonState> = new Map();
 	private onAction: (action: GamepadAction, magnitude?: number) => void;
 	private gamepadCount = 0;
@@ -134,7 +141,7 @@ export class GamepadNavigator {
 
 	private startPolling(): void {
 		if (this.rafId !== null) return;
-		this.poll();
+		this.rafId = requestAnimationFrame(this.poll);
 	}
 
 	private stopPolling(): void {
@@ -142,9 +149,15 @@ export class GamepadNavigator {
 			cancelAnimationFrame(this.rafId);
 			this.rafId = null;
 		}
+		this.prevTimestamp = null;
 	}
 
-	private poll = (): void => {
+	private poll = (timestamp: DOMHighResTimeStamp): void => {
+		// Elapsed seconds since last frame; cap to avoid jumps after pauses.
+		const elapsed = this.prevTimestamp !== null
+			? Math.min((timestamp - this.prevTimestamp) / 1000, MAX_FRAME_TIME_SEC)
+			: DEFAULT_FRAME_TIME_SEC;
+		this.prevTimestamp = timestamp;
 		const gamepads = navigator.getGamepads?.() ?? [];
 		const now = Date.now();
 		for (const gp of gamepads) {
@@ -199,7 +212,7 @@ export class GamepadNavigator {
 			if (Math.abs(axisY) > STICK_DEADZONE) {
 				const magnitude = (Math.abs(axisY) - STICK_DEADZONE) / (1 - STICK_DEADZONE);
 				// Quadratic curve: gentle near centre, fast at full deflection
-				const pixels = Math.round(magnitude * magnitude * STICK_SCROLL_PX * Math.sign(axisY));
+				const pixels = Math.round(magnitude * magnitude * STICK_SCROLL_PPS * elapsed * Math.sign(axisY));
 				if (pixels !== 0) {
 					this.onAction(pixels < 0 ? 'scroll-up' : 'scroll-down', Math.abs(pixels));
 				}
@@ -208,8 +221,8 @@ export class GamepadNavigator {
 			// Triggers: analog zoom proportional to squeeze pressure
 			const lt = gp.buttons[6]?.value ?? 0;
 			const rt = gp.buttons[7]?.value ?? 0;
-			if (lt > TRIGGER_DEADZONE) this.onAction('zoom-out', lt * TRIGGER_ZOOM_RATE);
-			if (rt > TRIGGER_DEADZONE) this.onAction('zoom-in', rt * TRIGGER_ZOOM_RATE);
+			if (lt > TRIGGER_DEADZONE) this.onAction('zoom-out', lt * TRIGGER_ZOOM_RATE * elapsed);
+			if (rt > TRIGGER_DEADZONE) this.onAction('zoom-in', rt * TRIGGER_ZOOM_RATE * elapsed);
 		}
 		this.rafId = requestAnimationFrame(this.poll);
 	};
