@@ -213,18 +213,17 @@
 
 	let zoomLevel = $state(
 		typeof localStorage !== 'undefined'
-			? (() => { const v = parseFloat(localStorage.getItem(ZOOM_STORAGE_KEY) ?? ''); return isNaN(v) ? 1 : v; })()
+			? (() => { const v = parseFloat(localStorage.getItem(ZOOM_STORAGE_KEY) ?? ''); return Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, isNaN(v) ? 1 : v)); })()
 			: 1
 	);
 
 	$effect(() => {
-		const clamped = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel));
-		document.documentElement.style.zoom = String(clamped);
-		try { localStorage.setItem(ZOOM_STORAGE_KEY, String(clamped)); } catch { /* ignore */ }
+		document.documentElement.style.zoom = String(zoomLevel);
+		try { localStorage.setItem(ZOOM_STORAGE_KEY, String(zoomLevel)); } catch { /* ignore */ }
 	});
 
 	function adjustZoom(delta: number) {
-		zoomLevel += delta;
+		zoomLevel = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, zoomLevel + delta));
 	}
 
 	// ── Gamepad navigation ─────────────────────────────────────────────────────
