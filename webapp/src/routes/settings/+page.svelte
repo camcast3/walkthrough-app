@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
-	import { updateClientConfig, fetchUpdateStatus, applyUpdate, waitForVersionChange } from '$lib/sync.js';
-	import type { UpdateInfo } from '$lib/sync.js';
+	import { updateClientConfig } from '$lib/sync.js';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
@@ -27,27 +26,14 @@
 	let saveError = $state('');
 	let validationErrors = $state<Record<string, string>>({});
 
-	// Update state
-	let checking = $state(false);
-	let checkError = $state('');
-	let updateInfo = $state<UpdateInfo | null>(null);
-	let updating = $state(false);
-	let updateProgress = $state('');
-	let updateError = $state('');
-
-	// Dynamic field count: 4 inputs + PSM toggle + save button + check button + (optional) apply button
-	const BASE_FIELD_COUNT = 7; // indices 0-3 = inputs, 4 = PSM toggle, 5 = save, 6 = check
-	let fieldCount = $derived(
-		data.appMode === 'client' && updateInfo?.updateAvailable && !updating
-			? BASE_FIELD_COUNT + 1
-			: BASE_FIELD_COUNT
-	);
+	// Dynamic field count: 4 inputs + PSM toggle + save button
+	const BASE_FIELD_COUNT = 6; // indices 0-3 = inputs, 4 = PSM toggle, 5 = save
+	let fieldCount = $derived(BASE_FIELD_COUNT);
 
 	// Gamepad / keyboard focus management
 	let focusedIdx = $state(0);
-	// Fixed size of 8: indices 0-3 = inputs, 4 = PSM toggle, 5 = save, 6 = check-updates, 7 = apply-update.
-	// Index 7 is only navigable when fieldCount reaches 8 (update available).
-	let fieldRefs: (HTMLElement | null)[] = Array(8).fill(null);
+	// Fixed size of 6: indices 0-3 = inputs, 4 = PSM toggle, 5 = save.
+	let fieldRefs: (HTMLElement | null)[] = Array(6).fill(null);
 	let gamepad: GamepadNavigator | null = null;
 
 	onMount(() => {
@@ -211,40 +197,6 @@
 			setupError = err instanceof Error ? err.message : 'Failed to save settings';
 		} finally {
 			setupSaving = false;
-		}
-	}
-
-	// ── Update actions ────────────────────────────────────────────────────────
-
-	async function handleCheckUpdate() {
-		checking = true;
-		checkError = '';
-		updateInfo = null;
-		try {
-			updateInfo = await fetchUpdateStatus();
-		} catch (err) {
-			checkError = err instanceof Error ? err.message : 'Failed to check for updates';
-		} finally {
-			checking = false;
-		}
-	}
-
-	async function handleApplyUpdate() {
-		if (!updateInfo) return;
-		updating = true;
-		updateError = '';
-		updateProgress = 'Sending update request…';
-		try {
-			await applyUpdate();
-			updateProgress = 'Downloading update… this may take a minute';
-			await waitForVersionChange(data.version || 'dev');
-			updateProgress = 'Update complete! Reloading…';
-			await new Promise((r) => setTimeout(r, 1500));
-			window.location.reload();
-		} catch (err) {
-			updateError = err instanceof Error ? err.message : 'Update failed';
-			updating = false;
-			updateProgress = '';
 		}
 	}
 
@@ -505,80 +457,6 @@
 				</button>
 			</div>
 		</form>
-
-		<!-- ── Software Update ──────────────────────────────────────────────── -->
-		<div class="field update-card">
-			<div class="field-label">
-				<span class="label-icon" aria-hidden="true">🔁</span>
-				Software Update
-			</div>
-			<p class="field-desc">
-				Current version: <code class="version-badge">{data.version || 'unknown'}</code>
-			</p>
-
-			{#if updateInfo}
-				{#if updateInfo.updateAvailable}
-					<div class="banner warning update-banner" role="status">
-						<span>⬆ Version <strong>{updateInfo.latestVersion}</strong> available</span>
-						<a
-							class="release-link"
-							href={updateInfo.releaseUrl}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							Release notes ↗
-						</a>
-					</div>
-				{:else}
-					<div class="banner success" role="status">
-						<span>✓ Up to date ({updateInfo.latestVersion})</span>
-					</div>
-				{/if}
-			{/if}
-
-			{#if updateError}
-				<div class="banner warning" role="alert">
-					<span>⚠ {updateError}</span>
-				</div>
-			{/if}
-
-			{#if updating}
-				<div class="banner info" role="status">
-					<span class="spinner spinner-sm" aria-hidden="true"></span>
-					<span>{updateProgress}</span>
-				</div>
-			{/if}
-
-			<div class="update-actions">
-				{#if updateInfo?.updateAvailable && !updating}
-					<button
-						class="update-btn apply-btn"
-						class:focused={focusedIdx === 7}
-						onclick={handleApplyUpdate}
-						disabled={updating}
-						onfocus={() => (focusedIdx = 7)}
-						use:setFieldRef={7}
-					>
-						⬆ Update Now
-					</button>
-				{/if}
-				<button
-					class="update-btn check-btn"
-					class:focused={focusedIdx === 6}
-					onclick={handleCheckUpdate}
-					disabled={checking || updating}
-					onfocus={() => (focusedIdx = 6)}
-					use:setFieldRef={6}
-				>
-					{#if checking}
-						<span class="spinner spinner-sm" aria-hidden="true"></span>
-						Checking…
-					{:else}
-						🔍 Check for Updates
-					{/if}
-				</button>
-			</div>
-		</div>
 	{/if}
 </div>
 
@@ -864,16 +742,6 @@
 		}
 	}
 
-	/* ── Update card ───────────────────────────────────────────────────────── */
-	.update-card {
-		margin-top: 0.5rem;
-	}
-
-	.update-card .field-label {
-		cursor: default;
-		margin-bottom: 0.4rem;
-	}
-
 	.version-badge {
 		font-family: 'Courier New', monospace;
 		font-size: 0.82rem;
@@ -882,25 +750,6 @@
 		border-radius: 6px;
 		padding: 0.1rem 0.45rem;
 		color: #c8c0f8;
-	}
-
-	.update-banner {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-bottom: 0.75rem;
-	}
-
-	.release-link {
-		font-size: 0.78rem;
-		color: #a89df7;
-		text-decoration: underline;
-		text-decoration-color: rgba(168, 157, 247, 0.4);
-	}
-	.release-link:hover {
-		text-decoration-color: rgba(168, 157, 247, 0.9);
 	}
 
 	.banner.info {
@@ -913,65 +762,4 @@
 		margin-bottom: 0.75rem;
 	}
 
-	.spinner-sm {
-		width: 0.75rem;
-		height: 0.75rem;
-		border-width: 2px;
-		flex-shrink: 0;
-	}
-
-	.update-actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.6rem;
-		margin-top: 0.75rem;
-	}
-
-	.update-btn {
-		display: flex;
-		align-items: center;
-		gap: 0.45rem;
-		border-radius: 12px;
-		font-size: 0.9rem;
-		font-weight: 600;
-		padding: 0.6rem 1.25rem;
-		cursor: pointer;
-		transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
-	}
-
-	.check-btn {
-		background: rgba(124, 106, 247, 0.1);
-		border: 1px solid rgba(124, 106, 247, 0.3);
-		color: #a89df7;
-	}
-
-	.check-btn:hover:not(:disabled),
-	.check-btn.focused:not(:disabled) {
-		background: rgba(124, 106, 247, 0.2);
-		border-color: rgba(124, 106, 247, 0.6);
-		box-shadow: 0 0 14px rgba(124, 106, 247, 0.18);
-	}
-
-	.apply-btn {
-		background: rgba(84, 214, 106, 0.12);
-		border: 1px solid rgba(84, 214, 106, 0.4);
-		color: #54d66a;
-	}
-
-	.apply-btn:hover:not(:disabled),
-	.apply-btn.focused:not(:disabled) {
-		background: rgba(84, 214, 106, 0.22);
-		border-color: rgba(84, 214, 106, 0.7);
-		box-shadow: 0 0 14px rgba(84, 214, 106, 0.18);
-	}
-
-	.update-btn:focus-visible {
-		outline: none;
-		box-shadow: 0 0 0 3px rgba(124, 106, 247, 0.3);
-	}
-
-	.update-btn:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
 </style>
