@@ -1426,7 +1426,7 @@
     {
       "id": "act-2-part-4",
       "title": "Act 2, Part 4: Liberating Trista",
-      "content": "# Act 2, Part 4 — Liberating Trista\n\nAfter completing the remaining Spirit Shrines, the story quest **\"Liberating Trista\"** begins. Complete all side content before commencing the operation.\n\n## Pre-Battle Setup (December 27–30)\n\n<!-- checkpoint: act-2-part-4-start | Act 2 Part 4 Begins -->\n\n### Books (Missable!)\n\n| Item | Source | Notes |\n|------|--------|-------|\n| **Gambler Jack II - Chapter 13** | Talk to **Spare** at Crescent Moon Inn, Aurochs Fort (12/27) | Missable! NPC dialogue only |\n| **Gambler Jack Reprint #13** | Buy from Fortnum Books, Bareahard (revisit via Courageous) | Yes |\n| **Gambler Jack Reprint - Finale** | Buy from Fortnum Books, Bareahard (revisit via Courageous) | Yes |\n\n> 🏆 **Achievement: Lending Library** — Don't miss Chapter 13 and the final Reprints.\n\n### Remaining Spirit Shrines\n\nComplete the remaining three Spirit Shrines (see Part 3 for shrine details). Each awards a Zemurian Ore.\n\n### Side Quests (Available before commencing)\n\n| Quest | Notes |\n|-------|-------|\n| **Mist Opportunity** | Available before operation |\n| **Canyon, or CAN'Tyon?** | Available before operation |\n| **Hearts in Harmony** | Available before operation |\n| **Father's Pocket Watch (Hidden)** | Multi-step quest: Start from Colette in Roer → Jackass's Repair Shop → Roer Institute (George, need part) → Sachsen Mine (Munk, get Orbal Spring) → back to Jackass → return to Colette. Requires Alisa in party. |\n\n> ⚠️ **Point of no return:** Once you \"Commence Operation\", all remaining side quests become unavailable. Complete everything first!\n\n> 🏆 **Achievement: Honor Roll** — Complete ALL quests including Father's Pocket Watch (hidden). Requires Alisa in your party.\n\n### Pre-Battle Preparations\n\n- Speak to **Towa** and pick \"Commence Operation\" to start\n- **Monica** (4th floor) — gives a **Kaiser Burger** before the battle\n- Play **Blade II** with one last character for Link EXP\n\n<!-- checkpoint: trista-pre-battle-done | Pre-Battle Preparations Done -->\n\n## The Liberation Battle\n\n<!-- checkpoint: liberating-trista | Begin Liberating Trista -->\n\nYou control **two teams** simultaneously:\n- **Team A:** Rean + Towa (forced) + your choices\n- **Team B:** Angelica (forced) + your choices\n\n> Equip all party members before commencing — no gear changes during consecutive battles.\n\n### Battle Sequence\n\n1. **Mech Battle:** Multiple Soldat mechs (Goliath B, Kestrel B) using Valimar with Team A\n2. **Team B Fight:** Vincent, Sariffa, and two others (varies by party lineup: Ferris/Lambert/Friedel/Edel)\n3. **Team A Fight:** Patrick, Celestin, and variant opponents\n\n**Tips:**\n- Have offensive quartz on strong attackers (Rean, Laura, Gaius, Millium)\n- Support/cancel quartz for Emma/Fie\n- Ensure everyone's ARCUS slots are upgraded to Level 2\n- Sara does NOT participate in these battles\n\n<!-- checkpoint: trista-liberated | Trista Liberated -->\n\n> After liberating Trista, major story events play leading into the Finale.\n\n<!-- checkpoint: act-2-complete | Act 2 Complete -->",
+      "content": "# Act 2, Part 4 — Liberating Trista\n\nAfter completing the remaining Spirit Shrines, the story quest **\"Liberating Trista\"** begins. Complete all side content before commencing the operation.\n\n## Pre-Battle Setup (December 27–30)\n\n<!-- checkpoint: act-2-part-4-start | Act 2 Part 4 Begins -->\n\n### Books (Missable!)\n\n| Item | Source | Notes |\n|------|--------|-------|\n| **Gambler Jack II - Chapter 13** | Talk to **Spare** at Crescent Moon Inn, Aurochs Fort (12/27) | Missable! NPC dialogue only |\n| **Gambler Jack Reprint #13** | Buy from Fortnum Books, Bareahard (revisit via Courageous) | Yes |\n| **Gambler Jack Reprint #14** | Buy from Fortnum Books, Bareahard (revisit via Courageous) | Yes |\n\n> 🏆 **Achievement: Lending Library** — Don't miss Chapter 13 and the final Reprints.\n\n### Recipes\n\n| Item | Source |\n|------|--------|\n| **Spicy Curry (Recipe)** | Purchase the Curry Recipe Book from the General Store (Courageous) |\n| **Mixed Grill (Recipe)** | Talk to Josef at Arseid Mansion (Legram) |\n\n### Remaining Spirit Shrines\n\nComplete the remaining three Spirit Shrines (see Part 3 for shrine details). Each awards a Zemurian Ore.\n\n### Side Quests (Available before commencing)\n\n| Quest | Notes |\n|-------|-------|\n| **Mist Opportunity** | Available before operation |\n| **Canyon, or CAN'Tyon?** | Available before operation |\n| **Hearts in Harmony** | Available before operation |\n| **Father's Pocket Watch (Hidden)** | Multi-step quest: Accept from Jackass at Jackass's Repair Shop (Roer) → Talk to Harves & Gregor (Roer Institute entrance) → Mine Chief Rudolf (outside Sachsen Iron Mines) → Miner Aman (inside Sachsen Iron Mines, Freight Station) → Old Man Gwyn (Lake Lacrima by the Truck) → Report back to Jackass. Requires Alisa in party. |\n\n> ⚠️ **Point of no return:** Once you \"Commence Operation\", all remaining side quests become unavailable. Complete everything first!\n\n> 🏆 **Achievement: Honor Roll** — Complete ALL quests including Father's Pocket Watch (hidden). Requires Alisa in your party.\n\n### Pre-Battle Preparations\n\n- Speak to **Towa** and pick \"Commence Operation\" to start\n- **Monica** (4th floor) — gives a **Kaiser Burger** before the battle\n- Play **Blade II** with one last character for Link EXP\n\n<!-- checkpoint: trista-pre-battle-done | Pre-Battle Preparations Done -->\n\n## The Liberation Battle\n\n<!-- checkpoint: liberating-trista | Begin Liberating Trista -->\n\nYou control **two teams** simultaneously:\n- **Team A:** Rean + Towa (forced) + your choices\n- **Team B:** Angelica (forced) + your choices\n\n> Equip all party members before commencing — no gear changes during consecutive battles.\n\n### Battle Sequence\n\n1. **Mech Battle:** Multiple Soldat mechs (Goliath B, Kestrel B) using Valimar with Team A\n2. **Team B Fight:** Vincent, Sariffa, Edel, and Friedel\n3. **Team A Fight:** Patrick, Celestin, Ferris, and Lambert\n\n**Tips:**\n- Have offensive quartz on strong attackers (Rean, Laura, Gaius, Millium)\n- Support/cancel quartz for Emma/Fie\n- Ensure everyone's ARCUS slots are upgraded to Level 2\n- Sara does NOT participate in these battles\n\n<!-- checkpoint: trista-liberated | Trista Liberated -->\n\n> After liberating Trista, major story events play leading into the Finale.\n\n<!-- checkpoint: act-2-complete | Act 2 Complete -->",
       "checkpoints": [
         {
           "id": "act-2-part-4-start",
@@ -1463,10 +1463,21 @@
           "note": "Required for Lending Library achievement."
         },
         {
-          "id": "buy-gambler-jack-reprint-finale",
+          "id": "buy-gambler-jack-reprint14",
           "type": "collectible",
-          "text": "Buy **Gambler Jack Reprint - Finale** from **Fortnum Books** in Bareahard (revisit via Courageous).",
+          "text": "Buy **Gambler Jack Reprint #14** from **Fortnum Books** in Bareahard (revisit via Courageous).",
           "note": "Required for Lending Library achievement."
+        },
+        {
+          "id": "get-recipe-spicy-curry",
+          "type": "collectible",
+          "text": "Purchase the **Spicy Curry Recipe** from the General Store on the Courageous.",
+          "note": "Available on December 27."
+        },
+        {
+          "id": "get-recipe-mixed-grill",
+          "type": "collectible",
+          "text": "Talk to **Josef** at the Arseid Mansion in Legram to learn the **Mixed Grill** recipe."
         },
         {
           "id": "complete-remaining-shrines",
@@ -1492,7 +1503,7 @@
         {
           "id": "quest-fathers-watch-hidden",
           "type": "warning",
-          "text": "**Hidden Quest: Father's Pocket Watch** — Multi-step: talk to Colette in Roer → Jackass's Repair Shop → Roer Institute (George) → Sachsen Mine (Munk, get Orbal Spring) → back to Jackass → return to Colette. Requires **Alisa** in party.",
+          "text": "**Hidden Quest: Father's Pocket Watch** — Accept from Jackass at Jackass's Repair Shop (Roer). Then talk to: Harves & Gregor (Roer Institute entrance), Mine Chief Rudolf (outside Sachsen Iron Mines), Miner Aman (inside Sachsen Iron Mines, Freight Station), Old Man Gwyn (Lake Lacrima by the Truck). Report back to Jackass to complete. Requires **Alisa** in party.",
           "note": "Missable! Required for Honor Roll achievement."
         },
         {
@@ -1519,18 +1530,30 @@
         {
           "id": "boss-trista-team-battles",
           "type": "boss",
-          "text": "**Team B then Team A battles** vs Vincent/Sariffa/Patrick/Celestin — Use offensive quartz on attackers, support quartz on healers. ARCUS Level 2 recommended."
+          "text": "**Team B then Team A battles** — Team B faces Vincent, Sariffa, Edel, and Friedel. Team A faces Patrick, Celestin, Ferris, and Lambert. Use offensive quartz on attackers, support quartz on healers. ARCUS Level 2 recommended. Focus Sariffa/Celestin first (they heal)."
         }
       ]
     },
     {
       "id": "finale",
       "title": "Finale: Forward, Relentlessly",
-      "content": "# Finale — Forward, Relentlessly\n\nThe Finale takes you to the **Infernal Castle**, a massive multi-floor dungeon with the game's most challenging boss gauntlet. Before entering, complete all remaining side content in Trista and choose your bond partner.\n\n<!-- checkpoint: finale-start | Trista Pre-Castle Activities -->\n\n## Pre-Castle: Trista Activities\n\nBefore entering the Infernal Castle, take care of final side content:\n\n### Side Quests\n- **My Jormungand Don't Want None**\n- **Sachsen Violence**\n- **Nord by Nord-east**\n- **Ymir, Far, Wherever You Are**\n- **Absentee Father** (hidden quest — easily missed!) — Talk to **Father Paulo** in **Trista Chapel**. Follow the trail of priests: Celdic Chapel (Father Zirbel) → Bareahard Cathedral (Archbishop Amon) → Legram Chapel (Father Hamilcar) → Roer Cathedral (Archbishop Homs) → Ymir Chapel (Father Bernard). **Reward:** 4,500 Mira, Acala Gem, 4 AP. Bring Gaius for extra dialogue.\n\n### Collectibles\n- **Imperial Chronicle - Issue 6** — Buy from any news store (Keynes' Bookstore in Trista, or Literature Club on the Courageous)\n- **Gambler Jack II Ch.14** — Talk to Karol\n- **Tomato Pot (Recipe)** — Talk to Lotte\n- **Medal of Love** — Receive from Princess Alfin\n\n### Chosen Partner Event\nSpeak with your chosen bond partner for a special scene. Requires **Link Level 6** and **6000 EXP** with that character. This determines your ending.\n\n> Complete ALL quests and collectibles before proceeding. Entering the castle is the point of no return.\n\n## Preparation\n\n**Before entering:**\n- Stock up on healing items (Celestial Balm, EP Charge III, Reviving Balm)\n- Optimize your top 8 characters (you'll control two 4-person teams)\n- Ensure at least one AoE healer per team\n- Equip status recovery accessories and ailment-resist quartz\n- Have plenty of Curia Balm and S-Craft items\n\n> **Save before entering the Infernal Castle.** This is the final dungeon. There is no going back.\n\n<!-- checkpoint: enter-infernal-castle | Enter the Infernal Castle -->\n\n## Infernal Castle Structure\n\nThe castle is divided into strata with increasingly powerful enemies and bosses:\n\n### 1st Stratum\n- Standard encounters with powerful enemies\n- Collect all treasure chests on side paths\n- **Boss: Bleublanc & Duvalie** — Bleublanc uses illusion tactics and status effects. Duvalie is a fast melee attacker with high evasion. Prioritize Bleublanc first to stop his support abilities, then focus Duvalie.\n\n<!-- checkpoint: 1st-stratum-cleared | 1st Stratum Cleared — Bleublanc & Duvalie Defeated -->\n\n### 2nd Stratum\n- **Fie is mandatory** for this stratum\n- Puzzle mechanic: **Eye switches** — activate them in the correct order to open paths\n- Both teams face mid-bosses and strong archaisms\n- **Boss: Xeno & Leonidas** — Xeno is a ranged attacker; Leonidas is a tank with powerful physical strikes. Focus Xeno first as his ranged attacks are harder to mitigate. Use Fie's speed to maintain turn advantage.\n\n<!-- checkpoint: 2nd-stratum-cleared | 2nd Stratum Cleared — Xeno & Leonidas Defeated -->\n\n### 3rd Stratum\n- Monster barriers block your path — destroy them in order: **left, right, center, center**\n- Each team faces unique enemy series\n- **Boss: McBurn** (solo boss)\n- **HP:** ~120,000 (Normal)\n- **Recommended Level:** 70+\n- **Key Moves:** Infernal Flames (fire AoE), Burning Rage (self-buff at 50% HP), Incandescent Lion (S-Craft)\n- **Strategy:** Equip fire-resist accessories and Burn immunity. He enters an empowered state at 50% HP with devastating AoE — use S-Crafts to burst through this phase. Water/Earth arts are slightly effective. Arts Guards/Reflects are valuable. Keep HP topped off at all times.\n\n<!-- checkpoint: 3rd-stratum-cleared | 3rd Stratum Cleared — McBurn Defeated -->\n\n### Highest Stratum\n- Final floor before the endgame bosses\n- **Boss: Crow & Vita**\n- **Crow HP:** ~65,000 (Normal) — Physical attacker with powerful S-Craft \"Rebellion Storm\"\n- **Vita HP:** ~56,000 (Normal) — Devastating arts caster with wide-area attacks\n- **Recommended Level:** 70+\n- **Strategy:** Prioritize **Vita first** — interrupt her cast times with S-Crafts or impede/delay crafts. Her arts are harder to mitigate than Crow's physical attacks. Debuff Crow's ATK and keep party HP above 50% to survive his S-Craft burst. Use Overdrive for emergency healing or burst damage.\n\n<!-- checkpoint: highest-stratum-cleared | Highest Stratum Cleared — Crow & Vita Defeated -->\n\n## Final Boss: Vermillion Apocalypse\n\n<!-- checkpoint: final-boss | Vermillion Apocalypse Defeated -->\n\n- **HP:** ~240,000 (Normal, across both phases)\n- **Recommended Level:** 70–75+\n\n**Phase 1:** Normal form with physical attacks and crafts.\n- Keep party HP high, apply defensive buffs (Shining/Zeroshield)\n- Use Burst and Rush opportunities for coordinated damage\n- Apply stat debuffs (STR Down, SPD Down) early\n\n**Phase 2:** (Triggers after HP threshold) — AoE attacks intensify, self-buffs activate\n- Watch for **Demon's Gaze** — massive single-target attack\n- Arts Guards/Reflects are extremely valuable here\n- Protect low-HP characters, use S-Crafts to interrupt\n- Keep healing constant with your designated healer\n- Equip Burn/Freeze immunity and Deathblow protection accessories\n\n## Divine Knight Battle: Valimar vs Ordine (Crow)\n\n<!-- checkpoint: divine-knight-ordine | Valimar vs Ordine Complete -->\n\nAfter defeating the Vermillion Apocalypse, Rean pilots **Valimar** in a one-on-one Divine Knight duel against **Crow's Ordine**.\n\n- This is a mech battle using Valimar's combat system\n- Attack Ordine's weak points when they flash\n- Guard when Ordine telegraphs powerful attacks\n- Use Valimar's special attacks for burst damage during openings\n- Heal Valimar between exchanges — the fight is long\n\n> Your chosen bond partner affects the final cutscene. The ending varies based on who has the highest affection.\n\n<!-- checkpoint: finale-complete | Finale Complete -->",
+      "content": "# Finale — Forward, Relentlessly\n\nThe Finale spans December 30–31 and takes you through a massive amount of preparation, the **Karel Imperial Villa** assault, and culminates in the **Infernal Castle** — a multi-layer dungeon with the game's toughest boss gauntlet (5 consecutive boss rounds). Complete all remaining side content before entering.\n\n<!-- checkpoint: finale-start | December 30 Night — Pre-Castle Activities -->\n\n## December 30 Night — Trista & Thors Activities\n\nAfter regaining control, handle these activities before proceeding:\n\n### Collectibles & Recipes\n- **Tomato Pot (Recipe)** — Talk to **Lotte** at the Upper Dorm Entrance\n- **Gambler Jack II Ch.14** — Talk to **Karol** in Thors Library\n- **Zemurian Ore** — Talk to **Vice Principal Heinrich** at Kirsche's Café & Inn (requires all 14 Gambler Jack II chapters collected)\n- **Bike Colour: Fiery Colour** — Examine the bookshelf in **Trista House** (northeast of Trista), right of the staircase on the bottom floor\n- **Imperial Chronicle - Issue 6** — Buy from any book store\n\n### Character Profiles (Missable!)\nUpdate all character profiles by speaking to NPCs in Trista and Thors. There are many — see source guide for full list including Crow, Butler Celestin, Theresia, Instructor Mary, Principal Vandyck, Vivi, Clara, Bridget, Stefan, Lambert, Hugo, Casper, Colette, Rosine, Friedel, Instructor Thomas, Vice Principal Heinrich.\n\n### Chosen Partner Event\nSpeak with your chosen bond partner for a special scene. Requirements:\n- **Class VII members:** Link Level 6+ AND character has seen one of the 2 Key Bonding Events\n- **Towa and Alfin:** Link Level 5+ AND have seen their Bonding Event in Bareahard at the end of Act 3\n\nFinish all side activities first, then speak to your partner and choose the 1st option. Enter the Class VII dorm to trigger the event. If partner reaches Link Level 7, you also earn the **Link Master** trophy.\n\n> 🏆 **Achievement: Chosen One** — View a Chosen Partner Event. **Link Master** — Reach Link Level 7 with your partner.\n\n### Medal of Love\nIf you haven't received it yet, speak to **Alfin** at the Principal's Office to get the **Medal of Love**. Then take the west exit of Trista for an event, and speak to **Towa** at the school rooftop.\n\n## December 31 — Courageous & Final Preparations\n\n<!-- checkpoint: dec-31-preparations | December 31 — Courageous Preparations -->\n\nRean learns his **final S-Craft**. Update character profiles on the Courageous (George, Mint, Loggins, Edel, Becky, Patrick, Margarita, Ferris, Vincent, Sariffa, Instructor Makarov, Instructor Beatrix).\n\n### Zemurian Ore Weapons\nSpeak to **George** on Courageous 1F to forge the strongest weapon in the game using the Zemurian Ore. Best candidates: **Rean and Laura** (crucial for the Cancelling strategy).\n\n### Cooking & Dish Rewards\n- Give all **22 superb dishes** to **Monica** (2F Cafeteria) → **Impenetrable Shield** quartz\n- Give all **peculiar dishes** to **Margarita** (2F north corridor) → **Chaos** quartz\n- Give all **unique dishes** to **Bridget** (3F) → **Revolution** quartz\n- Discover all 22 recipes, then speak to **Ferris** (Game Room) → **Genesis** master quartz\n\n### Training Modules\nComplete all 5 stages of each training module on the Courageous for master quartz rewards:\n- **Sword Training Facility** (Chevalier MQ) — Win conditions focus on no arts, no KO, evade + counterattack\n- **Shooting Range Facility** (Cypher MQ) — Similar win conditions with crafts restrictions\n- **Arts Training Facility** (Magius MQ) — No crafts, reflect magic, no items\n\nSpeak to **Towa** after completing all training → **Emblem** master quartz (for recruiting all students).\n\n### Fishing\nIf you've caught 23 different fish types, speak to **Annabelle** in Ymir Valley for an event → catch the **Arch Tyrant**. Catching it unlocks the **Aeolus Gem** for purchase. Speak to **Kenneth** at the Cafeteria → **Orochi** master quartz. Also purchase the **Sennin Gem** from Kenneth.\n\n### Optional Dungeon: Glacia Shrine\nSpeak to **Rean's father** at Baron's Mansion in Ymir → unlocks **Glacia Shrine** (west end of Ymir Valley 1). Defeat the boss for the **Ice Crown** accessory (+10 CP Regen/turn, +50% Critical Up).\n\n> 🏆 **Achievement: The Frost Hunter** — Defeat the Glacia Shrine boss.\n\n### Battle Notes\nYou should have 284 battle notes at this point. Speak to **Stefan** in the Computer Room (2F) → **Calamity** master quartz. If at 283, you may be missing the **Metal Beetle** (available after Dec 18 at Twin Dragon Bridge - Garrelia Side).\n\n### Black Records (NG+ Only)\nIf this is a second playthrough with all Black Records collected, give them to **Instructor Thomas** at the Book Room (2F) for a trophy.\n\n### Snowboarding\nA new course is added. Clearing it gives the **Skanda Gem**.\n\n## Side Quests (Each gives Zemurian Ore Shard + 3,500 Mira + 4 AP)\n\n<!-- checkpoint: side-quests-complete | Finale Side Quests Complete -->\n\n### My Jormungand Don't Want None\n- **Location:** End of East Celdic Highway 3 (northeast, where Point D used to be)\n- **Boss: Jormungand** — HP: 172,254 (Normal). Weak to Earth/Fire. High Slash/Strike unbalance.\n- **Strategy:** Canceler build prevents all boss turns. Faint status highly effective.\n\n### Sachsen Violence\n- **Location:** Sachsen Mountain Path 2 (northeast near fishing spot). Land Courageous on Sachsen Iron Mines.\n- **Boss: Gespard** — HP: 178,653 (Normal). Very high physical defense. Weak to Earth.\n- **Strategy:** Use arts for best damage. Boss casts arts frequently — impede and cancel them. Good for farming the Impede Arts trophy.\n\n### Nord by Nord-east\n- **Location:** Nord Highlands - Northeast (center area)\n- **Boss: Glider Quaker** — HP: 139,380 (Normal). Lowest HP of the four but strongest attacks. Weak to Wind.\n- **Strategy:** Thunder Wave deals massive AoE + Mute chance. Boss is very weak to Mute — silence it to disable attacks. Canceler build or full S-Craft burst can one-shot it.\n\n### Ymir, Far, Wherever You Are\n- **Location:** Ymir Valley - End (left side)\n- **Boss: Sasquatch** — HP: 183,654 (Normal). Highest HP of the four. Buffs STR/DEF.\n- **Strategy:** Similar to Gordi Schnarr G. Canceler strategy prevents all turns. Confuse ailment is effective if lacking Canceler setup.\n\n### Hidden Quest: Absentee Father\n- Accept from **Father Paulo** at Trista's Chapel. Visit priests in order:\n  1. Celdic Chapel — **Zirbel**\n  2. Bareahard Cathedral — **Amon**\n  3. Legram Chapel — **Hamilcar**\n  4. Roer Cathedral — **Homs**\n  5. Ymir Chapel — **Bernard**\n- **Reward:** Acala Gem, 4,500 Mira, 4 AP. Bring **Sara and Gaius** for extra dialogue.\n- After completing, report quest on Courageous computer → reach 315 AP → **Gold Trophy** + **Lion Heart** accessory.\n\n> 🏆 **Achievement: Honor Student** — Reach 315 AP. Requires completing all quests including this hidden one.\n\n## Final Mission: Karel Imperial Villa\n\n<!-- checkpoint: karel-imperial-villa | Karel Imperial Villa Cleared -->\n\n**Machias is mandatory** for this section. Select your party and head to Karel Imperial Villa.\n\n### Dungeon\n- Fight Alliance Forces soldiers on approach and inside the villa\n- **Treasure:** Claiomh Solarion (1F north), Seraphic Ring (1F south), U-Material ×10, Tear All Balm, Goldia Key (monster chest)\n- Use the Goldia Key to unlock the southern door in Villa 3\n- Heal at Orbment Station before the boss\n\n### Boss: Altina & G-Zephyranthes\n- **Altina HP:** 235,404 (Normal) — Low elemental/physical efficacy across the board\n- **G-Zephyranthes ×2 HP:** 119,712 each — Equal elemental efficacy\n- **Strategy:** Eliminate G-Zephyranthes first — they have high defense so use arts or S-Crafts. Altina casts **Black Barrier** (reflects one physical attack) and **Brionac** (laser, high damage + ADF down). At 40% HP she may use her S-Craft (~80% party HP damage). Use Emma's Crescent Shell/Mirror to reflect Brionac.\n- **Tough enemies tip:** Sleipnirs and Altina have high DEF but low ADF — use Emma/Elliot with Aries MQ + Shadow Blade. Laura with Zemurian Ore weapon excels here.\n\n### Grand Cordon Reward\nIf you collected all Medals from Princess Alfin, the Emperor awards the **Grand Cordon** accessory (+100 STR/DEF/ATS/ADF, +10% Critical Up).\n\n## Infernal Castle\n\n<!-- checkpoint: enter-infernal-castle | Enter the Infernal Castle -->\n\n> **Save before entering.** This is the final dungeon — no return. Each stratum has a Zemurian Ore Shard (4 total = another ultimate weapon). Recommended: give weapons to your damage dealers (Elliot, Emma, Sara, Millium, or Gaius for arts builds).\n\n**Key tip:** Keep **Laura and Emma** in active party throughout — they are your best damage dealers for the Cancelling strategy against each boss.\n\n### Layer 1\n- **Enemies:** Ebony Pawn, Blood Brand, Judge Pillar, Nebilim, Seraphic Gate, Tildawn, Ol-Gadia, Magic Knight Ashurei\n- **Treasure:** Tear All Balm, Virgo Boots, Sepith ×500, Alfried's Armor (best male armor), Deus Gem\n- Navigate using switches and ladders; activate switches to create bridges\n- Bring **Laura** for character profile update at the boss\n\n**Boss: Bleublanc & Duvalie (+ Balancing Clowns)**\n- **Bleublanc HP:** 266,640 — **Duvalie HP:** 259,440 — **Balancing Clown HP:** 134,708 each\n- **Strategy:** Kill **Bleublanc first** — he inflicts status effects and summons more Clowns. The Clowns can instantly heal bosses at low HP. Duvalie's S-Craft is a hard-hitting AoE; Bleublanc's reduces one member to 1 HP + Poison. Use Dark Matter to cluster enemies, then AoE with Altair Cannon. If you can reduce all enemies to ~80,000 HP, spam all 4 S-Crafts to finish.\n\n<!-- checkpoint: 1st-stratum-cleared | 1st Stratum Cleared — Bleublanc & Duvalie Defeated -->\n\n### Layer 2\n- **Fie is mandatory** (also bring Alisa/Millium for extra dialogue)\n- **Enemies:** Black Widow, Ramon, Tyrant, Magma Serpent, Crimsondile, Grim-Zanak, Abaddon, Reaver Garmr\n- **Treasure:** Sirius Boots, Sepith Mass ×1000, Celestial Balm EX, Brahma Gem, Zeram Powder\n- Puzzle: **Eye switches** — hit them with field action to remove vine barriers. Navigate by activating switches in sequence.\n- Section 2 requires a character with **B rank Thrust proficiency** to hit a switch\n\n**Boss: Xeno & Leonidas (+ Judgement Javelins)**\n- **Xeno HP:** 271,808 — **Leonidas HP:** 276,768 — **Judgement Javelin HP:** 17,080 each\n- **Strategy:** Kill **Xeno first** — once gone, Leonidas falls easily. Use AoE arts to clear Javelins. They use S-Crafts in succession — if both hit, it's game over. Give Jusis/Alisa the Artemis' Tear Lost Art to double HP for surviving S-Crafts. Impede messes up their turns. At ~90,000 HP, Rean's Termination Slash - Dawn (Ogre mode, max CP) can kill.\n\n<!-- checkpoint: 2nd-stratum-cleared | 2nd Stratum Cleared — Xeno & Leonidas Defeated -->\n\n### Layer 3\n- **Enemies:** Black Ooze, Demonic Mirror, Demon Rider, Pit Demon, Freezing Knight, Nosferatu, Greater Devil\n- **Treasure:** EP Charge IV, U-Material ×15, Celestial Armor, Mars Gem (monster chest with Greater Devil — scan it!), Loa Boots, Diabolos Gem\n- Red mist passages — correct order: **left, right, middle, middle**\n- Defeat two **Nosferatu** mini-bosses to create bridges\n- Section 2 requires **B rank Strike** and **B rank Pierce** proficiency for switches\n\n**Boss: McBurn (+ Elvavria R ×2)**\n- **McBurn HP:** 436,864 (Normal) — **Elvavria R HP:** 151,625 each\n- McBurn is immune to Fire, resistant to all other elements. Only ★☆☆☆ Slash unbalance; virtually immune to other physical types.\n- **Key Moves:** S-Craft near battle start (unblockable, reduced by DEF Up), Sol Eruption Lost Art (must be cancelled), Purgatorial Flame (can be reflected but low damage), special Burn status (persists until cured or death)\n- **Strategy:** This is the hardest layer boss. Speed is key — minimize McBurn's turns. Equip Impede 2 on all characters. Use Chrono Burst/Break for SPD manipulation. Lionheart and Grail Locket protect 2 characters from Burn. Cure others immediately. When HP reaches ~100,000, use Rean's Termination Slash - Dawn (Ogre mode) + Laura's Radiant Lion to finish.\n- **Nightmare Tip:** Rean and Laura must be Level 125+ for combined S-Crafts to kill at the HP mark. Cook 15 Seasonal Hotpot beforehand.\n\n<!-- checkpoint: 3rd-stratum-cleared | 3rd Stratum Cleared — McBurn Defeated -->\n\n### Layer 4 (Highest Stratum)\n- **Enemies:** Hades Pillar, Ragna Bezel\n- **Treasure:** Chaos (armor), Zeram Capsule (final treasure — Treasure Hunter trophy!)\n- Linear layout — spiral staircase. Collect the final **Zemurian Ore Shard** (4th total = another ultimate weapon from George)\n- Use Orbment Station and Warp Point at the top to prepare\n\n> 🏆 **Achievement: Treasure Hunter** — The Zeram Capsule is the final treasure chest needed for this trophy.\n\n## Final Boss Gauntlet (5 Consecutive Rounds)\n\n<!-- checkpoint: highest-stratum-cleared | Final Boss Gauntlet Begins -->\n\nThe final battle consists of **5 consecutive rounds** with two different teams. Party assignment:\n- **Round 1:** Your regular team fights Crow & Vita\n- **Round 2:** 1st Mech Battle (Valimar vs Ordine)\n- **Round 3:** Reserve team fights Vermillion Apocalypse Phase 1\n- **Round 4:** Main team fights Vermillion Apocalypse Phase 2\n- **Round 5:** Final Mech Battle (Valimar + Ordine vs Vermillion Apocalypse)\n\nAll party members should be **Level 125+** for Nightmare. Prepare both teams with full gear, quartz, and items.\n\n### Round 1 — Boss: Crow & Vita\n- **Crow HP:** 381,290 (Normal) — Physical attacker. S-Craft: Deadly Cross (can be blocked with Platinum/Adamantine Shield)\n- **Vita HP:** 350,090 (Normal) — Arts caster. S-Craft: Aria of the Abyss (devastating, no way to avoid except AT Delay)\n- **Strategy:** Prioritize **Vita first** — she's more susceptible to AT Delay. Use Laura/Fie with Impede 2 to mess up Vita's arts. Use Overdrive immediately with Rean + Adamantine Shield character. Emma casts AoE arts (Claiomh Solarion/Altair Cannon/Maelstrom) to clear Crow's mines. Once Vita falls, Spirit Unification S-Crafts decimate Crow alone. Swap links constantly for Rush/Overdrive opportunities.\n- **Accessories:** Grail Locket on Rean, Lionheart on Laura. Others prioritize Faint, Death, Confusion protection.\n\n### Round 2 — Divine Knight: Valimar vs Ordine\n\n<!-- checkpoint: divine-knight-ordine | Valimar vs Ordine Complete -->\n\n- **Ordine HP:** 350,000 (Normal)\n- **Stances and Weak Points:**\n  - Idle Stance → Body: ★★☆☆, Head: ★☆☆☆, Arms: ★★★☆\n  - Attack Stance (\"Arghh!\") → Body: ★★★☆, Head: ★★☆☆, Arms: ★☆☆☆\n  - Attack Stance (\"Come and get me!\") → Body: ★☆☆☆, Head: ★★★☆, Arms: ★★☆☆\n  - Attack Stance (\"Prepare yourself!\") → Body: ☆☆☆☆, Head: ☆☆☆☆, Arms: ★★★★ OR Body: ☆☆☆☆, Head: ★★★★, Arms: ☆☆☆☆\n- **Attack Pattern:** Normal (weak: Arms) → Charge 1/Arc Slash (weak: Body) → Charge 2/Criminal Edge (weak: Head) → Charge 3/Chaos Saber (weak: Arms) → Charge 4/Blade Throw (weak: Head). After 50–60% HP depleted, pattern extends to include Charges 4 and 5.\n- **Strategy:** Build CP for **Morning Moon** and counter. After 4 consecutive unbalances, Ordine uses a Follow-Up attack (a second stronger one comes after 5 unbalances in the fight's second half). Best supports: **Elliot** (healing), **Alisa** (CP Regen), **Sara** (STR Down on boss).\n\n### Round 3 — Vermillion Apocalypse Phase 1 (Reserve Team)\n\n<!-- checkpoint: final-boss-phase1 | Vermillion Apocalypse Phase 1 Defeated -->\n\n- **HP:** 250,000 (Normal)\n- **Suggested Party:** Elliot, Fie, Gaius, Machias, Sara\n- **Strategy:** Boss has ALL-hitting attacks/arts that can cripple or kill weak members. It can cast Craft and Art Reflect barriers — use your weakest craft/art to dispel them. Elliot's Resonance Beat is crucial for party buffs. Use Seraphic Ring (on 2 characters) as main healing. Machias uses Burst Drive to manipulate turn order. When HP drops to ~60,000, spam S-Crafts to finish.\n- **Cancelling Strategy:** Regroup entire party next to boss. Elliot uses Chrono Drive/Break to keep boss fully SPD debuffed. Fie/Sara use crafts with AT Delay chance. Only use Gaius S-Craft when boss is confirmed delayed.\n- **This is the hardest of all 5 rounds.**\n\n### Round 4 — Vermillion Apocalypse Phase 2 (Main Team)\n\n<!-- checkpoint: final-boss-phase2 | Vermillion Apocalypse Phase 2 Defeated -->\n\n- **HP:** 393,960 (Normal) + **Vermillion Weapons** (36,790 HP each)\n- **Suggested Party:** Rean, Alisa, Laura, Jusis, Emma\n- **Strategy:** Similar to Phase 1 but hits harder. Summons Vermillion Weapon adds instead of casting reflect. Has a super attack — keep fully healed. Use Platinum/Adamantine Shield since most attacks cannot be cancelled. S-Craft strategy: Use Spirit Unification + Radiant Lion combo repeatedly, recharge CP with Seasonal Hotpot. ~6–7 combos bring boss to HP threshold.\n- **Cancelling Strategy:** A fully-decked Level 130 Rean can potentially prevent the boss from having a single turn. Rush boss with Rean and Laura every time you have 3 Bravery Points. Keep Alisa on Insight for CP dependency.\n\n### Round 5 — Final Mech Battle: Valimar + Ordine vs Vermillion Apocalypse\n\n<!-- checkpoint: final-boss | Final Mech Battle Complete -->\n\n- **HP:** 430,000 (Normal)\n- **Pattern:** Normal Attack (weak: Arms) → Charge 1 (weak: Body) → Charge 2 (weak: Head) → repeats\n- **Strategy:** You team up with **Ordine** for this fight. No supports available — Guard is your only damage mitigation. Keep Ordine alive (if it falls, you lose crucial damage). Both mechs can combo together. Use offensive crafts to build Bravery Points fast, then unleash a Burst. After 50% HP, boss can Rush/Burst your party — be cautious as this can kill Ordine (lower defense).\n- Attack patterns have distinct stances — establish a rhythm and the boss falls quickly. This is one of the easier mech fights despite the high HP.\n\n> Your chosen bond partner affects the final cutscene and ending.\n\n<!-- checkpoint: finale-complete | Finale Complete -->",
       "checkpoints": [
         {
           "id": "finale-start",
-          "label": "Trista Pre-Castle Activities"
+          "label": "December 30 Night — Pre-Castle Activities"
+        },
+        {
+          "id": "dec-31-preparations",
+          "label": "December 31 — Courageous Preparations"
+        },
+        {
+          "id": "side-quests-complete",
+          "label": "Finale Side Quests Complete"
+        },
+        {
+          "id": "karel-imperial-villa",
+          "label": "Karel Imperial Villa Cleared"
         },
         {
           "id": "enter-infernal-castle",
@@ -1550,15 +1573,23 @@
         },
         {
           "id": "highest-stratum-cleared",
-          "label": "Highest Stratum Cleared — Crow & Vita Defeated"
-        },
-        {
-          "id": "final-boss",
-          "label": "Vermillion Apocalypse Defeated"
+          "label": "Final Boss Gauntlet Begins"
         },
         {
           "id": "divine-knight-ordine",
           "label": "Valimar vs Ordine Complete"
+        },
+        {
+          "id": "final-boss-phase1",
+          "label": "Vermillion Apocalypse Phase 1 Defeated"
+        },
+        {
+          "id": "final-boss-phase2",
+          "label": "Vermillion Apocalypse Phase 2 Defeated"
+        },
+        {
+          "id": "final-boss",
+          "label": "Final Mech Battle Complete"
         },
         {
           "id": "finale-complete",
@@ -1567,85 +1598,137 @@
       ],
       "steps": [
         {
-          "id": "quest-jormungand",
-          "type": "step",
-          "text": "Complete quest **My Jormungand Don't Want None** in Trista."
-        },
-        {
-          "id": "quest-sachsen",
-          "type": "step",
-          "text": "Complete quest **Sachsen Violence** in Trista."
-        },
-        {
-          "id": "quest-nord",
-          "type": "step",
-          "text": "Complete quest **Nord by Nord-east** in Trista."
-        },
-        {
-          "id": "quest-ymir",
-          "type": "step",
-          "text": "Complete quest **Ymir, Far, Wherever You Are** in Trista."
-        },
-        {
-          "id": "quest-absentee-father",
-          "type": "warning",
-          "text": "**Hidden Quest: Absentee Father** — Talk to **Father Paulo** in Trista Chapel. Follow the priest trail: Celdic Chapel (Father Zirbel) → Bareahard Cathedral (Archbishop Amon) → Legram Chapel (Father Hamilcar) → Roer Cathedral (Archbishop Homs) → Ymir Chapel (Father Bernard).",
-          "note": "Missable! Reward: 4,500 Mira + Acala Gem + 4 AP. Bring Gaius in party for extra backstory. Required for Honor Roll achievement."
+          "id": "get-tomato-pot-recipe",
+          "type": "collectible",
+          "text": "Talk to **Lotte** at Upper Dorm Entrance for the **Tomato Pot** recipe."
         },
         {
           "id": "get-gambler-jack-ch14",
           "type": "collectible",
-          "text": "Talk to **Karol** for **Gambler Jack II Ch.14** (book).",
+          "text": "Talk to **Karol** in Thors Library for **Gambler Jack II Ch.14**.",
           "note": "Missable! Required for Lending Library achievement."
         },
         {
-          "id": "get-imperial-chronicle-6",
+          "id": "get-zemurian-ore",
           "type": "collectible",
-          "text": "Buy **Imperial Chronicle - Issue 6** from **Keynes' Bookstore** in Trista or the **Literature Club** on the Courageous.",
-          "note": "Required for Lending Library achievement."
+          "text": "Talk to **Vice Principal Heinrich** at Kirsche's Café & Inn for a **Zemurian Ore** (requires all 14 Gambler Jack II chapters).",
+          "note": "This forges the strongest weapon in the game."
         },
         {
-          "id": "get-recipe-tomato-pot",
+          "id": "get-fiery-colour",
           "type": "collectible",
-          "text": "Talk to **Lotte** for the **Tomato Pot** recipe."
+          "text": "Get **Fiery Colour** bike colour from bookshelf in **Trista House** (northeast of Trista)."
         },
         {
-          "id": "get-medal-of-love",
-          "type": "collectible",
-          "text": "Receive **Medal of Love** from **Princess Alfin**."
+          "id": "update-character-profiles-trista",
+          "type": "step",
+          "text": "Update all character profiles by speaking to NPCs in Trista and Thors (Crow, Butler Celestin, Theresia, Instructor Mary, Principal Vandyck, Vivi, Clara, Bridget, Stefan, Lambert, Hugo, Casper, Colette, Rosine, Friedel, Instructor Thomas, Vice Principal Heinrich)."
         },
         {
           "id": "chosen-partner-event",
           "type": "step",
-          "text": "Trigger your **Chosen Partner Event** — requires Link Level 6 and 6000 EXP with your chosen character.",
-          "note": "This determines your ending cutscene."
+          "text": "Trigger your **Chosen Partner Event** — requires Link Level 6+ and Key Bonding Events seen (for Class VII) or Link Level 5+ and Bareahard event (for Towa/Alfin).",
+          "note": "Determines your ending cutscene. Link Level 7 with partner earns the Link Master trophy."
         },
         {
-          "id": "stock-up-finale",
-          "type": "step",
-          "text": "Stock up on **Celestial Balm, EP Charge III, Reviving Balm, Curia Balm** before entering."
+          "id": "get-medal-of-love",
+          "type": "collectible",
+          "text": "Speak to **Alfin** at Principal's Office for **Medal of Love** (if not already received)."
         },
         {
-          "id": "optimize-8-characters",
-          "type": "step",
-          "text": "Optimize your top 8 characters with best equipment, quartz, and accessories.",
-          "note": "You'll split into two 4-person teams."
+          "id": "get-imperial-chronicle-6",
+          "type": "collectible",
+          "text": "Buy **Imperial Chronicle - Issue 6** from any book store.",
+          "note": "Required for Lending Library achievement."
         },
         {
-          "id": "equip-status-resist",
+          "id": "dec-31-s-craft",
           "type": "step",
-          "text": "Equip ailment-resist quartz and status recovery accessories on all party members."
+          "text": "Progress to December 31 — Rean learns his **final S-Craft**."
+        },
+        {
+          "id": "forge-zemurian-weapon",
+          "type": "step",
+          "text": "Speak to **George** on Courageous 1F to forge the strongest weapon with Zemurian Ore. Best for **Rean and Laura**."
+        },
+        {
+          "id": "cooking-rewards",
+          "type": "step",
+          "text": "Complete cooking rewards: give 22 superb dishes to **Monica** (→Impenetrable Shield), peculiar dishes to **Margarita** (→Chaos quartz), unique dishes to **Bridget** (→Revolution quartz), all 22 recipes discovered to **Ferris** (→Genesis MQ)."
+        },
+        {
+          "id": "training-modules",
+          "type": "step",
+          "text": "Complete all 5 stages of Sword/Shooting/Arts training modules on Courageous for master quartz rewards."
+        },
+        {
+          "id": "fishing-arch-tyrant",
+          "type": "step",
+          "text": "If 23 fish types caught, speak to **Annabelle** in Ymir Valley → catch **Arch Tyrant** → buy **Aeolus Gem**. Speak to **Kenneth** → **Orochi MQ** + **Sennin Gem**."
+        },
+        {
+          "id": "glacia-shrine",
+          "type": "step",
+          "text": "Speak to **Rean's father** at Baron's Mansion in Ymir → unlocks **Glacia Shrine** (west end of Ymir Valley 1). Defeat boss for **Ice Crown** (+10 CP/turn, +50% Crit).",
+          "note": "🏆 Achievement: The Frost Hunter"
+        },
+        {
+          "id": "battle-notes-284",
+          "type": "step",
+          "text": "Collect 284 battle notes. Speak to **Stefan** in Computer Room (2F) → **Calamity** master quartz."
+        },
+        {
+          "id": "quest-jormungand",
+          "type": "step",
+          "text": "**Quest: My Jormungand Don't Want None** — East Celdic Highway 3 northeast. Boss: Jormungand (172,254 HP). Canceler build or Faint status effective. Reward: Zemurian Ore Shard + 3,500 Mira + 4 AP."
+        },
+        {
+          "id": "quest-sachsen",
+          "type": "step",
+          "text": "**Quest: Sachsen Violence** — Sachsen Mountain Path 2 northeast. Boss: Gespard (178,653 HP). High physical DEF — use arts. Reward: Zemurian Ore Shard + 3,500 Mira + 4 AP."
+        },
+        {
+          "id": "quest-nord",
+          "type": "step",
+          "text": "**Quest: Nord by Nord-east** — Nord Highlands Northeast center. Boss: Glider Quaker (139,380 HP). Lowest HP but strongest attack (Thunder Wave). Weak to Mute. Reward: Zemurian Ore Shard + 3,500 Mira + 4 AP."
+        },
+        {
+          "id": "quest-ymir",
+          "type": "step",
+          "text": "**Quest: Ymir, Far, Wherever You Are** — Ymir Valley End left side. Boss: Sasquatch (183,654 HP). Buffs STR/DEF. Canceler or Confuse effective. Reward: Zemurian Ore Shard + 3,500 Mira + 4 AP."
+        },
+        {
+          "id": "quest-absentee-father",
+          "type": "warning",
+          "text": "**Hidden Quest: Absentee Father** — Talk to **Father Paulo** in Trista Chapel. Visit priests in order: Celdic (Zirbel) → Bareahard (Amon) → Legram (Hamilcar) → Roer (Homs) → Ymir (Bernard). Bring Sara and Gaius for extra dialogue.",
+          "note": "Missable! Reward: 4,500 Mira + Acala Gem + 4 AP. Report quest → reach 315 AP → Gold Trophy + Lion Heart accessory. Required for Honor Student achievement."
+        },
+        {
+          "id": "forge-second-weapon",
+          "type": "step",
+          "text": "Return to Courageous — use 4 Zemurian Ore Shards from quests to forge another ultimate weapon via George."
+        },
+        {
+          "id": "karel-villa-machias",
+          "type": "step",
+          "text": "Begin **Final Mission** — **Machias is mandatory**. Select party and proceed to Karel Imperial Villa."
+        },
+        {
+          "id": "boss-altina",
+          "type": "boss",
+          "text": "**BOSS: Altina (235,404 HP) + G-Zephyranthes ×2 (119,712 HP each)** — Kill G-Zephyranthes first (use arts/S-Crafts due to high DEF). Altina uses Black Barrier (reflects 1 physical) and Brionac (laser, ADF down). At 40% HP she uses S-Craft (~80% party HP). Reflect Brionac with Crescent Shell/Mirror.",
+          "note": "Grand Cordon accessory awarded after if all Medals collected from Alfin (+100 STR/DEF/ATS/ADF, +10% Crit)."
         },
         {
           "id": "warning-infernal-master-quartz",
           "type": "warning",
-          "text": "🏆 **The Return of Rean QUARTZ-er reminder:** The Infernal Castle is a ONE-TIME dungeon. Open EVERY treasure chest on every stratum — master quartz found here cannot be obtained after leaving.",
-          "note": "Explore all side paths in each stratum before advancing to the next. This is your last chance for dungeon-exclusive master quartz."
+          "text": "🏆 **Treasure Hunter reminder:** The Infernal Castle has 4 Zemurian Ore Shards (one per layer) and the **Zeram Capsule** (final treasure for Treasure Hunter trophy). Open EVERY chest.",
+          "note": "One-time dungeon — cannot return after completing."
         },
         {
           "id": "warning-no-return-finale",
           "type": "warning",
-          "text": "⚠️ **POINT OF NO RETURN:** Entering the Infernal Castle is final. Complete all Trista activities first."
+          "text": "⚠️ **POINT OF NO RETURN:** Entering the Infernal Castle is final. Complete all Trista activities and Karel Imperial Villa first."
         },
         {
           "id": "save-before-castle",
@@ -1655,53 +1738,64 @@
         {
           "id": "clear-1st-stratum",
           "type": "step",
-          "text": "Clear the **1st Stratum** — collect all chests on side paths."
+          "text": "Clear **Layer 1** — collect Tear All Balm, Virgo Boots, Sepith ×500, Alfried's Armor, Deus Gem. Bring **Laura** for profile update."
         },
         {
           "id": "boss-bleublanc-duvalie",
           "type": "boss",
-          "text": "**BOSS: Bleublanc & Duvalie** — Prioritize Bleublanc first (illusions/status effects), then focus Duvalie (fast melee, high evasion)."
+          "text": "**BOSS: Bleublanc (266,640 HP) & Duvalie (259,440 HP) + Balancing Clowns (134,708 HP)** — Kill Bleublanc first (status effects + summons Clowns). Clowns can instantly heal bosses at low HP. Use Dark Matter to cluster, then AoE. Bleublanc S-Craft reduces 1 member to 1 HP + Poison; Duvalie S-Craft is hard-hitting AoE. At ~80,000 HP each, spam all 4 S-Crafts."
         },
         {
           "id": "clear-2nd-stratum",
           "type": "step",
-          "text": "Clear the **2nd Stratum** with **Fie** (mandatory). Activate **eye switches** in correct order to open paths."
+          "text": "Clear **Layer 2** with **Fie** (mandatory). Hit eye switches with field action to remove vines. Section 2 needs **B rank Thrust** proficiency. Collect Sirius Boots, Sepith Mass ×1000, Celestial Balm EX, Brahma Gem, Zeram Powder."
         },
         {
           "id": "boss-xeno-leonidas",
           "type": "boss",
-          "text": "**BOSS: Xeno & Leonidas** — Focus Xeno first (ranged attacker), then Leonidas (tank). Use Fie's speed for turn advantage."
+          "text": "**BOSS: Xeno (271,808 HP) & Leonidas (276,768 HP) + Judgement Javelins (17,080 HP)** — Kill Xeno first (Leonidas falls easily alone). They use S-Crafts in succession — both hitting = game over. Use Artemis' Tear Lost Art to double HP. At ~90,000 HP, Rean Termination Slash - Dawn (Ogre mode) can kill."
         },
         {
           "id": "clear-3rd-stratum",
           "type": "step",
-          "text": "Clear the **3rd Stratum** — destroy monster barriers in order: **left, right, center, center**."
+          "text": "Clear **Layer 3** — red mist passages correct order: **left, right, middle, middle**. Defeat 2 Nosferatu mini-bosses. Needs **B rank Strike** and **B rank Pierce** for switches. Scan the **Greater Devil** in Mars Gem monster chest! Collect EP Charge IV, U-Material ×15, Celestial Armor, Loa Boots, Diabolos Gem."
         },
         {
           "id": "boss-mcburn",
           "type": "boss",
-          "text": "**BOSS: McBurn** (solo, ~120,000 HP) — Equip fire-resist accessories and Burn immunity. Key moves: Infernal Flames (AoE), Burning Rage (self-buff at 50% HP), Incandescent Lion (S-Craft). Burst through empowered phase with S-Crafts. Water/Earth arts effective. Recommended level 70+.",
-          "note": "Extremely dangerous. Keep party HP topped off at all times."
+          "text": "**BOSS: McBurn (436,864 HP) + Elvavria R ×2 (151,625 HP each)** — HARDEST LAYER BOSS. Immune to Fire. Uses S-Craft early (unblockable), Sol Eruption Lost Art (MUST cancel), special Burn status (persists until cured/death). Speed is key — Impede 2 on all, Chrono Burst/Break. Lionheart + Grail Locket protect 2 from Burn. At ~100,000 HP, Termination Slash Dawn + Radiant Lion to finish.",
+          "note": "Nightmare: Rean + Laura must be Level 125+. Cook 15 Seasonal Hotpot beforehand."
         },
         {
           "id": "clear-highest-stratum",
           "type": "step",
-          "text": "Advance through the **Highest Stratum** to reach the final bosses."
+          "text": "Clear **Layer 4** (linear spiral staircase). Collect **Chaos** armor, **Zeram Capsule** (final treasure!), and last Zemurian Ore Shard. Forge final ultimate weapon from George."
         },
         {
           "id": "boss-crow-vita",
           "type": "boss",
-          "text": "**BOSS: Crow (~65,000 HP) & Vita (~56,000 HP)** — Focus **Vita first** (arts caster). Interrupt her casting with S-Crafts or impede/delay crafts. Debuff Crow's ATK, keep HP above 50% to survive his \"Rebellion Storm\" S-Craft. Recommended level 70+."
-        },
-        {
-          "id": "boss-vermillion-apocalypse",
-          "type": "boss",
-          "text": "**FINAL BOSS: Vermillion Apocalypse** (~240,000 HP, recommended level 70–75+) — Phase 1: buff/debuff steady, use Burst/Rush opportunities. Phase 2: watch for Demon's Gaze, use Arts Guards/Reflects, S-Craft interrupts. Equip Burn/Freeze immunity. Keep healer alive at all costs."
+          "text": "**Round 1 — BOSS: Crow (381,290 HP) & Vita (350,090 HP)** — Focus **Vita first** (more susceptible to AT Delay). Overdrive immediately with Adamantine Shield. Emma uses AoE arts to clear Crow's mines. Vita S-Craft (Aria of the Abyss) is devastating — only AT Delay prevents it. Crow's Deadly Cross can be blocked with Platinum/A-Shield. Once Vita falls, Spirit Unification S-Crafts decimate Crow.",
+          "note": "Accessories: Grail Locket on Rean, Lionheart on Laura. Prioritize Faint/Death/Confusion protection."
         },
         {
           "id": "boss-valimar-vs-ordine",
           "type": "boss",
-          "text": "**DIVINE KNIGHT: Valimar vs Ordine (Crow)** — Attack weak points when they flash. Guard telegraphed attacks. Use special attacks during openings. Heal Valimar between exchanges.",
+          "text": "**Round 2 — DIVINE KNIGHT: Valimar vs Ordine (350,000 HP)** — Pattern: Normal (Arms) → Charge 1/Arc Slash (Body) → Charge 2/Criminal Edge (Head) → Charge 3/Chaos Saber (Arms) → Charge 4/Blade Throw (Head). After 50% HP, pattern extends. Build CP for Morning Moon. Best supports: Elliot (heal), Alisa (CP), Sara (STR Down)."
+        },
+        {
+          "id": "boss-vermillion-phase1",
+          "type": "boss",
+          "text": "**Round 3 — Vermillion Apocalypse Phase 1 (250,000 HP, Reserve Team)** — HARDEST ROUND. ALL-hitting attacks/arts. Casts Craft/Art Reflect barriers (dispel with weakest craft/art). Suggested: Elliot, Fie, Gaius, Machias, Sara. Use 2× Seraphic Ring for healing. Machias Burst Drive for turn manipulation. At ~60,000 HP, spam S-Crafts."
+        },
+        {
+          "id": "boss-vermillion-phase2",
+          "type": "boss",
+          "text": "**Round 4 — Vermillion Apocalypse Phase 2 (393,960 HP + Vermillion Weapons 36,790 HP each, Main Team)** — Hits harder, summons adds. Has unavoidable super attack — stay fully healed. Suggested: Rean, Alisa, Laura, Jusis, Emma. Use Spirit Unification + Radiant Lion combo (6-7 combos to HP threshold). Shield with Platinum/Adamantine."
+        },
+        {
+          "id": "boss-vermillion-mech",
+          "type": "boss",
+          "text": "**Round 5 — Final Mech Battle: Valimar + Ordine vs Vermillion Apocalypse (430,000 HP)** — Team up with Ordine. No supports — Guard is only mitigation. Pattern: Normal (Arms) → Charge 1 (Body) → Charge 2 (Head) → repeats. Keep Ordine alive. After 50% HP, boss can Rush/Burst (may kill Ordine). Use offensive crafts to build Bravery → Burst.",
           "note": "Bond partner choice affects ending cutscene."
         }
       ]
@@ -1709,7 +1803,7 @@
     {
       "id": "divertissement",
       "title": "Divertissement: Occupation of Crossbell",
-      "content": "# Divertissement — Occupation of Crossbell\n\nThe Divertissement is a unique interlude chapter starring **Lloyd Bannings** and **Rixia Mao** from the Crossbell arc (Trails from Zero / Trails to Azure). Lloyd and Rixia must infiltrate **Geofront Sector E** to erase sensitive Crossbell citizen data before it falls into the wrong hands. This is a dungeon-focused chapter with no side quests.\n\n<!-- checkpoint: divertissement-start | Divertissement Begins -->\n\n## Party\n\nYou control only **Lloyd** and **Rixia** — a two-person party. No other members join.\n\n> These characters have their own equipment, orbments, and craft sets separate from Rean's party. Familiarize yourself with their abilities.\n\n### Key Abilities\n- **Lloyd's S-Craft: Raging Sun** — Powerful AoE attack for clearing groups\n- **Lloyd's Burning Heart** — Self-buff that boosts attack and speed\n- **Rixia's Vanishing Stance** — Grants invulnerability for a set duration; use before dangerous enemy attacks\n- Place **Lloyd and Rixia in the back row** for defensive positioning\n\n> ⚠️ **No shops are available during the Divertissement.** You must rely entirely on dungeon drops and chest items. Manage your resources carefully.\n\n## Geofront Sector E\n\n<!-- checkpoint: geofront-sector-e | Enter Geofront Sector E -->\n\nThe chapter takes place entirely within **Geofront Sector E**, an underground dungeon beneath Crossbell. There is no city exploration — you proceed directly into the Geofront.\n\n### Treasure Chests (16 total)\nKey items to look for:\n- **Celestial Balm EX ×3** — Premium healing\n- **EP Charge IV ×2** — Arts restoration\n- **Grail Locket** — Powerful accessory\n- **Seven Dragon Armor** — Top-tier armor\n- **Bakuya** — Weapon\n- **Strega-S** — Weapon\n- **Emergency Puppet** — Auto-revive accessory\n- **Zeus Gem** — Quartz\n- **Strega-P** — Weapon\n- **Pentagon** — Accessory\n- **Heavenly Robe** — Armor\n- **Tear All Balm** — Full party heal\n- **Zeram Capsule** — Stat boost\n\n> Explore every side path to find all 16 chests. These items are your only source of upgrades.\n\n### Enemy Types\nEnemies in Geofront Sector E include:\n- **Grass Drome / Giant Drome** — Standard melee enemies\n- **Needle Rat** — Fast attackers\n- **Metal Bat** — Durable physical enemies\n- **Greedy Mosquito / Superior Mosquito** — Can drain HP/EP\n- **Blood Monad** — Magic-based enemy\n- **Torso RR** — Mechanical enemy\n- **Spike Kraken** — Strong water-type enemy\n- **Crystal Medusa** — Petrification attacks; high priority target\n\n> Scan all new enemies with Battle Scope for Monster Notebook completion.\n\n<!-- checkpoint: geofront-cleared | Geofront Sector E Cleared -->\n\n## Boss: Rean Schwarzer & Altina Orion\n\n<!-- checkpoint: boss-rean-altina | Boss: Rean & Altina -->\n\n**The boss fight of the Divertissement pits Lloyd and Rixia against Rean and Altina.**\n\n| Boss | HP | Key Attacks |\n|------|-----|-------------|\n| **Rean Schwarzer** | ~75,000 | Arc Slash, Flame Impact, S-Craft |\n| **Altina Orion** | ~63,000 | Arts casting, support abilities, shield |\n\n**Strategy:**\n1. Focus on **Altina** first — her support abilities and healing make the fight harder if left alive\n2. Use **Rixia's Vanishing Stance** before Rean's S-Craft to avoid massive damage\n3. Use **Lloyd's Burning Heart** buff early for sustained damage output\n4. Lloyd's **Raging Sun** S-Craft deals heavy damage — save CP for critical moments\n5. Guard when Rean telegraphs powerful attacks\n6. Heal frequently — don't hesitate to use all consumables, this is the chapter's final fight\n\n> **Save before entering the boss area.** This fight can be punishing with only two characters and no shop access.\n\nAfter victory, story scenes resolve the Crossbell situation and you return to Rean's party for the Epilogue.\n\n<!-- checkpoint: divertissement-complete | Divertissement Complete -->",
+      "content": "# Divertissement — Occupation of Crossbell\n\nThe Divertissement is a unique interlude chapter starring **Lloyd Bannings** and **Rixia Mao** from the Crossbell arc (Trails from Zero / Trails to Azure). Lloyd and Rixia must infiltrate **Geofront Sector E** to erase sensitive Crossbell citizen data before it falls into the wrong hands. This is a dungeon-focused chapter with no side quests.\n\n<!-- checkpoint: divertissement-start | Divertissement Begins -->\n\n## Party\n\nYou control only **Lloyd** and **Rixia** — a two-person party. No other members join.\n\n> These characters have their own equipment, orbments, and craft sets separate from Rean's party. Familiarize yourself with their abilities.\n\n### Key Abilities\n- **Lloyd's S-Craft: Raging Sun** — Powerful AoE attack for clearing groups\n- **Lloyd's Burning Heart** — Self-buff that boosts attack and speed\n- **Rixia's True Falling Moons** — AoE attack that can inflict status effects including Freeze\n- **Rixia's Crystal Flood** — Water-based art; spam during boss fights while Lloyd tanks\n\n> ⚠️ **No shops are available during the Divertissement.** You must rely entirely on dungeon drops and chest items. Manage your resources carefully.\n\n## Geofront Sector E\n\n<!-- checkpoint: geofront-sector-e | Enter Geofront Sector E -->\n\nThe chapter takes place entirely within **Geofront Sector E**, an underground dungeon beneath Crossbell. There is no city exploration — you proceed directly into the Geofront.\n\n### Treasure Chests (16 total)\nKey items to look for:\n- **Celestial Balm EX ×3** — Premium healing\n- **EP Charge IV ×2** — Arts restoration\n- **Grail Locket** — Powerful accessory\n- **Seven Dragons Armor** — Top-tier armor\n- **Bakuya** — Weapon\n- **Strega-S** — Weapon\n- **Emergency Puppet** — Auto-revive accessory\n- **Zeus Gem** — Quartz\n- **Strega-P** — Weapon\n- **Pentagon** — Weapon (Lloyd)\n- **Heavenly Robe** — Armor\n- **Tear All Balm** — Full party heal\n- **Zeram Capsule** — Stat boost\n\n> Explore every side path to find all 16 chests. These items are your only source of upgrades.\n\n### Enemy Types\nEnemies in Geofront Sector E include:\n- **Grass Drome / Giant Drome** — Standard melee enemies\n- **Needle Rat** — Fast attackers\n- **Metal Bat** — Durable physical enemies\n- **Greedy Mosquito / Superior Mosquito** — Can drain HP/EP\n- **Blood Monad** — Magic-based enemy\n- **Torso RR** — Mechanical enemy\n- **Spike Kraken** — Strong water-type enemy\n- **Crystal Medusa** — Petrification attacks; high priority target\n\n> Scan all new enemies with Battle Scope for Monster Notebook completion.\n\n<!-- checkpoint: geofront-cleared | Geofront Sector E Cleared -->\n\n## Boss: Rean Schwarzer & Altina Orion\n\n<!-- checkpoint: boss-rean-altina | Boss: Rean & Altina -->\n\n**The boss fight of the Divertissement pits Lloyd and Rixia against Rean and Altina.**\n\n| Boss | HP (Normal) | Elemental Efficacy | Weaknesses |\n|------|-----|-------------|------------|\n| **Rean Schwarzer (Black-Haired Boy)** | 237,600 | All elements 100 | Pierce ★, Strike ★ |\n| **Altina Orion (Black-Clad Girl)** | 235,575 | All elements 90 | Slash ★, Thrust ★ |\n\n**Preparation:**\n- **Formation (Tanking):** Lloyd at Top, Rixia on Back row corner. **Formation (Cancelling):** Both Front row.\n- **Accessory:** Give Rixia the Last Resort Puppet since she is fastest.\n- **Quartz:** Equip Zeus Gem and Impede 2 for AT Delay. Farm Impede 1-2, Action 3, Hit 2, HP 2, Attack 3 beforehand.\n- **Links:** Lloyd–Rixia\n\n**Strategy (Cancelling):**\n1. Use **Burning Heart II** then **Raging Spin** to pull both bosses away from Rixia\n2. Re-cast Burning Heart II before it expires to avoid the Faint side-effect\n3. Rixia uses **True Falling Moons** to hit both bosses — Freeze is especially valuable for extra turns\n4. **Kill Rean first** — he is the most dangerous. Altina's Black Barrier takes 2 hits to dispel but she reapplies it less often\n5. When either boss drops to ~70,000 HP, spam S-Crafts to finish them off\n\n**Strategy (Tanking):**\n1. Use Burning Heart II + Raging Spin to keep both bosses away from Rixia\n2. Alternate with **Brave Smash II** to try Sealing Rean\n3. Rixia spams **Crystal Flood** — Freeze status provides breathing room\n4. Keep HP near full at all times — both bosses can use S-Crafts without warning\n\n> **Save before entering the boss area.** This fight can be punishing with only two characters and no shop access.\n\nAfter victory, story scenes resolve the Crossbell situation and you return to Rean's party for the Epilogue.\n\n<!-- checkpoint: divertissement-complete | Divertissement Complete -->",
       "checkpoints": [
         {
           "id": "divertissement-start",
@@ -1751,17 +1845,17 @@
         {
           "id": "combat-tip-lloyd",
           "type": "note",
-          "text": "**Lloyd:** Use **Burning Heart** for ATK/SPD buff. Save S-Craft **Raging Sun** for tough fights or the boss."
+          "text": "**Lloyd:** Use **Burning Heart II** for ATK/SPD buff (re-cast before expiry to avoid Faint). Save S-Craft **Raging Sun** for Sepith-Up turns and boss finishers. Don't skip the S-Craft animation during Sepith-Up turns."
         },
         {
           "id": "combat-tip-rixia",
           "type": "note",
-          "text": "**Rixia:** Use **Vanishing Stance** for invulnerability before dangerous enemy attacks."
+          "text": "**Rixia:** Use **True Falling Moons** for AoE damage with status chance (Freeze is ideal). Spam **Crystal Flood** during boss fights while Lloyd tanks."
         },
         {
           "id": "explore-geofront-sector-e",
           "type": "step",
-          "text": "Explore **Geofront Sector E** thoroughly — find all **16 treasure chests** including Celestial Balm EX ×3, Grail Locket, Emergency Puppet, and Seven Dragon Armor."
+          "text": "Explore **Geofront Sector E** thoroughly — find all **16 treasure chests** including Celestial Balm EX ×3, Grail Locket, Emergency Puppet, Seven Dragons Armor, and Pentagon (Lloyd weapon)."
         },
         {
           "id": "scan-geofront-enemies",
@@ -1777,15 +1871,15 @@
         {
           "id": "boss-rean-altina",
           "type": "boss",
-          "text": "**BOSS: Rean Schwarzer (~75,000 HP) & Altina Orion (~63,000 HP)** — Focus Altina first (support/healing). Use Rixia's Vanishing Stance before Rean's S-Craft. Use Lloyd's Burning Heart buff and Raging Sun S-Craft for burst damage.",
-          "note": "Use all consumables freely — this is the chapter's final fight."
+          "text": "**BOSS: Rean Schwarzer (237,600 HP) & Altina Orion (235,575 HP)** — Kill Rean first (most dangerous). Use Burning Heart II + Raging Spin to pull bosses. Rixia spams Crystal Flood/True Falling Moons for Freeze. Equip Zeus Gem + Impede 2 for AT Delay. Spam S-Crafts when a boss drops below ~70,000 HP.",
+          "note": "Both bosses can use S-Crafts without warning. Keep HP near full at all times."
         }
       ]
     },
     {
       "id": "epilogue",
       "title": "Epilogue: Winter's End",
-      "content": "# Epilogue — Winter's End\n\nThe Epilogue wraps up the story and features the **Reverie Corridor** — a challenging 16-floor dungeon inside the Old Schoolhouse. This is post-game content focused on powerful elemental bosses, ultimate weapons, and final character moments.\n\n<!-- checkpoint: epilogue-start | Epilogue Begins -->\n\n## Return to Thors\n\nAfter waking in Ymir, regroup with your party and return to **Thors Military Academy**. The Old Schoolhouse basement opens for the final time.\n\n## Epilogue Side Quests\n\nComplete these quests before entering the Reverie Corridor:\n\n- **Class Warfare** — From Instructor Thomas\n- **Junk Wanted** — From Becky at Trista Station\n- **Angler Management** — From Kenneth\n- **Swimming Lessons: The Return** (hidden quest — easily missed!) — Go to the **Thors Academy Gymnasium Pool** and talk to the instructor. Coach classmates through swimming drills by choosing the correct advice for each student. **Reward:** Proxy Puppet (auto-revive accessory) + AP.\n- **The Race to End All Races** (story quest)\n\n<!-- checkpoint: epilogue-quests | Epilogue Side Quests Complete -->\n\n### Collectibles\n- **Imperial Chronicle Issue #7** — Buy from the Student Union General Store. Critical for the Lending Library achievement!\n\n## Final Bonding Events & Last-Chance Collectibles\n\n### Bonding Points (Final Opportunity)\nYou receive your **last Bonding Points** in the Epilogue. Spend them on the character you want as your ending partner:\n\n- The character with the **highest total affection** across all Acts determines your final cutscene\n- This is your absolute last chance to influence the ending\n- **Save before spending** to see different endings\n\n### Last-Chance Books & Recipes\n\n> ⚠️ **FINAL CHECK:** Before entering the Reverie Corridor, verify you have collected ALL missable items:\n\n**Books checklist:**\n- All Gambler Jack II chapters (1-13 + Finale)\n- All Gambler Jack Reprints (#1-#13 + Finale) — available from shops in each town visited\n- All Imperial Chronicle issues (#1-#7)\n\n> **Note:** Red Moon Rose is NOT a collectible in Trails of Cold Steel II (it was in the first game only). The Lending Library achievement in CS2 requires Gambler Jack II, Gambler Jack Reprints, and Imperial Chronicle issues.\n\n**Recipes checklist:**\n- All recipes from each town visited\n- Check recipe list in Camp Menu — any gaps mean you missed one\n\n> 🏆 **Achievement: Lending Library** — If you're missing ANY book, this is your last chance. Some NPCs aboard the Courageous carry final-chapter books.\n\n> 🏆 **Achievement: Wartime Rationer** — Check the recipe menu. If you're short, revisit towns via Courageous before entering the corridor.\n\n## Phantasmal Mirrors\n\n**Phantasmal Mirrors** are available for 200,000 mira each. These special items transform characters into guest fighters with fixed loadouts:\n- **Crow** / **Vita** / **Altina** / **Lloyd** / **Rixia**\n\nEach mirror character comes with preset equipment, orbments, and crafts. They're powerful additions for corridor runs.\n\n## Reverie Corridor\n\n<!-- checkpoint: reverie-corridor | Enter Reverie Corridor -->\n\nThe Reverie Corridor is a 16-floor dungeon with elemental themes and powerful bosses.\n\n### Structure\n- **Floors 1-4: Earth** themed — Earth-element enemies and terrain\n- **Floors 5-8: Water** themed — Water-element enemies and terrain\n- **Floors 9-12: Fire** themed — Fire-element enemies and terrain\n- **Floors 13-16: Wind** themed — Wind-element enemies and terrain\n- Each set of 4 floors ends with an **Elemental Lord** boss\n- After Floor 16: **Boundless Cathedral** — the true final area\n\n### Corridor Mechanics\n- **Universal Overdrive:** All characters can enter Overdrive with any partner (not limited to specific link pairs)\n- **Triple Link EXP:** Link experience gain is tripled inside the corridor\n- **Chest Respawn:** Treasure chests respawn on re-entry — farm valuable items between runs\n\n### Zemurian Ore Shard System\n- Each Elemental Lord drops **1 Zemurian Ore Shard** (4 per full run)\n- **3 Shards = 1 Zemurian Ore** — used to forge ultimate weapons\n- Multiple corridor runs required for full ultimate weapon set\n\n### Tips for the Corridor\n- **Grind as needed** — deeper floors provide the best EXP in the game\n- Keep equipment and quartz updated between runs\n- Equip elemental resistance matching the current floor theme\n- Use Lost Arts on Elemental Lords — they're devastating but single-use per corridor run\n\n## Elemental Lord Bosses\n\nEach set of 4 floors ends with an Elemental Lord:\n\n<!-- checkpoint: earth-lord-defeated | Earth Lord Defeated (Floor 4) -->\n\n- **Earth Lord** (after Floor 4) — Exploit wind-element weaknesses\n\n<!-- checkpoint: water-lord-defeated | Water Lord Defeated (Floor 8) -->\n\n- **Water Lord** (after Floor 8) — Exploit fire-element weaknesses\n\n<!-- checkpoint: fire-lord-defeated | Fire Lord Defeated (Floor 12) -->\n\n- **Fire Lord** (after Floor 12) — Exploit water-element weaknesses\n\n<!-- checkpoint: wind-lord-defeated | Wind Lord Defeated (Floor 16) -->\n\n- **Wind Lord** (after Floor 16) — Exploit earth-element weaknesses\n\nEach Elemental Lord drops a **Zemurian Ore Shard**. Use elemental counter-quartz and arts for each fight.\n\n## Boundless Cathedral & Final Boss: Loa Luciferia\n\n<!-- checkpoint: loa-luciferia | Loa Luciferia Defeated -->\n\nAfter clearing all 16 floors, enter the **Boundless Cathedral** for the true final battle.\n\n### Final Boss: Loa Luciferia\n\n| Stat | Value |\n|------|-------|\n| Level | 150 |\n| HP | 722,250 |\n| STR | 3,900 |\n| DEF | 3,300 |\n\n**Recommended Level:** 120+\n\n**Key Mechanics:**\n- Summons **Sacred Fragment ×6** — Destroy these quickly or they empower the boss\n- Uses **Vanish** — Can remove party members from battle entirely\n- Uses **Chrono Break** — Resets party turn order; devastating if timed poorly\n- Heavy status ailment attacks throughout\n\n**Strategy:**\n1. **Vanish Protection:** Equip **Holy Symbol** or Vanish-prevention quartz on your healers. If your healer gets Vanished, the fight becomes nearly unwinnable.\n2. Destroy Sacred Fragments immediately when they appear — use AoE arts\n3. Keep Chrono Break in mind — have backup healing options\n4. Use S-Crafts for burst damage phases between summon waves\n5. Dispel boss buffs regularly\n6. Use all consumables freely — this is the final fight in the game\n\n**Recommended Party:** Rean, Emma/Elliot (healer with Vanish protection), Laura/Sara (physical DPS), Fie (speed/evasion)\n\n<!-- checkpoint: corridor-complete | Reverie Corridor Complete -->\n\n## Post-Corridor\n\nUpon completion:\n- Unlock powerful quartz and equipment rewards\n- Special cutscenes with characters based on bonding levels\n- Final save available for NG+ data transfer\n\n> **New Game+ unlocks after completing the Epilogue.** Your clear save carries over levels, equipment, mira, and certain items.\n\n<!-- checkpoint: epilogue-complete | Epilogue Complete — Game Clear -->",
+      "content": "# Epilogue — Winter's End\n\nThe Epilogue wraps up the story and features the **Reverie Corridor** — a challenging multi-sector randomized dungeon inside the Old Schoolhouse. This is post-game content focused on powerful bosses, ultimate weapons, and final character moments.\n\n<!-- checkpoint: epilogue-start | Epilogue Begins -->\n\n## March 12 — Return to Thors\n\nYou regain control at **Thors Military Academy**. Explore the school and speak to NPCs to update character profiles before advancing.\n\n**Missable Books:**\n- **Imperial Chronicle Issue #7** — Purchase from the General Store at the Student Union Building. If you have obtained every book from earlier, you will get the Book Maniac trophy.\n- **Decoding Report** — (Second playthrough only) Speak to Instructor Thomas after collecting all five Black Records Books.\n\n**Character Profile Updates (March 12):**\nExplore the school in this order:\n1. Bridget, Hibelle, and Mint at the Music Room (Main Building 2F South)\n2. Nicolas at the Home Economics Room (Main Building 2F Southeast)\n3. Clara at the Art Room (Main Building 2F East)\n4. Vice Principal Heinrich at Main Building 1F East Hallway\n5. Principal Vandyck at the Principal's Office (Main Building 1F East)\n6. Instructor Makarov and Vincent on the school Rooftop\n7. Jusis, Paula, and Lambert at the Academy Field\n8. Friedel and Alan at the Gymnasium Training Room\n9. Engineering Building for a story event, then rear exit to the Hangar — speak to Valimar\n10. Student Union Building — Ferris and Theresia at 1F, Fiedelio at Photography Club (2F)\n11. Student Council Room to continue the main story\n\nAfter the story event, you'll be at the **Class VII Dorm**. Speak to everyone (Sharon, Alisa, Celine, Elliot, Jusis, Monica, Machias, Instructor Sara) to update profiles, then head to your room to end the day.\n\n> **Note:** If this is your second playthrough and you received the Decoding Report, open it from your inventory, then read all the Black Records.\n\n## March 13 — Free Day\n\n<!-- checkpoint: epilogue-quests | Epilogue Side Quests Complete -->\n\nRead the task assignments. Report to Towa to claim quest rewards. Before starting quests, speak to NPCs for profile updates:\n- Sariffa at Trista's Park\n- Edel near the Gardening Shop\n- Lotte near the Upper Class Dorm\n- Munk by the Lower Class Dorm entrance, Klein inside\n- Hugo at the Auditorium (southwest of Thors)\n- Linde at Thors Garden (north end)\n- Loggins at Student Union Building 1F\n- Stefan at Chess Club (Student Union 2F), Beryl at Occult Research Club (2F)\n\n### Side Quests\n\n**Quest: Junk Wanted** — Client: Brandon (General Store)\nSpeak to Brandon at the general store. Visit Micht at the Pawn Shop, then Sara's room at the dorm, then Kirsche's Café to speak to Sara for the Carnelia books. Speak to Janitor Gyler at the main building entrance, Clara at the art room, Lambert at the Academy Field, then return to Micht and finally Brandon.\n**Reward:** Food Ingredients, 3000 Mira, 1 + (1) AP\n\n**Quest: Let's Talk Trista** — Client: Michael (Radio Trista)\nSpeak to Michael at Radio Trista (southwest of Trista). Talk to Old Man Abbot at Kirsche's Café, Tyzel near the General Store entrance, Lotte by the Upper Class Dorm, Vice Principal Heinrich at Main Building Faculty Lounge, and Monica at the Gymnasium Training Hall. Read the letter on the table at Radio Trista for bonus AP.\n**Reward:** Celestial Balm EX ×3, 3000 Mira, 1 + (1) AP\n\n**Quest: Angler Management** — Client: Kenneth (Trista's River)\nSpeak to Kenneth at Trista's River (northeast of town). Play the fishing mini-game until you catch a Noble Carp. Then use Kenneth to catch the Giant Swordtail.\n**Reward:** Groundbait ×10, 3000 Mira, 1 AP\n\n**Hidden Quest: Swimming Lessons: The Return** — Client: Instructor Neithardt\nAfter finishing the three quests above, Neithardt will call you. Go meet him at the **Main Building Faculty Lounge**. Accept his request to participate in the swimming mini-game. Choose two opponents (one boy, one girl from Class VII) — this increases Link EXP with them. Press the button prompts when the rings are highlighted to increase swimming speed. Beating your opponent earns bonus AP.\n**Reward:** Zeram Capsule, 300 Link EXP, 3000 Mira, 1 + (1) AP\n\n**Story Quest: The Race to End All Races** — Client: Angelica/George\nHead to the Engineering Building and speak to Angelica or George. Race against Angelica — hold accelerate, get ahead, and block her to maintain the lead. You can rematch if you lose.\n**Reward:** Lightning Belt, EP Charge IV ×3, Engineering Building Key, 3000 Mira, 1 + (1) AP\n\n**Quest: Class Warfare** [Required] — Client: Patrick\nTalk to Patrick at the Academy Field. Fight 2v2 battles — select your best party member. Win all three fights for bonus AP. Includes trial chest bosses: Vandyck (HP: 221,940) and Beatrice (HP: 214,936). They are immune to status ailments — use AT Delay, buff up, and burst with S-Crafts/Overdrive.\n**Reward:** Albion Garb, Tear All Balm ×3, Link EXP +200, 3000 Mira, 1 + (1) AP\n\n### Collectibles\n- **Imperial Chronicle Issue #7** — Buy from the Student Union General Store if not already purchased. Critical for the Lending Library achievement!\n- All missing books can be purchased from **Keynes Bookstore**. Micht's Pawnshop has a chance of selling Gambler Jack II.\n\n## Final Dungeon Preparation\n\nAfter finishing the story quest, try moving to a random location for an event scene. Then go to the **Old School House** to continue.\n\n**Before exploring the final dungeon:**\n1. Speak to Elise to update her bio\n2. Talk to Claire and Alfin for a short scene\n3. Leave the final dungeon and visit: Makarov (Main Building 1F Faculty Lounge), Margarita (Home Economics Room 2F), Becky and Colette (Auditorium), Dorothee (Literature Club 2F), Rex (Photography Club 2F), Casper (Gymnasium Pool)\n4. In Trista: Lotte by Upper Class Dorm entrance, Celestin inside Upper Class Dorm\n\n**Hidden Quest: To Sharon, With Love** — Client: Anton (near Trista Station)\nMake sure Sharon is NOT in your party. Speak to Anton. Talk to NPCs with green exclamation marks (Micht at Pawn Shop or Becky at Auditorium). Choose \"Let's think of another idea\" first, then speak to another NPC. For Micht choose \"Brace for the Bracelet\"; for Becky choose \"Recommend the stone\". Do NOT speak to Jane by the Gardening Shop (causes failure with only 1 AP).\n**Reward:** Nine Lives Puppet, 3000 Mira, 1 + (2) AP\n\n> **Note:** If this is your second playthrough and you've read all Black Records, speak to Instructor Thomas at the Main Building Rooftop for the Scholar of Truth trophy.\n\nReport to Towa to claim all quest rewards before entering the final dungeon.\n\n## Final Bonding Events & Last-Chance Collectibles\n\n### Bonding Points (Final Opportunity)\nYou receive your **last Bonding Points** in the Epilogue. Spend them on the character you want as your ending partner:\n\n- The character with the **highest total affection** across all Acts determines your final cutscene\n- This is your absolute last chance to influence the ending\n- **Save before spending** to see different endings\n\n### Last-Chance Books & Recipes\n\n> ⚠️ **FINAL CHECK:** Before entering the Reverie Corridor, verify you have collected ALL missable items:\n\n**Books checklist:**\n- All Gambler Jack II chapters (1-13 + Finale)\n- All Gambler Jack Reprints (#1-#13 + Finale) — available from shops in each town visited\n- All Imperial Chronicle issues (#1-#7)\n\n> **Note:** Red Moon Rose is NOT a collectible in Trails of Cold Steel II (it was in the first game only). The Lending Library achievement in CS2 requires Gambler Jack II, Gambler Jack Reprints, and Imperial Chronicle issues.\n\n**Recipes checklist:**\n- All recipes from each town visited\n- Check recipe list in Camp Menu — any gaps mean you missed one\n\n> 🏆 **Achievement: Lending Library** — If you're missing ANY book, this is your last chance. Keynes Bookstore and Micht's Pawnshop sell missed issues.\n\n> 🏆 **Achievement: Wartime Rationer** — Check the recipe menu. If you're short, revisit towns via Courageous before entering the corridor.\n\n## Phantasmal Mirrors\n\n**Phantasmal Mirrors** are available for 200,000 mira each from the Orbment Station at the dungeon entrance. These gender-specific accessories transform characters into guest fighters:\n- **Azure Knight (Crow)** — Male mirror\n- **Burning Bravery (Lloyd)** — Male mirror\n- **Witch of the Abyss (Vita)** — Female mirror\n- **Black Rabbit (Altina)** — Female mirror\n- **Silver Moon Princess (Rixia)** — Female mirror\n\n**Mirror Mechanics:**\n- Special characters have NO status, orbment, or equip screens — you cannot change their loadout\n- They only appear IN BATTLE, substituting the mirror-equipped character\n- Their level and stats DEPEND on the equipped character's level\n- All EXP and Link EXP goes to the character wearing the mirror\n- Each special character grants permanent 10 CP Regeneration and Critical Up status (Ice Crown effect)\n- Quartz sets include Lost Arts and Level 5 Master Quartz\n\n## Reverie Corridor\n\n<!-- checkpoint: reverie-corridor | Enter Reverie Corridor -->\n\nThe Reverie Corridor is a multi-sector randomized dungeon with elemental themes and powerful bosses.\n\n### Structure\n- **Four Sectors** themed to the basic elements: Earth (Yellow), Fire (Red), Water (Blue), Wind (Green)\n- **Semi-Random Layout:** Sector order and layout changes EVERY TIME you leave and re-enter the Old Schoolhouse\n- Enemies have resistances/weaknesses based on their sector's element\n- At the end of every 4th floor, you fight a **Cryptid** boss\n- **Floor 17:** True final boss\n\n### Corridor Mechanics\n- **ALL 18 playable characters** available (Class VII plus guests)\n- **Triple Link EXP (×3)** after fights\n- **Chest Respawn:** Treasure chests regenerate every time you leave and re-enter. Brown chests = Sepith/consumables, Red chests = accessories/Lv3 quartz, Monster chests = special quartz\n- **Valimar** is available for all boss fights\n- Enemies scale with sector position — Sector 1 has weak stunnable enemies, Sector 4 has tough enemies\n\n### Zemurian Ore Shard System\n- Each Cryptid boss drops **1 Zemurian Ore Shard** (4 per full run)\n- **3 Shards = 1 Zemurian Ore** — used to forge ultimate weapons\n- Multiple corridor runs required for full ultimate weapon set\n\n### Tips for the Corridor\n- **Grind as needed** — deeper sectors provide the best EXP in the game\n- Keep equipment and quartz updated between runs\n- Equip elemental resistance matching the current sector theme\n- Sell all Sepith and spend Mira before finishing — saves NG+ points\n- On 2nd playthrough: Defeating the final boss with a Phantasmal Mirror character unlocks a bonus scene\n\n## Cryptid Bosses\n\nEach sector ends with a Cryptid boss:\n\n<!-- checkpoint: earth-lord-defeated | Earth Sector Cryptid Defeated -->\n\n- **Earth Sector Cryptid** — Exploit wind-element weaknesses\n\n<!-- checkpoint: water-lord-defeated | Water Sector Cryptid Defeated -->\n\n- **Water Sector Cryptid** — Exploit fire-element weaknesses\n\n<!-- checkpoint: fire-lord-defeated | Fire Sector Cryptid Defeated -->\n\n- **Fire Sector Cryptid** — Exploit water-element weaknesses\n\n<!-- checkpoint: wind-lord-defeated | Wind Sector Cryptid Defeated -->\n\n- **Wind Sector Cryptid** — Exploit earth-element weaknesses\n\nEach Cryptid drops a **Zemurian Ore Shard**. Use elemental counter-quartz and arts for each fight.\n\n## Final Boss: Loa Luciferia\n\n<!-- checkpoint: loa-luciferia | Loa Luciferia Defeated -->\n\nAfter clearing all four sectors (Floor 17), face the true final boss.\n\n### Final Boss: Loa Luciferia\n\n| Stat | Value |\n|------|-------|\n| HP | 722,250 (Normal) |\n| Adds | Sacred Order (HP: 73,360 each) |\n| Immunity | AT Delay |\n\n**Key Mechanics:**\n- **Immune to AT Delay** — the canceler strategy won't work here\n- Summons **Sacred Order** adds — destroy them quickly with AoE arts or they empower the boss\n- Uses **S-Craft as opening move** and throughout the fight — leaves all hit characters at 1 HP AND removes status buffs (cannot be blocked with shields, but CAN be dodged with Insight)\n- **Can absorb party members** — S-Break immediately if this happens\n- Moves around the field if no character is beside him as bait\n- Faster than your characters at all times\n\n**Required Protections:** Dark Pendulum/Emblem, Vanish protection, Death protection, Stat Down protection\n\n**Strategy — Baiting Approach:**\nUse Fie/Millium/Altina/Lloyd as bait next to the boss. Cast Insight on them ASAP (S-Craft dodges). Maintain Spd +50% buff. Main damage dealer should be a mage (Vita, Emma, Elliot, Rixia).\n\n**Strategy — S-Craft Burst:**\nOpen with Alfin's Sacred Circle, Jusis' Platinum Shield, or Adamantine Shield for protection. Overdrive to buff party with Insight on ALL members. Build CP to 100 and blast with S-Crafts.\n\n**Recommended Characters:** Vita (best overall — regenerates HP/EP, natural Vanish resistance, Summon Grianos for status effects), Fie (evasion tank/bait), Alfin (Sacred Circle), Lloyd (Burning Heart II for speed), Laura/Rean (S-Craft damage with Ice Crown on 2nd playthrough)\n\n> With Domination quartz and full buffs, S-Crafts can deal 180,000-350,000 damage.\n\n<!-- checkpoint: corridor-complete | Reverie Corridor Complete -->\n\n## Post-Corridor\n\nUpon completion:\n- Special cutscenes with characters based on bonding levels\n- Final save available for NG+ data transfer\n- Keep your save data for potential transfer to Trails of Cold Steel III\n- The **Memories** option appears on the system menu, letting you rewatch movie scenes and the final bonding event\n\n> **New Game+ unlocks after completing the Epilogue.** Your clear save carries over based on NG+ Point selections.\n\n<!-- checkpoint: epilogue-complete | Epilogue Complete — Game Clear -->",
       "checkpoints": [
         {
           "id": "epilogue-start",
@@ -1801,19 +1895,19 @@
         },
         {
           "id": "earth-lord-defeated",
-          "label": "Earth Lord Defeated (Floor 4)"
+          "label": "Earth Sector Cryptid Defeated"
         },
         {
           "id": "water-lord-defeated",
-          "label": "Water Lord Defeated (Floor 8)"
+          "label": "Water Sector Cryptid Defeated"
         },
         {
           "id": "fire-lord-defeated",
-          "label": "Fire Lord Defeated (Floor 12)"
+          "label": "Fire Sector Cryptid Defeated"
         },
         {
           "id": "wind-lord-defeated",
-          "label": "Wind Lord Defeated (Floor 16)"
+          "label": "Wind Sector Cryptid Defeated"
         },
         {
           "id": "loa-luciferia",
@@ -1830,41 +1924,83 @@
       ],
       "steps": [
         {
-          "id": "return-to-thors",
+          "id": "march-12-explore-thors",
           "type": "step",
-          "text": "Regroup with your party and return to **Thors Military Academy**."
-        },
-        {
-          "id": "quest-class-warfare",
-          "type": "step",
-          "text": "Complete quest **Class Warfare** from Instructor Thomas."
-        },
-        {
-          "id": "quest-junk-wanted",
-          "type": "step",
-          "text": "Complete quest **Junk Wanted** from Becky at Trista Station."
-        },
-        {
-          "id": "quest-angler-management",
-          "type": "step",
-          "text": "Complete quest **Angler Management** from Kenneth."
-        },
-        {
-          "id": "quest-swimming-lessons-return",
-          "type": "warning",
-          "text": "**Hidden Quest: Swimming Lessons: The Return** — Go to the **Gymnasium Pool** at Thors Academy and speak to the instructor. Coach classmates through swimming drills by selecting the correct advice for each student.",
-          "note": "Missable! Reward: Proxy Puppet (auto-revive accessory) + AP. Available during Epilogue free time before entering the Reverie Corridor. Required for Honor Roll achievement."
-        },
-        {
-          "id": "quest-race-to-end-all-races",
-          "type": "step",
-          "text": "Complete story quest **The Race to End All Races**."
+          "text": "Explore **Thors Military Academy** and speak to all NPCs to update character profiles. Visit: Music Room (Bridget, Hibelle, Mint), Home Economics (Nicolas), Art Room (Clara), Vice Principal Heinrich (1F East), Principal Vandyck, Rooftop (Makarov, Vincent), Academy Field (Jusis, Paula, Lambert), Gymnasium (Friedel, Alan), Engineering Building, Hangar (Valimar), Student Union (Ferris, Theresia, Fiedelio)."
         },
         {
           "id": "buy-imperial-chronicle-7",
           "type": "collectible",
           "text": "Buy **Imperial Chronicle Issue #7** from the Student Union General Store.",
-          "note": "Critical for Lending Library achievement — do NOT miss this!"
+          "note": "Critical for Lending Library / Book Maniac achievement — do NOT miss this!"
+        },
+        {
+          "id": "decoding-report-ng-plus",
+          "type": "note",
+          "text": "**NG+ Only:** Speak to Instructor Thomas at the Instructor Room (Main Building 1F Southeast) to receive the **Decoding Report** if you collected all five Black Records on your previous playthrough."
+        },
+        {
+          "id": "march-12-dorm",
+          "type": "step",
+          "text": "At the **Class VII Dorm**, speak to everyone (Sharon, Alisa, Celine, Elliot, Jusis, Monica, Machias, Sara) to update profiles. Then go to your room to end the day.",
+          "note": "On NG+: Open the Decoding Report from inventory and read all Black Records before sleeping."
+        },
+        {
+          "id": "march-13-profiles",
+          "type": "step",
+          "text": "**March 13 Free Day:** Before starting quests, update profiles: Sariffa (Trista Park), Edel (Gardening Shop), Lotte (Upper Class Dorm), Munk & Klein (Lower Class Dorm), Hugo (Auditorium), Linde (Thors Garden), Loggins (Student Union 1F), Stefan (Chess Club 2F), Beryl (Occult Research Club 2F)."
+        },
+        {
+          "id": "quest-junk-wanted",
+          "type": "step",
+          "text": "Complete quest **Junk Wanted** from Brandon at the General Store. Visit Micht (Pawn Shop) → Sara's room (Dorm) → Kirsche's Café (Sara/Carnelia books) → Janitor Gyler → Clara (Art Room) → Lambert (Academy Field) → Micht → Brandon.",
+          "note": "Reward: Food Ingredients, 3000 Mira, 1 + (1) AP"
+        },
+        {
+          "id": "quest-lets-talk-trista",
+          "type": "step",
+          "text": "Complete quest **Let's Talk Trista** from Michael at Radio Trista (southwest Trista). Speak to: Old Man Abbot (Kirsche's Café), Tyzel (General Store entrance), Lotte (Upper Class Dorm), Vice Principal Heinrich (Faculty Lounge), Monica (Gymnasium Training Hall). Read the letter on the table at Radio Trista.",
+          "note": "Reward: Celestial Balm EX ×3, 3000 Mira, 1 + (1) AP"
+        },
+        {
+          "id": "quest-angler-management",
+          "type": "step",
+          "text": "Complete quest **Angler Management** from Kenneth at Trista's River (northeast of town). Catch a Noble Carp via fishing mini-game, then use Kenneth to catch the Giant Swordtail.",
+          "note": "Reward: Groundbait ×10, 3000 Mira, 1 AP"
+        },
+        {
+          "id": "quest-swimming-lessons-return",
+          "type": "warning",
+          "text": "**Hidden Quest: Swimming Lessons: The Return** — After finishing the three quests above, Neithardt calls you. Go to the **Main Building Faculty Lounge**. Accept his request, choose two opponents (one boy, one girl from Class VII — increases Link EXP with them). Press button prompts when rings are highlighted to win the swimming race.",
+          "note": "Missable! Only appears after completing 3 quests. Reward: Zeram Capsule, 300 Link EXP, 3000 Mira, 1 + (1) AP. Choose partners you still need Link levels with."
+        },
+        {
+          "id": "quest-race-to-end-all-races",
+          "type": "step",
+          "text": "Complete story quest **The Race to End All Races** from Angelica/George at the Engineering Building. Race against Angelica — hold accelerate, get ahead, and block her. You can rematch if you lose.",
+          "note": "Reward: Lightning Belt, EP Charge IV ×3, Engineering Building Key, 3000 Mira, 1 + (1) AP"
+        },
+        {
+          "id": "quest-class-warfare",
+          "type": "step",
+          "text": "Complete required quest **Class Warfare** from Patrick at the Academy Field. Fight 2v2 battles — win all three for bonus AP. Includes trial bosses Vandyck (HP: 221,940) and Beatrice (HP: 214,936) who are immune to status ailments. Use AT Delay and S-Crafts/Overdrive.",
+          "note": "Reward: Albion Garb, Tear All Balm ×3, Link EXP +200, 3000 Mira, 1 + (1) AP"
+        },
+        {
+          "id": "quest-to-sharon-with-love",
+          "type": "warning",
+          "text": "**Hidden Quest: To Sharon, With Love** — After finishing the story quest, speak to Anton near Trista Station (Sharon must NOT be in party). Talk to Micht or Becky (green \"!\" marks). Choose \"Let's think of another idea\" first, then speak to another NPC. For Micht: \"Brace for the Bracelet\". For Becky: \"Recommend the stone\". Do NOT speak to Jane by the Gardening Shop.",
+          "note": "Missable! Speaking to Jane causes failure (only 1 AP). Correct choices = 2 bonus AP. Reward: Nine Lives Puppet, 3000 Mira, 1 + (2) AP"
+        },
+        {
+          "id": "final-dungeon-profiles",
+          "type": "step",
+          "text": "Before exploring the Reverie Corridor, update remaining profiles: Elise (inside corridor), Claire & Alfin (short scene). Leave dungeon and visit: Makarov (Faculty Lounge), Margarita (Home Ec Room), Becky & Colette (Auditorium), Dorothee (Literature Club 2F), Rex (Photography Club 2F), Casper (Gymnasium Pool), Lotte (Upper Class Dorm entrance), Celestin (inside Upper Class Dorm)."
+        },
+        {
+          "id": "scholar-of-truth-ng-plus",
+          "type": "note",
+          "text": "**NG+ Only:** If you've read all Black Records from the previous day, speak to Instructor Thomas at the **Main Building Rooftop** to unlock the Scholar of Truth trophy."
         },
         {
           "id": "bonding-events-epilogue",
@@ -1876,7 +2012,7 @@
           "id": "last-chance-books-check",
           "type": "warning",
           "text": "⚠️ **FINAL BOOK CHECK:** Verify all Gambler Jack II chapters (1-13 + Finale), Gambler Jack Reprints (#1-#13 + Finale), and Imperial Chronicle issues (#1-#7) are collected.",
-          "note": "Some NPCs aboard the Courageous carry final-chapter books. Keynes' Bookstore in Trista sells missed issues. Last chance for Lending Library achievement."
+          "note": "Keynes Bookstore sells missed issues. Micht's Pawnshop has a chance of selling Gambler Jack II. Last chance for Lending Library achievement."
         },
         {
           "id": "last-chance-recipes-check",
@@ -1887,84 +2023,88 @@
         {
           "id": "buy-phantasmal-mirrors",
           "type": "step",
-          "text": "Purchase **Phantasmal Mirrors** (200,000 mira each) to unlock Crow/Vita/Altina/Lloyd/Rixia as guest fighters with fixed loadouts.",
-          "note": "Expensive but powerful additions for corridor runs."
+          "text": "Purchase **Phantasmal Mirrors** (200,000 mira each) from the Orbment Station at the dungeon entrance. Gender-specific: Male mirrors (Crow, Lloyd), Female mirrors (Vita, Altina, Rixia). Mirror characters inherit the equipped character's level.",
+          "note": "Each grants 10 CP Regen + Critical Up (Ice Crown effect). They have preset Lost Arts and Lv5 Master Quartz — extremely powerful."
         },
         {
           "id": "enter-old-schoolhouse",
           "type": "step",
-          "text": "Enter the **Old Schoolhouse Basement** to access the Reverie Corridor."
+          "text": "Enter the **Old Schoolhouse** to access the Reverie Corridor. Report to Towa to claim all quest rewards first."
         },
         {
-          "id": "corridor-mechanic-overdrive",
+          "id": "corridor-mechanic-randomized",
           "type": "note",
-          "text": "**Corridor Mechanic:** Universal Overdrive is active — all characters can enter Overdrive with any partner. Triple Link EXP is also active."
+          "text": "**Corridor Mechanic:** Sector order and layout is RANDOMIZED every time you leave and re-enter. All 18 playable characters available. Valimar available for all boss fights."
         },
         {
           "id": "corridor-mechanic-chests",
           "type": "note",
-          "text": "**Corridor Mechanic:** Treasure chests respawn on re-entry. Farm between runs for valuable items."
+          "text": "**Corridor Mechanic:** Treasure chests respawn on re-entry (Brown = Sepith/consumables, Red = accessories/Lv3 quartz, Monster = special quartz). Triple Link EXP (×3) is active."
         },
         {
-          "id": "collect-lost-arts",
-          "type": "collectible",
-          "text": "Find hidden orbs for **Lost Arts** — super-powerful single-use artes.",
-          "note": "Each Lost Art can turn a boss fight trivial. Save them for Elemental Lords."
-        },
-        {
-          "id": "boss-earth-lord",
+          "id": "boss-earth-cryptid",
           "type": "boss",
-          "text": "**BOSS: Earth Elemental Lord** (after Floor 4) — Exploit wind-element weaknesses. Drops 1 Zemurian Ore Shard."
+          "text": "**BOSS: Earth Sector Cryptid** (end of 4th floor) — Exploit wind-element weaknesses. Drops 1 Zemurian Ore Shard."
         },
         {
-          "id": "boss-water-lord",
+          "id": "boss-water-cryptid",
           "type": "boss",
-          "text": "**BOSS: Water Elemental Lord** (after Floor 8) — Exploit fire-element weaknesses. Drops 1 Zemurian Ore Shard."
+          "text": "**BOSS: Water Sector Cryptid** (end of 4th floor) — Exploit fire-element weaknesses. Drops 1 Zemurian Ore Shard."
         },
         {
-          "id": "boss-fire-lord",
+          "id": "boss-fire-cryptid",
           "type": "boss",
-          "text": "**BOSS: Fire Elemental Lord** (after Floor 12) — Exploit water-element weaknesses. Drops 1 Zemurian Ore Shard."
+          "text": "**BOSS: Fire Sector Cryptid** (end of 4th floor) — Exploit water-element weaknesses. Drops 1 Zemurian Ore Shard."
         },
         {
-          "id": "boss-wind-lord",
+          "id": "boss-wind-cryptid",
           "type": "boss",
-          "text": "**BOSS: Wind Elemental Lord** (after Floor 16) — Exploit earth-element weaknesses. Drops 1 Zemurian Ore Shard."
+          "text": "**BOSS: Wind Sector Cryptid** (end of 4th floor) — Exploit earth-element weaknesses. Drops 1 Zemurian Ore Shard."
         },
         {
           "id": "zemurian-ore-info",
           "type": "note",
-          "text": "**Zemurian Ore Shards:** 3 shards = 1 Zemurian Ore for ultimate weapons. 4 shards per full run (1 per Elemental Lord). Multiple runs needed for full set."
+          "text": "**Zemurian Ore Shards:** 3 shards = 1 Zemurian Ore for ultimate weapons. 4 shards per full run (1 per Cryptid). Multiple runs needed for full set."
+        },
+        {
+          "id": "sell-sepith-tip",
+          "type": "note",
+          "text": "**Tip:** Sell all Sepith and spend all Mira before the final boss — saves NG+ Points that would otherwise go to carrying over money."
         },
         {
           "id": "save-before-loa-luciferia",
           "type": "warning",
-          "text": "**Save before entering the Boundless Cathedral.** Keep a backup save."
+          "text": "**Save before Floor 17.** Keep a backup save."
         },
         {
-          "id": "equip-vanish-protection",
+          "id": "equip-boss-protection",
           "type": "step",
-          "text": "Equip **Holy Symbol** or Vanish-prevention quartz on your healers before fighting Loa Luciferia.",
-          "note": "Loa Luciferia uses Vanish to remove party members from battle. If your healer is Vanished, the fight becomes nearly unwinnable."
+          "text": "Equip protections for **Vanish, Death, Stat Down, and Dark Pendulum/Emblem** on your party before fighting Loa Luciferia. Ensure Insight is available for S-Craft dodging.",
+          "note": "Loa Luciferia's S-Craft leaves all hit at 1 HP and removes buffs — Insight lets you dodge it. Boss is immune to AT Delay."
         },
         {
           "id": "boss-loa-luciferia",
           "type": "boss",
-          "text": "**FINAL BOSS: Loa Luciferia** (Lv.150, HP 722,250) — Destroy Sacred Fragments ×6 immediately when summoned. Watch for Vanish and Chrono Break. Burst damage between summon waves. Use all consumables freely.",
-          "note": "Recommended: Rean, Emma/Elliot (healer w/ Vanish protection), Laura/Sara (DPS), Fie (speed). Level 120+."
+          "text": "**FINAL BOSS: Loa Luciferia** (HP: 722,250, immune to AT Delay) — Summons Sacred Order adds (HP: 73,360 each). Uses S-Craft as opening move (1 HP + removes buffs, dodgeable with Insight). Can absorb party members (S-Break immediately). Faster than all characters. Use baiting strategy (Fie/Millium/Lloyd with Insight + Spd buff) or S-Craft burst (Alfin Sacred Circle → Overdrive → buff Insight → unleash S-Crafts).",
+          "note": "Best characters: Vita (regenerates HP/EP, natural Vanish resistance, Summon Grianos), Fie (evasion bait), Lloyd (Burning Heart II speed), Alfin (Sacred Circle). With Domination quartz + full buffs, S-Crafts deal 180k-350k damage."
+        },
+        {
+          "id": "ng-plus-mirror-bonus",
+          "type": "note",
+          "text": "**NG+ Bonus:** Defeating the final boss with a Phantasmal Mirror character active unlocks a bonus scene."
         },
         {
           "id": "create-ng-plus-save",
           "type": "step",
-          "text": "Create your **NG+ clear save** after completing the Epilogue.",
-          "note": "Carries over levels, equipment, mira, and certain items to New Game+."
+          "text": "Create your **NG+ clear save** after completing the Epilogue. Keep your save data for potential transfer to Trails of Cold Steel III.",
+          "note": "The Memories option unlocks on the system menu — rewatch movie scenes and final bonding events."
         }
       ]
     },
     {
       "id": "new-game-plus",
       "title": "New Game Plus & Cleanup",
-      "content": "# New Game Plus & Cleanup\n\nAfter completing the game, you unlock **New Game Plus** with carried-over levels, equipment, and mira. Two achievements are exclusive to NG+.\n\n## NG+ Exclusive Achievements\n\n> 🏆 **Achievement: Frozen Heart** — Start a New Game+ on Nightmare difficulty. Select Nightmare when prompted at the start of NG+. This stacks with Conquering Hero and Banisher of Nightmares if you haven't earned those yet.\n\n> 🏆 **Achievement: Scholar of the Truth** — View all bonding events. This requires at least 2 playthroughs since you cannot see all bonding events in a single run (limited bonding points per chapter). Prioritize different characters each playthrough.\n\n## NG+ Cleanup Checklist\n\nUse NG+ to mop up any achievements missed on your first playthrough:\n\n- **Lending Library**: Carry-over does NOT include books. Re-collect all volumes.\n- **Wartime Rationer**: Recipe progress carries over. Cook any missing recipes.\n- **The Reel Deal**: Fish progress carries over. Catch any species you missed.\n- **Intelligence Agent**: Profile progress carries over. Talk to any NPCs you missed.\n- **The Return of Rean QUARTZ-er**: Master quartz carry over. Focus on any missed in one-time dungeons.\n- **Cumulative combat trophies**: All combat counters carry over. Keep grinding S-Breaks, Rush, Burst, and Overdrive.\n- **Face of the Enemy**: Battle notebook carries over. Fight any missed monster types.\n\n## Bonding Route Planning (for Scholar of the Truth)\n\nWith limited bonding points per chapter, plan your routes across 2+ playthroughs to cover all characters:\n\n- **Playthrough 1**: Focus on Alisa, Laura, Fie, Emma, Jusis, Machias\n- **Playthrough 2**: Focus on Elliot, Sara, Towa, Millium, Crow, and remaining events\n\nNote: Some bonding events unlock unique scenes and dialogue but all must be viewed for the trophy.\n\n<!-- checkpoint: ng-plus-start | Started New Game Plus -->\n<!-- checkpoint: ng-plus-cleanup | Completed NG+ cleanup -->",
+      "content": "# New Game Plus & Cleanup\n\nAfter completing the game, you unlock **New Game Plus**. You receive **5 NG+ Points** per completion to spend on carry-over bonuses (15 points total needed = 3 playthroughs to buy everything).\n\n## NG+ Points System\n\n| Carry-Over | Points |\n|------------|--------|\n| Link Levels & Overdrive Level (Rush/Burst from start) | 0 (free) |\n| Character Level | 1 |\n| Slot Level | 1 |\n| Master Quartz Level | 1 |\n| Mira & Sepith | 1 |\n| Items (equipment, quartz, consumables, books — some event items excluded) | 1 |\n| Notebook Data (battle, character, recipe, fishing, books) | 1 |\n| Bath Towel Outfits | 1 |\n| Academy-Issue Swimsuits | 1 |\n| Stage & Other Outfits (includes Gaius' Nord clothes, etc.) | 1 |\n| Bonus: 300,000 Mira + 3000 of Each Sepith | 2 |\n| Bonus: Max Bonding Points on Free Days | 2 |\n\n> **Tip:** Sell all Sepith and spend Mira before finishing — that way you don't waste a point on \"Carry Over: Mira, Sepith.\"\n\n## NG+ Exclusive Content\n\n- **Black Records:** Five collectible books available only on 2nd+ playthrough. Collecting all five and showing them to Instructor Thomas unlocks the **Scholar of Truth** trophy.\n- **Glacia Shrine:** Bonus optional dungeon with a super boss. Defeating it unlocks the **Ice Crown** accessory.\n- **Phantasmal Mirror Bonus Scene:** Defeat the final boss with a Mirror character active on 2nd+ playthrough.\n\n## NG+ Exclusive Achievements\n\n> 🏆 **Achievement: Frozen Heart** — Start a New Game+ on Nightmare difficulty. Select Nightmare when prompted at the start of NG+. This stacks with Conquering Hero and Banisher of Nightmares if you haven't earned those yet.\n\n> 🏆 **Achievement: Scholar of the Truth** — Collect all five Black Records (2nd playthrough), read them, then speak to Instructor Thomas at the Main Building Rooftop.\n\n> 🏆 **Achievement: All Bonding Events** — View all bonding events. Requires at least 2 playthroughs since you cannot see all bonding events in a single run (limited bonding points per chapter). Use the \"Max Bonding Points\" NG+ bonus to see all events in fewer runs.\n\n## NG+ Cleanup Checklist\n\nUse NG+ to mop up any achievements missed on your first playthrough:\n\n- **Lending Library**: Books do NOT carry over unless you buy the Items carry-over. Re-collect all volumes.\n- **Wartime Rationer**: Recipe/Notebook progress carries over (if purchased). Cook any missing recipes.\n- **The Reel Deal**: Fish progress carries over (if Notebook Data purchased). Catch any species you missed.\n- **Intelligence Agent**: Profile progress carries over (if Notebook Data purchased). Talk to any NPCs you missed.\n- **The Return of Rean QUARTZ-er**: Master quartz carry over (if purchased). Focus on any missed in one-time dungeons.\n- **Cumulative combat trophies**: All combat counters carry over. Keep grinding S-Breaks, Rush, Burst, and Overdrive.\n- **Face of the Enemy**: Battle notebook carries over (if purchased). Fight any missed monster types.\n\n## Bonding Route Planning\n\nWith limited bonding points per chapter, plan your routes across 2+ playthroughs to cover all characters:\n\n- **Playthrough 1**: Focus on Alisa, Laura, Fie, Emma, Jusis, Machias\n- **Playthrough 2**: Focus on Elliot, Sara, Towa, Millium, Crow, and remaining events (use Max Bonding Points bonus!)\n\nNote: Watching the Final Bonding event on December 30 and saving an extra file will update the system data to have the event unlocked in Memories.\n\n<!-- checkpoint: ng-plus-start | Started New Game Plus -->\n<!-- checkpoint: ng-plus-cleanup | Completed NG+ cleanup -->",
       "checkpoints": [
         {
           "id": "ng-plus-start",
