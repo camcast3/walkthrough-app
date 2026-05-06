@@ -138,6 +138,28 @@ Inside the `content` markdown, embed milestones like:
 <!-- checkpoint: boss-defeated | Defeated the First Boss -->
 ```
 
+### Inline trackable item syntax
+
+Embed individual checkable items (collectibles, missables, side quests) directly in the prose:
+
+```
+<!-- collectible: stone-brooch | Stone Brooch (Accessory) -->
+<!-- missable: imperial-chronicle-1 | Buy Imperial Chronicle Issue #1 -->
+<!-- side_quest: munch-no-more | Side Quest: Munch no More -->
+```
+
+These render as compact inline checkboxes the player can tick off without leaving the prose view. Each type has a distinct colour:
+
+| Marker | Icon | Colour | Use for |
+|---|---|---|---|
+| `collectible` | ◆ | Green | Treasure chests, items, quartz |
+| `missable` | ⚠ | Orange | Point-of-no-return items, missable content |
+| `side_quest` | 📋 | Purple | Side quests and hidden quests |
+
+### Subsection collapsing
+
+The webapp automatically wraps every `###` heading and the content that follows it inside a collapsible `<details>` element. Sections open by default; the player can tap the heading to collapse a subsection they have already completed.
+
 ### Step types
 
 | Type | Icon | Meaning |

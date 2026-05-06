@@ -85,7 +85,7 @@
         "title": { "type": "string" },
         "content": {
           "type": "string",
-          "description": "Full walkthrough prose in Markdown. Embed milestone checkpoints with <!-- checkpoint: <id> | <label> --> markers."
+          "description": "Full walkthrough prose in Markdown. Embed milestone checkpoints with <!-- checkpoint: <id> | <label> --> markers. Embed inline trackable items with <!-- collectible: <id> | <label> -->, <!-- missable: <id> | <label> -->, or <!-- side_quest: <id> | <label> --> markers — these render as inline checkboxes the player can tick off."
         },
         "checkpoints": {
           "type": "array",

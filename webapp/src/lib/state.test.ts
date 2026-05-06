@@ -7,7 +7,8 @@ import {
 	HLTB_MODES,
 	HLTB_MODE_LABELS,
 	HLTB_MODE_FINISH_LABELS,
-	HLTB_MODE_FULL_TITLES
+	HLTB_MODE_FULL_TITLES,
+	INLINE_CHECKABLE_RE
 } from './state.js';
 
 describe('computeProgress', () => {
@@ -66,6 +67,79 @@ describe('countCheckableSteps', () => {
 
 	it('returns 0 for an empty sections array', () => {
 		expect(countCheckableSteps([])).toBe(0);
+	});
+
+	it('counts inline collectible markers in section content', () => {
+		const sections = [
+			{
+				content:
+					'Pick up the chest <!-- collectible: stone-brooch | Stone Brooch --> here.\n' +
+					'And another <!-- collectible: teara-balm | Teara Balm -->.'
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(2);
+	});
+
+	it('counts inline missable and side_quest markers in section content', () => {
+		const sections = [
+			{
+				content:
+					'<!-- missable: imperial-chronicle-1 | Buy Imperial Chronicle Issue #1 -->\n' +
+					'<!-- side_quest: munch-no-more | Side Quest: Munch no More -->'
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(2);
+	});
+
+	it('combines inline markers with checkpoints and steps', () => {
+		const sections = [
+			{
+				steps: [{ type: 'step' }],
+				checkpoints: [{ id: 'cp1' }],
+				content: 'Grab the <!-- collectible: item-1 | Item 1 --> from the chest.'
+			}
+		];
+		// 1 step + 1 checkpoint + 1 inline collectible = 3
+		expect(countCheckableSteps(sections)).toBe(3);
+	});
+});
+
+describe('INLINE_CHECKABLE_RE', () => {
+	it('matches collectible markers', () => {
+		const text = '<!-- collectible: stone-brooch | Stone Brooch -->';
+		const matches = Array.from(text.matchAll(INLINE_CHECKABLE_RE));
+		expect(matches).toHaveLength(1);
+		expect(matches[0][1]).toBe('collectible');
+		expect(matches[0][2]).toBe('stone-brooch');
+		expect(matches[0][3].trim()).toBe('Stone Brooch');
+	});
+
+	it('matches missable markers', () => {
+		const text = '<!-- missable: key-item-1 | Key Item -->';
+		const matches = Array.from(text.matchAll(INLINE_CHECKABLE_RE));
+		expect(matches).toHaveLength(1);
+		expect(matches[0][1]).toBe('missable');
+		expect(matches[0][2]).toBe('key-item-1');
+	});
+
+	it('matches side_quest markers', () => {
+		const text = '<!-- side_quest: munch-no-more | Munch no More -->';
+		const matches = Array.from(text.matchAll(INLINE_CHECKABLE_RE));
+		expect(matches).toHaveLength(1);
+		expect(matches[0][1]).toBe('side_quest');
+	});
+
+	it('does not match checkpoint markers', () => {
+		const text = '<!-- checkpoint: boss-defeated | Boss Defeated -->';
+		const matches = Array.from(text.matchAll(INLINE_CHECKABLE_RE));
+		expect(matches).toHaveLength(0);
+	});
+
+	it('matches multiple markers in one string', () => {
+		const text =
+			'<!-- collectible: item-1 | Item 1 --> some text <!-- missable: item-2 | Item 2 -->';
+		const matches = Array.from(text.matchAll(INLINE_CHECKABLE_RE));
+		expect(matches).toHaveLength(2);
 	});
 });
 

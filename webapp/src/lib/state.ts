@@ -32,13 +32,19 @@ export function computeProgress(checkedSteps: Set<string>, totalSteps: number): 
 	return Math.round((checkedSteps.size / totalSteps) * 100);
 }
 
-/** Count all checkable items (steps with type !== 'note', plus checkpoints) in a walkthrough. */
-export function countCheckableSteps(sections: { steps?: { type: string }[]; checkpoints?: { id: string }[] }[]): number {
+/** Regex matching inline checkable markers embedded in section content. */
+export const INLINE_CHECKABLE_RE = /<!--\s*(collectible|missable|side_quest):\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
+
+/** Count all checkable items (steps with type !== 'note', checkpoints, and inline checkable markers) in a walkthrough. */
+export function countCheckableSteps(sections: { steps?: { type: string }[]; checkpoints?: { id: string }[]; content?: string }[]): number {
 	return sections.reduce(
 		(total, section) => {
 			const stepCount = (section.steps ?? []).filter((s) => s.type !== 'note').length;
 			const cpCount = (section.checkpoints ?? []).length;
-			return total + stepCount + cpCount;
+			const inlineCount = section.content
+				? Array.from(section.content.matchAll(INLINE_CHECKABLE_RE)).length
+				: 0;
+			return total + stepCount + cpCount + inlineCount;
 		},
 		0
 	);
