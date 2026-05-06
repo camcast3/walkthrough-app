@@ -279,15 +279,21 @@
 
 	// ── Gamepad navigation ─────────────────────────────────────────────────────
 	let gamepad: GamepadNavigator | null = null;
-	/** Ordered list of checkpoint button elements in the current prose section. */
+	/**
+	 * Ordered list of all interactable checkable elements in the current prose
+	 * section: checkpoint buttons (.checkpoint-btn) AND inline check buttons
+	 * (.inline-check-btn), sorted by their natural DOM / visual order.
+	 */
 	let checkpointEls: HTMLElement[] = [];
-	/** Index of the currently focused checkpoint in prose mode (-1 = none). */
+	/** Index of the currently focused item in prose mode (-1 = none). */
 	let focusedCheckpointIdx = $state(-1);
 
-	/** Collect checkpoint buttons from the prose container after rendering. */
+	/** Collect all checkable interactive elements from the prose container. */
 	function collectCheckpointEls() {
 		if (!contentEl) { checkpointEls = []; return; }
-		checkpointEls = Array.from(contentEl.querySelectorAll<HTMLElement>('.checkpoint-btn'));
+		checkpointEls = Array.from(
+			contentEl.querySelectorAll<HTMLElement>('.checkpoint-btn, .inline-check-btn')
+		);
 	}
 
 	/** Find the checkpoint closest to the vertical center of the viewport. */
@@ -558,7 +564,7 @@
 		const stepsVisible = inProseMode ? showSteps : true;
 		const hints = [
 			{ badge: '🕹', label: 'Scroll' },
-			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Checkpoints' : 'Navigate' },
+			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Items' : 'Navigate' },
 			{ badge: 'A', label: inProseMode && !stepsVisible ? 'Toggle' : 'Check' },
 			{ badge: 'B', label: 'Back' },
 			{ badge: 'LB/RB', label: 'Sections' }
@@ -1576,6 +1582,13 @@
 		outline: 3px solid #7c6af7;
 		outline-offset: 2px;
 		box-shadow: 0 0 16px rgba(124,106,247,0.25);
+	}
+
+	/* Inline check buttons also receive the controller focus ring */
+	.prose-container :global(.inline-check-btn.checkpoint-focused) {
+		outline: 3px solid #7c6af7;
+		outline-offset: 2px;
+		box-shadow: 0 0 12px rgba(124,106,247,0.3);
 	}
 
 	.prose-container :global(.checkpoint-btn:active) {
