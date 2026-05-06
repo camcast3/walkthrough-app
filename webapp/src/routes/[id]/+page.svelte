@@ -2,7 +2,7 @@
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
+	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, INLINE_CHECKABLE_RE, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
@@ -105,6 +105,11 @@
 		for (const s of wt.sections) {
 			for (const step of (s.steps ?? [])) if (step.id === id && step.type !== 'note') return true;
 			for (const cp of (s.checkpoints ?? [])) if (cp.id === id) return true;
+			if (s.content) {
+				for (const m of s.content.matchAll(INLINE_CHECKABLE_RE)) {
+					if (m[2] === id) return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -165,19 +170,36 @@
 		});
 	}
 
-	// ── Markdown rendering with checkpoint placeholders ───────────────────────
+	// ── Markdown rendering with checkpoint and inline-checkable placeholders ───
 	const CHECKPOINT_RE = /<!--\s*checkpoint:\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
 	const CHECKPOINT_PLACEHOLDER = '___CHECKPOINT___';
+	const CHECKABLE_PLACEHOLDER = '___CHECKABLE___';
+
+	const INLINE_CHECKABLE_ICON: Record<string, string> = {
+		collectible: '◆',
+		missable: '⚠',
+		side_quest: '📋'
+	};
 
 	function renderContentHtml(content: string): string {
 		const checkpoints: { id: string; label: string }[] = [];
-		const withPlaceholders = content.replace(CHECKPOINT_RE, (_match, id, label) => {
+		const checkables: { type: string; id: string; label: string }[] = [];
+
+		// Replace inline checkable markers with placeholders
+		let processed = content.replace(INLINE_CHECKABLE_RE, (_match, type, id, label) => {
+			checkables.push({ type, id, label: label?.trim() || id });
+			return `${CHECKABLE_PLACEHOLDER}${checkables.length - 1}`;
+		});
+
+		// Replace checkpoint markers with placeholders
+		processed = processed.replace(CHECKPOINT_RE, (_match, id, label) => {
 			checkpoints.push({ id, label: label?.trim() || id });
 			return `\n\n${CHECKPOINT_PLACEHOLDER}${checkpoints.length - 1}\n\n`;
 		});
 
-		let html = marked.parse(withPlaceholders, { async: false }) as string;
+		let html = marked.parse(processed, { async: false }) as string;
 
+		// Inject checkpoint slots
 		checkpoints.forEach((cp, idx) => {
 			const placeholder = `${CHECKPOINT_PLACEHOLDER}${idx}`;
 			const placeholderInP = new RegExp(`<p>${placeholder}</p>`, 'g');
@@ -187,7 +209,36 @@
 			html = html.replace(placeholderBare, replacement);
 		});
 
+		// Inject inline checkable slots
+		checkables.forEach((chk, idx) => {
+			const placeholder = `${CHECKABLE_PLACEHOLDER}${idx}`;
+			const re = new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+			const slot = `<span class="inline-check-slot" data-check-id="${chk.id}" data-check-type="${chk.type}" data-check-label="${chk.label.replace(/"/g, '&quot;')}"></span>`;
+			html = html.replace(re, slot);
+		});
+
+		// Wrap ### subsections in collapsible <details> elements
+		html = wrapSubsections(html);
+
 		return html;
+	}
+
+	/** Wrap sequences of <h3> + following content in <details open> for collapsibility. */
+	function wrapSubsections(html: string): string {
+		// Split on h3 tags (with optional attributes like id="...")
+		const parts = html.split(/(<h3(?:[^>]*)>)/);
+		if (parts.length <= 1) return html;
+
+		let result = parts[0];
+		for (let i = 1; i < parts.length; i += 2) {
+			const openTag = parts[i]; // e.g. <h3> or <h3 id="foo">
+			const rest = parts[i + 1] ?? '';
+			// Extract heading text (strip inner tags for summary text)
+			const headingText = openTag.replace(/<[^>]+>/g, '') + rest.split('</h3>')[0];
+			const afterHeading = rest.split('</h3>').slice(1).join('</h3>');
+			result += `<details class="subsection" open><summary class="subsection-title">${headingText}</summary><div class="subsection-body">${afterHeading}</div></details>`;
+		}
+		return result;
 	}
 
 	// ── Stale prompt ──────────────────────────────────────────────────────────
@@ -414,11 +465,41 @@
 		});
 	}
 
+	function bindInlineCheckSlots() {
+		if (!contentEl) return;
+		const slots = contentEl.querySelectorAll<HTMLElement>('.inline-check-slot');
+		slots.forEach((slot) => {
+			const checkId = slot.dataset.checkId!;
+			const checkType = slot.dataset.checkType as keyof typeof INLINE_CHECKABLE_ICON;
+			const checkLabel = slot.dataset.checkLabel!;
+			const isChecked = checkedSteps.has(checkId);
+			const icon = INLINE_CHECKABLE_ICON[checkType] ?? '◆';
+
+			slot.className = `inline-check-slot inline-check-${checkType}${isChecked ? ' is-checked' : ''}`;
+			slot.innerHTML = `<button class="inline-check-btn" aria-label="${checkLabel}" role="checkbox" aria-checked="${isChecked}">
+					<span class="inline-check-icon" aria-hidden="true">${icon}</span>
+					<span class="inline-check-label">${checkLabel}</span>
+					<span class="inline-check-box" aria-hidden="true">
+						<svg viewBox="0 0 18 18" fill="none">
+							<rect class="check-bg" x="1" y="1" width="16" height="16" rx="4" />
+							<polyline class="check-mark ${isChecked ? 'checked' : ''}" points="4,9 8,13 14,5" />
+						</svg>
+					</span>
+				</button>`;
+
+			const btn = slot.querySelector('button')!;
+			btn.onclick = () => toggleCheckpoint(checkId);
+		});
+	}
+
 	$effect(() => {
-		// Re-bind checkpoints whenever checked state or section changes
+		// Re-bind checkpoints and inline checks whenever checked state or section changes
 		void checkedSteps;
 		void currentSectionIdx;
-		tick().then(bindCheckpointSlots);
+		tick().then(() => {
+			bindCheckpointSlots();
+			bindInlineCheckSlots();
+		});
 	});
 
 	onMount(async () => {
@@ -1615,5 +1696,211 @@
 		.check-mark {
 			transition: none;
 		}
+	}
+
+	/* ── Collapsible subsections (### headings) ── */
+	.prose-container :global(.subsection) {
+		margin: 0.75rem 0;
+		border: 1px solid rgba(42, 42, 68, 0.5);
+		border-radius: 12px;
+		background: rgba(14, 14, 24, 0.4);
+		overflow: hidden;
+	}
+
+	.prose-container :global(.subsection-title) {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.65rem 1rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1.05rem;
+		font-weight: 600;
+		color: #f0f0ff;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+		transition: background 0.2s, color 0.2s;
+	}
+
+	.prose-container :global(.subsection-title::-webkit-details-marker) { display: none; }
+
+	.prose-container :global(.subsection-title::before) {
+		content: '▶';
+		font-size: 0.6rem;
+		color: #7c6af7;
+		transition: transform 0.2s;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.subsection[open] .subsection-title::before) {
+		transform: rotate(90deg);
+	}
+
+	.prose-container :global(.subsection-title:hover) {
+		background: rgba(124, 106, 247, 0.06);
+		color: #a89df7;
+	}
+
+	.prose-container :global(.subsection[open] .subsection-title) {
+		border-bottom: 1px solid rgba(42, 42, 68, 0.5);
+		color: #a89df7;
+	}
+
+	.prose-container :global(.subsection-body) {
+		padding: 0.5rem 1rem;
+	}
+
+	/* ── Inline checkable items (collectibles, missables, side quests) ── */
+	.prose-container :global(.inline-check-slot) {
+		display: inline-flex;
+		vertical-align: middle;
+		margin: 0.1rem 0.2rem;
+	}
+
+	.prose-container :global(.inline-check-btn) {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		background: rgba(20, 20, 36, 0.7);
+		border: 1.5px solid rgba(58, 58, 92, 0.6);
+		border-radius: 8px;
+		padding: 0.2rem 0.55rem 0.2rem 0.4rem;
+		cursor: pointer;
+		font-size: 0.82rem;
+		transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+		-webkit-tap-highlight-color: transparent;
+		white-space: normal;
+		text-align: left;
+		line-height: 1.3;
+	}
+
+	.prose-container :global(.inline-check-btn:hover) {
+		background: rgba(30, 30, 50, 0.9);
+	}
+
+	.prose-container :global(.inline-check-btn:active) {
+		transform: scale(0.97);
+	}
+
+	.prose-container :global(.inline-check-slot.is-checked .inline-check-btn) {
+		opacity: 0.45;
+	}
+
+	.prose-container :global(.inline-check-slot.is-checked .inline-check-label) {
+		text-decoration: line-through;
+		text-decoration-color: rgba(124, 106, 247, 0.5);
+	}
+
+	/* Type-specific colors */
+	.prose-container :global(.inline-check-collectible .inline-check-btn) {
+		border-color: rgba(84, 214, 106, 0.4);
+		background: rgba(84, 214, 106, 0.06);
+	}
+	.prose-container :global(.inline-check-collectible .inline-check-btn:hover) {
+		border-color: rgba(84, 214, 106, 0.7);
+		background: rgba(84, 214, 106, 0.12);
+	}
+	.prose-container :global(.inline-check-collectible .inline-check-icon) { color: #54d66a; }
+
+	.prose-container :global(.inline-check-missable .inline-check-btn) {
+		border-color: rgba(255, 159, 67, 0.4);
+		background: rgba(255, 159, 67, 0.06);
+	}
+	.prose-container :global(.inline-check-missable .inline-check-btn:hover) {
+		border-color: rgba(255, 159, 67, 0.7);
+		background: rgba(255, 159, 67, 0.12);
+	}
+	.prose-container :global(.inline-check-missable .inline-check-icon) { color: #ff9f43; }
+
+	.prose-container :global(.inline-check-side_quest .inline-check-btn) {
+		border-color: rgba(124, 106, 247, 0.4);
+		background: rgba(124, 106, 247, 0.06);
+	}
+	.prose-container :global(.inline-check-side_quest .inline-check-btn:hover) {
+		border-color: rgba(124, 106, 247, 0.7);
+		background: rgba(124, 106, 247, 0.12);
+	}
+	.prose-container :global(.inline-check-side_quest .inline-check-icon) { color: #a89df7; }
+
+	.prose-container :global(.inline-check-icon) {
+		font-size: 0.75rem;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.inline-check-label) {
+		color: #d8d8e8;
+		font-size: 0.82rem;
+	}
+
+	.prose-container :global(.inline-check-box) {
+		display: block;
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.inline-check-box svg) {
+		width: 100%;
+		height: 100%;
+	}
+
+	.prose-container :global(.inline-check-box .check-bg) {
+		stroke: #3a3a5c;
+		stroke-width: 1.5;
+		fill: rgba(10, 10, 20, 0.5);
+		transition: stroke 0.2s, fill 0.2s;
+	}
+
+	.prose-container :global(.inline-check-slot.is-checked .inline-check-box .check-bg) {
+		stroke: #7c6af7;
+		fill: rgba(124, 106, 247, 0.15);
+	}
+
+	.prose-container :global(.inline-check-box .check-mark) {
+		stroke: #3a3a5c;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 18;
+		stroke-dashoffset: 18;
+		transition: stroke-dashoffset 0.25s ease, stroke 0.2s;
+	}
+
+	.prose-container :global(.inline-check-box .check-mark.checked) {
+		stroke-dashoffset: 0;
+		stroke: #7c6af7;
+	}
+
+	/* ── Prose table styling ── */
+	.prose-container :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.85rem;
+		margin: 0.75rem 0;
+		overflow-x: auto;
+		display: block;
+	}
+
+	.prose-container :global(th) {
+		text-align: left;
+		padding: 0.4rem 0.6rem;
+		background: rgba(42, 42, 68, 0.5);
+		color: #c8c8e0;
+		font-weight: 600;
+		border-bottom: 1px solid rgba(58, 58, 92, 0.5);
+	}
+
+	.prose-container :global(td) {
+		padding: 0.35rem 0.6rem;
+		color: #aaaacc;
+		border-bottom: 1px solid rgba(42, 42, 68, 0.3);
+	}
+
+	.prose-container :global(tr:last-child td) {
+		border-bottom: none;
+	}
+
+	.prose-container :global(tr:nth-child(even) td) {
+		background: rgba(20, 20, 36, 0.3);
 	}
 </style>
