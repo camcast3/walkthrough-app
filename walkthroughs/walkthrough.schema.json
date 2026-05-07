@@ -162,6 +162,11 @@
         "content": {
           "type": "string",
           "description": "Markdown prose. May contain <!-- checkpoint: id | label -->, <!-- collectible: id | label -->, <!-- missable: id | label -->, <!-- side_quest: id | label --> markers."
+        },
+        "checkpoints": {
+          "type": "array",
+          "description": "Milestone checkpoints associated with this prose block.",
+          "items": { "$ref": "#/$defs/checkpoint" }
         }
       }
     },
@@ -319,6 +324,10 @@
         "detail": {
           "type": "string",
           "description": "Optional detail text (e.g. location, requirement, how to obtain)"
+        },
+        "missable": {
+          "type": "boolean",
+          "description": "If true, this item can be permanently missed"
         }
       }
     },
@@ -335,6 +344,10 @@
         "label": {
           "type": "string",
           "description": "Human-readable milestone label, e.g. 'Reached Firelink Shrine'"
+        },
+        "missable": {
+          "type": "boolean",
+          "description": "If true, this checkpoint represents a missable item/event that can be permanently lost"
         }
       }
     },

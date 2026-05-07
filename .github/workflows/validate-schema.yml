@@ -24,6 +24,18 @@ jobs:
           SCHEMA="walkthroughs/walkthrough.schema.json"
           FAILED=0
           while IFS= read -r -d '' file; do
+            # Skip non-walkthrough JSON files (section fragments, pipeline metadata, etc.)
+            basename=$(basename "$file")
+            dirpath=$(dirname "$file")
+            dirname=$(basename "$dirpath")
+            if [[ "$dirname" == "rewritten-sections" ]]; then
+              echo "⏭️  Skipping section fragment: $file"
+              continue
+            fi
+            if [[ "$basename" == "pipeline.json" ]]; then
+              echo "⏭️  Skipping pipeline metadata: $file"
+              continue
+            fi
             echo "Validating: $file"
             if ! ajv validate -s "$SCHEMA" -d "$file" --strict=false; then
               echo "❌ Failed: $file"

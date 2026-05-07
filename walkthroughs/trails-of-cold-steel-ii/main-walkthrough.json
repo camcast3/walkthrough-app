@@ -3666,7 +3666,7 @@
       "blocks": [
         {
           "type": "callout",
-          "style": "warning",
+          "severity": "warning",
           "content": "**Important:** For this chapter, you play as **Lloyd** and **Rixia** from the Crossbell arc. You only have two party members, there are no shops, and bosses are very hard. Leveling up and farming quartz/sepith is crucial."
         },
         {
