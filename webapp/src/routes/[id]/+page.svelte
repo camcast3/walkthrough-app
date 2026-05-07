@@ -528,6 +528,61 @@
 	let contentEl: HTMLElement | null = null;
 	let blocksEl: HTMLElement | null = null;
 
+	// ── Scroll-spy: track which block is in view ─────────────────────────────
+	let currentBlockIdx = $state(0);
+	let scrollSpyObserver: IntersectionObserver | null = null;
+
+	function setupScrollSpy() {
+		if (scrollSpyObserver) { scrollSpyObserver.disconnect(); scrollSpyObserver = null; }
+		if (!blocksEl) return;
+
+		const blockRoots = Array.from(blocksEl.children) as HTMLElement[];
+		if (blockRoots.length === 0) return;
+
+		// Track visibility ratios per block
+		const ratios = new Map<Element, number>();
+
+		scrollSpyObserver = new IntersectionObserver((entries) => {
+			for (const entry of entries) {
+				ratios.set(entry.target, entry.intersectionRatio);
+			}
+
+			// Find the block with highest visibility (closest to center)
+			let best = 0;
+			let bestRatio = 0;
+			blockRoots.forEach((el, i) => {
+				const r = ratios.get(el) ?? 0;
+				if (r > bestRatio) { bestRatio = r; best = i; }
+			});
+
+			// If nothing is significantly visible, use proximity to center
+			if (bestRatio < 0.1) {
+				const center = window.innerHeight / 2;
+				let bestDist = Infinity;
+				blockRoots.forEach((el, i) => {
+					const rect = el.getBoundingClientRect();
+					const dist = Math.abs(rect.top + rect.height / 2 - center);
+					if (dist < bestDist) { bestDist = dist; best = i; }
+				});
+			}
+
+			currentBlockIdx = best;
+			// Apply visual class
+			blockRoots.forEach((el, i) => el.classList.toggle('block-current', i === best));
+		}, {
+			threshold: [0, 0.25, 0.5, 0.75, 1.0]
+		});
+
+		blockRoots.forEach((el) => scrollSpyObserver!.observe(el));
+	}
+
+	// Re-run scroll spy when section changes or blocks re-render
+	$effect(() => {
+		void currentSectionIdx;
+		void checkedSteps;
+		tick().then(() => setupScrollSpy());
+	});
+
 	// ── Block-mode gamepad navigation ────────────────────────────────────────
 	/** All focusable elements in the blocks container, sorted by DOM order. */
 	let blockInteractiveEls: HTMLElement[] = [];
@@ -777,6 +832,7 @@
 	onDestroy(() => {
 		gamepad?.stop();
 		window.removeEventListener('keydown', handleKeydown);
+		if (scrollSpyObserver) { scrollSpyObserver.disconnect(); scrollSpyObserver = null; }
 	});
 
 	// ── Step type helpers ─────────────────────────────────────────────────────
@@ -1005,6 +1061,11 @@
 
 	<!-- Section content -->
 	{#if currentSection?.blocks && currentSection.blocks.length > 0}
+		<!-- Position badge -->
+		<div class="position-badge" aria-label="Block {currentBlockIdx + 1} of {currentSection.blocks.length}">
+			<span class="pos-icon" aria-hidden="true">📍</span>
+			<span class="pos-text">Block <strong>{currentBlockIdx + 1}</strong> / {currentSection.blocks.length}</span>
+		</div>
 		<!-- Blocks mode: typed block components -->
 		<div class="blocks-container" bind:this={blocksEl}>
 			{#each currentSection.blocks as block, blockIdx (block)}
@@ -2264,5 +2325,39 @@
 		outline: 3px solid #7c6af7;
 		outline-offset: 2px;
 		box-shadow: 0 0 12px rgba(124, 106, 247, 0.3);
+	}
+
+	/* Scroll-spy: current block highlight */
+	.blocks-container :global(.block-current) {
+		border-left: 3px solid #7c6af7 !important;
+		box-shadow: 0 0 0 1px rgba(124, 106, 247, 0.12);
+	}
+	.blocks-container :global(.block-current.block-checked) {
+		opacity: 0.75;
+		border-color: rgba(124, 106, 247, 0.4) !important;
+		border-left-color: #7c6af7 !important;
+	}
+
+	/* Position badge */
+	.position-badge {
+		position: sticky;
+		top: 0;
+		z-index: 8;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.4rem;
+		padding: 0.35rem 0.75rem;
+		background: rgba(10, 10, 20, 0.92);
+		backdrop-filter: blur(8px);
+		border: 1px solid var(--border, #333);
+		border-radius: 8px;
+		margin: 0 0 0.5rem;
+		font-size: 0.75rem;
+		color: var(--text-muted, #888);
+	}
+	.pos-icon { font-size: 0.85rem; }
+	.pos-text strong {
+		color: var(--text-primary, #e0e0e0);
 	}
 </style>
