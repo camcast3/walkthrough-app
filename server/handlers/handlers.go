@@ -499,8 +499,9 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 
 	var body struct {
-		CheckedSteps []string `json:"checkedSteps"`
-		UpdatedAt    string   `json:"updatedAt"`
+		CheckedSteps   []string            `json:"checkedSteps"`
+		StepTimestamps map[string]string   `json:"stepTimestamps"`
+		UpdatedAt      string              `json:"updatedAt"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
 		respondError(w, http.StatusBadRequest, "invalid body")
@@ -512,18 +513,42 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 		t = time.Now().UTC()
 	}
 
-	record := &store.ProgressRecord{
-		WalkthroughID: id,
-		CheckedSteps:  body.CheckedSteps,
-		UpdatedAt:     t,
+	// Decode incoming per-step timestamps.
+	incomingTS := make(map[string]time.Time, len(body.StepTimestamps))
+	for k, v := range body.StepTimestamps {
+		if ts, err := time.Parse(time.RFC3339, v); err == nil {
+			incomingTS[k] = ts
+		}
 	}
-	if record.CheckedSteps == nil {
-		record.CheckedSteps = []string{}
+
+	incoming := &store.ProgressRecord{
+		WalkthroughID:  id,
+		CheckedSteps:   body.CheckedSteps,
+		StepTimestamps: incomingTS,
+		UpdatedAt:      t,
+	}
+	if incoming.CheckedSteps == nil {
+		incoming.CheckedSteps = []string{}
+	}
+
+	// Apply rsync-like merge with the existing local record so that no
+	// progress is lost when multiple devices write to the same walkthrough.
+	existing, _ := h.DB.GetProgress(id)
+	var record *store.ProgressRecord
+	if existing != nil {
+		record = store.MergeProgress(existing, incoming)
+	} else {
+		record = incoming
 	}
 
 	if err := h.DB.PutProgress(record); err != nil {
 		respondError(w, http.StatusInternalServerError, "failed to save progress")
 		return
+	}
+
+	// Save a historical snapshot for SFV (Simple File Version) support.
+	if err := h.DB.AddProgressSnapshot(record); err != nil {
+		log.Printf("[progress] failed to save snapshot for %s: %v", id, err)
 	}
 
 	// In server mode, record which device was active on this walkthrough.
@@ -538,6 +563,18 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondJSON(w, http.StatusOK, record)
+}
+
+// GetProgressHistory handles GET /api/progress/{id}/history — returns the last
+// maxProgressSnapshots historical snapshots for the walkthrough, newest first.
+func (h *Handler) GetProgressHistory(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	history, err := h.DB.GetProgressHistory(id)
+	if err != nil {
+		respondError(w, http.StatusInternalServerError, "db error")
+		return
+	}
+	respondJSON(w, http.StatusOK, history)
 }
 
 // GetDevices handles GET /api/server/devices — returns all known client devices and their activity.
