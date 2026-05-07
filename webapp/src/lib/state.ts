@@ -32,13 +32,46 @@ export function computeProgress(checkedSteps: Set<string>, totalSteps: number): 
 	return Math.round((checkedSteps.size / totalSteps) * 100);
 }
 
-/** Count all checkable items (steps with type !== 'note', plus checkpoints) in a walkthrough. */
-export function countCheckableSteps(sections: { steps?: { type: string }[]; checkpoints?: { id: string }[] }[]): number {
+/** Regex matching inline checkable markers embedded in section content. */
+export const INLINE_CHECKABLE_RE = /<!--\s*(collectible|missable|side_quest):\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
+
+/** Count all checkable items (steps, checkpoints, inline markers, checklist block items, headed prose blocks, encounter blocks, quest blocks, and table rows) in a walkthrough. */
+export function countCheckableSteps(sections: { id?: string; steps?: { type: string }[]; checkpoints?: { id: string }[]; content?: string; blocks?: { type: string; heading?: string; items?: { id: string }[]; content?: string; rows?: string[][] }[] }[]): number {
 	return sections.reduce(
 		(total, section) => {
 			const stepCount = (section.steps ?? []).filter((s) => s.type !== 'note').length;
 			const cpCount = (section.checkpoints ?? []).length;
-			return total + stepCount + cpCount;
+			const inlineCount = section.content
+				? Array.from(section.content.matchAll(INLINE_CHECKABLE_RE)).length
+				: 0;
+
+			let blockCount = 0;
+			for (const block of section.blocks ?? []) {
+				if (block.type === 'checklist' && block.items) {
+					blockCount += block.items.length;
+				}
+				if (block.type === 'prose' && block.content) {
+					blockCount += Array.from(block.content.matchAll(INLINE_CHECKABLE_RE)).length;
+				}
+				// Headed prose blocks are themselves checkable (block-level checkbox)
+				if (block.type === 'prose' && block.heading) {
+					blockCount += 1;
+				}
+				// Encounter blocks are checkable (block-level checkbox)
+				if (block.type === 'encounter') {
+					blockCount += 1;
+				}
+				// Quest blocks are checkable (block-level checkbox)
+				if (block.type === 'quest') {
+					blockCount += 1;
+				}
+				// Table rows are individually checkable (only when table has a heading)
+				if (block.type === 'table' && block.heading && block.rows) {
+					blockCount += block.rows.length;
+				}
+			}
+
+			return total + stepCount + cpCount + inlineCount + blockCount;
 		},
 		0
 	);

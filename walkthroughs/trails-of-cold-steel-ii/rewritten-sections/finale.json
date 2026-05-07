@@ -1,0 +1,207 @@
+{
+  "id": "finale",
+  "title": "Finale",
+  "blocks": [
+    {
+      "type": "checklist",
+      "heading": "Missable Items (Finale)",
+      "items": [
+        { "id": "fin-tomato-pot", "label": "Recipe: **Tomato Pot** — Speak to Lotte near Upper Class Dorm entrance (Trista)", "missable": true },
+        { "id": "fin-gj2-finale", "label": "**Gambler Jack II - Finale** — School Library, speak to Librarian Karol", "missable": true },
+        { "id": "fin-zemurian-ore", "label": "**Zemurian Ore** — Vice Principal Heinrich at Kirsche's (requires all GJ2 chapters)", "missable": true },
+        { "id": "fin-fiery-colour", "label": "**Fiery Colour** (Bike) — Bookshelf in house NE of Trista (bottom floor, right of staircase)", "missable": true },
+        { "id": "fin-imperial-6", "label": "**Imperial Chronicle Issue #6** — Available at any book store", "missable": true },
+        { "id": "fin-absentee-father", "label": "Quest: **Absentee Father** — Speak to Father Paulo at Trista's Chapel", "missable": true }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "December 30 Night: Trista Exploration",
+      "content": "Once you regain control, there's a ton of side activities to do. Head to Trista near the entrance of the **Upper Class Dorm** and speak to **Lotte** to learn the **Tomato Pot** recipe. Return to Thors and enter the **School Library** to speak to Librarian **Karol** for **Gambler Jack II - Finale**.\n\nIf you've collected all chapters of Gambler Jack II, head to **Kirsche's Cafe & Inn** and speak to **Vice Principal Heinrich**—he gives you the **Zemurian Ore** (allows forging the strongest weapon) and updates his profile.\n\nTwo fishing spots are available in Trista: the pond at the north end of the school and the river northeast of town. Find the **Fiery Colour** bike book in the house northeast of Trista (bookshelf to the right of the staircase, bottom floor).\n\nSpeak to all NPCs on the profile list to update them. After speaking to everyone, visit **Alfin** at the principal's office for the **Medal of Love**. Take the **west exit of Trista** for an event, then speak to **Towa** at the school rooftop.",
+      "checkpoints": [
+        { "id": "fin-profiles-dec30", "label": "Updated all NPC profiles (December 30 Night)" },
+        { "id": "fin-medal-love", "label": "Received Medal of Love from Alfin" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Chosen Partner Event",
+      "content": "To see the yellow '!' event marker on the map, your chosen character must meet these conditions:\n- Character's Link Level is 6 or higher\n- You saw their Bonding Event in Bareahard at the end of Act 3\n- Character has seen one of the 2 Key Bonding Events\n- Link Level must be 5 or higher\n\n**How to Choose:** Finish all side activities, then speak to the character and choose the **1st choice**. You can change your mind by talking to another character and choosing the 1st option. When ready, go back to **Class VII's dorm** and choose to enter.\n\n**Rewards:** You receive the corresponding Trophy. If your partner reaches Link Level 7, you also get the **Link Master Trophy**.",
+      "checkpoints": [
+        { "id": "fin-partner-chosen", "label": "Chose final bonding partner" }
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "NPC Profiles (December 30 Night)",
+      "columns": ["Name", "Location"],
+      "rows": [
+        ["Crow", "Automatically updated"],
+        ["Butler Celestin", "Main Building Entrance"],
+        ["Theresia", "Main Building Entrance"],
+        ["Instructor Mary", "Main Building 1F - Faculty Lounge (Southeast)"],
+        ["Principal Vandyck", "Main Building 1F - Principal's Office (Center East)"],
+        ["Vivi", "Main Building 2F - South end"],
+        ["Clara", "Main Building 2F - Art Room (Center East)"],
+        ["Bridget", "Main Building Rooftop"],
+        ["Stefan", "Student Union Building 2F - Chess Club"],
+        ["Lambert", "Academy Field"],
+        ["Hugo", "Near entrance of Brandon General Goods"],
+        ["Casper", "Entrance of Lower Class Dorm"],
+        ["Colette", "Trista Park"],
+        ["Rosine", "Near the Septium Church"],
+        ["Friedel", "Near entrance of Kirsche's Cafe & Inn"],
+        ["Instructor Thomas", "Kirsche's Cafe & Inn"],
+        ["Vice Principal Heinrich", "Kirsche's Cafe & Inn"]
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "December 31: Morning Preparations",
+      "content": "Rean learns his **final S-Craft** at the start of the day. Head to the 1st floor and speak to **George** to use the Zemurian Ore and craft the strongest weapon.\n\nPurchase **Imperial Chronicle Issue #6** from any book store. Speak to **Zirbel** at Trista's Chapel for the Absentee Father quest (see below).\n\n**Cooking Rewards:**\n- Give all 22 superb dishes to **Monica** (2nd floor Cafeteria) → **Impenetrable Shield** quartz\n- Give all peculiar dishes to **Margarita** (northern end of corridor) → **Chaos** quartz\n- Give all 22 recipes to **Ferris** (Game Room) → **Genesis** Master Quartz\n- Give every type of unique dish to **Bridget** (3rd floor) → **Revolution** quartz\n\n**Black Records (2nd Playthrough):** Speak to **Instructor Thomas** (Book Room, 2F) with all Black Records for a trophy. Missing one? Check **Micht** in Trista or **Becky** (3rd floor of Courageous)—leaving and re-entering Micht's store refreshes his stock.",
+      "checkpoints": [
+        { "id": "fin-strongest-weapon", "label": "Crafted strongest weapon with Zemurian Ore" },
+        { "id": "fin-cooking-rewards", "label": "Collected all cooking rewards (Monica, Margarita, Ferris, Bridget)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Optional Dungeon: Glacia Shrine",
+      "content": "Head to Ymir and speak to Rean's father at the **Baron's Mansion** to unlock the shrine. Travel to the very west end of **Ymir Valley 1** to enter. Completing it earns the **Ice Crown** accessory (10 CP Regeneration/turn, +50% Critical Up) and **The Frost Hunter** trophy.",
+      "checkpoints": [
+        { "id": "fin-glacia-shrine", "label": "Completed Glacia Shrine (Ice Crown accessory)" }
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Courageous Training Modules",
+      "columns": ["Module", "Lv 1", "Lv 2", "Lv 3", "Lv 4", "Lv 5", "Prize (Lv 5)"],
+      "rows": [
+        ["Sword", "Win w/o arts", "Win w/o arts, no KO", "Win w/o arts, 3 evades", "Win w/o arts/items", "Win w/o arts, no danger", "U-Material x10"],
+        ["Chevalier", "Win w/o arts", "Win w/o arts, no KO", "Win w/o arts, 3 evades", "Win w/o arts/items", "Win w/o arts, no danger", "U-Material x10"],
+        ["Cypher", "Win w/o crafts", "Win w/o crafts, no KO", "Win w/o crafts, 3 reflects", "Win w/o crafts/items", "Win w/o crafts, no danger", "U-Material x10"],
+        ["Magius", "", "", "", "", "", "(Requires Mirage/Overdrive)"]
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Additional December 31 Activities",
+      "content": "**Emblem Master Quartz:** Speak to **Towa** after recruiting all students.\n\n**Fishing:** Catch 23 fish types, then speak to **Annabelle** (Ymir Valley) to unlock the **Arch Tyrant**. Catching it allows purchase of the **Aeolus Gem**.\n\n**Snowboarding:** Clear the new course for the **Skanda Gem**.\n\n**Kenneth:** Speak to him at the Courageous Cafeteria for the **Orochi** Master Quartz (if you caught Arch Tyrant) and **Sennin Gem**.\n\n**East Trista Highway:** Explore for new monsters (Battle Notes) and treasure—find the **Altair Cannon** on Highway 2 and **Hades Gem** on Highway 1.\n\n**Battle Notes:** Speak to **Stefan** (Computer Room, 2F) with 284 notes for the **Calamity** Master Quartz. Missing Metal Beetle? Check Twin Dragon Bridge (Garrelia Side) after Dec 18.\n\n**Optional Scenes:** Visit Scarlet (Albarea Mansion), Proving Ground resting area, Professor Schmitt (Kirsche).",
+      "checkpoints": [
+        { "id": "fin-arch-tyrant", "label": "Caught Arch Tyrant (unlocks Aeolus Gem)" },
+        { "id": "fin-battle-notes-284", "label": "Turned in 284 Battle Notes to Stefan (Calamity MQ)" }
+      ]
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "My Jormungand Don't Want None",
+      "client": "Quest Board",
+      "content": "**Location:** End of East Celdic Highway 3 (northeast end).\n\n**Boss: Jormungand** (HP 172,254)\n- **Weakness:** Faint effects work well\n- **Strategy:** Canceler build recommended\n\n**Reward Shard:** Counts toward Zemurian Ore Shard collection.",
+      "reward": "Zemurian Ore Shard, 3,500 Mira, 4 AP"
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Sachsen Violence",
+      "client": "Quest Board",
+      "content": "**Location:** Sachsen Iron Mines → Sachsen Mountain Path 2 (northeast near fishing spot).\n\n**Boss: Gespard** (HP 178,653)\n- **Weakness:** High physical defense—use Arts\n- **Strategy:** Impede is effective for AT manipulation\n\n**Reward Shard:** Counts toward Zemurian Ore Shard collection.",
+      "reward": "Zemurian Ore Shard, 3,500 Mira, 4 AP"
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Nord by Nord-east",
+      "client": "Quest Board",
+      "content": "**Location:** Nord Highlands - Northeast (center area).\n\n**Boss: Glider Quaker** (HP 139,380)\n- **Weakness:** Weak to Mute (silences Thunder Wave)\n- **Strategy:** Low HP boss—S-Crafts work well for a quick kill\n\n**Reward Shard:** Counts toward Zemurian Ore Shard collection.",
+      "reward": "Zemurian Ore Shard, 3,500 Mira, 4 AP"
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Ymir, Far, Wherever You Are",
+      "client": "Quest Board",
+      "content": "**Location:** Ymir Valley - End (left side).\n\n**Boss: Sasquatch** (HP 183,654)\n- **Weakness:** Confuse status is effective\n- **Strategy:** Canceler strategy works well here\n\n**Reward Shard:** Counts toward Zemurian Ore Shard collection.",
+      "reward": "Zemurian Ore Shard, 3,500 Mira, 4 AP"
+    },
+    {
+      "type": "quest",
+      "quest_type": "hidden",
+      "name": "Absentee Father",
+      "client": "Father Paulo (Trista's Chapel)",
+      "content": "Speak to head priests in major towns in this order (bring Sara/Gaius for scene changes):\n1. **Celdic Chapel** — Zirbel\n2. **Bareahard Cathedral** — Amon\n3. **Legram Chapel** — Hamilcar\n4. **Roer Cathedral** — Homs\n5. **Ymir Chapel** — Bernard\n\nAfter visiting all five, use the Courageous computer to submit the report.",
+      "reward": "Lion Heart accessory, Gold Trophy (315 AP), Acala Gem, 4,500 Mira, 4 AP"
+    },
+    {
+      "type": "prose",
+      "heading": "Final Mission Preparations",
+      "content": "Before starting the final mission, cook **15+ Tomato Hotpots** (Seasonal Hotpot) and **20-30 Speed-boosting foods**. When ready, speak to Towa to commence the operation. Select your party—**Machias** is mandatory.",
+      "checkpoints": [
+        { "id": "fin-mission-start", "label": "Started final mission (party selected with Machias)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Karel Imperial Villa: Dungeon Walkthrough",
+      "content": "At the **Entrance**, fight Alliance Forces. Inside the villa interior, defeat soldiers and heal at the Orbment Station.\n\n**Treasures:** North Chest has **Claiomh Solarion**, South Chest has **Seraphic Ring**. Outside (North Exit) find U-Materials, Tear All Balm, and a monster chest with the **Goldia Key**.\n\n**Villa 3:** Enter from the south, use the Goldia Key, and fight more soldiers. For high-DEF enemies, use Laura (Warrior Set + Zemurian Ore Weapon). For magic damage, use Emma/Elliot with Aries MQ + Shadow Blade.",
+      "checkpoints": [
+        { "id": "fin-goldia-key", "label": "Obtained Goldia Key (monster chest outside villa)" },
+        { "id": "fin-villa-cleared", "label": "Cleared Karel Imperial Villa" }
+      ]
+    },
+    {
+      "type": "encounter",
+      "name": "Altina & G-Zephyranthes",
+      "heading": "Boss: Altina & G-Zephyranthes",
+      "stats": {
+        "G-Zephyranthes": "High DEF — requires Arts/S-Crafts",
+        "Altina": "Uses Black Barrier (reflects physical) and Brionac (laser)"
+      },
+      "strategy": "Kill **G-Zephyranthes** first since it has high DEF—use Arts and S-Crafts for damage. Altina reflects physical attacks with Black Barrier, so use Crescent Mirror/Shell to reflect her Brionac laser back at her.\n\n**Reward:** If you have all Medals from Alfin, you receive the **Grand Cordon** accessory (+100 STR/DEF/ATS/ADF, +10% Crit)."
+    },
+    {
+      "type": "encounter",
+      "name": "Divine Knight Ordine",
+      "heading": "Final Mech Battle: Divine Knight Ordine",
+      "stats": {
+        "Ordine": "HP 350,000 | Water efficacy 110%"
+      },
+      "strategy": "**Attack Patterns:** Starts with Normal (Arm) → Charge 1 (Body) → Charge 2 (Head) → repeats. After 50-60% HP, adds Charge 3 (Arm) and Charge 4 (Head).\n\n*Note:* Charge 2 and Charge 4 share the same quote (\"Prepare yourself!\")—you must distinguish by position in the pattern.\n\n**Strategy:** Build CP for **Morning Moon** to counter attacks based on the unbalance weakness. If Head is the weakness, use Morning Moon or Guard. For Charge 3 (Arm weakness), use Morning Moon for 2 hits to dodge his deadliest attacks.\n\n**Follow-Ups:** 4 consecutive unbalances triggers a Follow-Up. 5 consecutive (second half of fight) triggers a stronger one.\n\n**Support:** Elliot for healing, Alisa for CP regen, Sara for Strength Down debuff."
+    },
+    {
+      "type": "encounter",
+      "name": "Vermillion Apocalypse Phase 1",
+      "heading": "Vermillion Apocalypse (Phase 1)",
+      "stats": {
+        "Vermillion Apocalypse": "HP 250,000 | All elements 100% | Physical ★☆☆☆"
+      },
+      "strategy": "**Party:** Elliot, Fie, Gaius, Machias, Sara.\n\n**Preparation:** AoE Arts (Shadow Blade, Altair Cannon, Claiomh Solarion). Chrono Burst on someone other than Rean. Seraphic Ring on 2 characters. One weak art for dispelling barriers. Elliot with Aries MQ. Accessories cover Faint, Death, Confusion. Gladiator Headbands on Sara and Gaius.\n\n**Baiting (Safest):** Fie attacks immediately to draw aggro while party buffs. Sara/Gaius use Thunder Roar and Gale Storm (avoid Flash EX and Savage Fang II to maintain formation). Elliot/Machias heal, buff, and use Burst Drive. Use Impassion on Fie.\n\n**S-Craft Spam:** Fie uses Bullet Cyclone II every turn. Gaius buffs, uses Twin Cyclones, then Wild Rage. Feed Seasonal Hotpots for CP recovery.\n\n**Cancelling:** Regroup whole party next to boss. Spam Chrono Drive/Break with Elliot. Bullet Cyclone II and Arc Slash for AT Delay. Keep HP topped with Holy Song or Seraphic Ring. When HP reaches 60,000, spam S-Crafts."
+    },
+    {
+      "type": "encounter",
+      "name": "Vermillion Apocalypse Phase 2",
+      "heading": "Vermillion Apocalypse (Phase 2)",
+      "stats": {
+        "Vermillion Apocalypse": "HP 393,960 (Main) + 36,790 (Vermillion Weapon x2) | Physical ★★☆☆"
+      },
+      "strategy": "**Party:** Use the reserve team (members not used in Phase 1).\n\n**S-Craft (Recommended):** Use Platinum Shield or Adamantine Shield to mitigate the 15,000+ HP all-hitting attack. Speed boost ASAP. Combo Spirit Unification + Radiant Lion repeatedly. Recharge CP with Seasonal Hotpot. Goal: 6-7 combos to reach the HP mark.\n\n**Cancelling:** Only attempt if Rean is Lv 130 and fully equipped to prevent the boss from acting. Alternative: Use Rean's extra turns for Shields, Mirrors, and debuffs. Rush the boss with Rean and Laura at 3 Bravery Points—abuse Radiant Lion.\n\n**Caution:** This phase hits harder and summons mobs. Ensure Alisa has Insight."
+    },
+    {
+      "type": "encounter",
+      "name": "Vermillion Apocalypse Phase 3",
+      "heading": "Vermillion Apocalypse (Phase 3 - Mech)",
+      "stats": {
+        "Vermillion Apocalypse": "HP 430,000 | Water efficacy 110%"
+      },
+      "strategy": "You team up with **Ordine** for this mech battle. No support items or arts available—Defense is your only mitigation.\n\n**Key Rule:** Keep Ordine alive! If he falls, you lose crucial damage.\n\n**Pattern:** Normal (Arm) → Charge 1 (Body) → Charge 2 (Head) → Repeat.\n\n**Execution:** Use offensive crafts to build Bravery Points quickly, then unleash Burst attacks. **Caution:** At 50% HP, the boss can Rush/Burst your party if comboed, which can kill Ordine due to his lower defense. Establish a rhythm and attack the correct weak points to finish quickly."
+    },
+    {
+      "type": "prose",
+      "heading": "Ending",
+      "content": "After defeating the final phase of the Vermillion Apocalypse, watch the ending credits and **save your game**. This save data carries forward to Trails of Cold Steel III.",
+      "checkpoints": [
+        { "id": "fin-game-complete", "label": "Completed the Finale and saved clear data" }
+      ]
+    }
+  ]
+}

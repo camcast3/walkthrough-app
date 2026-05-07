@@ -25,14 +25,21 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		gap: 1.25rem;
-		padding: 0.4rem 1rem;
+		gap: 1rem;
+		padding: 0.35rem 0.75rem;
 		background: rgba(10, 10, 20, 0.88);
 		backdrop-filter: blur(12px);
 		-webkit-backdrop-filter: blur(12px);
 		border-top: 1px solid rgba(124, 106, 247, 0.1);
 		z-index: 50;
 		flex-wrap: wrap;
+	}
+
+	@media (max-width: 640px) {
+		.hint-bar {
+			gap: 0.6rem;
+			padding: 0.3rem 0.5rem;
+		}
 	}
 
 	:global(body[data-power-save]) .hint-bar {
@@ -43,21 +50,21 @@
 	.hint-item {
 		display: flex;
 		align-items: center;
-		gap: 0.35rem;
+		gap: 0.3rem;
 	}
 
 	.hint-badge {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-width: 1.5rem;
-		height: 1.4rem;
-		padding: 0 0.3rem;
+		min-width: 1.4rem;
+		height: 1.3rem;
+		padding: 0 0.25rem;
 		background: rgba(124, 106, 247, 0.15);
 		border: 1px solid rgba(124, 106, 247, 0.35);
 		border-radius: 5px;
 		color: #a89df7;
-		font-size: 0.68rem;
+		font-size: 0.65rem;
 		font-weight: 700;
 		font-family: 'Rajdhani', system-ui, sans-serif;
 		letter-spacing: 0.3px;
@@ -65,7 +72,7 @@
 	}
 
 	.hint-label {
-		font-size: 0.7rem;
+		font-size: 0.65rem;
 		color: #5a5a7a;
 		white-space: nowrap;
 	}

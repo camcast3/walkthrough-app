@@ -2,12 +2,13 @@
 	import type { PageData } from './$types.js';
 	import { onMount, onDestroy, tick } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, type HltbMode } from '$lib/state.js';
+	import { loadProgress, saveProgress, countCheckableSteps, computeProgress, estimateTimeRemaining, formatHours, HLTB_MODE_LABELS, HLTB_MODE_FINISH_LABELS, HLTB_MODES, INLINE_CHECKABLE_RE, type HltbMode } from '$lib/state.js';
 	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
-	import type { SyncStatus } from '$lib/types.js';
+	import type { SyncStatus, WalkthroughBlock } from '$lib/types.js';
 	import { marked } from 'marked';
+	import { ProseBlock, EncounterBlock, QuestBlock, TableBlock, ChecklistBlock, CalloutBlock } from '$lib/blocks/index.js';
 
 	let { data }: { data: PageData } = $props();
 	const wt = $derived(data.walkthrough);
@@ -105,6 +106,38 @@
 		for (const s of wt.sections) {
 			for (const step of (s.steps ?? [])) if (step.id === id && step.type !== 'note') return true;
 			for (const cp of (s.checkpoints ?? [])) if (cp.id === id) return true;
+			if (s.content) {
+				for (const m of s.content.matchAll(INLINE_CHECKABLE_RE)) {
+					if (m[2] === id) return true;
+				}
+			}
+			for (let blockIdx = 0; blockIdx < (s.blocks ?? []).length; blockIdx++) {
+				const block = s.blocks![blockIdx];
+				if (block.type === 'checklist') {
+					for (const item of (block as any).items ?? []) {
+						if (item.id === id) return true;
+					}
+				}
+				if (block.type === 'prose') {
+					const content = (block as any).content ?? '';
+					for (const m of content.matchAll(INLINE_CHECKABLE_RE)) {
+						if (m[2] === id) return true;
+					}
+					// Block-level checkable: headed prose blocks
+					if ((block as any).heading && id === `${s.id}-blk-${blockIdx}`) return true;
+				}
+				// Encounter blocks are block-level checkable
+				if (block.type === 'encounter' && id === `${s.id}-blk-${blockIdx}`) return true;
+				// Quest blocks are block-level checkable
+				if (block.type === 'quest' && id === `${s.id}-blk-${blockIdx}`) return true;
+				// Table rows are individually checkable (when table has heading)
+				if (block.type === 'table' && (block as any).heading) {
+					const rows = (block as any).rows ?? [];
+					for (let rIdx = 0; rIdx < rows.length; rIdx++) {
+						if (id === `${s.id}-tbl-${blockIdx}-r${rIdx}`) return true;
+					}
+				}
+			}
 		}
 		return false;
 	}
@@ -165,19 +198,36 @@
 		});
 	}
 
-	// ── Markdown rendering with checkpoint placeholders ───────────────────────
+	// ── Markdown rendering with checkpoint and inline-checkable placeholders ───
 	const CHECKPOINT_RE = /<!--\s*checkpoint:\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
 	const CHECKPOINT_PLACEHOLDER = '___CHECKPOINT___';
+	const CHECKABLE_PLACEHOLDER = '___CHECKABLE___';
+
+	const INLINE_CHECKABLE_ICON: Record<string, string> = {
+		collectible: '◆',
+		missable: '⚠',
+		side_quest: '📋'
+	};
 
 	function renderContentHtml(content: string): string {
 		const checkpoints: { id: string; label: string }[] = [];
-		const withPlaceholders = content.replace(CHECKPOINT_RE, (_match, id, label) => {
+		const checkables: { type: string; id: string; label: string }[] = [];
+
+		// Replace inline checkable markers with placeholders
+		let processed = content.replace(INLINE_CHECKABLE_RE, (_match, type, id, label) => {
+			checkables.push({ type, id, label: label?.trim() || id });
+			return `${CHECKABLE_PLACEHOLDER}${checkables.length - 1}`;
+		});
+
+		// Replace checkpoint markers with placeholders
+		processed = processed.replace(CHECKPOINT_RE, (_match, id, label) => {
 			checkpoints.push({ id, label: label?.trim() || id });
 			return `\n\n${CHECKPOINT_PLACEHOLDER}${checkpoints.length - 1}\n\n`;
 		});
 
-		let html = marked.parse(withPlaceholders, { async: false }) as string;
+		let html = marked.parse(processed, { async: false }) as string;
 
+		// Inject checkpoint slots
 		checkpoints.forEach((cp, idx) => {
 			const placeholder = `${CHECKPOINT_PLACEHOLDER}${idx}`;
 			const placeholderInP = new RegExp(`<p>${placeholder}</p>`, 'g');
@@ -187,7 +237,36 @@
 			html = html.replace(placeholderBare, replacement);
 		});
 
+		// Inject inline checkable slots
+		checkables.forEach((chk, idx) => {
+			const placeholder = `${CHECKABLE_PLACEHOLDER}${idx}`;
+			const re = new RegExp(placeholder.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+			const slot = `<span class="inline-check-slot" data-check-id="${chk.id}" data-check-type="${chk.type}" data-check-label="${chk.label.replace(/"/g, '&quot;')}"></span>`;
+			html = html.replace(re, slot);
+		});
+
+		// Wrap ### subsections in collapsible <details> elements
+		html = wrapSubsections(html);
+
 		return html;
+	}
+
+	/** Wrap sequences of <h3> + following content in <details open> for collapsibility. */
+	function wrapSubsections(html: string): string {
+		// Split on h3 tags (with optional attributes like id="...")
+		const parts = html.split(/(<h3(?:[^>]*)>)/);
+		if (parts.length <= 1) return html;
+
+		let result = parts[0];
+		for (let i = 1; i < parts.length; i += 2) {
+			const openTag = parts[i]; // e.g. <h3> or <h3 id="foo">
+			const rest = parts[i + 1] ?? '';
+			// Extract heading text (strip inner tags for summary text)
+			const headingText = openTag.replace(/<[^>]+>/g, '') + rest.split('</h3>')[0];
+			const afterHeading = rest.split('</h3>').slice(1).join('</h3>');
+			result += `<details class="subsection" open><summary class="subsection-title">${headingText}</summary><div class="subsection-body">${afterHeading}</div></details>`;
+		}
+		return result;
 	}
 
 	// ── Stale prompt ──────────────────────────────────────────────────────────
@@ -228,15 +307,21 @@
 
 	// ── Gamepad navigation ─────────────────────────────────────────────────────
 	let gamepad: GamepadNavigator | null = null;
-	/** Ordered list of checkpoint button elements in the current prose section. */
+	/**
+	 * Ordered list of all interactable checkable elements in the current prose
+	 * section: checkpoint buttons (.checkpoint-btn) AND inline check buttons
+	 * (.inline-check-btn), sorted by their natural DOM / visual order.
+	 */
 	let checkpointEls: HTMLElement[] = [];
-	/** Index of the currently focused checkpoint in prose mode (-1 = none). */
+	/** Index of the currently focused item in prose mode (-1 = none). */
 	let focusedCheckpointIdx = $state(-1);
 
-	/** Collect checkpoint buttons from the prose container after rendering. */
+	/** Collect all checkable interactive elements from the prose container. */
 	function collectCheckpointEls() {
 		if (!contentEl) { checkpointEls = []; return; }
-		checkpointEls = Array.from(contentEl.querySelectorAll<HTMLElement>('.checkpoint-btn'));
+		checkpointEls = Array.from(
+			contentEl.querySelectorAll<HTMLElement>('.checkpoint-btn, .inline-check-btn')
+		);
 	}
 
 	/** Find the checkpoint closest to the vertical center of the viewport. */
@@ -285,8 +370,9 @@
 		}
 
 		const steps = currentSection?.steps ?? [];
-		const inProseMode = !!(currentSection?.content);
-		const stepsVisible = inProseMode ? showSteps : true;
+		const inBlocksMode = !!(currentSection?.blocks && currentSection.blocks.length > 0);
+		const inProseMode = !inBlocksMode && !!(currentSection?.content);
+		const stepsVisible = inProseMode ? showSteps : !inBlocksMode;
 
 		switch (action) {
 			case 'scroll-up':
@@ -296,8 +382,17 @@
 				window.scrollBy({ top: (magnitude ?? 8) });
 				break;
 			case 'focus-up':
-				if (inProseMode && !stepsVisible) {
-					// D-pad navigates between checkpoints in prose mode
+				if (inBlocksMode) {
+					collectBlockInteractiveEls();
+					if (blockInteractiveEls.length > 0) {
+						if (focusedBlockElIdx <= 0) {
+							// Already at first item or unfocused — exit block focus
+							clearBlockFocus();
+						} else {
+							focusBlockEl(focusedBlockElIdx - 1);
+						}
+					}
+				} else if (inProseMode && !stepsVisible) {
 					collectCheckpointEls();
 					if (checkpointEls.length > 0) {
 						const idx = focusedCheckpointIdx <= 0 ? 0 : focusedCheckpointIdx - 1;
@@ -309,8 +404,20 @@
 				}
 				break;
 			case 'focus-down':
-				if (inProseMode && !stepsVisible) {
-					// D-pad navigates between checkpoints in prose mode
+				if (inBlocksMode) {
+					collectBlockInteractiveEls();
+					if (blockInteractiveEls.length > 0) {
+						if (focusedBlockElIdx < 0) {
+							// No focus yet — enter from the top
+							focusBlockEl(0);
+						} else if (focusedBlockElIdx >= blockInteractiveEls.length - 1) {
+							// Already at last item — exit block focus
+							clearBlockFocus();
+						} else {
+							focusBlockEl(focusedBlockElIdx + 1);
+						}
+					}
+				} else if (inProseMode && !stepsVisible) {
 					collectCheckpointEls();
 					if (checkpointEls.length > 0) {
 						const idx = focusedCheckpointIdx >= checkpointEls.length - 1
@@ -324,8 +431,14 @@
 				}
 				break;
 			case 'check': {
-				if (inProseMode && !stepsVisible) {
-					// A = snap to nearest checkpoint and toggle it
+				if (inBlocksMode) {
+					collectBlockInteractiveEls();
+					if (blockInteractiveEls.length > 0) {
+						const idx = focusedBlockElIdx >= 0 ? focusedBlockElIdx : nearestBlockElIdx();
+						focusBlockEl(idx);
+						blockInteractiveEls[idx]?.click();
+					}
+				} else if (inProseMode && !stepsVisible) {
 					collectCheckpointEls();
 					if (checkpointEls.length > 0) {
 						const idx = focusedCheckpointIdx >= 0 ? focusedCheckpointIdx : nearestCheckpointIdx();
@@ -339,13 +452,40 @@
 				break;
 			}
 			case 'prev-section':
-				if (currentSectionIdx > 0) { currentSectionIdx--; focusedStepIdx = 0; focusedCheckpointIdx = -1; }
+				if (inBlocksMode && focusedBlockElIdx >= 0) {
+					// D-pad Left: jump to previous block, or exit blocks if at first
+					if (!focusPrevBlock()) {
+						clearBlockFocus();
+					}
+				} else if (currentSectionIdx > 0) {
+					currentSectionIdx--;
+					focusedStepIdx = 0;
+					focusedCheckpointIdx = -1;
+					focusedBlockElIdx = -1;
+				}
 				break;
 			case 'next-section':
-				if (currentSectionIdx < wt.sections.length - 1) { currentSectionIdx++; focusedStepIdx = 0; focusedCheckpointIdx = -1; }
+				if (inBlocksMode && focusedBlockElIdx >= 0) {
+					// D-pad Right: jump to next block, or exit blocks if at last
+					if (!focusNextBlock()) {
+						clearBlockFocus();
+					}
+				} else if (currentSectionIdx < wt.sections.length - 1) {
+					currentSectionIdx++;
+					focusedStepIdx = 0;
+					focusedCheckpointIdx = -1;
+					focusedBlockElIdx = -1;
+				}
 				break;
 			case 'back':
-				history.back();
+				if (inBlocksMode && focusedBlockElIdx >= 0) {
+					clearBlockFocus();
+				} else {
+					history.back();
+				}
+				break;
+			case 'home':
+				goto('/');
 				break;
 			case 'checkout':
 				if (data.appMode === 'client') {
@@ -369,7 +509,6 @@
 
 	// ── Keyboard navigation (mirrors gamepad) ─────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
-		const steps = currentSection?.steps ?? [];
 		if (e.key === 'Escape') { showCheckoutDialog = false; return; }
 		if (e.key === 'ArrowUp') { e.preventDefault(); handleGamepadAction('focus-up'); }
 		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
@@ -381,13 +520,153 @@
 			e.preventDefault(); handleGamepadAction('zoom-out');
 		} else if (e.key === ' ' || e.key === 'Enter') {
 			e.preventDefault();
-			const step = steps[focusedStepIdx];
-			if (step) toggleStep(step.id, step.type);
+			handleGamepadAction('check');
 		}
 	}
 
 	// ── Lifecycle ─────────────────────────────────────────────────────────────
 	let contentEl: HTMLElement | null = null;
+	let blocksEl: HTMLElement | null = null;
+
+	// ── Scroll-spy: track which block is in view ─────────────────────────────
+	let currentBlockIdx = $state(0);
+	let scrollSpyObserver: IntersectionObserver | null = null;
+
+	function setupScrollSpy() {
+		if (scrollSpyObserver) { scrollSpyObserver.disconnect(); scrollSpyObserver = null; }
+		if (!blocksEl) return;
+
+		const blockRoots = Array.from(blocksEl.children) as HTMLElement[];
+		if (blockRoots.length === 0) return;
+
+		// Track visibility ratios per block
+		const ratios = new Map<Element, number>();
+
+		scrollSpyObserver = new IntersectionObserver((entries) => {
+			for (const entry of entries) {
+				ratios.set(entry.target, entry.intersectionRatio);
+			}
+
+			// Find the block with highest visibility (closest to center)
+			let best = 0;
+			let bestRatio = 0;
+			blockRoots.forEach((el, i) => {
+				const r = ratios.get(el) ?? 0;
+				if (r > bestRatio) { bestRatio = r; best = i; }
+			});
+
+			// If nothing is significantly visible, use proximity to center
+			if (bestRatio < 0.1) {
+				const center = window.innerHeight / 2;
+				let bestDist = Infinity;
+				blockRoots.forEach((el, i) => {
+					const rect = el.getBoundingClientRect();
+					const dist = Math.abs(rect.top + rect.height / 2 - center);
+					if (dist < bestDist) { bestDist = dist; best = i; }
+				});
+			}
+
+			currentBlockIdx = best;
+			// Apply visual class
+			blockRoots.forEach((el, i) => el.classList.toggle('block-current', i === best));
+		}, {
+			threshold: [0, 0.25, 0.5, 0.75, 1.0]
+		});
+
+		blockRoots.forEach((el) => scrollSpyObserver!.observe(el));
+	}
+
+	// Re-run scroll spy when section changes or blocks re-render
+	$effect(() => {
+		void currentSectionIdx;
+		void checkedSteps;
+		tick().then(() => setupScrollSpy());
+	});
+
+	// ── Block-mode gamepad navigation ────────────────────────────────────────
+	/** All focusable elements in the blocks container, sorted by DOM order. */
+	let blockInteractiveEls: HTMLElement[] = [];
+	/** Index of each block boundary in blockInteractiveEls (first element per block). */
+	let blockBoundaries: number[] = [];
+	/** Index of the currently focused item in blocks mode (-1 = none). */
+	let focusedBlockElIdx = $state(-1);
+
+	/**
+	 * Collect all interactive elements in the blocks container.
+	 * Also builds a block-boundary index so D-pad Left/Right can jump between blocks.
+	 */
+	function collectBlockInteractiveEls() {
+		if (!blocksEl) { blockInteractiveEls = []; blockBoundaries = []; return; }
+
+		// Each direct child of .blocks-container is one rendered block component
+		const blockRoots = Array.from(blocksEl.children) as HTMLElement[];
+		blockInteractiveEls = [];
+		blockBoundaries = [];
+
+		for (const root of blockRoots) {
+			const items = Array.from(
+				root.querySelectorAll<HTMLElement>('.checklist-btn, .checkpoint-btn, .inline-check-btn, .block-header')
+			);
+			if (items.length > 0) {
+				blockBoundaries.push(blockInteractiveEls.length);
+				blockInteractiveEls.push(...items);
+			}
+		}
+	}
+
+	/** Find the block interactive element nearest to viewport center. */
+	function nearestBlockElIdx(): number {
+		if (blockInteractiveEls.length === 0) return -1;
+		const center = window.innerHeight / 2;
+		let best = 0;
+		let bestDist = Infinity;
+		for (let i = 0; i < blockInteractiveEls.length; i++) {
+			const rect = blockInteractiveEls[i].getBoundingClientRect();
+			const dist = Math.abs(rect.top + rect.height / 2 - center);
+			if (dist < bestDist) { bestDist = dist; best = i; }
+		}
+		return best;
+	}
+
+	/** Focus a block interactive element by index. */
+	function focusBlockEl(idx: number) {
+		blockInteractiveEls.forEach((el) => el.classList.remove('block-el-focused'));
+		focusedBlockElIdx = idx;
+		const el = blockInteractiveEls[idx];
+		if (el) {
+			el.classList.add('block-el-focused');
+			el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+		}
+	}
+
+	/** Clear block focus highlight and reset index. */
+	function clearBlockFocus() {
+		blockInteractiveEls.forEach((el) => el.classList.remove('block-el-focused'));
+		focusedBlockElIdx = -1;
+	}
+
+	/** Jump to the first interactive element of the next block. Returns false if already at the last block. */
+	function focusNextBlock(): boolean {
+		collectBlockInteractiveEls();
+		if (blockBoundaries.length === 0) return false;
+		const nextBoundary = blockBoundaries.find(b => b > focusedBlockElIdx);
+		if (nextBoundary !== undefined) { focusBlockEl(nextBoundary); return true; }
+		return false;
+	}
+
+	/** Jump to the first interactive element of the previous block. Returns false if already at the first block. */
+	function focusPrevBlock(): boolean {
+		collectBlockInteractiveEls();
+		if (blockBoundaries.length === 0) return false;
+		// Find the boundary before current position
+		let prev = -1;
+		for (const b of blockBoundaries) {
+			if (b >= focusedBlockElIdx) break;
+			prev = b;
+		}
+		if (prev >= 0 && prev !== focusedBlockElIdx) { focusBlockEl(prev); return true; }
+		return false;
+	}
 
 	function bindCheckpointSlots() {
 		if (!contentEl) return;
@@ -414,12 +693,116 @@
 		});
 	}
 
+	function bindInlineCheckSlots() {
+		if (!contentEl) return;
+		const slots = contentEl.querySelectorAll<HTMLElement>('.inline-check-slot');
+		slots.forEach((slot) => {
+			const checkId = slot.dataset.checkId!;
+			const checkType = slot.dataset.checkType as keyof typeof INLINE_CHECKABLE_ICON;
+			const checkLabel = slot.dataset.checkLabel!;
+			const isChecked = checkedSteps.has(checkId);
+			const icon = INLINE_CHECKABLE_ICON[checkType] ?? '◆';
+
+			slot.className = `inline-check-slot inline-check-${checkType}${isChecked ? ' is-checked' : ''}`;
+			slot.innerHTML = `<button class="inline-check-btn" aria-label="${checkLabel}" role="checkbox" aria-checked="${isChecked}">
+					<span class="inline-check-icon" aria-hidden="true">${icon}</span>
+					<span class="inline-check-label">${checkLabel}</span>
+					<span class="inline-check-box" aria-hidden="true">
+						<svg viewBox="0 0 18 18" fill="none">
+							<rect class="check-bg" x="1" y="1" width="16" height="16" rx="4" />
+							<polyline class="check-mark ${isChecked ? 'checked' : ''}" points="4,9 8,13 14,5" />
+						</svg>
+					</span>
+				</button>`;
+
+			const btn = slot.querySelector('button')!;
+			btn.onclick = () => toggleCheckpoint(checkId);
+		});
+	}
+
 	$effect(() => {
-		// Re-bind checkpoints whenever checked state or section changes
+		// Re-bind checkpoints and inline checks whenever checked state or section changes
 		void checkedSteps;
 		void currentSectionIdx;
-		tick().then(bindCheckpointSlots);
+		tick().then(() => {
+			bindCheckpointSlots();
+			bindInlineCheckSlots();
+		});
 	});
+
+	/** Scroll to the first unchecked block/step in the walkthrough. */
+	function scrollToFirstUnchecked() {
+		for (let sIdx = 0; sIdx < wt.sections.length; sIdx++) {
+			const section = wt.sections[sIdx];
+			// Check block-level IDs (prose, encounter, quest, table rows)
+			if (section.blocks) {
+				for (let bIdx = 0; bIdx < section.blocks.length; bIdx++) {
+					const block = section.blocks[bIdx];
+					const blockId = `${section.id}-blk-${bIdx}`;
+
+					// Headed prose blocks
+					if (block.type === 'prose' && (block as any).heading) {
+						if (!checkedSteps.has(blockId)) {
+							currentSectionIdx = sIdx;
+							tick().then(() => {
+								const el = document.querySelector(`[data-block-id="${blockId}"]`);
+								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							});
+							return;
+						}
+					}
+					// Encounter blocks
+					if (block.type === 'encounter') {
+						if (!checkedSteps.has(blockId)) {
+							currentSectionIdx = sIdx;
+							tick().then(() => {
+								const el = document.querySelector(`[data-block-id="${blockId}"]`);
+								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							});
+							return;
+						}
+					}
+					// Quest blocks
+					if (block.type === 'quest') {
+						if (!checkedSteps.has(blockId)) {
+							currentSectionIdx = sIdx;
+							tick().then(() => {
+								const el = document.querySelector(`[data-block-id="${blockId}"]`);
+								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							});
+							return;
+						}
+					}
+					// Table rows (each row individually)
+					if (block.type === 'table' && (block as any).heading) {
+						const rows = (block as any).rows ?? [];
+						for (let rIdx = 0; rIdx < rows.length; rIdx++) {
+							const rowId = `${section.id}-tbl-${bIdx}-r${rIdx}`;
+							if (!checkedSteps.has(rowId)) {
+								currentSectionIdx = sIdx;
+								tick().then(() => {
+									const el = document.querySelector(`[data-block-id="${blockId}"]`);
+									el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+								});
+								return;
+							}
+						}
+					}
+				}
+			}
+			// Check step-level IDs
+			for (const step of section.steps ?? []) {
+				if (step.type !== 'note' && !checkedSteps.has(step.id)) {
+					currentSectionIdx = sIdx;
+					tick().then(() => {
+						const el = document.querySelector(`[data-step-id="${step.id}"]`);
+						el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					});
+					return;
+				}
+			}
+		}
+	}
 
 	onMount(async () => {
 		const record = await loadProgress(wt.id);
@@ -435,11 +818,21 @@
 		gamepad.start();
 
 		window.addEventListener('keydown', handleKeydown);
+
+		// Handle ?resume=true — scroll to first unchecked block
+		const params = new URLSearchParams(window.location.search);
+		if (params.get('resume') === 'true') {
+			// Remove the query param from URL without reload
+			window.history.replaceState({}, '', window.location.pathname);
+			await tick();
+			scrollToFirstUnchecked();
+		}
 	});
 
 	onDestroy(() => {
 		gamepad?.stop();
 		window.removeEventListener('keydown', handleKeydown);
+		if (scrollSpyObserver) { scrollSpyObserver.disconnect(); scrollSpyObserver = null; }
 	});
 
 	// ── Step type helpers ─────────────────────────────────────────────────────
@@ -473,23 +866,36 @@
 				{ badge: 'B', label: 'Keep' }
 			];
 		}
-		const inProseMode = !!(currentSection?.content);
+		const inBlocksMode = !!(currentSection?.blocks && currentSection.blocks.length > 0);
+		const inProseMode = !inBlocksMode && !!(currentSection?.content);
 		const stepsVisible = inProseMode ? showSteps : true;
-		const hints = [
-			{ badge: '🕹', label: 'Scroll' },
-			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Checkpoints' : 'Navigate' },
-			{ badge: 'A', label: inProseMode && !stepsVisible ? 'Toggle' : 'Check' },
-			{ badge: 'B', label: 'Back' },
-			{ badge: 'LB/RB', label: 'Sections' }
-		];
+		const hasFocus = inBlocksMode && focusedBlockElIdx >= 0;
+		const hints: { badge: string; label: string }[] = [];
+		if (inBlocksMode) {
+			hints.push(
+				{ badge: '↕', label: 'Items' },
+				{ badge: '↔', label: 'Blocks' },
+				{ badge: 'A', label: 'Toggle' },
+				{ badge: 'B', label: hasFocus ? 'Deselect' : 'Back' },
+			);
+		} else {
+			hints.push(
+				{ badge: '↕', label: inProseMode && !stepsVisible ? 'Items' : 'Steps' },
+				{ badge: 'A', label: 'Check' },
+				{ badge: 'B', label: 'Back' },
+			);
+		}
+		hints.push({ badge: 'LB/RB', label: 'Sections' });
 		if (hltbHasToggle) {
-			hints.push({ badge: 'Y', label: 'HLTB Mode' });
+			hints.push({ badge: 'Y', label: 'HLTB' });
 		}
 		if (data.appMode === 'client') {
 			hints.push({ badge: 'X', label: isCheckedOut ? 'Checkin' : 'Checkout' });
 		}
-		hints.push({ badge: 'LT/RT', label: 'Zoom' });
-		hints.push({ badge: '☰', label: 'Settings' });
+		hints.push(
+			{ badge: '⊞', label: 'Home' },
+			{ badge: '☰', label: 'Settings' },
+		);
 		return hints;
 	});
 </script>
@@ -654,7 +1060,88 @@
 	</details>
 
 	<!-- Section content -->
-	{#if currentSection?.content}
+	{#if currentSection?.blocks && currentSection.blocks.length > 0}
+		<!-- Position badge -->
+		<div class="position-badge" aria-label="Block {currentBlockIdx + 1} of {currentSection.blocks.length}">
+			<span class="pos-icon" aria-hidden="true">📍</span>
+			<span class="pos-text">Block <strong>{currentBlockIdx + 1}</strong> / {currentSection.blocks.length}</span>
+		</div>
+		<!-- Blocks mode: typed block components -->
+		<div class="blocks-container" bind:this={blocksEl}>
+			{#each currentSection.blocks as block, blockIdx (block)}
+				{@const blockId = (block.type === 'prose' && block.heading) || block.type === 'encounter' || block.type === 'quest' || (block.type === 'table' && block.heading)
+					? `${currentSection.id}-blk-${blockIdx}` : undefined}
+				{#if block.type === 'prose'}
+					<ProseBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+				{:else if block.type === 'encounter'}
+					<EncounterBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+				{:else if block.type === 'quest'}
+					<QuestBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+				{:else if block.type === 'table'}
+					<TableBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} sectionId={currentSection.id} {blockIdx} />
+				{:else if block.type === 'checklist'}
+					<ChecklistBlock {block} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+				{:else if block.type === 'callout'}
+					<CalloutBlock {block} />
+				{/if}
+			{/each}
+		</div>
+
+		<!-- Collapsible granular steps (if also provided alongside blocks) -->
+		{#if currentSection.steps && currentSection.steps.length > 0}
+			<details class="steps-toggle" bind:open={showSteps}>
+				<summary class="steps-toggle-btn">
+					<span class="steps-toggle-icon">{showSteps ? '▼' : '▶'}</span>
+					Detailed steps ({currentSection.steps.filter(s => s.type !== 'note').length} checkable)
+				</summary>
+				<main class="steps-list" aria-label="Detailed steps for {currentSection?.title}">
+					{#each currentSection.steps as step, i (step.id)}
+						{@const isCheckable = step.type !== 'note'}
+						{@const isChecked = checkedSteps.has(step.id)}
+						{@const isFocused = i === focusedStepIdx}
+						<div
+							class="step-card"
+							class:checkable={isCheckable}
+							class:checked={isChecked}
+							class:focused={isFocused}
+							class:type-note={step.type === 'note'}
+							class:type-warning={step.type === 'warning'}
+							class:type-collectible={step.type === 'collectible'}
+							class:type-boss={step.type === 'boss'}
+							role={isCheckable ? 'checkbox' : undefined}
+							aria-checked={isCheckable ? isChecked : undefined}
+							aria-label="{TYPE_LABEL[step.type]}: {step.text}"
+							tabindex={isCheckable ? 0 : undefined}
+							use:stepAction={i}
+							onclick={() => toggleStep(step.id, step.type)}
+							onkeydown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleStep(step.id, step.type); }}}
+						>
+							<div class="step-icon-col">
+								<span class="type-badge type-{step.type}" aria-hidden="true">{TYPE_ICON[step.type]}</span>
+								{#if isCheckable}
+									<span class="custom-check" class:is-checked={isChecked} aria-hidden="true">
+										<svg viewBox="0 0 20 20" fill="none">
+											<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
+											<polyline class="check-mark" points="5,10 9,14 15,6" />
+										</svg>
+									</span>
+								{/if}
+							</div>
+							<div class="step-body">
+								<p class="step-text">{@html step.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+								{#if step.note}
+									<p class="step-note">{step.note}</p>
+								{/if}
+								{#if step.image_url}
+									<img class="step-img" src={step.image_url} alt="Screenshot for this step" loading="lazy" />
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</main>
+			</details>
+		{/if}
+	{:else if currentSection?.content}
 		<!-- Prose mode: full walkthrough text with embedded checkpoints -->
 		<div class="prose-container" bind:this={contentEl}>
 			{@html renderContentHtml(currentSection.content)}
@@ -775,6 +1262,9 @@
 <GamepadHintBar hints={detailHints} />
 
 <style>
+	.blocks-container {
+		margin: 0.5rem 0;
+	}
 	.page {
 		max-width: 700px;
 		margin: 0 auto;
@@ -1497,6 +1987,13 @@
 		box-shadow: 0 0 16px rgba(124,106,247,0.25);
 	}
 
+	/* Inline check buttons also receive the controller focus ring */
+	.prose-container :global(.inline-check-btn.checkpoint-focused) {
+		outline: 3px solid #7c6af7;
+		outline-offset: 2px;
+		box-shadow: 0 0 12px rgba(124,106,247,0.3);
+	}
+
 	.prose-container :global(.checkpoint-btn:active) {
 		transform: scale(0.99);
 	}
@@ -1615,5 +2112,252 @@
 		.check-mark {
 			transition: none;
 		}
+	}
+
+	/* ── Collapsible subsections (### headings) ── */
+	.prose-container :global(.subsection) {
+		margin: 0.75rem 0;
+		border: 1px solid rgba(42, 42, 68, 0.5);
+		border-radius: 12px;
+		background: rgba(14, 14, 24, 0.4);
+		overflow: hidden;
+	}
+
+	.prose-container :global(.subsection-title) {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.65rem 1rem;
+		font-family: 'Rajdhani', system-ui, sans-serif;
+		font-size: 1.05rem;
+		font-weight: 600;
+		color: #f0f0ff;
+		cursor: pointer;
+		list-style: none;
+		user-select: none;
+		transition: background 0.2s, color 0.2s;
+	}
+
+	.prose-container :global(.subsection-title::-webkit-details-marker) { display: none; }
+
+	.prose-container :global(.subsection-title::before) {
+		content: '▶';
+		font-size: 0.6rem;
+		color: #7c6af7;
+		transition: transform 0.2s;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.subsection[open] .subsection-title::before) {
+		transform: rotate(90deg);
+	}
+
+	.prose-container :global(.subsection-title:hover) {
+		background: rgba(124, 106, 247, 0.06);
+		color: #a89df7;
+	}
+
+	.prose-container :global(.subsection[open] .subsection-title) {
+		border-bottom: 1px solid rgba(42, 42, 68, 0.5);
+		color: #a89df7;
+	}
+
+	.prose-container :global(.subsection-body) {
+		padding: 0.5rem 1rem;
+	}
+
+	/* ── Inline checkable items (collectibles, missables, side quests) ── */
+	.prose-container :global(.inline-check-slot) {
+		display: inline-flex;
+		vertical-align: middle;
+		margin: 0.1rem 0.2rem;
+	}
+
+	.prose-container :global(.inline-check-btn) {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		background: rgba(20, 20, 36, 0.7);
+		border: 1.5px solid rgba(58, 58, 92, 0.6);
+		border-radius: 8px;
+		padding: 0.2rem 0.55rem 0.2rem 0.4rem;
+		cursor: pointer;
+		font-size: 0.82rem;
+		transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+		-webkit-tap-highlight-color: transparent;
+		white-space: normal;
+		text-align: left;
+		line-height: 1.3;
+	}
+
+	.prose-container :global(.inline-check-btn:hover) {
+		background: rgba(30, 30, 50, 0.9);
+	}
+
+	.prose-container :global(.inline-check-btn:active) {
+		transform: scale(0.97);
+	}
+
+	.prose-container :global(.inline-check-slot.is-checked .inline-check-btn) {
+		opacity: 0.45;
+	}
+
+	.prose-container :global(.inline-check-slot.is-checked .inline-check-label) {
+		text-decoration: line-through;
+		text-decoration-color: rgba(124, 106, 247, 0.5);
+	}
+
+	/* Type-specific colors */
+	.prose-container :global(.inline-check-collectible .inline-check-btn) {
+		border-color: rgba(84, 214, 106, 0.4);
+		background: rgba(84, 214, 106, 0.06);
+	}
+	.prose-container :global(.inline-check-collectible .inline-check-btn:hover) {
+		border-color: rgba(84, 214, 106, 0.7);
+		background: rgba(84, 214, 106, 0.12);
+	}
+	.prose-container :global(.inline-check-collectible .inline-check-icon) { color: #54d66a; }
+
+	.prose-container :global(.inline-check-missable .inline-check-btn) {
+		border-color: rgba(255, 159, 67, 0.4);
+		background: rgba(255, 159, 67, 0.06);
+	}
+	.prose-container :global(.inline-check-missable .inline-check-btn:hover) {
+		border-color: rgba(255, 159, 67, 0.7);
+		background: rgba(255, 159, 67, 0.12);
+	}
+	.prose-container :global(.inline-check-missable .inline-check-icon) { color: #ff9f43; }
+
+	.prose-container :global(.inline-check-side_quest .inline-check-btn) {
+		border-color: rgba(124, 106, 247, 0.4);
+		background: rgba(124, 106, 247, 0.06);
+	}
+	.prose-container :global(.inline-check-side_quest .inline-check-btn:hover) {
+		border-color: rgba(124, 106, 247, 0.7);
+		background: rgba(124, 106, 247, 0.12);
+	}
+	.prose-container :global(.inline-check-side_quest .inline-check-icon) { color: #a89df7; }
+
+	.prose-container :global(.inline-check-icon) {
+		font-size: 0.75rem;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.inline-check-label) {
+		color: #d8d8e8;
+		font-size: 0.82rem;
+	}
+
+	.prose-container :global(.inline-check-box) {
+		display: block;
+		width: 16px;
+		height: 16px;
+		flex-shrink: 0;
+	}
+
+	.prose-container :global(.inline-check-box svg) {
+		width: 100%;
+		height: 100%;
+	}
+
+	.prose-container :global(.inline-check-box .check-bg) {
+		stroke: #3a3a5c;
+		stroke-width: 1.5;
+		fill: rgba(10, 10, 20, 0.5);
+		transition: stroke 0.2s, fill 0.2s;
+	}
+
+	.prose-container :global(.inline-check-slot.is-checked .inline-check-box .check-bg) {
+		stroke: #7c6af7;
+		fill: rgba(124, 106, 247, 0.15);
+	}
+
+	.prose-container :global(.inline-check-box .check-mark) {
+		stroke: #3a3a5c;
+		stroke-width: 2;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-dasharray: 18;
+		stroke-dashoffset: 18;
+		transition: stroke-dashoffset 0.25s ease, stroke 0.2s;
+	}
+
+	.prose-container :global(.inline-check-box .check-mark.checked) {
+		stroke-dashoffset: 0;
+		stroke: #7c6af7;
+	}
+
+	/* ── Prose table styling ── */
+	.prose-container :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.85rem;
+		margin: 0.75rem 0;
+		overflow-x: auto;
+		display: block;
+	}
+
+	.prose-container :global(th) {
+		text-align: left;
+		padding: 0.4rem 0.6rem;
+		background: rgba(42, 42, 68, 0.5);
+		color: #c8c8e0;
+		font-weight: 600;
+		border-bottom: 1px solid rgba(58, 58, 92, 0.5);
+	}
+
+	.prose-container :global(td) {
+		padding: 0.35rem 0.6rem;
+		color: #aaaacc;
+		border-bottom: 1px solid rgba(42, 42, 68, 0.3);
+	}
+
+	.prose-container :global(tr:last-child td) {
+		border-bottom: none;
+	}
+
+	.prose-container :global(tr:nth-child(even) td) {
+		background: rgba(20, 20, 36, 0.3);
+	}
+
+	/* Block-mode gamepad/keyboard focus ring */
+	.blocks-container :global(.block-el-focused) {
+		outline: 3px solid #7c6af7;
+		outline-offset: 2px;
+		box-shadow: 0 0 12px rgba(124, 106, 247, 0.3);
+	}
+
+	/* Scroll-spy: current block highlight */
+	.blocks-container :global(.block-current) {
+		border-left: 3px solid #7c6af7 !important;
+		box-shadow: 0 0 0 1px rgba(124, 106, 247, 0.12);
+	}
+	.blocks-container :global(.block-current.block-checked) {
+		opacity: 0.75;
+		border-color: rgba(124, 106, 247, 0.4) !important;
+		border-left-color: #7c6af7 !important;
+	}
+
+	/* Position badge */
+	.position-badge {
+		position: sticky;
+		top: 0;
+		z-index: 8;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.4rem;
+		padding: 0.35rem 0.75rem;
+		background: rgba(10, 10, 20, 0.92);
+		backdrop-filter: blur(8px);
+		border: 1px solid var(--border, #333);
+		border-radius: 8px;
+		margin: 0 0 0.5rem;
+		font-size: 0.75rem;
+		color: var(--text-muted, #888);
+	}
+	.pos-icon { font-size: 0.85rem; }
+	.pos-text strong {
+		color: var(--text-primary, #e0e0e0);
 	}
 </style>

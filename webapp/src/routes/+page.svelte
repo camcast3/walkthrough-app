@@ -331,6 +331,15 @@
 							{/if}
 						</div>
 						{#if checked > 0}
+							<a
+								href="/{wt.id}?resume=true"
+								class="continue-btn"
+								aria-label="Continue {wt.game}"
+								title="Resume where you left off"
+								onclick={(e: MouseEvent) => e.stopPropagation()}
+							>
+								▶ Continue
+							</a>
 							<div class="progress-chip" aria-label="{checked} steps completed">
 								<span class="chip-glow"></span>
 								{checked} ✓
@@ -557,6 +566,26 @@
 		white-space: nowrap;
 		flex-shrink: 0;
 		overflow: hidden;
+	}
+
+	.continue-btn {
+		background: rgba(72, 199, 142, 0.15);
+		border: 1px solid rgba(72, 199, 142, 0.4);
+		color: #48c78e;
+		border-radius: 20px;
+		padding: 0.25rem 0.7rem;
+		font-size: 0.78rem;
+		white-space: nowrap;
+		flex-shrink: 0;
+		text-decoration: none;
+		font-weight: 600;
+		transition: background 0.2s, border-color 0.2s;
+	}
+
+	.continue-btn:hover,
+	.continue-btn:focus-visible {
+		background: rgba(72, 199, 142, 0.25);
+		border-color: rgba(72, 199, 142, 0.7);
 	}
 
 	.chip-glow {

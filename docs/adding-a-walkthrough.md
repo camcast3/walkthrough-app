@@ -121,22 +121,146 @@ See [walkthrough.schema.json](../walkthroughs/walkthrough.schema.json) for the f
 
 ### Section content format
 
-Each section supports two complementary content modes:
+Each section supports three content modes (mutually exclusive, in order of precedence):
 
 | Field | Purpose |
 |---|---|
+| `blocks` | Typed content block array — structured UI components (preferred for new walkthroughs) |
 | `content` | Full walkthrough prose in Markdown with embedded `<!-- checkpoint: id \| label -->` markers |
-| `checkpoints` | Array of `{ id, label }` objects matching each checkpoint marker in content |
 | `steps` | Granular checkable action items (classic checklist) |
 
-Sections must have at least `content` or `steps` (or both). When both are present, the webapp shows the full prose as the primary view with steps in a collapsible panel.
+Sections must have at least `blocks`, `content`, or `steps`. Legacy walkthroughs using `content` or `steps` continue to work unchanged.
 
-### Checkpoint syntax
+---
+
+### Blocks format (recommended)
+
+The `blocks` array contains typed content blocks that render as specialized UI components. Each block has a `type` discriminator field.
+
+#### 6 universal block types
+
+| Type | Purpose | Key fields |
+|---|---|---|
+| `prose` | Narrative text (Markdown with inline markers) | `content`, `heading?` |
+| `encounter` | Boss/enemy fight card | `name`, `stats?`, `strategy?`, `reward?`, `drops?` |
+| `quest` | Quest task card | `name`, `quest_type`, `client?`, `content?`, `reward?` |
+| `table` | Data grid (treasure, shops, items) | `columns`, `rows` |
+| `checklist` | Interactive checkbox list | `items[]`, `style?` |
+| `callout` | Alert/warning box | `content`, `severity?` |
+
+#### Example section with blocks
+
+```json
+{
+  "id": "act-1-part-1",
+  "title": "Act 1 — Part 1",
+  "blocks": [
+    {
+      "type": "prose",
+      "heading": "Arriving in Town",
+      "content": "Head to the central plaza and speak with the NPC.\n\n<!-- checkpoint: arrived-town | Arrived in Town -->"
+    },
+    {
+      "type": "checklist",
+      "heading": "Missable Items",
+      "style": "missable",
+      "items": [
+        { "id": "buy-chronicle-1", "label": "Imperial Chronicle #1", "detail": "General Store — buy before leaving town" }
+      ]
+    },
+    {
+      "type": "encounter",
+      "name": "Magic Knight Ortheim",
+      "stats": { "HP": "12,500", "Weakness": "Earth" },
+      "strategy": "Focus Arts on weakness. Keep HP above 50% for S-Craft.",
+      "reward": "3000 Mira"
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Lost Cat Search",
+      "client": "Old Lady Mabel",
+      "content": "Find the cat on the west bridge.",
+      "reward": "Recipe: Herb Sandwich"
+    },
+    {
+      "type": "table",
+      "heading": "Treasure Chests",
+      "columns": ["Location", "Contents"],
+      "rows": [
+        ["NE corner of plaza", "Healing Balm x3"],
+        ["Roof access ladder", "Gladius (Weapon)"]
+      ]
+    },
+    {
+      "type": "callout",
+      "severity": "warning",
+      "content": "Point of no return! Complete all side quests before entering the castle."
+    }
+  ],
+  "checkpoints": [
+    { "id": "arrived-town", "label": "Arrived in Town" }
+  ]
+}
+```
+
+#### Checklist styles
+
+| Style | Icon | Use for |
+|---|---|---|
+| `collectible` | ◆ | Treasure chests, items, equipment |
+| `missable` | ⚠ | Items that become unavailable |
+| `npc` | 👤 | Character interactions, bonding events |
+| `key` | 🔑 | Key items, quest progression items |
+| `puzzle` | 🧩 | Puzzles, hidden areas |
+
+#### Callout severities
+
+| Severity | Colour | Use for |
+|---|---|---|
+| `info` | Blue | Tips, helpful info |
+| `warning` | Yellow | Important cautions, timing-sensitive |
+| `danger` | Red | Point of no return, missable content |
+
+#### Quest types
+
+| Type | Badge | Use for |
+|---|---|---|
+| `main` | ⭐ Main | Main story quests |
+| `side` | 📋 Side | Optional side quests |
+| `hidden` | 🔍 Hidden | Hidden/secret quests |
+| `story` | 📖 Story | Story-linked character quests |
+
+---
+
+### Legacy: content mode
 
 Inside the `content` markdown, embed milestones like:
 ```
 <!-- checkpoint: boss-defeated | Defeated the First Boss -->
 ```
+
+### Legacy: inline trackable item syntax
+
+Embed individual checkable items (collectibles, missables, side quests) directly in the prose:
+
+```
+<!-- collectible: stone-brooch | Stone Brooch (Accessory) -->
+<!-- missable: imperial-chronicle-1 | Buy Imperial Chronicle Issue #1 -->
+<!-- side_quest: munch-no-more | Side Quest: Munch no More -->
+```
+
+These render as compact inline checkboxes the player can tick off without leaving the prose view. Each type has a distinct colour:
+
+| Marker | Icon | Colour | Use for |
+|---|---|---|---|
+| `collectible` | ◆ | Green | Treasure chests, items, quartz |
+| `missable` | ⚠ | Orange | Point-of-no-return items, missable content |
+| `side_quest` | 📋 | Purple | Side quests and hidden quests |
+
+### Subsection collapsing
+
+In legacy `content` mode, the webapp automatically wraps every `###` heading and the content that follows it inside a collapsible `<details>` element. In `blocks` mode, each block is its own visual unit and encounters/quests are naturally collapsible.
 
 ### Step types
 
@@ -147,3 +271,63 @@ Inside the `content` markdown, embed milestones like:
 | `warning` | ⚠ | Important warning — something to avoid or not miss |
 | `collectible` | ◆ | A missable item, trophy, or achievement trigger |
 | `boss` | ☠ | A boss fight |
+
+---
+
+## Gamepad / controller navigation
+
+The webapp supports full gamepad navigation for couch play. Controls adapt based on the section's content mode.
+
+### Common controls (all modes)
+
+| Button | Action |
+|---|---|
+| Left stick | Analog scroll (quadratic curve) |
+| LB / RB | Previous / next section |
+| LT / RT | Zoom out / in (analog pressure) |
+| A (South) | Toggle check on focused element |
+| B (East) | Deselect focused item; go back when nothing focused |
+| Y (North) | Cycle HLTB time mode |
+| X (West) | Checkout / check-in (client mode only) |
+| Back / Select | Go to walkthrough list (home) — always works |
+| Start / ☰ | Open settings |
+
+### Steps mode (classic checklist sections)
+
+| Button | Action |
+|---|---|
+| D-pad Up/Down | Move focus between step cards (repeat on hold) |
+| D-pad Left/Right | Previous / next section |
+| A | Toggle check on focused step |
+
+### Prose mode (markdown content with inline markers)
+
+| Button | Action |
+|---|---|
+| D-pad Up/Down | Jump between checkpoints and inline checkable items |
+| D-pad Left/Right | Previous / next section |
+| A | Toggle the nearest/focused checkpoint or inline item |
+
+### Blocks mode (typed block components)
+
+| Button | Action |
+|---|---|
+| D-pad Down | Enter block items (focuses first interactive element) |
+| D-pad Up/Down | Move focus between interactive elements; exits at top/bottom edges |
+| D-pad Left/Right | Jump to first item in previous/next block; exits at first/last block |
+| B | Deselect focused item; go back when nothing focused |
+| LB / RB | Previous / next section (always, regardless of focus state) |
+| A | Toggle check on focused checklist item or checkpoint |
+
+In blocks mode, the focus ring highlights the current interactive element. Navigation is designed so you can always leave:
+
+- **D-pad Up** past the first item clears focus (exits blocks)
+- **D-pad Down** past the last item clears focus (exits blocks)
+- **D-pad Left** at the first block clears focus (next Left press changes section)
+- **D-pad Right** at the last block clears focus (next Right press changes section)
+- **B** clears focus first; when unfocused, goes back
+- **Back/Select** always navigates to the walkthrough list regardless of state
+
+### Hint bar
+
+A compact hint bar at the bottom of the screen shows context-sensitive button labels. It adapts to the current mode and tightens layout on small screens (Steam Deck, phones). Hints update automatically when switching modes, changing block focus, or when dialogs appear.

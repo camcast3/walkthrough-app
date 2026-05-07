@@ -85,24 +85,251 @@
         "title": { "type": "string" },
         "content": {
           "type": "string",
-          "description": "Full walkthrough prose in Markdown. Embed milestone checkpoints with <!-- checkpoint: <id> | <label> --> markers."
+          "description": "Legacy: Full walkthrough prose in Markdown. Use blocks[] for new walkthroughs. Embed milestone checkpoints with <!-- checkpoint: <id> | <label> --> markers. Embed inline trackable items with <!-- collectible: <id> | <label> -->, <!-- missable: <id> | <label> -->, or <!-- side_quest: <id> | <label> --> markers."
+        },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/block" },
+          "description": "Ordered array of typed content blocks. Preferred over content for new walkthroughs — provides structured rendering and controller navigation."
         },
         "checkpoints": {
           "type": "array",
-          "description": "Milestone checkpoints referenced in the content field. Each checkpoint id must appear in a <!-- checkpoint: id | label --> marker in content.",
+          "description": "Milestone checkpoints referenced in prose content/blocks. Each checkpoint id must appear in a <!-- checkpoint: id | label --> marker.",
           "items": { "$ref": "#/$defs/checkpoint" }
         },
         "steps": {
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/$defs/step" },
-          "description": "Granular checkable action items. Optional when content is provided."
+          "description": "Granular checkable action items. Companion checklist for quick-reference navigation."
         }
       },
       "anyOf": [
         { "required": ["content"] },
+        { "required": ["blocks"] },
         { "required": ["steps"] }
       ]
+    },
+    "block": {
+      "type": "object",
+      "required": ["type"],
+      "description": "A typed content block. 6 universal types cover all game genres.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["prose", "encounter", "quest", "table", "checklist", "callout"]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "prose" } } },
+          "then": { "$ref": "#/$defs/block_prose" }
+        },
+        {
+          "if": { "properties": { "type": { "const": "encounter" } } },
+          "then": { "$ref": "#/$defs/block_encounter" }
+        },
+        {
+          "if": { "properties": { "type": { "const": "quest" } } },
+          "then": { "$ref": "#/$defs/block_quest" }
+        },
+        {
+          "if": { "properties": { "type": { "const": "table" } } },
+          "then": { "$ref": "#/$defs/block_table" }
+        },
+        {
+          "if": { "properties": { "type": { "const": "checklist" } } },
+          "then": { "$ref": "#/$defs/block_checklist" }
+        },
+        {
+          "if": { "properties": { "type": { "const": "callout" } } },
+          "then": { "$ref": "#/$defs/block_callout" }
+        }
+      ]
+    },
+    "block_prose": {
+      "type": "object",
+      "required": ["type", "content"],
+      "additionalProperties": false,
+      "description": "Narrative walkthrough text. Supports inline markers for checkpoints, collectibles, missables, and side quests.",
+      "properties": {
+        "type": { "const": "prose" },
+        "heading": {
+          "type": "string",
+          "description": "Optional heading displayed above the prose block (e.g. area name, date)"
+        },
+        "content": {
+          "type": "string",
+          "description": "Markdown prose. May contain <!-- checkpoint: id | label -->, <!-- collectible: id | label -->, <!-- missable: id | label -->, <!-- side_quest: id | label --> markers."
+        },
+        "checkpoints": {
+          "type": "array",
+          "description": "Milestone checkpoints associated with this prose block.",
+          "items": { "$ref": "#/$defs/checkpoint" }
+        }
+      }
+    },
+    "block_encounter": {
+      "type": "object",
+      "required": ["type", "name"],
+      "additionalProperties": false,
+      "description": "Boss or enemy encounter. Renders as a stat card with strategy.",
+      "properties": {
+        "type": { "const": "encounter" },
+        "heading": {
+          "type": "string",
+          "description": "Display heading (e.g. 'Boss: Taurus Demon')"
+        },
+        "name": {
+          "type": "string",
+          "description": "Enemy/boss name"
+        },
+        "stats": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Key-value stat pairs (e.g. {\"hp\": \"45,225\", \"weakness\": \"Fire\", \"location\": \"Undead Burg\"})"
+        },
+        "strategy": {
+          "type": "string",
+          "description": "Strategy/tips text (Markdown supported)"
+        },
+        "reward": {
+          "type": "string",
+          "description": "Rewards for defeating this encounter"
+        },
+        "drops": {
+          "type": "string",
+          "description": "Item drops from this enemy"
+        }
+      }
+    },
+    "block_quest": {
+      "type": "object",
+      "required": ["type", "name", "quest_type"],
+      "additionalProperties": false,
+      "description": "A quest, mission, or objective block.",
+      "properties": {
+        "type": { "const": "quest" },
+        "heading": {
+          "type": "string",
+          "description": "Display heading (e.g. 'Side Quest: Munch no More')"
+        },
+        "quest_type": {
+          "type": "string",
+          "enum": ["main", "side", "hidden", "story"],
+          "description": "main=critical path, side=optional, hidden=secret/unmarked, story=required side content"
+        },
+        "name": {
+          "type": "string",
+          "description": "Quest name"
+        },
+        "client": {
+          "type": "string",
+          "description": "Quest giver NPC name"
+        },
+        "content": {
+          "type": "string",
+          "description": "Quest walkthrough text (Markdown supported)"
+        },
+        "reward": {
+          "type": "string",
+          "description": "Quest rewards"
+        }
+      }
+    },
+    "block_table": {
+      "type": "object",
+      "required": ["type", "columns", "rows"],
+      "additionalProperties": false,
+      "description": "Structured data table. Use for treasure lists, monster guides, shop inventories, stat tables, recipes, puzzle solutions, NPC schedules, etc.",
+      "properties": {
+        "type": { "const": "table" },
+        "heading": {
+          "type": "string",
+          "description": "Table heading (e.g. 'Treasure List (Legram)', 'Monster Guide')"
+        },
+        "columns": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string" },
+          "description": "Column header names"
+        },
+        "rows": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "description": "Row data. Each row is an array of cell values matching columns order."
+        }
+      }
+    },
+    "block_checklist": {
+      "type": "object",
+      "required": ["type", "items"],
+      "additionalProperties": false,
+      "description": "Trackable item checklist. Items render as checkboxes the player can tick off.",
+      "properties": {
+        "type": { "const": "checklist" },
+        "heading": {
+          "type": "string",
+          "description": "Checklist heading (e.g. 'Missable Items (December 9)')"
+        },
+        "style": {
+          "type": "string",
+          "enum": ["collectible", "missable", "npc", "key", "puzzle"],
+          "description": "Visual style: collectible=◆ blue, missable=⚠ red, npc=👤 green, key=🔑 gold, puzzle=🧩 purple"
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/checklist_item" },
+          "description": "List of trackable items"
+        }
+      }
+    },
+    "block_callout": {
+      "type": "object",
+      "required": ["type", "content"],
+      "additionalProperties": false,
+      "description": "Highlighted callout box for tips, warnings, or critical notes.",
+      "properties": {
+        "type": { "const": "callout" },
+        "severity": {
+          "type": "string",
+          "enum": ["info", "warning", "danger"],
+          "description": "info=blue tip, warning=amber caution, danger=red critical/missable"
+        },
+        "content": {
+          "type": "string",
+          "description": "Callout text (Markdown supported)"
+        }
+      }
+    },
+    "checklist_item": {
+      "type": "object",
+      "required": ["id", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Unique trackable ID for progress saving"
+        },
+        "label": {
+          "type": "string",
+          "description": "Display label for the item"
+        },
+        "detail": {
+          "type": "string",
+          "description": "Optional detail text (e.g. location, requirement, how to obtain)"
+        },
+        "missable": {
+          "type": "boolean",
+          "description": "If true, this item can be permanently missed"
+        }
+      }
     },
     "checkpoint": {
       "type": "object",
@@ -117,6 +344,10 @@
         "label": {
           "type": "string",
           "description": "Human-readable milestone label, e.g. 'Reached Firelink Shrine'"
+        },
+        "missable": {
+          "type": "boolean",
+          "description": "If true, this checkpoint represents a missable item/event that can be permanently lost"
         }
       }
     },
