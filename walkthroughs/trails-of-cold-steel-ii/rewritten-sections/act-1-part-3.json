@@ -1,0 +1,264 @@
+{
+  "id": "act-1-part-3",
+  "title": "Act 1 - Part 3",
+  "blocks": [
+    {
+      "type": "prose",
+      "heading": "Party Selection & Preparation",
+      "content": "On December 9th, select your party before departing Ymir. If you've been fishing, your rank should have increased—speak to **Annabelle** at the general store for a new fishing rod. Choose **two Class VII members** and **one guest character** (Claire, Sharon, or Toval). This choice is permanent for the segment.\n\n**Important:** This is the *only* segment where **Sharon** is available as a guest. If you skip her now, you won't get another chance until New Game+. The recommended party is **Alisa** and **Sharon**—Sharon's devastating crafts combined with Alisa's CP battery support make them an exceptionally powerful pairing. Once ready, exit via **Ymir Valley**."
+    },
+    {
+      "type": "prose",
+      "heading": "Ebel Highway",
+      "content": "You arrive at **Ebel Highway 2**. Immediately pick up the **Flame Tongue** quartz near Valimar's landing point. Head south toward **Legram**—the game restricts full exploration of the highway for now, so don't worry about unreachable chests. You'll return later to collect the **Burn** quartz (Highway 2), **Celestial Balm**, **EP Charge II**, **Blue Scaled Mail** (Highway 1), and other treasures scattered across the various zones.",
+      "checkpoints": [
+        { "id": "a1p3-flame-tongue", "label": "Collected Flame Tongue quartz (Ebel Highway 2)" }
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Enemy Drops (Ebel Highway)",
+      "columns": ["Enemy", "Drop 1", "Drop 2"],
+      "rows": [
+        ["Rose Shroom", "Crisp Onion", "Clear Gelatin"],
+        ["Grass Pom", "Fresh Herb", "Hearty Powder"],
+        ["Greedy Reaper", "Flaky Potato", "Globby Fat"],
+        ["Coco Panda", "U-Material", "Groundbait"],
+        ["Yellow Wisp", "Clear Gelatin", "Globby Fat"],
+        ["Hell Rabbit", "Red Beast Flesh", "Globby Fat"],
+        ["Gordi Schnarr", "Red Beast Flesh", "U-Material"],
+        ["Goldcider", "Chitinous Shell", "U-Material"],
+        ["Crocodark", "White Beast Flesh", "U-Material"]
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Legram Town",
+      "content": "Watch the event scene at the **Bracer Guild**. Head to **Aprikoze Inn** and speak to **Weiber** behind the counter to receive **Gambler Jack II - Chapter 6**. Take the inn's back door outside and talk to **Old Man Bem** to learn the **Seafood Pilaf** recipe. Visit the **General Store** to purchase **Gambler Jack Reprint #4** and stock up on equipment upgrades.\n\nWhile in town, find **Vivi** at the Church and **Casper** at the Training School (Thors Academy students). A fishing spot is available at the harbor near **Klaus**. When you're ready to advance, speak to **Klaus** to travel to **Lohengrin Castle**. Climb the hill and enter—a boss fight triggers shortly after.",
+      "checkpoints": [
+        { "id": "a1p3-gj2-ch6", "label": "Obtained Gambler Jack II - Chapter 6 from Weiber", "missable": true },
+        { "id": "a1p3-seafood-pilaf", "label": "Learned Seafood Pilaf recipe from Old Man Bem" },
+        { "id": "a1p3-gj-reprint4", "label": "Bought Gambler Jack Reprint #4", "missable": true }
+      ]
+    },
+    {
+      "type": "encounter",
+      "name": "Zelvenom",
+      "heading": "Boss: Zelvenom (Lohengrin Castle)",
+      "stats": {
+        "Zelvenom": "HP 45,225 | Weakness: Mirage (140%), Slash (★★★☆) | Skills: Poison Breath (Area L, inflicts Poison), Tail Swipe (Area L, push back)"
+      },
+      "strategy": "This boss is relatively easy. Its poor Slash resistance makes **Laura** and **Rean** the ideal damage dealers. **Mirage** arts (Emma) also hit hard at 140% efficacy. The main threat is Poison Breath—a large AoE that inflicts Poison. If **Sharon** is in your party, her area healing craft removes status ailments and trivializes the fight entirely. Status ailments also work well against Zelvenom, so feel free to Seal or Blind it for safety."
+    },
+    {
+      "type": "prose",
+      "heading": "Post-Boss: Laura & Emma Join",
+      "content": "After the event scene following Zelvenom, **Laura** and **Emma** officially join your active party. Return to **Legram** and head to the **Bracer Guild** (southeast area) to speak with **Miles**, who will make side quests available. Complete these before moving on.",
+      "checkpoints": [
+        { "id": "a1p3-laura-emma-join", "label": "Laura and Emma joined the party" }
+      ]
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Arseid School Bout 2",
+      "client": "Klaus or Gaveli (Arseid School Training Hall)",
+      "content": "The Arseid School students want a rematch. Rean and Laura are mandatory for this fight; choose two additional party members (guest characters are NOT allowed).\n\n**Opponents:** Fritz (36,352 HP), Ares (27,440 HP), Gaveli (36,707 HP), Datt (27,440 HP)\n\n**Strategy:** All students are vulnerable to status ailments. Laura has a high chance of inflicting Faint, and Rean's *Gale* can Seal them. Blind also works well. Be warned: when their HP drops low, they buff and heal, then unleash dangerous area skills dealing 5,000+ damage. Either burst them down quickly with S-Crafts before they can buff, or systematically apply status locks to prevent their power-up phase.",
+      "reward": "Heal quartz, 1,500 Mira, 4 AP"
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Ebel Rebel",
+      "client": "Miles (Bracer Guild, Legram)",
+      "content": "Head to **Ebel Highway 2** near the entrance to Highway 3. Equip **Faint-resistant** accessories before engaging.\n\n**Boss: Gordi Schnarr G** — HP 98,467 | Weakness: Fire (140%) | Slash (★★☆☆)\n- *Slam:* Area (M), inflicts Faint\n- *Roar:* Self-heal + STR/SPD +50%\n- *Charge Slam:* 2-turn charge, inflicts Faint (can be cancelled with Impede)\n\n**Strategy:** This boss has massive HP and uses *Drumming* to buff STR/DEF/SPD, enabling devastating multi-hits. When the buff expires, it unleashes *Hard Hit* for nearly 7,000 damage. Use **Fire arts** for maximum damage and Overdrive for instant casting. At ~50% HP, spam S-Crafts before it can re-buff. Report to **Miles** at the Bracer Guild after winning.",
+      "reward": "Sepith Mass x300, 1,500 Mira, 4 AP"
+    },
+    {
+      "type": "prose",
+      "heading": "Ebel Highway 3 & Aqua Shrine Entrance",
+      "content": "Return to **Ebel Highway**. Take the north exit to reach **Ebel Highway 2** and examine **Valimar** for a short event scene. Continue via the northeast exit to **Ebel Highway 3**. From there, take the **northwest exit** to reach the **Aqua Shrine**. Clearing this dungeon earns **3 bonus AP**. There's also a fishing spot near the waterfall outside the shrine entrance.",
+      "checkpoints": [
+        { "id": "a1p3-aqua-shrine-enter", "label": "Reached Aqua Shrine" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Aqua Shrine Exploration",
+      "content": "Head downstairs and open the gate to enter the shrine proper. Follow the west path to the **northwest corner** and press the switch to lower the water level. With the water lowered, follow the west path again then go all the way east to find a **Trial Chest**—defeat the guardian for a reward. Next, follow the south path until you see stairs; before descending, take the **north path** to find a monster chest containing the **Scent** quartz.\n\nBacktrack to the south stairs and collect the **Blue Scaled Shoes** from a treasure box. Proceed to the west side and open a chest for **EP Charge II**, then push the nearby switch to raise the water level again. Finally, take the center path to the northwest area to reach the shrine boss."
+    },
+    {
+      "type": "encounter",
+      "name": "King Crysnetic",
+      "heading": "Trial Chest: King Crysnetic",
+      "stats": {
+        "King Crysnetic": "HP 33,157 | Drop: Shining R | Mobs use Mute-inflicting AoE attacks"
+      },
+      "strategy": "A straightforward fight. The adds cast area attacks that inflict **Mute**, which can lock out your arts. Use **Laura's S-Craft** or *Brilliant Spin* to clear mobs quickly, then focus the boss with Emma's Arts and Laura's physical attacks."
+    },
+    {
+      "type": "encounter",
+      "name": "Tildawn Glacia x3",
+      "heading": "Boss: Tildawn Glacia x3 (Aqua Shrine)",
+      "stats": {
+        "Tildawn Glacia": "HP 43,097 each | Absorbs Water (0%) | Weakness: Fire (120%), Time (130%), Space (130%), Mirage (130%) | Inflicts Mute"
+      },
+      "strategy": "Similar to previous Tildawn fights but these inflict **Mute** instead of Sleep. If your party relies on magic, this is extremely dangerous—use **Impede** crafts (available on Rean, Machias, Alisa, Fie) to cancel their casting and earn Tactic Bonuses. To cheese the fight: put Rean in Overdrive, use *Motivate* twice for full CP, then chain S-Crafts to wipe them before Mute becomes a problem. Drops: Curia Balm, U-Material."
+    },
+    {
+      "type": "prose",
+      "heading": "South Kreuzen Highway",
+      "content": "After the shrine boss, take the portal to exit. Collect any remaining chests in Ebel Highway 3, then proceed via the **northeast exit** to **South Kreuzen Highway**. Move forward for a short bridge scene. In the **northwest corner**, find a fishing spot and the **Hydro Cannon** quartz. The **northeast corner** has a **Sepith Mass** chest. At the split path in the north region, the west route has a **Tearal Balm** while the east route leads to a monster chest containing the **Tauros** Master Quartz. Return to center and take the north exit toward **Bareahard**.",
+      "checkpoints": [
+        { "id": "a1p3-hydro-cannon", "label": "Collected Hydro Cannon quartz" },
+        { "id": "a1p3-tauros-mq", "label": "Obtained Tauros Master Quartz (monster chest)" }
+      ]
+    },
+    {
+      "type": "callout",
+      "content": "⚠️ **Point of No Return:** Entering Bareahard advances the story. Complete all Legram side quests (Arseid School Bout 2, Ebel Rebel) and the Aqua Shrine before proceeding."
+    },
+    {
+      "type": "checklist",
+      "heading": "Missable Items (Bareahard)",
+      "items": [
+        { "id": "a1p3-gj-reprint5", "label": "Buy **Gambler Jack Reprint #5** at Fortnum Books (Christie's Galleria 2F)", "missable": true },
+        { "id": "a1p3-gj-reprint6", "label": "Buy **Gambler Jack Reprint #6** at Fortnum Books (Christie's Galleria 2F)", "missable": true },
+        { "id": "a1p3-gj2-ch7", "label": "Speak to **Saffron** (Station Street) for **Gambler Jack II - Chapter 7**", "missable": true },
+        { "id": "a1p3-black-records-3", "label": "**Black Records #3** — Underground Waterway after Abyss Drome (New Game+ only)", "missable": true },
+        { "id": "a1p3-fluffy-pancake", "label": "Learn **Fluffy Pancake** recipe from **Calmin** (Sorciere Restaurant)", "missable": true },
+        { "id": "a1p3-missin-kitten", "label": "Complete Hidden Quest: **Missin' Kitten** (Old Lady Eva, Central Plaza)", "missable": true },
+        { "id": "a1p3-st-veronicas", "label": "Complete Hidden Quest: **St. Veronica's Tears** (Sister Tatiana, Cathedral)", "missable": true }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Bareahard: Equipment & Shopping",
+      "content": "At **Valenty Tailoring** (Artisan's Street), buy the **Patterned Shirt** (20% evasion—ideal for dodge tanks like Fie or Sharon) and **Leather Sandal** (high speed). Visit **Turner's Jewelers** (also Artisan's Street) to stock up on Pendulums for status resistance: Red x3, Green x3, Blue x4, Yellow x4, Dark x4 at 3,000 Mira each (54,000 total). If you're short on funds, cook and sell **Tri-colored Onigiri** using Sharon's recipes.\n\nFor collectibles: speak to **Colette** at Turner's Jewelers, then visit **Sorciere Restaurant** and talk to **Calmin** to learn the **Fluffy Pancake** recipe. On Station Street, find **Saffron** for **Gambler Jack II - Chapter 7**, then buy **Gambler Jack Reprint #5** and **#6** at **Fortnum Books** (Christie's Galleria 2F). Also speak to **Theresia** by the bench nearby.",
+      "checkpoints": [
+        { "id": "a1p3-patterned-shirt", "label": "Bought Patterned Shirt at Valenty Tailoring" },
+        { "id": "a1p3-pendulums", "label": "Stocked up on Pendulums at Turner's Jewelers" }
+      ]
+    },
+    {
+      "type": "quest",
+      "quest_type": "hidden",
+      "name": "Missin' Kitten",
+      "client": "Old Lady Eva (Central Plaza, near Underground Waterway)",
+      "content": "Speak to **Old Lady Eva** to start the quest, then talk to the following marked NPCs:\n- **Hasan** — Dining tables by Sorciere Restaurant\n- **Biske** — Artisan's Street (near South Kreuzen Highway entrance)\n- **Female Student** — Station Street (center of map)\n\nAfter gathering information, exit to **North Kreuzen Highway** and find the kitten at the north end. Note: the fishing spot here is blocked until Act 2. Return to Bareahard and speak to the cat again to trigger a scene with Celine.",
+      "reward": "Prismatic Cape, 2,000 Mira, 4 AP"
+    },
+    {
+      "type": "quest",
+      "quest_type": "hidden",
+      "name": "St. Veronica's Tears",
+      "client": "Sister Tatiana (Bareahard Cathedral, west room)",
+      "content": "Go to **Bareahard Cathedral** (north end of Central Plaza) and speak to **Sister Tatiana** in the west room. Examine the statue at the center of the plaza, then head to **Station Street** and take the east stairs down to the **Underground Waterway**.\n\n**Underground Waterway 1:** Follow the east path to the northwest corner. Open the chest for a **Green Pendulum**, then press the switch to unlock the gate.\n**Underground Waterway 2:** Go north for Sepith, then take the west path to the center for the boss fight.\n\n**Boss: Abyss Drome** (+ 7 Sludge Dromes) — HP 88,111\nThe Dromes cast high-damage magic. Use **Impede** crafts to cancel their casting for Tactic Bonuses. If the adds become too dangerous, wipe them with S-Crafts. The boss weakens ADF; cancelling its arts is critical to prevent devastating damage.\n\n*New Game+:* After the fight, find **Black Records #3** in the Abyss Drome area.",
+      "reward": "Holy Sphere, 2,000 Mira, 4 AP"
+    },
+    {
+      "type": "prose",
+      "heading": "Advancing the Story (Noble District)",
+      "content": "Once all side activities are complete, head to the **Noble District** and approach the **Duke Albarea Mansion** for a story scene. Afterward, visit **Sorciere Restaurant** and speak to **Hammond**. Finally, go to **Station Street** and take the south exit toward **Bareahard Airport**. This advances the story—make absolutely sure all shopping, quests, and missable items are done before proceeding.",
+      "checkpoints": [
+        { "id": "a1p3-noble-district", "label": "Triggered Noble District scene" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Bareahard Airport",
+      "content": "In the airport's **Hold** (downstairs), find the **Freeze** quartz. Head to **3F (Lounge)** for the racing mini-game against **Jusis** (19,500 HP). Winning earns **2 AP**—retry if you lose, as there's no penalty. After the mini-game, a major boss battle begins.",
+      "checkpoints": [
+        { "id": "a1p3-jusis-race", "label": "Won racing mini-game against Jusis (2 AP)" }
+      ]
+    },
+    {
+      "type": "encounter",
+      "name": "Duvalie & McBurn",
+      "heading": "Boss: Duvalie & McBurn",
+      "stats": {
+        "Duvalie": "HP 84,208",
+        "McBurn": "HP 256,800 (functionally invincible)"
+      },
+      "strategy": "The **bonus condition** for 3 extra AP is to defeat **Duvalie** before McBurn overwhelms your party. Ignore McBurn entirely—he's designed to be unkillable. Buff your party's strength immediately, then unleash all S-Crafts on Duvalie. If CP is depleted, use **Zeram Powder** to revive party members with 100 CP for additional S-Crafts. Scan both enemies for bestiary entries. An alternate scene triggers if you manage to bring Duvalie down. After this fight, an unwinnable mech battle follows."
+    },
+    {
+      "type": "encounter",
+      "name": "Hector & Armored Vehicle NP-II",
+      "heading": "Mech Battle: Hector & NP-II",
+      "stats": {
+        "Armored Vehicle NP-II": "Lowest HP, 3-star unbalance weakness in attack stance",
+        "Hector": "Attack head in idle stance, body in attack stance"
+      },
+      "strategy": "Defeat the **Armored Vehicle** first since it has the lowest HP and a 3-star unbalance weakness when in attack stance. Once it's down, focus on **Hector**—target the head during its idle stance and the body during attack stance. After victory, you'll reach a save point followed by a hot spring scene. Choose a partner for **600 Link EXP**."
+    },
+    {
+      "type": "prose",
+      "heading": "December 12: Bonding Events & Activities",
+      "content": "December 12th features **double bonding events**—the only day in the game with this bonus. You have **7 bonding points** to spend. Prioritize events for **Alisa, Emma, Fie, Laura, Millium**, and **Sharon** to unlock their profile pages. Attending **Gaius's** event teaches the **Hunter Wing** craft (which otherwise requires Link Level 75).\n\nTry the **Snowboard** mini-game on its new difficulty to earn the **Passion Leggings** and a new snowboard. Check **Ymir Valley** for the new monster **Icicle Penguin**—scan it for the monster trophy.\n\n**New Game+:** Exchange 50 U-Materials for a **Zemurian Ore Shard** at the General Store.",
+      "checkpoints": [
+        { "id": "a1p3-bonding-events", "label": "Spent all 7 bonding points" },
+        { "id": "a1p3-snowboard-passion", "label": "Won Snowboard new difficulty (Passion Leggings)" },
+        { "id": "a1p3-icicle-penguin", "label": "Scanned Icicle Penguin in Ymir Valley" }
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Guest Character Link Accessories",
+      "columns": ["Character", "Accessory", "Effect"],
+      "rows": [
+        ["Claire", "Cerulean Hearts", "ACC +100%, Critical Rate +10%"],
+        ["Sharon", "Black Virtue", "Attack/Craft cancels arts (90%), Delay +6"],
+        ["Toval", "Quick Calibur S", "Reduce Arts cast time by 2/3"]
+      ]
+    },
+    {
+      "type": "callout",
+      "content": "💡 The guest character with the highest Link EXP (Link Level 3) at the end of Act 1 grants their accessory for Chapter 2. Plan your hot spring choice and bonding accordingly."
+    },
+    {
+      "type": "quest",
+      "quest_type": "hidden",
+      "name": "Stranger than Fishin",
+      "client": "Gerald (Tavern, behind counter)",
+      "content": "Accept Gerald's request at the Tavern, then leave town via **Ymir Valley** and continue to **Ymir Valley 2**. Find **Annabelle** at the center of the map and speak with her. Fish at the bridge—catching the target fish triggers a boss battle.\n\n**Boss: Icy Croaker** — HP 68,100 | Weakness: Fire (160%), Strike (★★★☆)\nExtremely vulnerable to **Faint** and **Sleep** status ailments. The boss only targets single characters, so there's minimal party-wide danger. Inflict status locks and burn it down with Fire arts.\n\nDrops: **Effort** quartz, **Prankster** quartz (both helpful for cooking builds).",
+      "reward": "2,000 Mira, 4 AP"
+    },
+    {
+      "type": "prose",
+      "heading": "Ending Act 1 - Part 3",
+      "content": "Once all activities, quests, and bonding events are complete, **save your game** and return to your room to end the day. The game tallies your AP—you'll achieve **S-Rank** with 41 total AP. After the tally, the chapter's final boss fight triggers automatically.",
+      "checkpoints": [
+        { "id": "a1p3-s-rank", "label": "Achieved S-Rank (41 AP)" }
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "AP Summary (S-Rank: 41 AP)",
+      "columns": ["Activity", "AP"],
+      "rows": [
+        ["Reunited with Legram classmates", "5"],
+        ["Reunited with Jusis", "8"],
+        ["Won the race against Jusis", "2"],
+        ["Defeated Duvalie", "3"],
+        ["Found and explored Aqua Shrine", "3"],
+        ["Quest: Arseid School Bout 2", "4"],
+        ["Quest: Ebel Rebel", "4"],
+        ["Quest: Missin' Kitten (Hidden)", "4"],
+        ["Quest: St. Veronica's Tears (Hidden)", "4"],
+        ["Quest: Stranger than Fishin (Hidden)", "4"],
+        ["Fought well against Rufus (Bonus)", "3"],
+        ["**Total**", "**41**"]
+      ]
+    },
+    {
+      "type": "encounter",
+      "name": "Rufus",
+      "heading": "Final Boss: Rufus (Unwinnable)",
+      "stats": {
+        "Rufus": "HP 128,640 | All elements at 90% | Unbalance: Strike only (★☆☆☆) | No drops"
+      },
+      "strategy": "This fight is **unwinnable** by design—Rufus will eventually use his S-Craft to wipe your entire party. However, the **bonus condition** for 3 AP requires reducing his HP **below 50% within 40 turns**.\n\nRufus has exceptionally high defense, making normal attacks nearly useless. Enhance your party with **Jusis's buffs** and spam **S-Crafts** for reliable damage. When CP is depleted, switch to Arts. **Critical warning:** If Rufus is allowed to cast his Arts, it deals **17,000 damage** to each party member—an instant party wipe. Keep a character with **Impede** crafts ready to cancel his casting at all times.\n\nAfter dealing sufficient damage, Rufus uses his S-Craft to end the fight. A scripted (also unwinnable) mech battle follows, concluding Act 1."
+    }
+  ]
+}

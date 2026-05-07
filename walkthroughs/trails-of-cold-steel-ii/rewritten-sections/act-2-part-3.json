@@ -1,0 +1,206 @@
+{
+  "id": "act-2-part-3",
+  "title": "Act 2 - Part 3",
+  "blocks": [
+    {
+      "type": "prose",
+      "heading": "December 23: New Destinations",
+      "content": "When you regain control, speak to **Towa** twice on the Bridge. New locations are added to the Courageous destinations, including **Eisengard Range** and the **Roer Region**."
+    },
+    {
+      "type": "prose",
+      "heading": "Courageous Activities (December 23)",
+      "content": "On the **4th Floor (Training Facility)**, speak to **Emily** and **Alan** to update their character profiles. You can also speak to **Alfin** for a short event. Head to the **2nd Floor** and speak to **Dorothee** to purchase the **Pasta** recipe. On the **1st Floor**, speak to **Angelica** to update her profile. Play some **Blade** with friends to build Link EXP.",
+      "checkpoints": [
+        { "id": "a2p3-pasta-recipe", "label": "Bought Pasta recipe from Dorothee" }
+      ]
+    },
+    {
+      "type": "callout",
+      "content": "💡 The final two **Cryptids** are now available: one in **Nortia Highway 2** and one in **Eisengard Mountain 2**. If all 5 Cryptids are killed, speak to **Alfin** to receive the **Medal of Strength**."
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "The Sweetest of Challenges",
+      "client": "Card on desk (Infirmary, 2nd Floor)",
+      "content": "Examine the card on the desk in the Infirmary to start the quest. Class VII gathers in the meeting room—listen to everyone's opinions and repeat them back.\n\n**Select the Culprit:** Choose **Machias** (2nd choice) to earn **2 extra AP**. Note: Picking Emma gives only 1 AP on the latest Japanese patch.",
+      "reward": "Thief Cloak, 3,500 Mira, 3 AP (+2 if Machias chosen)"
+    },
+    {
+      "type": "prose",
+      "heading": "Recruiting Hugo (Roer & Supply Chain)",
+      "content": "Head to **Roer** and obtain any missing Trial Chests from the previous act. Go to the **RF Store** and speak to **Hugo** to accept his request. Leave Roer and travel to **Legram**—speak to **Watteau** at Watteau's Store. Then go to **Ymir's General Store** and speak to **Lio**. Visit the **snowboard area** (a new course has been added). Return to **Roer** and speak to **Hugo** again—he joins the Courageous and opens the **Premium Store**.",
+      "checkpoints": [
+        { "id": "a2p3-hugo-recruited", "label": "Recruited Hugo (Premium Store unlocked)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Recruiting Stefan (Roer Institute)",
+      "content": "At the **Roer Institute of Technology** (Northwest Building 2F), speak to **Ratto** in the top corner and accept his request. Leave town via **Nortia Highway 2** and head to the **southwest corner** to find **Stefan**. You must have **Machias** in your party to trigger the event battle. After the battle, Stefan joins the Courageous.\n\n*Optional:* The Cryptid **Agnagarn** is located on the southeast end of Nortia Highway 2. Recommended Level 100, but possible at 75+ with proper setup.",
+      "checkpoints": [
+        { "id": "a2p3-stefan-recruited", "label": "Recruited Stefan (need Machias in party)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Recruiting Kenneth (Nortia Highway 3)",
+      "content": "Travel to **Nortia Highway 3** and head to the fishing spot (northwest of the map). Speak to **Kenneth** and accept his request. Catch a **Glutinous Bass** at the fishing spot beside him, then speak to Kenneth again—he joins the Courageous.",
+      "checkpoints": [
+        { "id": "a2p3-kenneth-recruited", "label": "Recruited Kenneth (caught Glutinous Bass)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Schwarz Drache Barrier Revisit",
+      "content": "Take the **southwest exit** of Nortia Highway 3 to reach the **Schwarz Drache Barrier**. Speak to **Rex** near the gate to update his bio and receive **Gambler Jack II - Chapter 11**. Enter the resting area and speak to **Margarita** (requires **Millium** in party)—she joins the Courageous. Giving Margarita every **Peculiar Dish** rewards rare items and a rare quartz. Speak to the lady by the counter to learn the **Tomato Stew** recipe.\n\nReturn to the **Courageous Cafeteria** and speak to **Nicholas** to update his profile.",
+      "checkpoints": [
+        { "id": "a2p3-gj2-ch11", "label": "Obtained Gambler Jack II - Chapter 11 from Rex", "missable": true },
+        { "id": "a2p3-margarita-recruited", "label": "Recruited Margarita (need Millium)" },
+        { "id": "a2p3-tomato-stew", "label": "Learned Tomato Stew recipe" }
+      ]
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Gone Air",
+      "client": "Story event (Eisengard Range destination)",
+      "content": "Set destination to **Eisengard Range** via Towa. An automatic fight with two Jaegers triggers. You arrive in the airship from the end of Chapter 1.\n\nIn the **northwest corner**, pick up the **Freeze Quartz** (if missed previously). In the **Lobby Room**, fight a group of Jaegers. In the **Northwest Room**, defeat a single Jaeger to get **Card Key 1**. On the **3rd Floor** (southeast entrance), defeat four Jaegers for **Card Key 2**. On the **4th Floor** (south entrance), defeat five Jaegers to finish.\n\n**Klein** and **Hibelle** join the Courageous. Return and speak to **Klein** on the Bridge to update his profile.\n\n*2nd Playthrough+:* Speak to **Norton** at **Roer's Airport** to receive **Black Records #4**.",
+      "reward": "Klein & Hibelle recruited, 4 AP"
+    },
+    {
+      "type": "prose",
+      "heading": "Eisengard Mountains: Trial Chest & Cryptid",
+      "content": "Revisit the **Eisengard Mountains** landing spot to find a **Trial Chest** requiring **Fie** and **Laura**. Clearing it unlocks their **Overdrive** function. The boss is **Rolling Rock** (HP 42,809)—weak to Faint, so use Laura's attacks to stun-lock it.\n\nNew enemies now appear in the area: Shadow Dancer, Venom Demon, and Steel Golem. The final Cryptid, **Lindbaum**, is located where you start a new game in this area.",
+      "checkpoints": [
+        { "id": "a2p3-overdrive-fie-laura", "label": "Unlocked Overdrive for Fie & Laura (Trial Chest)" }
+      ]
+    },
+    {
+      "type": "quest",
+      "quest_type": "side",
+      "name": "Kreuzen for a Bruisin'",
+      "client": "Quest board (Courageous)",
+      "content": "Return to the Courageous, speak to Towa, and set destination to **Celdic**. Travel to **East Celdic Highway 2**, then continue to **North Kreuzen Highway 3**. Find the quest monster at the **southwest end**.\n\n**Boss: Abearddon** (HP 132,446) — A high-HP monster that hits hard. Use S-Crafts and exploit any status weaknesses.",
+      "reward": "Intimidation quartz, 3,000 Mira, 4 AP"
+    },
+    {
+      "type": "prose",
+      "heading": "Shrine Trials Overview",
+      "content": "You must now revisit all four Shrines for their trial areas. **Emma** must be in your party to access the new trial sections. Shrines are marked with red exclamation marks on the map. Clearing your first shrine triggers a story event; the remaining shrines can be completed afterward. Each shrine boss drops a **Zemurian Crystal**.",
+      "checkpoints": [
+        { "id": "a2p3-shrines-start", "label": "Started Shrine Trials (Emma in party)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Terra Shrine Trial",
+      "content": "At the entrance, speak to **Beryl** to update her profile. Use the warp device—Emma unlocks the gate. **Wall 1** requires hitting it with someone who has **Strike Proficiency B+** (Laura, Millium, or Machias) to create a bridge. **Wall 2** requires hitting it near an enemy to create a bridge.\n\n**Treasures:** Earth Sepith, Ancient Glyph, Tear All Balm, **Genbu** quartz (monster chest), **Earth Bell** quartz.\n\n**Trial Chests:** Alisa/Fie pair — Boss: Minos Lord + Minos Demons (weak to Faint). Machias/Millium pair — Boss: Dino Slug + Dissolution Slugs (weak to Faint).\n\nHit the final wall and cross to the boss room for the Magic Knight battle."
+    },
+    {
+      "type": "prose",
+      "heading": "Aria Shrine Trial",
+      "content": "Requires **Piercing Proficiency B+** (Alisa, Fie, Machias, or Sara) for the switches.\n\n**Treasures:** Ragna Vortex, **Wind Bell** quartz, Celestial Balm EX, Wind Sepith, **Zeus Gem** (monster chest).\n\n⚠️ **Do NOT leave without the Zeus Gem** — it is essential for the Final Dungeon.\n\n**Trial Chests:** Fie/Millium pair — Boss: Clay Doll Omega (use Evasion Tank strategy). Jusis/Sara pair — Boss: Heavy Stalker + Stone Stalkers (equip Faint resistance, use Wind Arts).\n\nComplete the bridge and reach the boss room.",
+      "checkpoints": [
+        { "id": "a2p3-zeus-gem", "label": "Obtained Zeus Gem (Aria Shrine - DO NOT MISS)", "missable": true }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Aqua Shrine Trial",
+      "content": "Requires **Thrust Proficiency B+** (Fie, Gaius, Jusis, or Sara) to drain the water.\n\n**Treasures:** Maelstrom, Yaksha, Curia Balm, **Water Bell** quartz, Water Sepith, **EP Charge IV**.\n\n**Trial Chests:** Laura/Millium pair — Boss: Grand Ghastly + Gust Frogs (high STR S-Crafts are effective). Alisa/Machias pair — Boss: Gigantic Sharkodile (use Earth Pulse on Machias for HP regen).\n\nDrain the water and reach the boss room."
+    },
+    {
+      "type": "prose",
+      "heading": "Ignis Shrine Trial",
+      "content": "Use **Rean's field attack** to extinguish flames and create bridges throughout the shrine.\n\n**Treasures:** Fire Sepith, **Purgatorial Flame**, **Fire Bell** quartz, **Carnage** (monster chest).\n\n**Trial Chests:** Alisa/Sara pair — Boss: Homuramikoto (use Impede to stop Flare Bomb; Water Arts effective). Machias/Emma pair — Boss: Arch Geist (use Impede to stop Grim Butterfly; equip Sleep/Nightmare resistance).\n\nExtinguish the final flame and proceed to the boss room."
+    },
+    {
+      "type": "encounter",
+      "name": "Magic Knight Dire Wolf",
+      "heading": "Shrine Boss: Magic Knight Dire Wolf",
+      "stats": {
+        "Magic Knight Dire Wolf": "HP 156,170 | Skills: Ground Punch, Ground Smash, Boost (heals 23k HP + buffs all stats)"
+      },
+      "strategy": "The boss heals for 23,000 HP and buffs all stats with Boost, making prolonged fights dangerous. Focus on self-buffing your party or use strong arts—don't rely on slow attrition. Burst it down with S-Crafts when possible to outpace its healing. Avoid letting the fight drag on.\n\n**Reward:** Zemurian Crystal (from whichever shrine you cleared first).\n\n**Post-Boss:** Leave the shrine, return to the Courageous 1F, speak to **George**, and select the red option to advance the story."
+    },
+    {
+      "type": "prose",
+      "heading": "December 24-25: Celdic Operations",
+      "content": "**Jusis** and **Sara** are fixed party members for this segment. Survey key events in **Celdic** by visiting: the **Chapel** south room, **Otto** (Manager House 2F), and **Claire** (Army Guardhouse entrance). After all events, head to the **east exit of Celdic** for a cutscene.\n\nBack on the Courageous, equip Valimar with your best Ex-Orbs. Speak to **Fidelio** (Computer Room 2F), **Loggins** (Sword Training 4F), and **Linde** (Bridge 5F) to update their profiles. Speak to **Towa** to start the operation.",
+      "checkpoints": [
+        { "id": "a2p3-celdic-events", "label": "Completed Celdic survey events" },
+        { "id": "a2p3-commence-op", "label": "Started the operation (spoke to Towa)" }
+      ]
+    },
+    {
+      "type": "encounter",
+      "name": "Kestrel",
+      "heading": "Mech Battle: Kestrel",
+      "stats": {
+        "Kestrel": "HP 260,000 | Similar to Spiegel mech"
+      },
+      "strategy": "Plays similarly to the Spiegel mech from earlier. Save CP for counters or use **Seal** (Last CP ability) when it switches stances. Watch for stance changes and time your defensive abilities accordingly."
+    },
+    {
+      "type": "prose",
+      "heading": "Sara Solo & Aurochs Fort",
+      "content": "After the mech battle, fight a group of Jaegers with **Instructor Sara** alone. Use her **S-Craft** when CP is full to clear them quickly. Proceed to **Aurochs Fort** afterward.\n\n**Aurochs Fort Navigation:**\n- **1F:** North path → East → South room (**Curia Balm**). Southwest (**Cast 2**). Northeast room (**Celestial Balm EX**). Air duct → Southeast area (**Hellfire** quartz).\n- **2F:** North path → Center gate → Air duct (**Chrono Burst** quartz). Southwest duct → Southeast corner (**Tearal** quartz). Northwest duct → North section (**HP 2** quartz).\n- **3F:** North path → Northeast room (**U-Materials**)."
+    },
+    {
+      "type": "encounter",
+      "name": "Duvalie & Sleipnir x2",
+      "heading": "Boss: Duvalie (Aurochs Fort)",
+      "stats": {
+        "Duvalie": "HP 203,010 | Uses Prism Calibur (10k-13k damage) below 60% HP",
+        "Sleipnir x2": "Support enemies that must be dealt with first"
+      },
+      "strategy": "Kill the **Sleipnirs** first using S-Crafts—they buff and support Duvalie, making the fight much harder if left alive. Once Duvalie drops below **60% HP**, she begins using *Prism Calibur* for 10k-13k damage per hit. Counter this with **Platinum Shield** (Jusis) or Adamantine Shield to absorb the burst. Keep healing topped off and finish with S-Crafts."
+    },
+    {
+      "type": "prose",
+      "heading": "December 26: Bareahard",
+      "content": "At the **Alouette Inn** (Artisan Street), speak to **Giolamo** at the counter to learn the **Fruit Parfait** recipe. Speak to **Maicel** at the table to receive **Gambler Jack II - Chapter 12**.\n\nAt the **Duke's Mansion**, watch the event scene in the main hall, then the west room event. **Important:** Pick up **Windy Colour** from the drawer in **Jusis' room**—don't miss this.",
+      "checkpoints": [
+        { "id": "a2p3-fruit-parfait", "label": "Learned Fruit Parfait recipe from Giolamo" },
+        { "id": "a2p3-gj2-ch12", "label": "Obtained Gambler Jack II - Chapter 12 from Maicel", "missable": true },
+        { "id": "a2p3-windy-colour", "label": "Picked up Windy Colour (Jusis' room drawer)", "missable": true }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Bonding Events (December 26)",
+      "content": "Attend bonding events for **Fie**, **Gaius**, **Machias**, and **Towa** to update their profiles. Attend **Alfin's** event specifically to unlock her final partner event on December 30.\n\n⚠️ **Trophy Condition:** Attending all bonding events on this date is required for the \"Bonding\" trophy. **Save before choosing** in case you need to reload.",
+      "checkpoints": [
+        { "id": "a2p3-bonding-trophy", "label": "Attended all bonding events (trophy requirement)" }
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Ending Act 2 - Part 3",
+      "content": "Go to **Bareahard Airport** and enter the Courageous to end the day. Your total AP earned determines your rank—**S-Rank requires 38 AP**.",
+      "checkpoints": [
+        { "id": "a2p3-s-rank", "label": "Achieved S-Rank (38 AP)" }
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "AP Summary (S-Rank: 38 AP)",
+      "columns": ["Activity", "AP"],
+      "rows": [
+        ["Cleared a Spirit Shrine", "3"],
+        ["Apprehended Duke Albarea", "10"],
+        ["Recruited Kenneth", "2"],
+        ["Recruited Margarita", "2"],
+        ["Recruited Hugo", "2"],
+        ["Recruited Stefan", "2"],
+        ["Recruited Klein", "2"],
+        ["Recruited Hibelle", "2"],
+        ["Quest: Gone Air", "4"],
+        ["Quest: The Sweetest of Challenges", "3 (+2 if Machias chosen)"],
+        ["Quest: Kreuzen for a Bruisin'", "4"]
+      ]
+    }
+  ]
+}
