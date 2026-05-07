@@ -35,8 +35,8 @@ export function computeProgress(checkedSteps: Set<string>, totalSteps: number): 
 /** Regex matching inline checkable markers embedded in section content. */
 export const INLINE_CHECKABLE_RE = /<!--\s*(collectible|missable|side_quest):\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
 
-/** Count all checkable items (steps, checkpoints, inline markers, checklist block items, and headed prose blocks) in a walkthrough. */
-export function countCheckableSteps(sections: { id?: string; steps?: { type: string }[]; checkpoints?: { id: string }[]; content?: string; blocks?: { type: string; heading?: string; items?: { id: string }[]; content?: string }[] }[]): number {
+/** Count all checkable items (steps, checkpoints, inline markers, checklist block items, headed prose blocks, encounter blocks, quest blocks, and table rows) in a walkthrough. */
+export function countCheckableSteps(sections: { id?: string; steps?: { type: string }[]; checkpoints?: { id: string }[]; content?: string; blocks?: { type: string; heading?: string; items?: { id: string }[]; content?: string; rows?: string[][] }[] }[]): number {
 	return sections.reduce(
 		(total, section) => {
 			const stepCount = (section.steps ?? []).filter((s) => s.type !== 'note').length;
@@ -56,6 +56,18 @@ export function countCheckableSteps(sections: { id?: string; steps?: { type: str
 				// Headed prose blocks are themselves checkable (block-level checkbox)
 				if (block.type === 'prose' && block.heading) {
 					blockCount += 1;
+				}
+				// Encounter blocks are checkable (block-level checkbox)
+				if (block.type === 'encounter') {
+					blockCount += 1;
+				}
+				// Quest blocks are checkable (block-level checkbox)
+				if (block.type === 'quest') {
+					blockCount += 1;
+				}
+				// Table rows are individually checkable (only when table has a heading)
+				if (block.type === 'table' && block.heading && block.rows) {
+					blockCount += block.rows.length;
 				}
 			}
 

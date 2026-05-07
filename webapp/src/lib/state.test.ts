@@ -170,6 +170,83 @@ describe('countCheckableSteps', () => {
 		// 1 step + 1 checkpoint + 1 inline + 2 checklist items + 1 prose inline + 1 headed prose block = 7
 		expect(countCheckableSteps(sections)).toBe(7);
 	});
+
+	it('counts encounter blocks as checkable', () => {
+		const sections = [
+			{
+				blocks: [
+					{ type: 'encounter', name: 'Boss A' },
+					{ type: 'encounter', name: 'Boss B' }
+				]
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(2);
+	});
+
+	it('counts quest blocks as checkable', () => {
+		const sections = [
+			{
+				blocks: [
+					{ type: 'quest', name: 'Side Quest 1', quest_type: 'side' },
+					{ type: 'quest', name: 'Main Quest', quest_type: 'main' }
+				]
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(2);
+	});
+
+	it('counts table rows as checkable when table has heading', () => {
+		const sections = [
+			{
+				blocks: [
+					{
+						type: 'table',
+						heading: 'Treasure List',
+						columns: ['Item', 'Location'],
+						rows: [['Potion', 'Chest A'], ['Sword', 'Chest B'], ['Shield', 'Chest C']]
+					}
+				]
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(3);
+	});
+
+	it('does not count table rows when table has no heading', () => {
+		const sections = [
+			{
+				blocks: [
+					{
+						type: 'table',
+						columns: ['Item', 'Location'],
+						rows: [['Potion', 'Chest A'], ['Sword', 'Chest B']]
+					}
+				]
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(0);
+	});
+
+	it('combines all block types in total count', () => {
+		const sections = [
+			{
+				blocks: [
+					{ type: 'prose', heading: 'Opening', content: 'Text here.' },
+					{ type: 'encounter', name: 'Boss Fight' },
+					{ type: 'quest', name: 'Side Quest', quest_type: 'side' },
+					{
+						type: 'table',
+						heading: 'Items',
+						columns: ['Name'],
+						rows: [['Item A'], ['Item B']]
+					},
+					{ type: 'checklist', items: [{ id: 'c1' }] },
+					{ type: 'callout', content: 'Not checkable' }
+				]
+			}
+		];
+		// 1 headed prose + 1 encounter + 1 quest + 2 table rows + 1 checklist = 6
+		expect(countCheckableSteps(sections)).toBe(6);
+	});
 });
 
 describe('INLINE_CHECKABLE_RE', () => {

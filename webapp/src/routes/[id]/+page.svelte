@@ -126,6 +126,17 @@
 					// Block-level checkable: headed prose blocks
 					if ((block as any).heading && id === `${s.id}-blk-${blockIdx}`) return true;
 				}
+				// Encounter blocks are block-level checkable
+				if (block.type === 'encounter' && id === `${s.id}-blk-${blockIdx}`) return true;
+				// Quest blocks are block-level checkable
+				if (block.type === 'quest' && id === `${s.id}-blk-${blockIdx}`) return true;
+				// Table rows are individually checkable (when table has heading)
+				if (block.type === 'table' && (block as any).heading) {
+					const rows = (block as any).rows ?? [];
+					for (let rIdx = 0; rIdx < rows.length; rIdx++) {
+						if (id === `${s.id}-tbl-${blockIdx}-r${rIdx}`) return true;
+					}
+				}
 			}
 		}
 		return false;
@@ -539,7 +550,7 @@
 
 		for (const root of blockRoots) {
 			const items = Array.from(
-				root.querySelectorAll<HTMLElement>('.checklist-btn, .checkpoint-btn, .inline-check-btn')
+				root.querySelectorAll<HTMLElement>('.checklist-btn, .checkpoint-btn, .inline-check-btn, .block-header')
 			);
 			if (items.length > 0) {
 				blockBoundaries.push(blockInteractiveEls.length);
@@ -668,12 +679,14 @@
 	function scrollToFirstUnchecked() {
 		for (let sIdx = 0; sIdx < wt.sections.length; sIdx++) {
 			const section = wt.sections[sIdx];
-			// Check block-level IDs
+			// Check block-level IDs (prose, encounter, quest, table rows)
 			if (section.blocks) {
 				for (let bIdx = 0; bIdx < section.blocks.length; bIdx++) {
 					const block = section.blocks[bIdx];
+					const blockId = `${section.id}-blk-${bIdx}`;
+
+					// Headed prose blocks
 					if (block.type === 'prose' && (block as any).heading) {
-						const blockId = `${section.id}-blk-${bIdx}`;
 						if (!checkedSteps.has(blockId)) {
 							currentSectionIdx = sIdx;
 							tick().then(() => {
@@ -681,6 +694,43 @@
 								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 							});
 							return;
+						}
+					}
+					// Encounter blocks
+					if (block.type === 'encounter') {
+						if (!checkedSteps.has(blockId)) {
+							currentSectionIdx = sIdx;
+							tick().then(() => {
+								const el = document.querySelector(`[data-block-id="${blockId}"]`);
+								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							});
+							return;
+						}
+					}
+					// Quest blocks
+					if (block.type === 'quest') {
+						if (!checkedSteps.has(blockId)) {
+							currentSectionIdx = sIdx;
+							tick().then(() => {
+								const el = document.querySelector(`[data-block-id="${blockId}"]`);
+								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							});
+							return;
+						}
+					}
+					// Table rows (each row individually)
+					if (block.type === 'table' && (block as any).heading) {
+						const rows = (block as any).rows ?? [];
+						for (let rIdx = 0; rIdx < rows.length; rIdx++) {
+							const rowId = `${section.id}-tbl-${bIdx}-r${rIdx}`;
+							if (!checkedSteps.has(rowId)) {
+								currentSectionIdx = sIdx;
+								tick().then(() => {
+									const el = document.querySelector(`[data-block-id="${blockId}"]`);
+									el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+								});
+								return;
+							}
 						}
 					}
 				}
@@ -958,15 +1008,16 @@
 		<!-- Blocks mode: typed block components -->
 		<div class="blocks-container" bind:this={blocksEl}>
 			{#each currentSection.blocks as block, blockIdx (block)}
-				{@const blockId = block.type === 'prose' && block.heading ? `${currentSection.id}-blk-${blockIdx}` : undefined}
+				{@const blockId = (block.type === 'prose' && block.heading) || block.type === 'encounter' || block.type === 'quest' || (block.type === 'table' && block.heading)
+					? `${currentSection.id}-blk-${blockIdx}` : undefined}
 				{#if block.type === 'prose'}
 					<ProseBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
 				{:else if block.type === 'encounter'}
-					<EncounterBlock {block} />
+					<EncounterBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
 				{:else if block.type === 'quest'}
-					<QuestBlock {block} />
+					<QuestBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
 				{:else if block.type === 'table'}
-					<TableBlock {block} />
+					<TableBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} sectionId={currentSection.id} {blockIdx} />
 				{:else if block.type === 'checklist'}
 					<ChecklistBlock {block} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
 				{:else if block.type === 'callout'}
