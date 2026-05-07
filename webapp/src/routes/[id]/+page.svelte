@@ -111,7 +111,8 @@
 					if (m[2] === id) return true;
 				}
 			}
-			for (const block of (s.blocks ?? [])) {
+			for (let blockIdx = 0; blockIdx < (s.blocks ?? []).length; blockIdx++) {
+				const block = s.blocks![blockIdx];
 				if (block.type === 'checklist') {
 					for (const item of (block as any).items ?? []) {
 						if (item.id === id) return true;
@@ -122,6 +123,8 @@
 					for (const m of content.matchAll(INLINE_CHECKABLE_RE)) {
 						if (m[2] === id) return true;
 					}
+					// Block-level checkable: headed prose blocks
+					if ((block as any).heading && id === `${s.id}-blk-${blockIdx}`) return true;
 				}
 			}
 		}
@@ -661,6 +664,41 @@
 		});
 	});
 
+	/** Scroll to the first unchecked block/step in the walkthrough. */
+	function scrollToFirstUnchecked() {
+		for (let sIdx = 0; sIdx < wt.sections.length; sIdx++) {
+			const section = wt.sections[sIdx];
+			// Check block-level IDs
+			if (section.blocks) {
+				for (let bIdx = 0; bIdx < section.blocks.length; bIdx++) {
+					const block = section.blocks[bIdx];
+					if (block.type === 'prose' && (block as any).heading) {
+						const blockId = `${section.id}-blk-${bIdx}`;
+						if (!checkedSteps.has(blockId)) {
+							currentSectionIdx = sIdx;
+							tick().then(() => {
+								const el = document.querySelector(`[data-block-id="${blockId}"]`);
+								el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+							});
+							return;
+						}
+					}
+				}
+			}
+			// Check step-level IDs
+			for (const step of section.steps ?? []) {
+				if (step.type !== 'note' && !checkedSteps.has(step.id)) {
+					currentSectionIdx = sIdx;
+					tick().then(() => {
+						const el = document.querySelector(`[data-step-id="${step.id}"]`);
+						el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+					});
+					return;
+				}
+			}
+		}
+	}
+
 	onMount(async () => {
 		const record = await loadProgress(wt.id);
 		if (record) checkedSteps = new Set(record.checkedSteps);
@@ -675,6 +713,15 @@
 		gamepad.start();
 
 		window.addEventListener('keydown', handleKeydown);
+
+		// Handle ?resume=true — scroll to first unchecked block
+		const params = new URLSearchParams(window.location.search);
+		if (params.get('resume') === 'true') {
+			// Remove the query param from URL without reload
+			window.history.replaceState({}, '', window.location.pathname);
+			await tick();
+			scrollToFirstUnchecked();
+		}
 	});
 
 	onDestroy(() => {
@@ -910,9 +957,10 @@
 	{#if currentSection?.blocks && currentSection.blocks.length > 0}
 		<!-- Blocks mode: typed block components -->
 		<div class="blocks-container" bind:this={blocksEl}>
-			{#each currentSection.blocks as block (block)}
+			{#each currentSection.blocks as block, blockIdx (block)}
+				{@const blockId = block.type === 'prose' && block.heading ? `${currentSection.id}-blk-${blockIdx}` : undefined}
 				{#if block.type === 'prose'}
-					<ProseBlock {block} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+					<ProseBlock {block} {blockId} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
 				{:else if block.type === 'encounter'}
 					<EncounterBlock {block} />
 				{:else if block.type === 'quest'}

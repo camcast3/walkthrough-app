@@ -35,8 +35,8 @@ export function computeProgress(checkedSteps: Set<string>, totalSteps: number): 
 /** Regex matching inline checkable markers embedded in section content. */
 export const INLINE_CHECKABLE_RE = /<!--\s*(collectible|missable|side_quest):\s*([a-z0-9]+(?:-[a-z0-9]+)*)\s*(?:\|\s*(.*?))?\s*-->/g;
 
-/** Count all checkable items (steps, checkpoints, inline markers, and checklist block items) in a walkthrough. */
-export function countCheckableSteps(sections: { steps?: { type: string }[]; checkpoints?: { id: string }[]; content?: string; blocks?: { type: string; items?: { id: string }[]; content?: string }[] }[]): number {
+/** Count all checkable items (steps, checkpoints, inline markers, checklist block items, and headed prose blocks) in a walkthrough. */
+export function countCheckableSteps(sections: { id?: string; steps?: { type: string }[]; checkpoints?: { id: string }[]; content?: string; blocks?: { type: string; heading?: string; items?: { id: string }[]; content?: string }[] }[]): number {
 	return sections.reduce(
 		(total, section) => {
 			const stepCount = (section.steps ?? []).filter((s) => s.type !== 'note').length;
@@ -52,6 +52,10 @@ export function countCheckableSteps(sections: { steps?: { type: string }[]; chec
 				}
 				if (block.type === 'prose' && block.content) {
 					blockCount += Array.from(block.content.matchAll(INLINE_CHECKABLE_RE)).length;
+				}
+				// Headed prose blocks are themselves checkable (block-level checkbox)
+				if (block.type === 'prose' && block.heading) {
+					blockCount += 1;
 				}
 			}
 

@@ -131,6 +131,20 @@ describe('countCheckableSteps', () => {
 		expect(countCheckableSteps(sections)).toBe(2);
 	});
 
+	it('counts headed prose blocks as checkable', () => {
+		const sections = [
+			{
+				blocks: [
+					{ type: 'prose', heading: 'Ymir', content: 'Some content here.' },
+					{ type: 'prose', content: 'No heading, not checkable.' },
+					{ type: 'prose', heading: 'Progression', content: 'More content.' }
+				]
+			}
+		];
+		// 2 headed prose blocks = 2 checkable
+		expect(countCheckableSteps(sections)).toBe(2);
+	});
+
 	it('combines steps, checkpoints, section content markers, and block items', () => {
 		const sections = [
 			{
@@ -144,6 +158,7 @@ describe('countCheckableSteps', () => {
 					},
 					{
 						type: 'prose',
+						heading: 'Area Name',
 						content: '<!-- missable: prose-miss-1 | Missable -->'
 					},
 					{
@@ -152,8 +167,8 @@ describe('countCheckableSteps', () => {
 				]
 			}
 		];
-		// 1 step + 1 checkpoint + 1 inline + 2 checklist items + 1 prose block inline = 6
-		expect(countCheckableSteps(sections)).toBe(6);
+		// 1 step + 1 checkpoint + 1 inline + 2 checklist items + 1 prose inline + 1 headed prose block = 7
+		expect(countCheckableSteps(sections)).toBe(7);
 	});
 });
 

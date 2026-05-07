@@ -11,10 +11,75 @@ export interface WalkthroughCheckpoint {
 	label: string;
 }
 
+// ── Block types ─────────────────────────────────────────────────────────────
+
+export interface ProseBlock {
+	type: 'prose';
+	heading?: string;
+	content: string;
+}
+
+export interface EncounterBlock {
+	type: 'encounter';
+	heading?: string;
+	name: string;
+	stats?: Record<string, string>;
+	strategy?: string;
+	reward?: string;
+	drops?: string;
+}
+
+export interface QuestBlock {
+	type: 'quest';
+	heading?: string;
+	quest_type: 'main' | 'side' | 'hidden' | 'story';
+	name: string;
+	client?: string;
+	content?: string;
+	reward?: string;
+}
+
+export interface TableBlock {
+	type: 'table';
+	heading?: string;
+	columns: string[];
+	rows: string[][];
+}
+
+export interface ChecklistItem {
+	id: string;
+	label: string;
+	detail?: string;
+}
+
+export interface ChecklistBlock {
+	type: 'checklist';
+	heading?: string;
+	style?: 'collectible' | 'missable' | 'npc' | 'key' | 'puzzle';
+	items: ChecklistItem[];
+}
+
+export interface CalloutBlock {
+	type: 'callout';
+	severity?: 'info' | 'warning' | 'danger';
+	content: string;
+}
+
+export type WalkthroughBlock =
+	| ProseBlock
+	| EncounterBlock
+	| QuestBlock
+	| TableBlock
+	| ChecklistBlock
+	| CalloutBlock;
+
+// ── Section & Walkthrough ───────────────────────────────────────────────────
+
 export interface WalkthroughSection {
 	id: string;
 	title: string;
 	content?: string;
+	blocks?: WalkthroughBlock[];
 	checkpoints?: WalkthroughCheckpoint[];
 	steps?: WalkthroughStep[];
 }

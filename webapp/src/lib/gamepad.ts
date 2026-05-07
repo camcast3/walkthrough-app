@@ -8,21 +8,29 @@
  * no busy-loop when no gamepad is in use.
  *
  * Button mapping (standard gamepad layout):
- *   0 = A (South) — check/uncheck focused step
- *   1 = B (East)  — navigate back
+ *   0 = A (South) — check/uncheck focused item
+ *   1 = B (East)  — deselect / navigate back
  *   2 = X (West)  — checkout / context action
  *   3 = Y (North) — cycle HLTB mode
  *   4 = LB        — previous section
  *   5 = RB        — next section
  *   6 = LT        — zoom out (analog: pressure controls speed)
  *   7 = RT        — zoom in  (analog: pressure controls speed)
+ *   8 = Back/Select/View — go to walkthrough list (home)
  *   9 = Start/Menu/Pause — open settings
- *   12 = D-pad Up   (repeat-on-hold)
- *   13 = D-pad Down (repeat-on-hold)
- *   14 = D-pad Left  (previous section alias)
- *   15 = D-pad Right (next section alias)
+ *   12 = D-pad Up   — focus previous item (repeat-on-hold)
+ *   13 = D-pad Down — focus next item (repeat-on-hold)
+ *   14 = D-pad Left  — prev section (or prev block in blocks mode)
+ *   15 = D-pad Right — next section (or next block in blocks mode)
  *
- * Left stick Y-axis: analog scroll with quadratic response curve (fires scroll-up / scroll-down each tick)
+ * Left stick Y-axis: analog scroll with quadratic response curve
+ *
+ * Navigation modes (handled by the page, not this module):
+ *   Steps mode:  D-pad ↕ moves between step cards, A toggles check
+ *   Prose mode:  D-pad ↕ moves between checkpoints/inline checks, A toggles
+ *   Blocks mode: D-pad ↕ moves between all interactive elements across blocks,
+ *                D-pad ↔ jumps between block boundaries, A toggles,
+ *                LB/RB changes section
  */
 
 export type GamepadAction =
@@ -36,6 +44,7 @@ export type GamepadAction =
 	| 'cycle-hltb'
 	| 'scroll-up'
 	| 'scroll-down'
+	| 'home'
 	| 'settings'
 	| 'zoom-in'
 	| 'zoom-out';
@@ -65,9 +74,10 @@ const BUTTON_MAP: Record<number, GamepadAction> = {
 	3: 'cycle-hltb',
 	4: 'prev-section',
 	5: 'next-section',
+	8: 'home',
+	9: 'settings',
 	12: 'focus-up',
 	13: 'focus-down',
-	9: 'settings',
 	14: 'prev-section',
 	15: 'next-section'
 };
