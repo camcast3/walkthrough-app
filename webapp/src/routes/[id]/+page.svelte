@@ -6,8 +6,9 @@
 	import { syncProgress, timeAgo, checkout, checkin } from '$lib/sync.js';
 	import { GamepadNavigator } from '$lib/gamepad.js';
 	import GamepadHintBar from '$lib/GamepadHintBar.svelte';
-	import type { SyncStatus } from '$lib/types.js';
+	import type { SyncStatus, WalkthroughBlock } from '$lib/types.js';
 	import { marked } from 'marked';
+	import { ProseBlock, EncounterBlock, QuestBlock, TableBlock, ChecklistBlock, CalloutBlock } from '$lib/blocks/index.js';
 
 	let { data }: { data: PageData } = $props();
 	const wt = $derived(data.walkthrough);
@@ -108,6 +109,19 @@
 			if (s.content) {
 				for (const m of s.content.matchAll(INLINE_CHECKABLE_RE)) {
 					if (m[2] === id) return true;
+				}
+			}
+			for (const block of (s.blocks ?? [])) {
+				if (block.type === 'checklist') {
+					for (const item of (block as any).items ?? []) {
+						if (item.id === id) return true;
+					}
+				}
+				if (block.type === 'prose') {
+					const content = (block as any).content ?? '';
+					for (const m of content.matchAll(INLINE_CHECKABLE_RE)) {
+						if (m[2] === id) return true;
+					}
 				}
 			}
 		}
@@ -342,8 +356,9 @@
 		}
 
 		const steps = currentSection?.steps ?? [];
-		const inProseMode = !!(currentSection?.content);
-		const stepsVisible = inProseMode ? showSteps : true;
+		const inBlocksMode = !!(currentSection?.blocks && currentSection.blocks.length > 0);
+		const inProseMode = !inBlocksMode && !!(currentSection?.content);
+		const stepsVisible = inProseMode ? showSteps : !inBlocksMode;
 
 		switch (action) {
 			case 'scroll-up':
@@ -353,8 +368,17 @@
 				window.scrollBy({ top: (magnitude ?? 8) });
 				break;
 			case 'focus-up':
-				if (inProseMode && !stepsVisible) {
-					// D-pad navigates between checkpoints in prose mode
+				if (inBlocksMode) {
+					collectBlockInteractiveEls();
+					if (blockInteractiveEls.length > 0) {
+						if (focusedBlockElIdx <= 0) {
+							// Already at first item or unfocused — exit block focus
+							clearBlockFocus();
+						} else {
+							focusBlockEl(focusedBlockElIdx - 1);
+						}
+					}
+				} else if (inProseMode && !stepsVisible) {
 					collectCheckpointEls();
 					if (checkpointEls.length > 0) {
 						const idx = focusedCheckpointIdx <= 0 ? 0 : focusedCheckpointIdx - 1;
@@ -366,8 +390,20 @@
 				}
 				break;
 			case 'focus-down':
-				if (inProseMode && !stepsVisible) {
-					// D-pad navigates between checkpoints in prose mode
+				if (inBlocksMode) {
+					collectBlockInteractiveEls();
+					if (blockInteractiveEls.length > 0) {
+						if (focusedBlockElIdx < 0) {
+							// No focus yet — enter from the top
+							focusBlockEl(0);
+						} else if (focusedBlockElIdx >= blockInteractiveEls.length - 1) {
+							// Already at last item — exit block focus
+							clearBlockFocus();
+						} else {
+							focusBlockEl(focusedBlockElIdx + 1);
+						}
+					}
+				} else if (inProseMode && !stepsVisible) {
 					collectCheckpointEls();
 					if (checkpointEls.length > 0) {
 						const idx = focusedCheckpointIdx >= checkpointEls.length - 1
@@ -381,8 +417,14 @@
 				}
 				break;
 			case 'check': {
-				if (inProseMode && !stepsVisible) {
-					// A = snap to nearest checkpoint and toggle it
+				if (inBlocksMode) {
+					collectBlockInteractiveEls();
+					if (blockInteractiveEls.length > 0) {
+						const idx = focusedBlockElIdx >= 0 ? focusedBlockElIdx : nearestBlockElIdx();
+						focusBlockEl(idx);
+						blockInteractiveEls[idx]?.click();
+					}
+				} else if (inProseMode && !stepsVisible) {
 					collectCheckpointEls();
 					if (checkpointEls.length > 0) {
 						const idx = focusedCheckpointIdx >= 0 ? focusedCheckpointIdx : nearestCheckpointIdx();
@@ -396,13 +438,40 @@
 				break;
 			}
 			case 'prev-section':
-				if (currentSectionIdx > 0) { currentSectionIdx--; focusedStepIdx = 0; focusedCheckpointIdx = -1; }
+				if (inBlocksMode && focusedBlockElIdx >= 0) {
+					// D-pad Left: jump to previous block, or exit blocks if at first
+					if (!focusPrevBlock()) {
+						clearBlockFocus();
+					}
+				} else if (currentSectionIdx > 0) {
+					currentSectionIdx--;
+					focusedStepIdx = 0;
+					focusedCheckpointIdx = -1;
+					focusedBlockElIdx = -1;
+				}
 				break;
 			case 'next-section':
-				if (currentSectionIdx < wt.sections.length - 1) { currentSectionIdx++; focusedStepIdx = 0; focusedCheckpointIdx = -1; }
+				if (inBlocksMode && focusedBlockElIdx >= 0) {
+					// D-pad Right: jump to next block, or exit blocks if at last
+					if (!focusNextBlock()) {
+						clearBlockFocus();
+					}
+				} else if (currentSectionIdx < wt.sections.length - 1) {
+					currentSectionIdx++;
+					focusedStepIdx = 0;
+					focusedCheckpointIdx = -1;
+					focusedBlockElIdx = -1;
+				}
 				break;
 			case 'back':
-				history.back();
+				if (inBlocksMode && focusedBlockElIdx >= 0) {
+					clearBlockFocus();
+				} else {
+					history.back();
+				}
+				break;
+			case 'home':
+				goto('/');
 				break;
 			case 'checkout':
 				if (data.appMode === 'client') {
@@ -426,7 +495,6 @@
 
 	// ── Keyboard navigation (mirrors gamepad) ─────────────────────────────────
 	function handleKeydown(e: KeyboardEvent) {
-		const steps = currentSection?.steps ?? [];
 		if (e.key === 'Escape') { showCheckoutDialog = false; return; }
 		if (e.key === 'ArrowUp') { e.preventDefault(); handleGamepadAction('focus-up'); }
 		else if (e.key === 'ArrowDown') { e.preventDefault(); handleGamepadAction('focus-down'); }
@@ -438,13 +506,98 @@
 			e.preventDefault(); handleGamepadAction('zoom-out');
 		} else if (e.key === ' ' || e.key === 'Enter') {
 			e.preventDefault();
-			const step = steps[focusedStepIdx];
-			if (step) toggleStep(step.id, step.type);
+			handleGamepadAction('check');
 		}
 	}
 
 	// ── Lifecycle ─────────────────────────────────────────────────────────────
 	let contentEl: HTMLElement | null = null;
+	let blocksEl: HTMLElement | null = null;
+
+	// ── Block-mode gamepad navigation ────────────────────────────────────────
+	/** All focusable elements in the blocks container, sorted by DOM order. */
+	let blockInteractiveEls: HTMLElement[] = [];
+	/** Index of each block boundary in blockInteractiveEls (first element per block). */
+	let blockBoundaries: number[] = [];
+	/** Index of the currently focused item in blocks mode (-1 = none). */
+	let focusedBlockElIdx = $state(-1);
+
+	/**
+	 * Collect all interactive elements in the blocks container.
+	 * Also builds a block-boundary index so D-pad Left/Right can jump between blocks.
+	 */
+	function collectBlockInteractiveEls() {
+		if (!blocksEl) { blockInteractiveEls = []; blockBoundaries = []; return; }
+
+		// Each direct child of .blocks-container is one rendered block component
+		const blockRoots = Array.from(blocksEl.children) as HTMLElement[];
+		blockInteractiveEls = [];
+		blockBoundaries = [];
+
+		for (const root of blockRoots) {
+			const items = Array.from(
+				root.querySelectorAll<HTMLElement>('.checklist-btn, .checkpoint-btn, .inline-check-btn')
+			);
+			if (items.length > 0) {
+				blockBoundaries.push(blockInteractiveEls.length);
+				blockInteractiveEls.push(...items);
+			}
+		}
+	}
+
+	/** Find the block interactive element nearest to viewport center. */
+	function nearestBlockElIdx(): number {
+		if (blockInteractiveEls.length === 0) return -1;
+		const center = window.innerHeight / 2;
+		let best = 0;
+		let bestDist = Infinity;
+		for (let i = 0; i < blockInteractiveEls.length; i++) {
+			const rect = blockInteractiveEls[i].getBoundingClientRect();
+			const dist = Math.abs(rect.top + rect.height / 2 - center);
+			if (dist < bestDist) { bestDist = dist; best = i; }
+		}
+		return best;
+	}
+
+	/** Focus a block interactive element by index. */
+	function focusBlockEl(idx: number) {
+		blockInteractiveEls.forEach((el) => el.classList.remove('block-el-focused'));
+		focusedBlockElIdx = idx;
+		const el = blockInteractiveEls[idx];
+		if (el) {
+			el.classList.add('block-el-focused');
+			el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+		}
+	}
+
+	/** Clear block focus highlight and reset index. */
+	function clearBlockFocus() {
+		blockInteractiveEls.forEach((el) => el.classList.remove('block-el-focused'));
+		focusedBlockElIdx = -1;
+	}
+
+	/** Jump to the first interactive element of the next block. Returns false if already at the last block. */
+	function focusNextBlock(): boolean {
+		collectBlockInteractiveEls();
+		if (blockBoundaries.length === 0) return false;
+		const nextBoundary = blockBoundaries.find(b => b > focusedBlockElIdx);
+		if (nextBoundary !== undefined) { focusBlockEl(nextBoundary); return true; }
+		return false;
+	}
+
+	/** Jump to the first interactive element of the previous block. Returns false if already at the first block. */
+	function focusPrevBlock(): boolean {
+		collectBlockInteractiveEls();
+		if (blockBoundaries.length === 0) return false;
+		// Find the boundary before current position
+		let prev = -1;
+		for (const b of blockBoundaries) {
+			if (b >= focusedBlockElIdx) break;
+			prev = b;
+		}
+		if (prev >= 0 && prev !== focusedBlockElIdx) { focusBlockEl(prev); return true; }
+		return false;
+	}
 
 	function bindCheckpointSlots() {
 		if (!contentEl) return;
@@ -560,23 +713,36 @@
 				{ badge: 'B', label: 'Keep' }
 			];
 		}
-		const inProseMode = !!(currentSection?.content);
+		const inBlocksMode = !!(currentSection?.blocks && currentSection.blocks.length > 0);
+		const inProseMode = !inBlocksMode && !!(currentSection?.content);
 		const stepsVisible = inProseMode ? showSteps : true;
-		const hints = [
-			{ badge: '🕹', label: 'Scroll' },
-			{ badge: '↕', label: inProseMode && !stepsVisible ? 'Items' : 'Navigate' },
-			{ badge: 'A', label: inProseMode && !stepsVisible ? 'Toggle' : 'Check' },
-			{ badge: 'B', label: 'Back' },
-			{ badge: 'LB/RB', label: 'Sections' }
-		];
+		const hasFocus = inBlocksMode && focusedBlockElIdx >= 0;
+		const hints: { badge: string; label: string }[] = [];
+		if (inBlocksMode) {
+			hints.push(
+				{ badge: '↕', label: 'Items' },
+				{ badge: '↔', label: 'Blocks' },
+				{ badge: 'A', label: 'Toggle' },
+				{ badge: 'B', label: hasFocus ? 'Deselect' : 'Back' },
+			);
+		} else {
+			hints.push(
+				{ badge: '↕', label: inProseMode && !stepsVisible ? 'Items' : 'Steps' },
+				{ badge: 'A', label: 'Check' },
+				{ badge: 'B', label: 'Back' },
+			);
+		}
+		hints.push({ badge: 'LB/RB', label: 'Sections' });
 		if (hltbHasToggle) {
-			hints.push({ badge: 'Y', label: 'HLTB Mode' });
+			hints.push({ badge: 'Y', label: 'HLTB' });
 		}
 		if (data.appMode === 'client') {
 			hints.push({ badge: 'X', label: isCheckedOut ? 'Checkin' : 'Checkout' });
 		}
-		hints.push({ badge: 'LT/RT', label: 'Zoom' });
-		hints.push({ badge: '☰', label: 'Settings' });
+		hints.push(
+			{ badge: '⊞', label: 'Home' },
+			{ badge: '☰', label: 'Settings' },
+		);
 		return hints;
 	});
 </script>
@@ -741,7 +907,81 @@
 	</details>
 
 	<!-- Section content -->
-	{#if currentSection?.content}
+	{#if currentSection?.blocks && currentSection.blocks.length > 0}
+		<!-- Blocks mode: typed block components -->
+		<div class="blocks-container" bind:this={blocksEl}>
+			{#each currentSection.blocks as block (block)}
+				{#if block.type === 'prose'}
+					<ProseBlock {block} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+				{:else if block.type === 'encounter'}
+					<EncounterBlock {block} />
+				{:else if block.type === 'quest'}
+					<QuestBlock {block} />
+				{:else if block.type === 'table'}
+					<TableBlock {block} />
+				{:else if block.type === 'checklist'}
+					<ChecklistBlock {block} {checkedSteps} onToggle={(id) => toggleStep(id, 'collectible')} />
+				{:else if block.type === 'callout'}
+					<CalloutBlock {block} />
+				{/if}
+			{/each}
+		</div>
+
+		<!-- Collapsible granular steps (if also provided alongside blocks) -->
+		{#if currentSection.steps && currentSection.steps.length > 0}
+			<details class="steps-toggle" bind:open={showSteps}>
+				<summary class="steps-toggle-btn">
+					<span class="steps-toggle-icon">{showSteps ? '▼' : '▶'}</span>
+					Detailed steps ({currentSection.steps.filter(s => s.type !== 'note').length} checkable)
+				</summary>
+				<main class="steps-list" aria-label="Detailed steps for {currentSection?.title}">
+					{#each currentSection.steps as step, i (step.id)}
+						{@const isCheckable = step.type !== 'note'}
+						{@const isChecked = checkedSteps.has(step.id)}
+						{@const isFocused = i === focusedStepIdx}
+						<div
+							class="step-card"
+							class:checkable={isCheckable}
+							class:checked={isChecked}
+							class:focused={isFocused}
+							class:type-note={step.type === 'note'}
+							class:type-warning={step.type === 'warning'}
+							class:type-collectible={step.type === 'collectible'}
+							class:type-boss={step.type === 'boss'}
+							role={isCheckable ? 'checkbox' : undefined}
+							aria-checked={isCheckable ? isChecked : undefined}
+							aria-label="{TYPE_LABEL[step.type]}: {step.text}"
+							tabindex={isCheckable ? 0 : undefined}
+							use:stepAction={i}
+							onclick={() => toggleStep(step.id, step.type)}
+							onkeydown={(e) => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleStep(step.id, step.type); }}}
+						>
+							<div class="step-icon-col">
+								<span class="type-badge type-{step.type}" aria-hidden="true">{TYPE_ICON[step.type]}</span>
+								{#if isCheckable}
+									<span class="custom-check" class:is-checked={isChecked} aria-hidden="true">
+										<svg viewBox="0 0 20 20" fill="none">
+											<rect class="check-bg" x="1" y="1" width="18" height="18" rx="5" />
+											<polyline class="check-mark" points="5,10 9,14 15,6" />
+										</svg>
+									</span>
+								{/if}
+							</div>
+							<div class="step-body">
+								<p class="step-text">{@html step.text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>
+								{#if step.note}
+									<p class="step-note">{step.note}</p>
+								{/if}
+								{#if step.image_url}
+									<img class="step-img" src={step.image_url} alt="Screenshot for this step" loading="lazy" />
+								{/if}
+							</div>
+						</div>
+					{/each}
+				</main>
+			</details>
+		{/if}
+	{:else if currentSection?.content}
 		<!-- Prose mode: full walkthrough text with embedded checkpoints -->
 		<div class="prose-container" bind:this={contentEl}>
 			{@html renderContentHtml(currentSection.content)}
@@ -862,6 +1102,9 @@
 <GamepadHintBar hints={detailHints} />
 
 <style>
+	.blocks-container {
+		margin: 0.5rem 0;
+	}
 	.page {
 		max-width: 700px;
 		margin: 0 auto;
@@ -1915,5 +2158,12 @@
 
 	.prose-container :global(tr:nth-child(even) td) {
 		background: rgba(20, 20, 36, 0.3);
+	}
+
+	/* Block-mode gamepad/keyboard focus ring */
+	.blocks-container :global(.block-el-focused) {
+		outline: 3px solid #7c6af7;
+		outline-offset: 2px;
+		box-shadow: 0 0 12px rgba(124, 106, 247, 0.3);
 	}
 </style>

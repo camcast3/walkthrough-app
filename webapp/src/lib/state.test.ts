@@ -102,6 +102,59 @@ describe('countCheckableSteps', () => {
 		// 1 step + 1 checkpoint + 1 inline collectible = 3
 		expect(countCheckableSteps(sections)).toBe(3);
 	});
+
+	it('counts checklist block items', () => {
+		const sections = [
+			{
+				blocks: [
+					{
+						type: 'checklist',
+						items: [{ id: 'a' }, { id: 'b' }, { id: 'c' }]
+					}
+				]
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(3);
+	});
+
+	it('counts inline markers inside prose blocks', () => {
+		const sections = [
+			{
+				blocks: [
+					{
+						type: 'prose',
+						content: 'Get the <!-- collectible: gem-1 | Gem --> and <!-- missable: key-2 | Key -->.'
+					}
+				]
+			}
+		];
+		expect(countCheckableSteps(sections)).toBe(2);
+	});
+
+	it('combines steps, checkpoints, section content markers, and block items', () => {
+		const sections = [
+			{
+				steps: [{ type: 'step' }, { type: 'note' }],
+				checkpoints: [{ id: 'cp1' }],
+				content: '<!-- collectible: inline-1 | Inline Item -->',
+				blocks: [
+					{
+						type: 'checklist',
+						items: [{ id: 'cl-1' }, { id: 'cl-2' }]
+					},
+					{
+						type: 'prose',
+						content: '<!-- missable: prose-miss-1 | Missable -->'
+					},
+					{
+						type: 'table'
+					}
+				]
+			}
+		];
+		// 1 step + 1 checkpoint + 1 inline + 2 checklist items + 1 prose block inline = 6
+		expect(countCheckableSteps(sections)).toBe(6);
+	});
 });
 
 describe('INLINE_CHECKABLE_RE', () => {
