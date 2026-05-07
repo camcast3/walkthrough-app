@@ -10,7 +10,7 @@ You rewrite a **single walkthrough section** to improve formatting and readabili
 
 ## Pipeline position
 ```
-Source Page (.md) + Current JSON → ► Rewrite → Review → Gamer Check → Output
+Source Page (.md) + Current JSON → ► Rewrite → Review → Gamer Check → Completionist → Output
 ```
 
 ## Input
@@ -111,7 +111,32 @@ Read the rewritten section as a player:
 
 If any issues found, fix inline.
 
-### Phase 4: Output
+### Phase 4: Completionist Check — Achievement & collectible audit
+
+Review the section for 100% completion coverage:
+
+1. **Identify all missable content** in this section:
+   - Timed events or conversations that lock out
+   - Items only available during this section
+   - Trophies/achievements earnable only here
+   - NPCs that disappear after story progression
+
+2. **Verify warnings exist** for every missable:
+   - Each missable should have a `<!-- missable: id | label -->` inline marker OR a callout block
+   - The warning must state WHEN it becomes unavailable
+
+3. **Check collectible coverage:**
+   - Are all treasure chests listed?
+   - Are all books/recipes/cards mentioned?
+   - Are collectible counts tracked (e.g., "3/239")?
+
+4. **Trophy/achievement triggers:**
+   - If an action in this section can earn a trophy, call it out explicitly
+   - Mark achievement-related actions with missable markers if they can be permanently lost
+
+If any missable content lacks a warning, add the appropriate marker or callout. If a trophy opportunity exists that isn't mentioned, add it.
+
+### Phase 5: Output
 
 Write the final section JSON to the specified output path. Format:
 ```json
@@ -134,6 +159,7 @@ Then print a summary:
   Content length: [chars]
   Review: ✅ All content preserved
   Gamer: ✅ Reads naturally
+  Completionist: ✅ Missables warned / [n] trophies covered
 ═══════════════════════════════════════════
 ```
 

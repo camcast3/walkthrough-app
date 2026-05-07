@@ -1,0 +1,204 @@
+{
+  "id": "prologue",
+  "title": "Prologue",
+  "blocks": [
+    {
+      "type": "prose",
+      "heading": "Prologue Part A: November 29",
+      "content": "Start a new game and select the game's difficulty level. If you plan on getting the Platinum trophy, you will need at least two playthroughs. If you have save data from *Trails of Cold Steel*, you can transfer your save file over for extra bonuses (see tables below).\n\n<!-- checkpoint: pro-new-game | Started New Game -->"
+    },
+    {
+      "type": "table",
+      "heading": "Difficulty Settings",
+      "columns": ["Difficulty", "Description", "Stats"],
+      "rows": [
+        ["**Easy**", "Balanced for quick, easy battles. Ideal for beginners and story enthusiasts.", "Enemies are at 0.70 of their stats."],
+        ["**Normal**", "Build around satisfyingly tough combat. Aimed at people used to playing RPGs.", "Enemies are at 1.00 of their stats."],
+        ["**Hard**", "Battles will take everything you have. For skilled players who find Normal too easy.", "Enemies are at 1.15 of their stats."],
+        ["**Nightmare**", "Balanced for New Game+. Ideal for replays.", "Enemies are at 1.30 of their stats."]
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Transfer Bonuses: Rean's Level",
+      "columns": ["Rean's Level", "Bonus"],
+      "rows": [
+        ["Level 69 or lower", "Sepith x100 (All Colors), Attack 1, Zeram Powder"],
+        ["Level 70–79", "Sepith x300 (All Colors), Attack 1, Soul Blur, Zeram Powder"],
+        ["Level 80 or higher", "Sepith x500 (All Colors), Attack 1, Soul Blur, Saintly Force, Zeram Powder"]
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Transfer Bonuses: Rean's Rank",
+      "columns": ["Rean's Rank", "Bonus", "Status Effect"],
+      "rows": [
+        ["**A0**", "Golden Emblem", "HP +1000, EP +100, STR/DEF/ATS/ADF +10"],
+        ["**A1**", "Silver Emblem", "HP +500, EP +50"]
+      ]
+    },
+    {
+      "type": "callout",
+      "severity": "warning",
+      "content": "Watch the introduction sequence carefully. If you haven't beaten the original *Trails of Cold Steel*, this part will give you a summary of the ending — **beware of spoilers**."
+    },
+    {
+      "type": "prose",
+      "heading": "Taking Control & Basic Mechanics",
+      "content": "After the intro sequence ends, you'll take control of **Rean**. Enemy information in this guide is based on **Normal mode** circumstances.\n\nThe game immediately introduces the **save system** — open the menu and use the **Save** option at any time. You can also use the **Cross-Save feature** to upload save data to PSN for transferring between PS3 and Vita.\n\nIf you ever get lost, press the **Square** button to open the **Navigation menu**, which highlights your next objective on the bottom right of the screen."
+    },
+    {
+      "type": "prose",
+      "heading": "Eisengard Range — First Steps",
+      "content": "Head downhill from your starting position. You'll spot a shining object — examine it to receive Rean's equipment. The game then introduces the **Orbment** system; open the menu and equip your Master Quartz under the Orbment section.\n\nContinue running down the hill to encounter your first monster. Touch it to engage in battle.\n\n> **Tip:** Sneak up on monsters or stun them with your field attack (press **X** / **O** in Japanese version) for an **advantage** in battle — extra turns and reduced enemy HP.\n\nAfter your first victory, the game introduces **Monster Notes**. Each defeated monster fills in additional data in the bestiary. To complete entries instantly, use a **Battle Scope** item, the **Analyze** quartz spell, or **Emma and Eliot's Detector ability**.\n\n<!-- checkpoint: pro-first-battle | First Battle Complete -->"
+    },
+    {
+      "type": "prose",
+      "heading": "Eisengard Range — Arts & Healing",
+      "content": "Continue east to trigger an event scene, then fight a rock-type creature. The game teaches you about **Arts** — this monster has high physical defense, so use the **Fire Bolt** spell to take it down quickly.\n\nFurther down the hill, Rean notices an **Orbment Charging Station**. Examine it to fully restore HP and EP. When ready, proceed to the next zone: **Eisengard Mountains 2**."
+    },
+    {
+      "type": "prose",
+      "heading": "Eisengard Range — S-Crafts & Exploration",
+      "content": "Head down the hill to find a treasure chest containing a **Tear** quartz. A short distance ahead, Rean spots a particularly strong monster. Engage it — this fight introduces the **S-Craft** system. S-Crafts are super attacks requiring 100–200 CP (found under the Craft section). You can also trigger them by pressing **Triangle** outside your turn, though this adds significant delay to your next action.\n\nExplore the area thoroughly:\n- **South corner:** Treasure chest with a **Teara Balm**\n- **East area:** Event scene\n- **Northeast corner:** Treasure box containing a **Proxy Puppet** accessory\n\nTake the southeast exit to reach **Eisengard Mountain 3**. Immediately head south for a treasure box with a **Celestial Balm**, then find the **Orbment Charging Station** at the south end to heal up. When ready, proceed to the southeast end for a boss battle.\n\n<!-- checkpoint: pro-eisengard-explored | Eisengard Range Explored -->"
+    },
+    {
+      "type": "callout",
+      "severity": "info",
+      "content": "Maps in this guide are designed with the compass facing north."
+    },
+    {
+      "type": "encounter",
+      "name": "Magic Knight Ortheim",
+      "heading": "Boss: Magic Knight Ortheim",
+      "stats": {
+        "HP": "33,768",
+        "Item Drop": "None",
+        "Elemental Efficacy": "100% (Earth, Water, Fire, Wind)",
+        "Unbalance Efficacy": "Slash: ★★★☆, Thrust: ★★★☆, Pierce: ★★★☆, Strike: ★★★☆"
+      },
+      "strategy": "The first boss is straightforward. Ortheim attacks with its sword.\n\n**Attack:** Use **Flame Strike** to deal damage — it has a chance to inflict **Burn**, which helps expedite the fight.\n\n**Healing:** Heal when Rean drops below 3000 HP with **Tear** or a **Teara Balm**. If the boss gets 2 consecutive turns, use a **Teara Balm** immediately.\n\n**Victory:** Once you bring it under 15,000 HP, the battle ends automatically."
+    },
+    {
+      "type": "table",
+      "heading": "Monster Guide: Eisengard Range",
+      "columns": ["Name", "Item Drop 1", "Item Drop 2"],
+      "rows": [
+        ["Helm Scorpion", "Chitinous Shell", "Hearty Powder"],
+        ["Sneaking Frog", "Tear Balm", "White Beast Flesh"],
+        ["Rolling Stone", "Tear Balm", "U-Material"],
+        ["Sky Gazer", "Hearty Powder", "U-Material"]
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Treasure List: Eisengard Range",
+      "columns": ["#", "Type", "Item Name", "Location"],
+      "rows": [
+        ["1/239", "Quartz", "Tear", "Eisengard Range 2"],
+        ["2/239", "Healing Item", "Teara Balm", "Eisengard Range (South)"],
+        ["3/239", "Accessory", "Proxy Puppet", "Eisengard Range (NE Corner)"],
+        ["4/239", "Healing Item", "Celestial Balm", "Eisengard Range 3"]
+      ]
+    },
+    {
+      "type": "prose",
+      "heading": "Prologue Part B: Arriving in Ymir",
+      "content": "Watch the event scene — you'll be reunited with **Elise**, **Alfin**, and **Toval**. After the scene, leave the building. The game introduces the **event system**: **story events** are marked with a **red exclamation mark**, while **side events** use a **green exclamation mark**.\n\n<!-- checkpoint: pro-ymir-arrival | Arrived in Ymir -->"
+    },
+    {
+      "type": "prose",
+      "heading": "Ymir — Shopping & Exploration",
+      "content": "Head to the **General Store \"Plover\"** in the southwest corner of town. Purchase **Imperial Chronicle Issue #1** and **Gambler Jack Reprint Chapter 1** — there's a trophy for collecting all books in the game, so don't skip these.\n\n<!-- missable: pro-book-chronicle-1 | Imperial Chronicle Issue #1 -->\n<!-- missable: pro-book-gambler-1 | Gambler Jack Reprint Chapter 1 -->"
+    },
+    {
+      "type": "prose",
+      "heading": "Ymir — Story Events",
+      "content": "Visit all the red exclamation mark locations around town:\n\n**Rean's Parents** — Find **Lucia** and **Baron Schwarzer** at the **Baron's Mansion**.\n\n**Elise and Celine** — They're at the **Footbath** in the center of town. Speaking to them adds the \"Friends Note\" to your menu; collecting all profile pages earns a bronze trophy.\n\n**Toval** — He's at the **Inn & Pub \"Valley Echo\"**. While there, speak to pub owner **Gerald** for pancakes.\n\n**Werner** — Find him in the kitchen area of **The Phoenix Wings** hotel (northeast on map). Speaking to him adds the recipe section to your menu and unlocks a new recipe.\n\n**Princess Alfin** — She's at the **Septian Church**.\n\n**Annabelle** — Located at **Ymir Canyon** entrance. She gives you a fishing rod (adds the fishing section to your menu). If you transferred a save from the original *Cold Steel*, she provides **Groundbait** based on your rank. You can also exchange prizes with her.\n\n<!-- checkpoint: pro-ymir-events | Completed Ymir Events -->"
+    },
+    {
+      "type": "prose",
+      "heading": "Ymir — Advancing the Story",
+      "content": "Once you've completed all activities, head to **The Phoenix Wings** hotel and speak to the receptionist, **Baggins**. Then go to the **Hot Springs** on the right side of the building.\n\n> **Warning:** Entering the Hot Spring automatically advances the story. Finish all shopping and events before going in!\n\nAfter the hot spring scene, **Elise** and **Toval** join your party. Go back inside the **Baron Mansion** and speak to **Alfin** for a short event. Before heading out, use the **footbath** at the center of town to fully restore your party's HP, EP, and CP. Then take the **northwest exit** to reach **Ymir Canyon**.\n\n<!-- checkpoint: pro-ymir-departure | Left Ymir for Canyon -->"
+    },
+    {
+      "type": "prose",
+      "heading": "Nightmare Mode Preparation",
+      "content": "If playing on Nightmare difficulty (or preparing for a tough run), stock up before entering the canyon:\n\n- **Healing:** Aim for 15–20 **Teara Balms** and **Reviving Balms**\n- **Farming:** Cook **Salty Onigiri** with Elise to create **Tri-Colored Onigiri** (superb result) — sell for 150 Mira each to fund supplies\n- **Equipment:** Ensure all three characters have the best accessory from the store (boosts Strength, ATS, and Speed)\n- **Consumables:** Invest remaining funds in **EP Charges**"
+    },
+    {
+      "type": "prose",
+      "heading": "Ymir Canyon — Link Attacks",
+      "content": "Watch the event scene upon entering the canyon. When you encounter the first monster, the game introduces **Link Attacks** — hitting enemies with the right attack type can cause them to become unbalanced, triggering a follow-up **Link Attack** for bonus damage. Finish off the first enemy and continue deeper into the canyon."
+    },
+    {
+      "type": "prose",
+      "heading": "Ymir Canyon — Exploration & Treasures",
+      "content": "Explore the first area thoroughly:\n\n**Northeast end:** Open the treasure chest for the **Lighter** accessory.\n\n**Northwest path:** Follow it to find a monster chest containing **Zeram Powder**. This fight has eight enemies — use **Toval's S-Craft** to kill all eight at once for the **Pieces of Eight** trophy.\n\n<!-- missable: pro-pieces-of-eight | Pieces of Eight Trophy -->\n\nBacktrack south and cross the bridge heading east. Pick up the **U-Material x3** from the chest at the east end. Then take the **north exit** to reach **Ymir Canyon 2**.\n\n<!-- checkpoint: pro-ymir-canyon-1 | Ymir Canyon 1 Complete -->"
+    },
+    {
+      "type": "prose",
+      "heading": "Ymir Canyon 2 — To the Boss",
+      "content": "Grab the **Tearal Balm** from the chest as you head north. Take the northwest path where it splits:\n\n- **South fork:** Treasure box with a **Poison Quartz**\n- **North fork:** Follow it all the way to find a chest with **Sepith (All Colors x50)**, then continue just a bit further to reach an **Orbment Charging Station** — heal up completely before proceeding to the next area for the boss fight.\n\n<!-- checkpoint: pro-ymir-canyon-2 | Ymir Canyon 2 Complete -->"
+    },
+    {
+      "type": "encounter",
+      "name": "Magic Knight Ortheim (Ymir Canyon)",
+      "heading": "Boss: Magic Knight Ortheim (Ymir Canyon)",
+      "stats": {
+        "HP": "45,225",
+        "Item Drop": "None",
+        "Elemental Efficacy": "100% (Earth, Water, Fire, Wind)",
+        "Unbalance Efficacy": "Slash: ★★☆☆, Thrust: ★★☆☆, Pierce: ★★☆☆, Strike: ★★☆☆"
+      },
+      "strategy": "Ortheim is significantly tougher this time around.\n\n**Boss Skills:**\n- **Sword Slash:** Hits everyone in front\n- **Ground Stab:** Targets a large area around the boss\n- **Boost:** Grants **STR 50% Up** and restores **15,000 HP**\n\n**Strategy:**\n- **Buff management:** When Ortheim uses Boost, it gains 50% attack power AND heals 20% of its HP — this prolongs the fight significantly. Push damage hard before it buffs.\n- **Healing:** Use **Elise** as your dedicated healer with **Holy Squall** (restores 60% HP in a small radius) or **Tear** for single-target recovery.\n- **DPS:** **Rean** and **Toval** are your main damage dealers. Rely on physical attacks and save your **S-Crafts** for turns with a critical bonus for maximum impact."
+    },
+    {
+      "type": "encounter",
+      "name": "Magic Knight Ortheim (Phase 2) — Ashen Knight, Valimar",
+      "heading": "Boss: Magic Knight Ortheim (Phase 2) — Ashen Knight, Valimar",
+      "stats": {
+        "HP": "84,400",
+        "Item Drop": "None",
+        "Elemental Efficacy": "100% (Earth, Water, Fire, Wind)"
+      },
+      "strategy": "This is your introduction to **Divine Knight (mech) combat**, which works like rock-paper-scissors — you select a body part to attack and try to find the weak point.\n\n**Stances & Weak Points:**\n- **Idle Stance:** Attack the **Head** (★★★★ effectiveness)\n- **Attack Stance:** Attack the **Arms** (★★★★ effectiveness)\n\nLanding a hit on the correct body part scores a **critical hit**, allowing you to perform a **Link Attack** for bonus damage. Follow the stance pattern above and this fight is straightforward.\n\n<!-- checkpoint: pro-valimar-victory | Defeated Ortheim with Valimar -->"
+    },
+    {
+      "type": "table",
+      "heading": "Monster Guide: Ymir Canyon",
+      "columns": ["Name", "Item Drop 1", "Item Drop 2"],
+      "rows": [
+        ["Frozen Fungus", "Clear Gelatin", "Hearty Powder"],
+        ["Snow Wisp", "Warmer", "EP Charge I"],
+        ["Snow Flying Feline", "Red Beast Flesh", "Globby Fat"],
+        ["Nix Cyron", "Hearty Powder", "U-Material"],
+        ["Frost Biter", "Chitinous Shell", "U-Material"]
+      ]
+    },
+    {
+      "type": "table",
+      "heading": "Treasure List: Ymir Canyon",
+      "columns": ["#", "Type", "Item Name", "Location"],
+      "rows": [
+        ["5/239", "Accessory", "Lighter", "Ymir Canyon 1"],
+        ["6/239", "Healing Item", "Zeram Powder", "Ymir Canyon 1 (NW end)"],
+        ["7/239", "Other", "U-Material x3", "Ymir Canyon 1 (East end)"],
+        ["8/239", "Healing Item", "Tearal Balm", "Ymir Canyon 2"],
+        ["9/239", "Quartz", "Poison", "Ymir Canyon 2 (South split path)"],
+        ["10/239", "Sepith", "All Sepith x50", "Ymir Canyon 2 (North end)"]
+      ]
+    }
+  ],
+  "checkpoints": [
+    { "id": "pro-new-game", "label": "Started New Game" },
+    { "id": "pro-first-battle", "label": "First Battle Complete" },
+    { "id": "pro-eisengard-explored", "label": "Eisengard Range Explored" },
+    { "id": "pro-ymir-arrival", "label": "Arrived in Ymir" },
+    { "id": "pro-ymir-events", "label": "Completed Ymir Events" },
+    { "id": "pro-ymir-departure", "label": "Left Ymir for Canyon" },
+    { "id": "pro-ymir-canyon-1", "label": "Ymir Canyon 1 Complete" },
+    { "id": "pro-ymir-canyon-2", "label": "Ymir Canyon 2 Complete" },
+    { "id": "pro-valimar-victory", "label": "Defeated Ortheim with Valimar" }
+  ]
+}
