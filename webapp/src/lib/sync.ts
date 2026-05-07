@@ -122,6 +122,12 @@ export function mergeProgressRecords(
 	// Setting it to 0 (Unix epoch) ensures that any real timestamp is treated as
 	// newer — i.e., steps without a recorded timestamp are always considered the
 	// oldest possible, so a timestamped version from the other side will always win.
+	//
+	// Note: a step appears in allIds only when it has an explicit entry in at least
+	// one side's stepTimestamps. Because saveProgress always records a real ISO
+	// timestamp when a step is added, the case where both sides fall back to
+	// EPOCH_MS (and thus lTime === rTime === 0) is not expected in normal operation.
+	// If it does occur, local state is preserved (lTime >= rTime).
 	const EPOCH_MS = 0;
 
 	for (const id of allIds) {

@@ -48,6 +48,10 @@ export async function saveProgress(
 	};
 
 	// Save a snapshot of the previous state before overwriting.
+	// Snapshots are saved on every toggle so that the full history of changes is
+	// captured. Rapid toggling generates one snapshot per action; this is
+	// acceptable given the small number of snapshots kept (MAX_SNAPSHOTS = 5)
+	// and the lightweight nature of IndexedDB writes for small objects.
 	const previous = await get<ProgressRecord>(key(walkthroughId));
 	if (previous) {
 		await appendProgressSnapshot(walkthroughId, previous);

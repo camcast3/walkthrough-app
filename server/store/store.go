@@ -145,8 +145,10 @@ func (s *DB) migrate() error {
 		}
 	} else {
 		// SQLite returns an error when the column already exists; ignore it.
+		// We match both common variations of the "already exists" message.
 		if _, err := s.db.Exec(`ALTER TABLE progress ADD COLUMN step_timestamps TEXT NOT NULL DEFAULT '{}'`); err != nil &&
-			!strings.Contains(err.Error(), "duplicate column name") {
+			!strings.Contains(err.Error(), "duplicate column name") &&
+			!strings.Contains(err.Error(), "already exists") {
 			log.Printf("[store] migrate: add step_timestamps column: %v", err)
 		}
 	}
@@ -292,6 +294,7 @@ func (s *DB) GetProgressHistory(walkthroughID string) ([]*ProgressRecord, error)
 		}
 		var rec ProgressRecord
 		if err := json.Unmarshal([]byte(snapshotJSON), &rec); err != nil {
+			log.Printf("[store] GetProgressHistory: skipping malformed snapshot for %s: %v", walkthroughID, err)
 			continue // skip malformed entries
 		}
 		records = append(records, &rec)
@@ -343,6 +346,9 @@ func MergeProgress(local, remote *ProgressRecord) *ProgressRecord {
 			}
 			// Only store the timestamp when it is non-zero; a zero timestamp
 			// means neither side recorded an actual toggle time for this step.
+			// When local wins but localTS is zero, remoteTS must also be zero
+			// (otherwise remote would have won), so we fall through without
+			// storing any timestamp.
 			if !localTS.IsZero() {
 				mergedTS[id] = localTS
 			} else if !remoteTS.IsZero() {
