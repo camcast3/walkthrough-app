@@ -132,8 +132,12 @@ func (s *DB) migrate() error {
 	}
 
 	// Add step_timestamps column to progress table (idempotent).
-	// For PostgreSQL, use IF NOT EXISTS; for SQLite, ignore the error if the
-	// column already exists (SQLite does not support IF NOT EXISTS here).
+	// Errors are intentionally swallowed: the only expected failure is "column
+	// already exists" on a database that already ran this migration. Any other
+	// failure (e.g. permissions) will be caught the first time the column is
+	// actually read or written.
+	// PostgreSQL supports IF NOT EXISTS on ALTER TABLE; SQLite does not, so we
+	// rely on the swallowed error for idempotency there.
 	if s.dialect == dialectPostgres {
 		_, _ = s.db.Exec(`ALTER TABLE progress ADD COLUMN IF NOT EXISTS step_timestamps TEXT NOT NULL DEFAULT '{}'`)
 	} else {
@@ -317,15 +321,18 @@ func MergeProgress(local, remote *ProgressRecord) *ProgressRecord {
 	mergedChecked := []string{}
 	mergedTS := make(map[string]time.Time, len(allIDs))
 
-	epoch := time.Time{}
+	// zeroTime is used as a fallback for steps that have no recorded timestamp
+	// on one side; it is the zero value of time.Time (0001-01-01), not the
+	// Unix epoch, so any real timestamp will always be considered newer.
+	zeroTime := time.Time{}
 	for id := range allIDs {
 		localTS := local.StepTimestamps[id]
 		if localTS.IsZero() {
-			localTS = epoch
+			localTS = zeroTime
 		}
 		remoteTS := remote.StepTimestamps[id]
 		if remoteTS.IsZero() {
-			remoteTS = epoch
+			remoteTS = zeroTime
 		}
 
 		if !localTS.Before(remoteTS) {
@@ -333,13 +340,23 @@ func MergeProgress(local, remote *ProgressRecord) *ProgressRecord {
 			if localChecked[id] {
 				mergedChecked = append(mergedChecked, id)
 			}
-			mergedTS[id] = localTS
+			// Only store the timestamp when it is non-zero; a zero timestamp
+			// means neither side recorded an actual toggle time for this step.
+			if !localTS.IsZero() {
+				mergedTS[id] = localTS
+			} else if !remoteTS.IsZero() {
+				mergedTS[id] = remoteTS
+			}
 		} else {
 			// Remote is newer: use remote checked state.
 			if remoteChecked[id] {
 				mergedChecked = append(mergedChecked, id)
 			}
-			mergedTS[id] = remoteTS
+			if !remoteTS.IsZero() {
+				mergedTS[id] = remoteTS
+			} else if !localTS.IsZero() {
+				mergedTS[id] = localTS
+			}
 		}
 	}
 

@@ -537,7 +537,6 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 	var record *store.ProgressRecord
 	if existing != nil {
 		record = store.MergeProgress(existing, incoming)
-		record.UpdatedAt = time.Now().UTC()
 	} else {
 		record = incoming
 	}

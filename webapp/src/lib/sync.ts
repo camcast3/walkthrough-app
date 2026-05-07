@@ -118,11 +118,13 @@ export function mergeProgressRecords(
 	const mergedChecked: string[] = [];
 	const mergedTS: Record<string, string> = {};
 
-	const epoch = 0; // ms since epoch for comparison
+	// EPOCH_MS represents 0 ms from the Unix epoch (Jan 1, 1970) — used as a
+	// fallback for steps that have no recorded toggle timestamp on one side.
+	const EPOCH_MS = 0;
 
 	for (const id of allIds) {
-		const lTime = localTS[id] ? new Date(localTS[id]).getTime() : epoch;
-		const rTime = remoteTS[id] ? new Date(remoteTS[id]).getTime() : epoch;
+		const lTime = localTS[id] ? new Date(localTS[id]).getTime() : EPOCH_MS;
+		const rTime = remoteTS[id] ? new Date(remoteTS[id]).getTime() : EPOCH_MS;
 
 		if (lTime >= rTime) {
 			// Local is same age or newer: keep local checked state.
