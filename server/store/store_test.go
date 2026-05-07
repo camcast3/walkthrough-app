@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	"testing"
 	"time"
 )
@@ -377,5 +378,226 @@ func TestListDeviceActivity_CheckoutOnlyDevice(t *testing.T) {
 	}
 	if len(devices[0].Walkthroughs) != 0 {
 		t.Errorf("expected no activity walkthroughs, got %v", devices[0].Walkthroughs)
+	}
+}
+
+// ── Step timestamps ───────────────────────────────────────────────────────────
+
+func TestPutGetProgressWithStepTimestamps(t *testing.T) {
+	db := openTestDB(t)
+	now := time.Now().UTC().Truncate(time.Second)
+
+	ts := map[string]time.Time{
+		"step1": now.Add(-5 * time.Minute),
+		"step2": now,
+	}
+	rec := &ProgressRecord{
+		WalkthroughID:  "wt-ts",
+		CheckedSteps:   []string{"step1", "step2"},
+		StepTimestamps: ts,
+		UpdatedAt:      now,
+	}
+	if err := db.PutProgress(rec); err != nil {
+		t.Fatal(err)
+	}
+
+	got, err := db.GetProgress("wt-ts")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got == nil {
+		t.Fatal("expected record, got nil")
+	}
+	if len(got.StepTimestamps) != 2 {
+		t.Errorf("expected 2 step timestamps, got %d: %v", len(got.StepTimestamps), got.StepTimestamps)
+	}
+	if !got.StepTimestamps["step1"].Equal(ts["step1"]) {
+		t.Errorf("step1 timestamp mismatch: got %v want %v", got.StepTimestamps["step1"], ts["step1"])
+	}
+	if !got.StepTimestamps["step2"].Equal(ts["step2"]) {
+		t.Errorf("step2 timestamp mismatch: got %v want %v", got.StepTimestamps["step2"], ts["step2"])
+	}
+}
+
+func TestPutGetProgressNilTimestamps(t *testing.T) {
+	db := openTestDB(t)
+	rec := &ProgressRecord{
+		WalkthroughID: "wt-no-ts",
+		CheckedSteps:  []string{"step1"},
+		UpdatedAt:     time.Now().UTC(),
+	}
+	if err := db.PutProgress(rec); err != nil {
+		t.Fatal(err)
+	}
+	got, err := db.GetProgress("wt-no-ts")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got == nil {
+		t.Fatal("expected record, got nil")
+	}
+	// StepTimestamps should be an empty map (not nil) when none were provided.
+	if got.StepTimestamps == nil {
+		t.Error("expected non-nil StepTimestamps, got nil")
+	}
+}
+
+// ── Progress history (SFV) ───────────────────────────────────────────────────
+
+func TestAddProgressSnapshot_PrunesOldest(t *testing.T) {
+	db := openTestDB(t)
+	base := time.Now().UTC()
+
+	for i := 0; i < maxProgressSnapshots+2; i++ {
+		rec := &ProgressRecord{
+			WalkthroughID: "wt-snap",
+			CheckedSteps:  []string{fmt.Sprintf("s%d", i)},
+			UpdatedAt:     base.Add(time.Duration(i) * time.Second),
+		}
+		if err := db.AddProgressSnapshot(rec); err != nil {
+			t.Fatalf("AddProgressSnapshot(%d): %v", i, err)
+		}
+	}
+
+	history, err := db.GetProgressHistory("wt-snap")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(history) != maxProgressSnapshots {
+		t.Errorf("expected %d snapshots, got %d", maxProgressSnapshots, len(history))
+	}
+}
+
+func TestGetProgressHistory_OrderedNewestFirst(t *testing.T) {
+	db := openTestDB(t)
+	base := time.Now().UTC()
+
+	for i := 0; i < 3; i++ {
+		rec := &ProgressRecord{
+			WalkthroughID: "wt-order",
+			CheckedSteps:  []string{fmt.Sprintf("step%d", i)},
+			UpdatedAt:     base.Add(time.Duration(i) * time.Second),
+		}
+		if err := db.AddProgressSnapshot(rec); err != nil {
+			t.Fatalf("AddProgressSnapshot(%d): %v", i, err)
+		}
+	}
+
+	history, err := db.GetProgressHistory("wt-order")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(history) != 3 {
+		t.Fatalf("expected 3 snapshots, got %d", len(history))
+	}
+	// Newest first: step2, step1, step0
+	if len(history[0].CheckedSteps) != 1 || history[0].CheckedSteps[0] != "step2" {
+		t.Errorf("expected step2 first, got %v", history[0].CheckedSteps)
+	}
+}
+
+func TestGetProgressHistory_EmptyWhenNone(t *testing.T) {
+	db := openTestDB(t)
+	history, err := db.GetProgressHistory("no-such-walkthrough")
+	if err != nil {
+		t.Fatal(err)
+	}
+	if history == nil {
+		t.Error("expected empty slice, got nil")
+	}
+	if len(history) != 0 {
+		t.Errorf("expected 0 snapshots, got %d", len(history))
+	}
+}
+
+// ── MergeProgress ─────────────────────────────────────────────────────────────
+
+func TestMergeProgress_LocalNewerWins(t *testing.T) {
+	base := time.Now().UTC()
+	local := &ProgressRecord{
+		WalkthroughID: "wt",
+		CheckedSteps:  []string{"s1"},
+		StepTimestamps: map[string]time.Time{
+			"s1": base.Add(10 * time.Second), // local toggled s1 more recently
+			"s2": base.Add(-5 * time.Second), // local toggled s2 earlier
+		},
+		UpdatedAt: base,
+	}
+	remote := &ProgressRecord{
+		WalkthroughID: "wt",
+		CheckedSteps:  []string{"s1", "s2"},
+		StepTimestamps: map[string]time.Time{
+			"s1": base,                       // remote toggled s1 earlier
+			"s2": base.Add(20 * time.Second), // remote toggled s2 more recently
+		},
+		UpdatedAt: base.Add(20 * time.Second),
+	}
+
+	merged := MergeProgress(local, remote)
+
+	// s1: local is newer (base+10s > base) — local has s1 checked → s1 in merged
+	// s2: remote is newer (base+20s > base-5s) — remote has s2 checked → s2 in merged
+	checkedSet := make(map[string]bool)
+	for _, id := range merged.CheckedSteps {
+		checkedSet[id] = true
+	}
+	if !checkedSet["s1"] {
+		t.Error("expected s1 to be checked (local is newer)")
+	}
+	if !checkedSet["s2"] {
+		t.Error("expected s2 to be checked (remote is newer)")
+	}
+}
+
+func TestMergeProgress_RemoteUncheckWins(t *testing.T) {
+	base := time.Now().UTC()
+	local := &ProgressRecord{
+		WalkthroughID: "wt",
+		CheckedSteps:  []string{"s1"},
+		StepTimestamps: map[string]time.Time{
+			"s1": base, // checked at base
+		},
+		UpdatedAt: base,
+	}
+	remote := &ProgressRecord{
+		WalkthroughID: "wt",
+		CheckedSteps:  []string{}, // s1 was unchecked
+		StepTimestamps: map[string]time.Time{
+			"s1": base.Add(5 * time.Second), // unchecked later than local checked it
+		},
+		UpdatedAt: base.Add(5 * time.Second),
+	}
+
+	merged := MergeProgress(local, remote)
+
+	for _, id := range merged.CheckedSteps {
+		if id == "s1" {
+			t.Error("expected s1 to be unchecked: remote unchecked it more recently")
+		}
+	}
+}
+
+func TestMergeProgress_NilTimestampsFallsBack(t *testing.T) {
+	base := time.Now().UTC()
+	local := &ProgressRecord{
+		WalkthroughID: "wt",
+		CheckedSteps:  []string{"s1"},
+		UpdatedAt:     base,
+	}
+	remote := &ProgressRecord{
+		WalkthroughID: "wt",
+		CheckedSteps:  []string{"s2"},
+		UpdatedAt:     base.Add(time.Minute),
+	}
+
+	// Neither side has step timestamps; merge should produce an empty set
+	// (no timestamps means neither side has any steps to merge).
+	merged := MergeProgress(local, remote)
+	if len(merged.CheckedSteps) != 0 {
+		t.Errorf("expected empty merged steps when no timestamps, got %v", merged.CheckedSteps)
+	}
+	// UpdatedAt should be the max of the two sides.
+	if !merged.UpdatedAt.Equal(base.Add(time.Minute)) {
+		t.Errorf("expected updatedAt=%v, got %v", base.Add(time.Minute), merged.UpdatedAt)
 	}
 }

@@ -2,9 +2,15 @@ import { get, set, del } from 'idb-keyval';
 import type { ProgressRecord } from './types.js';
 
 const KEY_PREFIX = 'wt_progress_';
+const HISTORY_PREFIX = 'wt_progress_history_';
+const MAX_SNAPSHOTS = 5;
 
 function key(walkthroughId: string): string {
 	return `${KEY_PREFIX}${walkthroughId}`;
+}
+
+function historyKey(walkthroughId: string): string {
+	return `${HISTORY_PREFIX}${walkthroughId}`;
 }
 
 export async function loadProgress(walkthroughId: string): Promise<ProgressRecord | null> {
@@ -12,18 +18,86 @@ export async function loadProgress(walkthroughId: string): Promise<ProgressRecor
 	return record ?? null;
 }
 
-export async function saveProgress(walkthroughId: string, checkedSteps: Set<string>): Promise<ProgressRecord> {
+/**
+ * Saves the current progress state to IndexedDB.
+ *
+ * When `changedStepId` is provided, the timestamp for that step is updated to
+ * the current time, recording exactly when each step was last toggled. This
+ * enables rsync-like merging during sync: whichever device toggled a step
+ * most recently "wins" when the two states are merged.
+ *
+ * A snapshot of the previous state is also saved (up to MAX_SNAPSHOTS kept)
+ * to support Simple File Version (SFV) reverting.
+ */
+export async function saveProgress(
+	walkthroughId: string,
+	checkedSteps: Set<string>,
+	existingTimestamps: Record<string, string> = {},
+	changedStepId?: string
+): Promise<ProgressRecord> {
+	const stepTimestamps: Record<string, string> = { ...existingTimestamps };
+	if (changedStepId) {
+		stepTimestamps[changedStepId] = new Date().toISOString();
+	}
+
 	const record: ProgressRecord = {
 		walkthroughId,
 		checkedSteps: Array.from(checkedSteps),
+		stepTimestamps,
 		updatedAt: new Date().toISOString()
 	};
+
+	// Save a snapshot of the previous state before overwriting.
+	const previous = await get<ProgressRecord>(key(walkthroughId));
+	if (previous) {
+		await _appendSnapshot(walkthroughId, previous);
+	}
+
 	await set(key(walkthroughId), record);
 	return record;
 }
 
+/** Appends a snapshot to the history list and trims to MAX_SNAPSHOTS. */
+async function _appendSnapshot(walkthroughId: string, record: ProgressRecord): Promise<void> {
+	const history = (await get<ProgressRecord[]>(historyKey(walkthroughId))) ?? [];
+	history.unshift(record);
+	if (history.length > MAX_SNAPSHOTS) {
+		history.length = MAX_SNAPSHOTS;
+	}
+	await set(historyKey(walkthroughId), history);
+}
+
+/**
+ * Returns the last MAX_SNAPSHOTS saved snapshots for a walkthrough, newest first.
+ * Returns an empty array when no history exists.
+ */
+export async function loadProgressHistory(walkthroughId: string): Promise<ProgressRecord[]> {
+	return (await get<ProgressRecord[]>(historyKey(walkthroughId))) ?? [];
+}
+
+/**
+ * Reverts progress to a historical snapshot by index (0 = most recent).
+ * Saves the reverted state as the current progress and records the pre-revert
+ * state as a new snapshot.
+ */
+export async function revertToSnapshot(
+	walkthroughId: string,
+	snapshotIndex: number
+): Promise<ProgressRecord | null> {
+	const history = await loadProgressHistory(walkthroughId);
+	if (snapshotIndex < 0 || snapshotIndex >= history.length) return null;
+	const target = history[snapshotIndex];
+	// Re-save via saveProgress so the pre-revert state is preserved in history.
+	return saveProgress(
+		walkthroughId,
+		new Set(target.checkedSteps),
+		target.stepTimestamps ?? {}
+	);
+}
+
 export async function clearProgress(walkthroughId: string): Promise<void> {
 	await del(key(walkthroughId));
+	await del(historyKey(walkthroughId));
 }
 
 /** Returns how many steps are checked out of total. */

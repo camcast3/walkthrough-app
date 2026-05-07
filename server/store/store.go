@@ -19,9 +19,10 @@ const (
 )
 
 type ProgressRecord struct {
-	WalkthroughID string    `json:"walkthroughId"`
-	CheckedSteps  []string  `json:"checkedSteps"`
-	UpdatedAt     time.Time `json:"updatedAt"`
+	WalkthroughID  string            `json:"walkthroughId"`
+	CheckedSteps   []string          `json:"checkedSteps"`
+	StepTimestamps map[string]time.Time `json:"stepTimestamps,omitempty"`
+	UpdatedAt      time.Time         `json:"updatedAt"`
 }
 
 type DB struct {
@@ -118,22 +119,37 @@ func (s *DB) migrate() error {
 			checked_out_at TEXT NOT NULL,
 			PRIMARY KEY (device_id, walkthrough_id)
 		)`,
+		`CREATE TABLE IF NOT EXISTS progress_history (
+			walkthrough_id TEXT NOT NULL,
+			snapshot       TEXT NOT NULL,
+			saved_at       TEXT NOT NULL
+		)`,
 	}
 	for _, ddl := range tables {
 		if _, err := s.db.Exec(ddl); err != nil {
 			return fmt.Errorf("exec %q: %w", ddl[:min(len(ddl), 40)], err)
 		}
 	}
+
+	// Add step_timestamps column to progress table (idempotent).
+	// For PostgreSQL, use IF NOT EXISTS; for SQLite, ignore the error if the
+	// column already exists (SQLite does not support IF NOT EXISTS here).
+	if s.dialect == dialectPostgres {
+		_, _ = s.db.Exec(`ALTER TABLE progress ADD COLUMN IF NOT EXISTS step_timestamps TEXT NOT NULL DEFAULT '{}'`)
+	} else {
+		_, _ = s.db.Exec(`ALTER TABLE progress ADD COLUMN step_timestamps TEXT NOT NULL DEFAULT '{}'`)
+	}
+
 	return nil
 }
 
 func (s *DB) GetProgress(walkthroughID string) (*ProgressRecord, error) {
 	row := s.db.QueryRow(
-		s.q(`SELECT walkthrough_id, checked_steps, updated_at FROM progress WHERE walkthrough_id = ?`),
+		s.q(`SELECT walkthrough_id, checked_steps, step_timestamps, updated_at FROM progress WHERE walkthrough_id = ?`),
 		walkthroughID,
 	)
-	var id, stepsJSON, updatedAt string
-	if err := row.Scan(&id, &stepsJSON, &updatedAt); err == sql.ErrNoRows {
+	var id, stepsJSON, tsJSON, updatedAt string
+	if err := row.Scan(&id, &stepsJSON, &tsJSON, &updatedAt); err == sql.ErrNoRows {
 		return nil, nil
 	} else if err != nil {
 		return nil, err
@@ -144,12 +160,40 @@ func (s *DB) GetProgress(walkthroughID string) (*ProgressRecord, error) {
 		steps = []string{}
 	}
 
+	stepTimestamps := parseStepTimestamps(tsJSON)
+
 	t, _ := time.Parse(time.RFC3339, updatedAt)
 	return &ProgressRecord{
-		WalkthroughID: id,
-		CheckedSteps:  steps,
-		UpdatedAt:     t,
+		WalkthroughID:  id,
+		CheckedSteps:   steps,
+		StepTimestamps: stepTimestamps,
+		UpdatedAt:      t,
 	}, nil
+}
+
+// parseStepTimestamps decodes a JSON object of stepID → RFC3339 timestamp strings.
+func parseStepTimestamps(tsJSON string) map[string]time.Time {
+	var raw map[string]string
+	if err := json.Unmarshal([]byte(tsJSON), &raw); err != nil || raw == nil {
+		return map[string]time.Time{}
+	}
+	out := make(map[string]time.Time, len(raw))
+	for k, v := range raw {
+		if t, err := time.Parse(time.RFC3339, v); err == nil {
+			out[k] = t
+		}
+	}
+	return out
+}
+
+// encodeStepTimestamps serialises a map of stepID → time to a JSON string.
+func encodeStepTimestamps(ts map[string]time.Time) (string, error) {
+	raw := make(map[string]string, len(ts))
+	for k, v := range ts {
+		raw[k] = v.UTC().Format(time.RFC3339)
+	}
+	b, err := json.Marshal(raw)
+	return string(b), err
 }
 
 func (s *DB) PutProgress(r *ProgressRecord) error {
@@ -157,17 +201,160 @@ func (s *DB) PutProgress(r *ProgressRecord) error {
 	if err != nil {
 		return err
 	}
+	tsJSON, err := encodeStepTimestamps(r.StepTimestamps)
+	if err != nil {
+		return err
+	}
 	_, err = s.db.Exec(
-		s.q(`INSERT INTO progress (walkthrough_id, checked_steps, updated_at)
-		 VALUES (?, ?, ?)
+		s.q(`INSERT INTO progress (walkthrough_id, checked_steps, step_timestamps, updated_at)
+		 VALUES (?, ?, ?, ?)
 		 ON CONFLICT(walkthrough_id) DO UPDATE SET
-		   checked_steps = excluded.checked_steps,
-		   updated_at    = excluded.updated_at`),
+		   checked_steps   = excluded.checked_steps,
+		   step_timestamps = excluded.step_timestamps,
+		   updated_at      = excluded.updated_at`),
 		r.WalkthroughID,
 		string(stepsJSON),
+		tsJSON,
 		r.UpdatedAt.UTC().Format(time.RFC3339),
 	)
 	return err
+}
+
+// maxProgressSnapshots is the maximum number of historical snapshots retained per walkthrough.
+const maxProgressSnapshots = 5
+
+// AddProgressSnapshot saves the current state of a progress record as a historical
+// snapshot and prunes older entries so at most maxProgressSnapshots are retained.
+func (s *DB) AddProgressSnapshot(r *ProgressRecord) error {
+	data, err := json.Marshal(r)
+	if err != nil {
+		return err
+	}
+	savedAt := r.UpdatedAt.UTC().Format(time.RFC3339Nano)
+	_, err = s.db.Exec(
+		s.q(`INSERT INTO progress_history (walkthrough_id, snapshot, saved_at) VALUES (?, ?, ?)`),
+		r.WalkthroughID,
+		string(data),
+		savedAt,
+	)
+	if err != nil {
+		return err
+	}
+	// Prune: keep only the newest maxProgressSnapshots entries per walkthrough.
+	_, err = s.db.Exec(
+		s.q(`DELETE FROM progress_history
+		 WHERE walkthrough_id = ?
+		   AND saved_at NOT IN (
+		     SELECT saved_at FROM progress_history
+		     WHERE walkthrough_id = ?
+		     ORDER BY saved_at DESC
+		     LIMIT ?
+		   )`),
+		r.WalkthroughID,
+		r.WalkthroughID,
+		maxProgressSnapshots,
+	)
+	return err
+}
+
+// GetProgressHistory returns up to maxProgressSnapshots historical snapshots for the
+// given walkthrough, ordered newest first.
+func (s *DB) GetProgressHistory(walkthroughID string) ([]*ProgressRecord, error) {
+	rows, err := s.db.Query(
+		s.q(`SELECT snapshot FROM progress_history
+		 WHERE walkthrough_id = ?
+		 ORDER BY saved_at DESC
+		 LIMIT ?`),
+		walkthroughID,
+		maxProgressSnapshots,
+	)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var records []*ProgressRecord
+	for rows.Next() {
+		var snapshotJSON string
+		if err := rows.Scan(&snapshotJSON); err != nil {
+			return nil, err
+		}
+		var rec ProgressRecord
+		if err := json.Unmarshal([]byte(snapshotJSON), &rec); err != nil {
+			continue // skip malformed entries
+		}
+		records = append(records, &rec)
+	}
+	if records == nil {
+		records = []*ProgressRecord{}
+	}
+	return records, rows.Err()
+}
+
+// MergeProgress applies an rsync-like per-step merge of remote into local.
+// For each step, whichever side has the newer StepTimestamp wins (its checked
+// state is used). The merged record is returned; neither receiver nor argument
+// is modified.
+func MergeProgress(local, remote *ProgressRecord) *ProgressRecord {
+	localChecked := make(map[string]bool, len(local.CheckedSteps))
+	for _, id := range local.CheckedSteps {
+		localChecked[id] = true
+	}
+	remoteChecked := make(map[string]bool, len(remote.CheckedSteps))
+	for _, id := range remote.CheckedSteps {
+		remoteChecked[id] = true
+	}
+
+	// Union of all step IDs that have a recorded timestamp on either side.
+	allIDs := make(map[string]bool)
+	for id := range local.StepTimestamps {
+		allIDs[id] = true
+	}
+	for id := range remote.StepTimestamps {
+		allIDs[id] = true
+	}
+
+	mergedChecked := []string{}
+	mergedTS := make(map[string]time.Time, len(allIDs))
+
+	epoch := time.Time{}
+	for id := range allIDs {
+		localTS := local.StepTimestamps[id]
+		if localTS.IsZero() {
+			localTS = epoch
+		}
+		remoteTS := remote.StepTimestamps[id]
+		if remoteTS.IsZero() {
+			remoteTS = epoch
+		}
+
+		if !localTS.Before(remoteTS) {
+			// Local is same age or newer: keep local checked state.
+			if localChecked[id] {
+				mergedChecked = append(mergedChecked, id)
+			}
+			mergedTS[id] = localTS
+		} else {
+			// Remote is newer: use remote checked state.
+			if remoteChecked[id] {
+				mergedChecked = append(mergedChecked, id)
+			}
+			mergedTS[id] = remoteTS
+		}
+	}
+
+	// Determine the overall updatedAt as the max of the two sides.
+	updatedAt := local.UpdatedAt
+	if remote.UpdatedAt.After(updatedAt) {
+		updatedAt = remote.UpdatedAt
+	}
+
+	return &ProgressRecord{
+		WalkthroughID:  local.WalkthroughID,
+		CheckedSteps:   mergedChecked,
+		StepTimestamps: mergedTS,
+		UpdatedAt:      updatedAt,
+	}
 }
 
 // Checkout marks a walkthrough as checked out on this client.

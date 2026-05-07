@@ -378,3 +378,103 @@ func TestProgressSync_FlushesImmediatelyOnReconnect(t *testing.T) {
 		t.Error("timeout: expected immediate flush after reconnect")
 	}
 }
+
+// ── PullAll rsync-like merge ──────────────────────────────────────────────────
+
+func TestPullAll_MergesWithStepTimestamps(t *testing.T) {
+	base := time.Now().UTC().Truncate(time.Second)
+
+	// Remote has s1 checked at base+5s, s2 checked at base.
+	remote := store.ProgressRecord{
+		WalkthroughID: "wt-merge",
+		CheckedSteps:  []string{"s1", "s2"},
+		StepTimestamps: map[string]time.Time{
+			"s1": base.Add(5 * time.Second),
+			"s2": base,
+		},
+		UpdatedAt: base.Add(5 * time.Second),
+	}
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodGet && strings.HasPrefix(r.URL.Path, "/api/progress/") {
+			w.Header().Set("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(remote)
+		} else {
+			w.WriteHeader(http.StatusOK)
+		}
+	}))
+	defer srv.Close()
+
+	db := openTestDB(t)
+
+	// Local has s2 checked at base+10s (newer than remote s2 timestamp).
+	// s1 is not checked locally (no local timestamp → epoch).
+	local := &store.ProgressRecord{
+		WalkthroughID: "wt-merge",
+		CheckedSteps:  []string{"s2"},
+		StepTimestamps: map[string]time.Time{
+			"s2": base.Add(10 * time.Second),
+		},
+		UpdatedAt: base.Add(10 * time.Second),
+	}
+	if err := db.PutProgress(local); err != nil {
+		t.Fatal(err)
+	}
+
+	ps := NewProgressSync(srv.URL, db, time.Hour)
+	ps.PullAll(context.Background(), []string{"wt-merge"})
+
+	merged, err := db.GetProgress("wt-merge")
+	if err != nil {
+		t.Fatalf("GetProgress after PullAll: %v", err)
+	}
+	if merged == nil {
+		t.Fatal("expected merged record, got nil")
+	}
+
+	checkedSet := make(map[string]bool)
+	for _, id := range merged.CheckedSteps {
+		checkedSet[id] = true
+	}
+
+	// s1: remote is newer (base+5s vs no local timestamp) → s1 should be checked.
+	if !checkedSet["s1"] {
+		t.Error("expected s1 to be checked: remote has newer timestamp")
+	}
+	// s2: local is newer (base+10s > base) → s2 should be checked (local wins).
+	if !checkedSet["s2"] {
+		t.Error("expected s2 to be checked: local has newer timestamp")
+	}
+}
+
+func TestPushRemote_IncludesStepTimestamps(t *testing.T) {
+	var gotBody []byte
+
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		gotBody, _ = io.ReadAll(r.Body)
+		w.WriteHeader(http.StatusOK)
+	}))
+	defer srv.Close()
+
+	db := openTestDB(t)
+	ps := NewProgressSync(srv.URL, db, time.Hour)
+
+	record := &store.ProgressRecord{
+		WalkthroughID: "wt-ts-push",
+		CheckedSteps:  []string{"s1"},
+		StepTimestamps: map[string]time.Time{
+			"s1": time.Now().UTC(),
+		},
+		UpdatedAt: time.Now().UTC(),
+	}
+	if err := ps.pushRemote(context.Background(), record); err != nil {
+		t.Fatalf("pushRemote: %v", err)
+	}
+
+	if !strings.Contains(string(gotBody), "stepTimestamps") {
+		t.Errorf("expected stepTimestamps in push body, got: %s", gotBody)
+	}
+	if !strings.Contains(string(gotBody), `"s1"`) {
+		t.Errorf("expected s1 in push body, got: %s", gotBody)
+	}
+}

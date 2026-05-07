@@ -93,13 +93,70 @@ export async function checkin(walkthroughId: string): Promise<void> {
 }
 
 /**
- * Syncs local progress with the remote server.
- * Returns a SyncStatus describing whether the local state is stale.
+ * Merges two ProgressRecord objects using rsync-like per-step timestamp logic.
+ *
+ * For each step that appears in either record's stepTimestamps, whichever side
+ * has the newer timestamp wins (its checked/unchecked state is used). Steps
+ * with no timestamp entry on either side are ignored.
+ *
+ * This allows offline edits from two different devices to be merged without
+ * losing either side's work.
+ */
+export function mergeProgressRecords(
+	local: ProgressRecord,
+	remote: ProgressRecord
+): ProgressRecord {
+	const localChecked = new Set(local.checkedSteps);
+	const remoteChecked = new Set(remote.checkedSteps);
+
+	const localTS = local.stepTimestamps ?? {};
+	const remoteTS = remote.stepTimestamps ?? {};
+
+	// Union of all step IDs that have a recorded timestamp on either side.
+	const allIds = new Set([...Object.keys(localTS), ...Object.keys(remoteTS)]);
+
+	const mergedChecked: string[] = [];
+	const mergedTS: Record<string, string> = {};
+
+	const epoch = 0; // ms since epoch for comparison
+
+	for (const id of allIds) {
+		const lTime = localTS[id] ? new Date(localTS[id]).getTime() : epoch;
+		const rTime = remoteTS[id] ? new Date(remoteTS[id]).getTime() : epoch;
+
+		if (lTime >= rTime) {
+			// Local is same age or newer: keep local checked state.
+			if (localChecked.has(id)) mergedChecked.push(id);
+			mergedTS[id] = localTS[id] ?? remoteTS[id];
+		} else {
+			// Remote is newer: use remote checked state.
+			if (remoteChecked.has(id)) mergedChecked.push(id);
+			mergedTS[id] = remoteTS[id];
+		}
+	}
+
+	const localTime = new Date(local.updatedAt).getTime();
+	const remoteTime = new Date(remote.updatedAt).getTime();
+	const updatedAt = localTime >= remoteTime ? local.updatedAt : remote.updatedAt;
+
+	return {
+		walkthroughId: local.walkthroughId,
+		checkedSteps: mergedChecked,
+		stepTimestamps: mergedTS,
+		updatedAt
+	};
+}
+
+/**
+ * Syncs local progress with the remote server using rsync-like per-step merge.
  *
  * Strategy:
  * 1. Pull remote state.
- * 2. If remote is newer by > STALE_THRESHOLD_MS, return stale=true (caller shows warning).
- * 3. Otherwise push local state to server.
+ * 2. Merge remote into local using per-step timestamps so that each step's
+ *    most recently toggled state wins — no offline work is lost.
+ * 3. Push the merged state back to the server.
+ * 4. Return a SyncStatus; stale=true when remote had significantly newer
+ *    overall progress AND local had no per-step timestamps (legacy record).
  */
 export async function syncProgress(
 	walkthroughId: string,
@@ -119,12 +176,28 @@ export async function syncProgress(
 
 		if (remote) {
 			status.remoteUpdatedAt = remote.updatedAt;
-			const remoteTime = new Date(remote.updatedAt).getTime();
-			const localTime = localRecord ? new Date(localRecord.updatedAt).getTime() : 0;
 
-			if (remoteTime - localTime > STALE_THRESHOLD_MS) {
-				status.stale = true;
-				return status;
+			if (localRecord) {
+				const localHasTimestamps =
+					localRecord.stepTimestamps && Object.keys(localRecord.stepTimestamps).length > 0;
+				const remoteHasTimestamps =
+					remote.stepTimestamps && Object.keys(remote.stepTimestamps).length > 0;
+
+				if (localHasTimestamps || remoteHasTimestamps) {
+					// Rsync-like merge: use per-step timestamps to determine winner.
+					const merged = mergeProgressRecords(localRecord, remote);
+					await pushProgress(merged);
+					status.lastSynced = new Date().toISOString();
+					return status;
+				}
+
+				// Legacy records without step timestamps: fall back to time-based comparison.
+				const remoteTime = new Date(remote.updatedAt).getTime();
+				const localTime = new Date(localRecord.updatedAt).getTime();
+				if (remoteTime - localTime > STALE_THRESHOLD_MS) {
+					status.stale = true;
+					return status;
+				}
 			}
 		}
 
@@ -137,6 +210,21 @@ export async function syncProgress(
 	}
 
 	return status;
+}
+
+/**
+ * Fetches the progress history (Simple File Version snapshots) for a walkthrough
+ * from the server. Returns an empty array when the server is unreachable or has
+ * no history.
+ */
+export async function fetchProgressHistory(walkthroughId: string): Promise<ProgressRecord[]> {
+	try {
+		const res = await fetch(`${API_BASE}/progress/${walkthroughId}/history`);
+		if (!res.ok) return [];
+		return res.json();
+	} catch {
+		return [];
+	}
 }
 
 /** Human-readable description of how long ago a timestamp was. */
