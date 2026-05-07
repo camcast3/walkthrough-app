@@ -50,7 +50,7 @@ export async function saveProgress(
 	// Save a snapshot of the previous state before overwriting.
 	const previous = await get<ProgressRecord>(key(walkthroughId));
 	if (previous) {
-		await _appendSnapshot(walkthroughId, previous);
+		await appendProgressSnapshot(walkthroughId, previous);
 	}
 
 	await set(key(walkthroughId), record);
@@ -58,7 +58,7 @@ export async function saveProgress(
 }
 
 /** Appends a snapshot to the history list and trims to MAX_SNAPSHOTS. */
-async function _appendSnapshot(walkthroughId: string, record: ProgressRecord): Promise<void> {
+async function appendProgressSnapshot(walkthroughId: string, record: ProgressRecord): Promise<void> {
 	const history = (await get<ProgressRecord[]>(historyKey(walkthroughId))) ?? [];
 	history.unshift(record);
 	if (history.length > MAX_SNAPSHOTS) {

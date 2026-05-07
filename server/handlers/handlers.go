@@ -547,7 +547,9 @@ func (h *Handler) PutProgress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Save a historical snapshot for SFV (Simple File Version) support.
-	_ = h.DB.AddProgressSnapshot(record)
+	if err := h.DB.AddProgressSnapshot(record); err != nil {
+		log.Printf("[progress] failed to save snapshot for %s: %v", id, err)
+	}
 
 	// In server mode, record which device was active on this walkthrough.
 	if h.AppMode == "server" {

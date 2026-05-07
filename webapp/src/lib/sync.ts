@@ -118,8 +118,10 @@ export function mergeProgressRecords(
 	const mergedChecked: string[] = [];
 	const mergedTS: Record<string, string> = {};
 
-	// EPOCH_MS represents 0 ms from the Unix epoch (Jan 1, 1970) — used as a
-	// fallback for steps that have no recorded toggle timestamp on one side.
+	// EPOCH_MS is used as a fallback for steps with no recorded toggle timestamp.
+	// Setting it to 0 (Unix epoch) ensures that any real timestamp is treated as
+	// newer — i.e., steps without a recorded timestamp are always considered the
+	// oldest possible, so a timestamped version from the other side will always win.
 	const EPOCH_MS = 0;
 
 	for (const id of allIds) {

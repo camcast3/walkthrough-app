@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -139,9 +140,15 @@ func (s *DB) migrate() error {
 	// PostgreSQL supports IF NOT EXISTS on ALTER TABLE; SQLite does not, so we
 	// rely on the swallowed error for idempotency there.
 	if s.dialect == dialectPostgres {
-		_, _ = s.db.Exec(`ALTER TABLE progress ADD COLUMN IF NOT EXISTS step_timestamps TEXT NOT NULL DEFAULT '{}'`)
+		if _, err := s.db.Exec(`ALTER TABLE progress ADD COLUMN IF NOT EXISTS step_timestamps TEXT NOT NULL DEFAULT '{}'`); err != nil {
+			log.Printf("[store] migrate: add step_timestamps column: %v", err)
+		}
 	} else {
-		_, _ = s.db.Exec(`ALTER TABLE progress ADD COLUMN step_timestamps TEXT NOT NULL DEFAULT '{}'`)
+		// SQLite returns an error when the column already exists; ignore it.
+		if _, err := s.db.Exec(`ALTER TABLE progress ADD COLUMN step_timestamps TEXT NOT NULL DEFAULT '{}'`); err != nil &&
+			!strings.Contains(err.Error(), "duplicate column name") {
+			log.Printf("[store] migrate: add step_timestamps column: %v", err)
+		}
 	}
 
 	return nil
@@ -321,19 +328,13 @@ func MergeProgress(local, remote *ProgressRecord) *ProgressRecord {
 	mergedChecked := []string{}
 	mergedTS := make(map[string]time.Time, len(allIDs))
 
-	// zeroTime is used as a fallback for steps that have no recorded timestamp
-	// on one side; it is the zero value of time.Time (0001-01-01), not the
-	// Unix epoch, so any real timestamp will always be considered newer.
-	zeroTime := time.Time{}
+	// Steps with no recorded toggle time in a side's StepTimestamps map will
+	// have the zero value of time.Time from the map lookup. The zero value
+	// (0001-01-01) compares as older than any real timestamp, so a real
+	// timestamped version from the other side will always win.
 	for id := range allIDs {
-		localTS := local.StepTimestamps[id]
-		if localTS.IsZero() {
-			localTS = zeroTime
-		}
-		remoteTS := remote.StepTimestamps[id]
-		if remoteTS.IsZero() {
-			remoteTS = zeroTime
-		}
+		localTS := local.StepTimestamps[id]   // zero if key absent
+		remoteTS := remote.StepTimestamps[id] // zero if key absent
 
 		if !localTS.Before(remoteTS) {
 			// Local is same age or newer: keep local checked state.
