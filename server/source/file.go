@@ -31,7 +31,7 @@ func (s *FileSource) List() ([]store.WalkthroughMeta, error) {
 				return nil
 			}
 			meta, parseErr := store.ParseMetaFromJSON(data)
-			if parseErr != nil || meta.ID == "" {
+			if parseErr != nil || meta.ID == "" || meta.Game == "" {
 				return nil
 			}
 			metas = append(metas, *meta)
@@ -61,7 +61,7 @@ func (s *FileSource) Get(id string) ([]byte, error) {
 				return nil
 			}
 			meta, parseErr := store.ParseMetaFromJSON(data)
-			if parseErr == nil && meta.ID == id {
+			if parseErr == nil && meta.ID == id && meta.Game != "" {
 				found = data
 			}
 		}
