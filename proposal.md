@@ -2420,6 +2420,176 @@ tools/intake/training-data.json
 4. **Phase 4 — CLI** (`tools/intake/src/cli.ts`)
 5. **Phase 5 — Browser extension** (`tools/intake-extension/`)
 6. **Phase 6 — Integration testing** (end-to-end with sample data)
+7. **Phase 7 — Spoiler support** (see "Planned Enhancement" below — design only, not implemented yet)
+
+---
+
+## Planned Enhancement: Spoiler Support (Design Only — Not Yet Implemented)
+
+> **Status:** Design spec only. No code in this proposal implements this — added so the markdown convention, parser hook, and UI contract are agreed up front. Implementation lands in a follow-up PR.
+
+### Why
+
+A walkthrough often needs to hide content the reader might not want to see yet:
+- **Plot twists** — "the antagonist is actually [spoiler]"
+- **Boss identities** — "the final boss of Act 1 is [spoiler]"
+- **Optional secret content** — true endings, hidden bosses, post-game reveals
+- **Quest outcomes** — choices that branch the story
+
+We want a single tagging convention the author writes in the source markdown that:
+1. Survives the deterministic converter unchanged (no rewriting).
+2. Is detected and emitted as structured data on the block.
+3. The UI can render as a click-to-reveal blur/redaction.
+
+### Markdown convention
+
+Two forms — inline and block — both inspired by Discord/Reddit syntax so they read naturally in raw markdown:
+
+**Inline spoiler** (within a sentence):
+```markdown
+The mysterious figure is actually ||Crow Armbrust||, your former classmate.
+```
+
+**Block spoiler** (multi-paragraph reveal):
+```markdown
+:::spoiler[Act 1 Finale]
+After defeating Vulcan, the airship is shot down by an unknown attacker.
+The party scatters and the chapter ends on a cliffhanger.
+:::
+```
+
+The block form supports an optional label in `[...]` shown on the masked card before the reader opts in ("Show spoiler: Act 1 Finale").
+
+**Severity / tier** (optional — lets the UI offer per-tier reveal preferences):
+```markdown
+:::spoiler[Final Boss]{tier=ending}
+...content...
+:::
+
+Or inline: ||{tier=minor}slight reveal||
+```
+
+Tiers: `minor` (default, e.g. boss name) | `major` (plot twist) | `ending` (final reveal).
+
+### Parser changes (`tools/intake/src/converter/markdown-parser.ts`)
+
+Add a new pre-pass that runs **before** block detection, extracting spoiler markers without removing the underlying text:
+
+1. **Tokenize fenced spoiler blocks** (`:::spoiler[...]...:::`) as a new `MarkdownToken` type:
+   ```typescript
+   {
+     type: 'spoiler_block',
+     content: '...inner markdown...',
+     spoiler: { label?: string; tier?: 'minor' | 'major' | 'ending' },
+     line_start, line_end
+   }
+   ```
+   The inner content is then recursively parsed so a spoiler block can wrap any other block type (prose, encounter, table, etc.).
+
+2. **Annotate inline spoilers** within `paragraph` / `prose` tokens. Add a new field:
+   ```typescript
+   interface MarkdownToken {
+     // ...existing fields...
+     inline_spoilers?: Array<{
+       start: number;     // char offset in content
+       end: number;
+       text: string;      // the hidden text, verbatim
+       tier?: 'minor' | 'major' | 'ending';
+     }>;
+   }
+   ```
+   The `content` field is left **unchanged** (still contains `||...||`) so verbatim preservation is honored. Renderers strip the markers when displaying.
+
+### Types changes (`tools/intake/src/types.ts`)
+
+Add a shared `SpoilerMeta` and extend every block with an optional `spoilers` field:
+
+```typescript
+export type SpoilerTier = 'minor' | 'major' | 'ending';
+
+export interface InlineSpoiler {
+  /** Char offset into the field where the spoiler starts. */
+  start: number;
+  end: number;
+  text: string;
+  tier?: SpoilerTier;
+}
+
+export interface SpoilerMeta {
+  /** Whole-block spoiler (e.g. wrapping a prose block in :::spoiler:::). */
+  block?: { label?: string; tier?: SpoilerTier };
+  /** Per-field inline spoilers, keyed by the field name they apply to. */
+  inline?: Record<string, InlineSpoiler[]>;
+}
+
+// Every block type gets:
+//   spoilers?: SpoilerMeta;
+//
+// Example:
+export interface ProseBlock {
+  type: 'prose';
+  heading?: string;
+  content: string;
+  spoilers?: SpoilerMeta;
+}
+```
+
+Encounter / quest blocks support inline spoilers on any text field (`name`, `strategy`, `reward`, `drops`, etc.) via the `inline` map:
+```json
+{
+  "type": "encounter",
+  "name": "||Crow Armbrust||",
+  "strategy": "He opens with...",
+  "spoilers": {
+    "inline": {
+      "name": [{ "start": 0, "end": 19, "text": "Crow Armbrust", "tier": "major" }]
+    }
+  }
+}
+```
+
+### Block detector changes (`tools/intake/src/converter/detect-blocks.ts`)
+
+- When a `spoiler_block` token is seen, the inner tokens are classified as normal but the resulting blocks each have `spoilers.block = { label, tier }` attached.
+- When a non-spoiler token contains `inline_spoilers`, those are copied onto the block's `spoilers.inline['content']` (or the appropriate field for non-prose blocks).
+- **Confidence scoring is not affected** by spoiler tagging — spoilers are metadata, not a classification decision.
+
+### UI handling (`webapp/src/lib/blocks/`)
+
+Each block renderer (Svelte) needs to:
+
+1. Read `block.spoilers?.block` — if present, render a `<SpoilerWrapper>` around the entire block with a click-to-reveal mask showing the label and tier.
+2. Read `block.spoilers?.inline?.<field>` — for each text field, render the spoiler ranges as `<SpoilerInline>` components that blur the text until clicked.
+3. Respect a user preference (stored in `webapp/src/lib/state.ts`): `revealedTiers: Set<SpoilerTier>` so power users can opt in to "always show minor spoilers" etc.
+
+New components (planned, not in this proposal):
+- `webapp/src/lib/blocks/SpoilerWrapper.svelte` — full-block mask
+- `webapp/src/lib/blocks/SpoilerInline.svelte` — inline text mask
+- Settings toggle in `webapp/src/routes/+page.svelte` for tier preferences
+
+### Browser extension capture
+
+The extension should pass the `||...||` and `:::spoiler:::` syntax through unchanged. The Turndown converter in `content.js` already preserves text content verbatim, so no extension changes are needed unless a source site uses its own spoiler convention we want to auto-translate (out of scope for v1).
+
+### Test coverage (planned, not in this proposal)
+
+When implemented, add to `tests/converter/markdown-parser.test.ts`:
+- `||text||` inline spoiler extraction — verifies offsets, original content untouched, tier parsing
+- `:::spoiler[Label]...:::` fenced block extraction — verifies inner tokens recursively parsed
+- Nested spoilers (inline inside a block spoiler) — verifies metadata flows correctly
+- Tier annotations (`{tier=major}`) on both forms
+- Mismatched delimiters (unclosed `||` or `:::`) — verifies graceful fallback to plain text
+
+And to `tests/converter/detect-blocks.test.ts`:
+- Block-level spoiler metadata is attached to the wrapped block
+- Inline spoilers on prose, encounter `name`, and quest `name` fields
+- A spoiler-wrapped encounter still classifies as `encounter` (confidence unchanged)
+
+### Open questions (resolve before implementation)
+
+1. **Default reveal behavior** — start blurred and require click, or start visible and require opt-out via settings? **Recommendation:** blurred-by-default for `major`/`ending`, visible-with-setting for `minor`.
+2. **Print / export mode** — when generating a non-interactive view, do spoilers render visible, redacted (`█████`), or omitted entirely? **Recommendation:** redacted.
+3. **Per-walkthrough override** — should the walkthrough author be able to set "this whole walkthrough is spoiler-free up to section X" at the top level? Not in v1.
 
 ---
 
