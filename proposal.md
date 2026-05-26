@@ -308,6 +308,14 @@ export interface TrainingDatabase {
   examples: TrainingExample[];
   graduation_status: 'training' | 'graduated';
   walkthroughs_processed: number;
+  /**
+   * Number of walkthroughs to process before becoming eligible for graduation.
+   * Defaults to `DEFAULT_GRADUATION_THRESHOLD` (10) but can be set per project —
+   * a hobbyist might use 5 to graduate fast, while a serious training run might
+   * set this to 50 or 100. Persisted to training-data.json so the choice
+   * survives across runs.
+   */
+  graduation_threshold?: number;
 }
 ```
 
@@ -1062,25 +1070,52 @@ export function convertPages(pages: string[], options: ConvertOptions): Converte
 ```typescript
 /**
  * Training database — stores corrections and manages graduation.
+ *
+ * The graduation threshold is fully configurable so you can tune how long the
+ * converter stays in "review every block" mode before it starts auto-approving
+ * high-confidence classifications. See the precedence order in `resolveThreshold`.
  */
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { TrainingDatabase, TrainingExample, BlockType } from '../types.js';
 
+/**
+ * Default number of walkthroughs to process before the converter is eligible
+ * to graduate out of training mode. Override per-run via:
+ *
+ *   1. Constructor option: `new RulesDB(path, { graduationThreshold: 50 })`
+ *   2. Environment variable: `INTAKE_GRADUATION_THRESHOLD=100 npx intake ...`
+ *   3. Field stored in the training-data.json file: `"graduation_threshold": 25`
+ *
+ * Precedence: constructor option > env var > file > DEFAULT_GRADUATION_THRESHOLD.
+ *
+ * Change this single constant to shift the project-wide default. It is also
+ * exported so tests and the CLI can reference it without magic numbers.
+ */
+export const DEFAULT_GRADUATION_THRESHOLD = 10;
+
+export interface RulesDBOptions {
+  /** Override the graduation threshold for this instance only. */
+  graduationThreshold?: number;
+}
+
 const DEFAULT_DB: TrainingDatabase = {
   examples: [],
   graduation_status: 'training',
   walkthroughs_processed: 0,
+  graduation_threshold: DEFAULT_GRADUATION_THRESHOLD,
 };
 
 export class RulesDB {
   private db: TrainingDatabase;
   private path: string;
+  private readonly thresholdOverride?: number;
 
-  constructor(dbPath: string) {
+  constructor(dbPath: string, options: RulesDBOptions = {}) {
     this.path = dbPath;
+    this.thresholdOverride = options.graduationThreshold;
     this.db = existsSync(dbPath)
-      ? JSON.parse(readFileSync(dbPath, 'utf-8'))
+      ? { ...DEFAULT_DB, ...JSON.parse(readFileSync(dbPath, 'utf-8')) }
       : { ...DEFAULT_DB };
   }
 
@@ -1092,8 +1127,31 @@ export class RulesDB {
     return this.db.graduation_status === 'training';
   }
 
+  /**
+   * Effective graduation threshold for this instance.
+   * Precedence: constructor option > env var > stored value > module default.
+   */
+  get graduationThreshold(): number {
+    return resolveThreshold(this.thresholdOverride, this.db.graduation_threshold);
+  }
+
   get shouldGraduate(): boolean {
-    return this.db.walkthroughs_processed >= 10 && this.db.graduation_status === 'training';
+    return (
+      this.db.walkthroughs_processed >= this.graduationThreshold &&
+      this.db.graduation_status === 'training'
+    );
+  }
+
+  /**
+   * Persist a new threshold to the training database. Use this when you want
+   * a permanent change rather than a per-run override.
+   */
+  setGraduationThreshold(value: number): void {
+    if (!Number.isInteger(value) || value < 1) {
+      throw new Error(`graduation_threshold must be a positive integer, got ${value}`);
+    }
+    this.db.graduation_threshold = value;
+    this.save();
   }
 
   addCorrection(example: TrainingExample): void {
@@ -1111,6 +1169,12 @@ export class RulesDB {
     this.save();
   }
 
+  /** Re-enter training mode without losing accumulated examples. */
+  resetGraduation(): void {
+    this.db.graduation_status = 'training';
+    this.save();
+  }
+
   getAccuracyStats(): { total: number; corrections: number; accuracy: number } {
     const total = this.db.examples.length > 0
       ? Math.round(this.db.examples.length / 0.114) // rough estimate
@@ -1125,6 +1189,36 @@ export class RulesDB {
   private save(): void {
     writeFileSync(this.path, JSON.stringify(this.db, null, 2));
   }
+}
+
+/**
+ * Resolve the effective graduation threshold based on precedence:
+ *   1. Explicit override (e.g. from CLI flag passed through constructor)
+ *   2. INTAKE_GRADUATION_THRESHOLD env var
+ *   3. graduation_threshold stored in the training-data.json file
+ *   4. DEFAULT_GRADUATION_THRESHOLD
+ *
+ * Invalid values (non-positive, non-integer, NaN) fall through to the next
+ * source rather than throwing — this keeps the CLI forgiving.
+ */
+export function resolveThreshold(
+  explicit: number | undefined,
+  stored: number | undefined,
+): number {
+  if (isValidThreshold(explicit)) return explicit!;
+
+  const envRaw = process.env.INTAKE_GRADUATION_THRESHOLD;
+  if (envRaw !== undefined && envRaw !== '') {
+    const envParsed = Number(envRaw);
+    if (isValidThreshold(envParsed)) return envParsed;
+  }
+
+  if (isValidThreshold(stored)) return stored!;
+  return DEFAULT_GRADUATION_THRESHOLD;
+}
+
+function isValidThreshold(n: number | undefined): boolean {
+  return typeof n === 'number' && Number.isInteger(n) && n >= 1;
 }
 ```
 
@@ -1478,6 +1572,67 @@ program
       console.error(`✗ Finalize failed: ${result.error}`);
     }
   });
+
+// ── Training mode controls ────────────────────────────────────────────────
+// All three commands let you tune the graduation threshold (default 10).
+// Examples:
+//   npx intake set-threshold 50         # bump to 50 walkthroughs
+//   npx intake set-threshold 100        # bump to 100 walkthroughs
+//   INTAKE_GRADUATION_THRESHOLD=25 npx intake training-status   # one-off
+//   npx intake graduate --force         # graduate now regardless of count
+
+program
+  .command('set-threshold <count>')
+  .description('Set how many walkthroughs must be processed before graduation (persisted)')
+  .action(async (count: string) => {
+    const { RulesDB } = await import('./training/rules-db.js');
+    const dbPath = resolveTrainingDbPath();
+    const db = new RulesDB(dbPath);
+    const value = parseInt(count, 10);
+    db.setGraduationThreshold(value);
+    console.log(`✓ Graduation threshold set to ${value} walkthroughs`);
+    console.log(`  Progress: ${db.data.walkthroughs_processed}/${value}`);
+  });
+
+program
+  .command('training-status')
+  .description('Show training mode status and graduation progress')
+  .action(async () => {
+    const { RulesDB } = await import('./training/rules-db.js');
+    const db = new RulesDB(resolveTrainingDbPath());
+    const threshold = db.graduationThreshold;
+    const processed = db.data.walkthroughs_processed;
+    console.log(`Status:     ${db.data.graduation_status}`);
+    console.log(`Threshold:  ${threshold} walkthroughs`);
+    console.log(`Processed:  ${processed} (${Math.min(100, Math.round((processed / threshold) * 100))}%)`);
+    console.log(`Examples:   ${db.data.examples.length} corrections recorded`);
+    if (db.shouldGraduate) {
+      console.log(`\n→ Ready to graduate! Run: npx intake graduate`);
+    }
+  });
+
+program
+  .command('graduate')
+  .description('Graduate out of training mode (auto-approves high-confidence blocks)')
+  .option('--force', 'Graduate even if the threshold has not been reached')
+  .action(async (opts) => {
+    const { RulesDB } = await import('./training/rules-db.js');
+    const db = new RulesDB(resolveTrainingDbPath());
+    if (!db.shouldGraduate && !opts.force) {
+      console.error(
+        `✗ Not eligible to graduate yet (${db.data.walkthroughs_processed}/${db.graduationThreshold}). ` +
+        `Use --force to override.`,
+      );
+      process.exit(1);
+    }
+    db.graduate();
+    console.log(`✓ Graduated! Converter will now auto-approve high-confidence blocks.`);
+  });
+
+function resolveTrainingDbPath(): string {
+  // Repo-relative location, consistent with server.ts
+  return join(process.cwd(), 'tools', 'intake', 'training-data.json');
+}
 
 program.parse();
 ```
@@ -2240,6 +2395,123 @@ describe('RulesDB', () => {
     db.incrementWalkthroughs();
     expect(db.data.walkthroughs_processed).toBe(2);
   });
+
+  it('resetGraduation re-enters training without losing examples', () => {
+    const db = new RulesDB(testPath);
+    db.addCorrection({
+      source_pattern: 'x', converter_guessed: 'prose', user_corrected_to: 'callout',
+      context: {}, game: 'g', timestamp: '2026-01-01',
+    });
+    db.graduate();
+    db.resetGraduation();
+    expect(db.data.graduation_status).toBe('training');
+    expect(db.data.examples).toHaveLength(1);
+  });
+});
+
+describe('RulesDB — configurable graduation threshold', () => {
+  const testPath = join(tmpdir(), `test-threshold-${Date.now()}.json`);
+  const originalEnv = process.env.INTAKE_GRADUATION_THRESHOLD;
+
+  afterEach(() => {
+    if (existsSync(testPath)) unlinkSync(testPath);
+    if (originalEnv === undefined) delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    else process.env.INTAKE_GRADUATION_THRESHOLD = originalEnv;
+  });
+
+  it('defaults to DEFAULT_GRADUATION_THRESHOLD (10) when nothing is set', () => {
+    delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    const db = new RulesDB(testPath);
+    expect(db.graduationThreshold).toBe(10);
+  });
+
+  it('uses constructor override when provided', () => {
+    delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    const db = new RulesDB(testPath, { graduationThreshold: 50 });
+    expect(db.graduationThreshold).toBe(50);
+  });
+
+  it('uses INTAKE_GRADUATION_THRESHOLD env var when no constructor override', () => {
+    process.env.INTAKE_GRADUATION_THRESHOLD = '100';
+    const db = new RulesDB(testPath);
+    expect(db.graduationThreshold).toBe(100);
+  });
+
+  it('uses stored value from file when env and override are unset', () => {
+    delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    writeFileSync(testPath, JSON.stringify({
+      examples: [], graduation_status: 'training', walkthroughs_processed: 0,
+      graduation_threshold: 25,
+    }));
+    const db = new RulesDB(testPath);
+    expect(db.graduationThreshold).toBe(25);
+  });
+
+  it('constructor override beats env var beats stored value', () => {
+    process.env.INTAKE_GRADUATION_THRESHOLD = '100';
+    writeFileSync(testPath, JSON.stringify({
+      examples: [], graduation_status: 'training', walkthroughs_processed: 0,
+      graduation_threshold: 25,
+    }));
+    const db = new RulesDB(testPath, { graduationThreshold: 7 });
+    expect(db.graduationThreshold).toBe(7);
+  });
+
+  it('shouldGraduate respects the configured threshold (50)', () => {
+    delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    writeFileSync(testPath, JSON.stringify({
+      examples: [], graduation_status: 'training', walkthroughs_processed: 49,
+      graduation_threshold: 50,
+    }));
+    const db = new RulesDB(testPath);
+    expect(db.shouldGraduate).toBe(false);
+    db.incrementWalkthroughs();
+    expect(db.shouldGraduate).toBe(true);
+  });
+
+  it('shouldGraduate respects the configured threshold (100)', () => {
+    delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    writeFileSync(testPath, JSON.stringify({
+      examples: [], graduation_status: 'training', walkthroughs_processed: 100,
+      graduation_threshold: 100,
+    }));
+    const db = new RulesDB(testPath);
+    expect(db.shouldGraduate).toBe(true);
+  });
+
+  it('setGraduationThreshold persists and updates eligibility', () => {
+    writeFileSync(testPath, JSON.stringify({
+      examples: [], graduation_status: 'training', walkthroughs_processed: 60,
+      graduation_threshold: 100,
+    }));
+    delete process.env.INTAKE_GRADUATION_THRESHOLD;
+    const db = new RulesDB(testPath);
+    expect(db.shouldGraduate).toBe(false);
+    db.setGraduationThreshold(50);
+    expect(db.graduationThreshold).toBe(50);
+    expect(db.shouldGraduate).toBe(true);
+
+    // Verify persisted across reloads
+    const db2 = new RulesDB(testPath);
+    expect(db2.graduationThreshold).toBe(50);
+  });
+
+  it('setGraduationThreshold rejects invalid values', () => {
+    const db = new RulesDB(testPath);
+    expect(() => db.setGraduationThreshold(0)).toThrow();
+    expect(() => db.setGraduationThreshold(-5)).toThrow();
+    expect(() => db.setGraduationThreshold(1.5)).toThrow();
+  });
+
+  it('ignores invalid env var values and falls through to stored/default', () => {
+    process.env.INTAKE_GRADUATION_THRESHOLD = 'not-a-number';
+    writeFileSync(testPath, JSON.stringify({
+      examples: [], graduation_status: 'training', walkthroughs_processed: 0,
+      graduation_threshold: 42,
+    }));
+    const db = new RulesDB(testPath);
+    expect(db.graduationThreshold).toBe(42);
+  });
 });
 ```
 
@@ -2601,7 +2873,7 @@ And to `tests/converter/detect-blocks.test.ts`:
 | Section detection | `tests/converter/detect-sections.test.ts` | H2 splitting, slug generation, intro section |
 | Block detection | `tests/converter/detect-blocks.test.ts` | All 7 block types (incl. event), missable quest detection, confidence scoring, training override |
 | Checkpoint detection | `tests/converter/detect-checkpoints.test.ts` | H3 extraction, ID generation |
-| Training DB | `tests/training/rules-db.test.ts` | CRUD, persistence, graduation logic |
+| Training DB | `tests/training/rules-db.test.ts` | CRUD, persistence, graduation logic, configurable threshold (constructor / env / file precedence) |
 | Server API | `tests/server.test.ts` | All endpoints, error cases, integration flow |
 
 **Target:** >90% line coverage on converter and training modules.
