@@ -149,9 +149,47 @@ export interface EncounterBlock {
 export interface QuestBlock {
   type: 'quest';
   heading?: string;
-  quest_type: 'main' | 'side' | 'hidden' | 'story';
+  /**
+   * - main: required story quest
+   * - side: optional quest, can usually be picked up later
+   * - missable: optional quest that is permanently lost if not done in a specific window
+   *   (e.g. Cold Steel side quests that expire when the chapter advances)
+   * - hidden: not shown on the quest board; must be discovered
+   * - story: narrative beat, not a tracked quest
+   */
+  quest_type: 'main' | 'side' | 'missable' | 'hidden' | 'story';
   name: string;
   client?: string;
+  content?: string;
+  reward?: string;
+  /** If quest_type === 'missable', when/why it becomes unavailable. */
+  missable_window?: string;
+}
+
+/**
+ * Time-limited / missable events that aren't full quests — e.g. Cold Steel
+ * bonding events, one-off NPC conversations, scripted cutscenes that only
+ * trigger in a narrow window. These are easy to miss on a blind playthrough
+ * and the walkthrough flags them explicitly.
+ */
+export interface EventBlock {
+  type: 'event';
+  heading?: string;
+  /**
+   * - bonding: relationship / social link event (Cold Steel bonding events, Persona S-links)
+   * - conversation: optional NPC dialogue that only appears in a specific window
+   * - cutscene: scripted scene with a trigger condition
+   * - collectible: one-time pickup tied to a window (e.g. chest only available in chapter 1)
+   * - other: anything else that's missable but not a quest
+   */
+  event_type: 'bonding' | 'conversation' | 'cutscene' | 'collectible' | 'other';
+  name: string;
+  /** Who/where it triggers — e.g. "Laura — Thors training hall". */
+  trigger?: string;
+  /** Window during which the event is available, e.g. "Chapter 1, free day only". */
+  availability?: string;
+  /** True if missing this permanently locks out content (achievement, bond level, item). */
+  missable: boolean;
   content?: string;
   reward?: string;
 }
@@ -182,12 +220,13 @@ export interface CalloutBlock {
   content: string;
 }
 
-export type BlockType = 'prose' | 'encounter' | 'quest' | 'table' | 'checklist' | 'callout';
+export type BlockType = 'prose' | 'encounter' | 'quest' | 'event' | 'table' | 'checklist' | 'callout';
 
 export type WalkthroughBlock =
   | ProseBlock
   | EncounterBlock
   | QuestBlock
+  | EventBlock
   | TableBlock
   | ChecklistBlock
   | CalloutBlock;
@@ -558,7 +597,30 @@ const QUEST_PATTERNS = [
   /side quest/i,
   /hidden quest/i,
   /main quest/i,
+  /missable quest/i,
 ];
+
+// ── Event detection (bonding, missable conversations, time-limited cutscenes) ─
+
+const EVENT_HEADING_PATTERNS = [
+  /^bonding event/i,
+  /^bond event/i,
+  /^free time/i,
+  /^optional event/i,
+  /^missable event/i,
+  /^conversation:/i,
+];
+
+const EVENT_BODY_PATTERNS = [
+  /bonding event/i,
+  /missable (?:conversation|event|cutscene)/i,
+  /one-?time (?:conversation|event|cutscene)/i,
+  /only available (?:during|on|in)/i,
+  /will be lost if/i,
+  /permanently miss(?:able|ed)?/i,
+];
+
+const MISSABLE_KEYWORDS = /\b(missable|miss(?:ed|ing)?|permanently lost|one[- ]?time|only available|expires?|locked out)\b/i;
 
 // ── Checklist detection ─────────────────────────────────────────────────────
 
@@ -634,6 +696,16 @@ function detectParagraphType(token: MarkdownToken, context: DetectionContext): D
   // Check for callout patterns
   if (CALLOUT_PATTERNS.some(p => p.test(token.content))) {
     return { block_type: 'callout', confidence: 0.85 };
+  }
+
+  // Check for event patterns (bonding events, missable conversations, etc.)
+  // — checked before quest patterns because "missable side quest" should still
+  //   classify as quest, but a "bonding event" heading should win.
+  if (context.heading_above && EVENT_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
+    return { block_type: 'event', confidence: 0.85 };
+  }
+  if (EVENT_BODY_PATTERNS.some(p => p.test(token.content))) {
+    return { block_type: 'event', confidence: 0.75 };
   }
 
   // Check for quest patterns
@@ -722,8 +794,23 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
       return {
         type: 'quest',
         heading: context.heading_above,
-        quest_type: detectQuestType(token.content),
+        quest_type: detectQuestType(token.content, context),
         name: questName,
+        content: token.content,
+        missable_window: extractMissableWindow(token.content),
+      };
+    }
+
+    case 'event': {
+      return {
+        type: 'event',
+        heading: context.heading_above,
+        event_type: detectEventType(token.content, context),
+        name: extractEventName(token, context),
+        trigger: extractEventTrigger(token.content),
+        availability: extractMissableWindow(token.content),
+        missable: MISSABLE_KEYWORDS.test(token.content) ||
+                  (context.heading_above ? /missable/i.test(context.heading_above) : false),
         content: token.content,
       };
     }
@@ -772,11 +859,68 @@ function extractQuestName(token: MarkdownToken, context: DetectionContext): stri
   return 'Unknown Quest';
 }
 
-function detectQuestType(content: string): 'main' | 'side' | 'hidden' | 'story' {
-  if (/hidden quest/i.test(content)) return 'hidden';
-  if (/side quest/i.test(content)) return 'side';
-  if (/main quest/i.test(content)) return 'main';
+function detectQuestType(
+  content: string,
+  context: DetectionContext,
+): 'main' | 'side' | 'missable' | 'hidden' | 'story' {
+  const haystack = `${context.heading_above ?? ''}\n${content}`;
+  // Missable check first — a "missable side quest" is more useful tagged as missable.
+  if (/missable\s+(?:side\s+)?quest/i.test(haystack) ||
+      (/side quest/i.test(haystack) && MISSABLE_KEYWORDS.test(content))) {
+    return 'missable';
+  }
+  if (/hidden quest/i.test(haystack)) return 'hidden';
+  if (/side quest/i.test(haystack)) return 'side';
+  if (/main quest/i.test(haystack)) return 'main';
   return 'story';
+}
+
+function detectEventType(
+  content: string,
+  context: DetectionContext,
+): 'bonding' | 'conversation' | 'cutscene' | 'collectible' | 'other' {
+  const haystack = `${context.heading_above ?? ''}\n${content}`;
+  if (/bond(?:ing)? event/i.test(haystack)) return 'bonding';
+  if (/conversation|dialogue|talk to/i.test(haystack)) return 'conversation';
+  if (/cutscene|scene/i.test(haystack)) return 'cutscene';
+  if (/chest|pickup|collectible|item/i.test(haystack)) return 'collectible';
+  return 'other';
+}
+
+function extractEventName(token: MarkdownToken, context: DetectionContext): string {
+  if (context.heading_above) {
+    // Strip common prefixes like "Bonding Event: " to leave the name.
+    return context.heading_above
+      .replace(/^(bonding event|bond event|optional event|missable event|conversation):\s*/i, '')
+      .trim();
+  }
+  const match = token.content.match(/(?:bonding event|conversation|cutscene):\s*(.+)/i);
+  if (match) return match[1].trim();
+  return 'Unknown Event';
+}
+
+function extractEventTrigger(content: string): string | undefined {
+  // "Trigger: X" or "Talk to X at Y"
+  const trigger = content.match(/trigger:\s*(.+?)(?:\n|$)/i);
+  if (trigger) return trigger[1].trim();
+  const talkTo = content.match(/talk to\s+([A-Z][^.\n]{2,80})/);
+  if (talkTo) return talkTo[1].trim();
+  return undefined;
+}
+
+function extractMissableWindow(content: string): string | undefined {
+  // "Available during Chapter 1" / "Only available on Day 2" / "Before X event"
+  const patterns = [
+    /only available (?:during|on|in)\s+([^.\n]+)/i,
+    /available (?:during|on|in)\s+([^.\n]+)/i,
+    /before\s+(?:the\s+)?([^.\n]+?)\s+(?:event|battle|cutscene|ends?)/i,
+    /must be done (?:by|before|during)\s+([^.\n]+)/i,
+  ];
+  for (const p of patterns) {
+    const m = content.match(p);
+    if (m) return m[1].trim();
+  }
+  return undefined;
 }
 
 function detectCalloutSeverity(content: string): 'info' | 'warning' | 'danger' {
@@ -1879,6 +2023,80 @@ describe('buildBlock', () => {
     expect((block as any).name).toBe('The Missing Cat');
   });
 
+  it('flags a missable quest when text says missable', () => {
+    const token = makeToken({
+      content: 'Side Quest: Help the merchant. This quest is permanently missable if you leave the area.',
+    });
+    const block = buildBlock(token, 'quest', { heading_above: 'Optional', surrounding_types: [] });
+    expect((block as any).quest_type).toBe('missable');
+    expect((block as any).missable_window).toBeDefined();
+  });
+
+  it('flags a missable quest when explicitly labeled', () => {
+    const token = makeToken({
+      content: 'Missable Quest: The Vanishing Cat. Only available during Chapter 1.',
+    });
+    const block = buildBlock(token, 'quest', defaultContext);
+    expect((block as any).quest_type).toBe('missable');
+    expect((block as any).missable_window).toBe('Chapter 1');
+  });
+
+  it('builds an event block for a Cold Steel bonding event', () => {
+    const token = makeToken({
+      content: 'Talk to Laura at the training hall to start her bonding event. Only available during free time on Day 2.',
+    });
+    const block = buildBlock(token, 'event', {
+      heading_above: 'Bonding Event: Laura',
+      surrounding_types: [],
+    });
+    expect(block.type).toBe('event');
+    expect((block as any).event_type).toBe('bonding');
+    expect((block as any).name).toBe('Laura');
+    expect((block as any).missable).toBe(true);
+    expect((block as any).trigger).toContain('Laura');
+    expect((block as any).availability).toBe('free time on Day 2');
+  });
+
+  it('marks non-missable events as missable:false', () => {
+    const token = makeToken({
+      content: 'A scripted cutscene plays when you enter the throne room.',
+    });
+    const block = buildBlock(token, 'event', {
+      heading_above: 'Cutscene: Throne Room',
+      surrounding_types: [],
+    });
+    expect(block.type).toBe('event');
+    expect((block as any).event_type).toBe('cutscene');
+    expect((block as any).missable).toBe(false);
+  });
+});
+
+describe('detectBlockType — events and missables', () => {
+  it('classifies bonding event headings as event', () => {
+    const token = makeToken({ content: 'Talk to Laura at the training hall.' });
+    const result = detectBlockType(token, {
+      heading_above: 'Bonding Event: Laura',
+      surrounding_types: [],
+    }, null);
+    expect(result.block_type).toBe('event');
+  });
+
+  it('classifies text mentioning missable conversation as event', () => {
+    const token = makeToken({
+      content: 'There is a one-time conversation with the merchant only available during Chapter 2.',
+    });
+    const result = detectBlockType(token, defaultContext, null);
+    expect(result.block_type).toBe('event');
+  });
+
+  it('classifies missable side quest text as quest (not event)', () => {
+    const token = makeToken({
+      content: 'Side Quest: The Lost Sword. This quest is missable after Chapter 3.',
+    });
+    const result = detectBlockType(token, defaultContext, null);
+    expect(result.block_type).toBe('quest');
+  });
+
   it('builds a checklist from list items', () => {
     const token = makeToken({
       type: 'list',
@@ -2211,7 +2429,7 @@ tools/intake/training-data.json
 |-----------|-----------|----------|
 | Markdown parser | `tests/converter/markdown-parser.test.ts` | Token parsing, tables, line numbers, mixed content |
 | Section detection | `tests/converter/detect-sections.test.ts` | H2 splitting, slug generation, intro section |
-| Block detection | `tests/converter/detect-blocks.test.ts` | All 6 block types, confidence scoring, training override |
+| Block detection | `tests/converter/detect-blocks.test.ts` | All 7 block types (incl. event), missable quest detection, confidence scoring, training override |
 | Checkpoint detection | `tests/converter/detect-checkpoints.test.ts` | H3 extraction, ID generation |
 | Training DB | `tests/training/rules-db.test.ts` | CRUD, persistence, graduation logic |
 | Server API | `tests/server.test.ts` | All endpoints, error cases, integration flow |
