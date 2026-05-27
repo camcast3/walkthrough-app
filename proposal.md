@@ -49,12 +49,17 @@ tools/
 │
 ├── intake-extension/
 │   ├── manifest.json
+│   ├── package.json
 │   ├── popup.html
 │   ├── popup.js
 │   ├── content.js
-│   └── lib/
-│       ├── readability.js
-│       └── turndown.js
+│   ├── lib/
+│   │   ├── readability.js
+│   │   └── turndown.js
+│   └── tests/
+│       ├── content.test.js
+│       ├── popup.test.js
+│       └── manifest.test.js
 ```
 
 ---
@@ -2672,6 +2677,542 @@ describe('Intake Server API', () => {
 
 ---
 
+### Test File: `tools/intake/tests/cli.test.ts`
+
+The CLI is a thin layer over `RulesDB` and the HTTP server, so we test it by
+spawning the built CLI as a subprocess and asserting on stdout/stderr/exit code.
+This catches argument-parsing regressions and the full command wiring.
+
+```typescript
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, rmSync, writeFileSync, existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
+
+const CLI = join(process.cwd(), 'src', 'cli.ts');
+// We use tsx so we don't have to build before testing.
+const RUNNER = ['npx', 'tsx', CLI];
+
+function runCli(args: string[], opts: { cwd?: string; env?: Record<string, string> } = {}) {
+  return spawnSync(RUNNER[0], [...RUNNER.slice(1), ...args], {
+    cwd: opts.cwd ?? process.cwd(),
+    env: { ...process.env, ...opts.env },
+    encoding: 'utf-8',
+    shell: process.platform === 'win32',
+  });
+}
+
+describe('CLI — argument parsing', () => {
+  it('shows version with --version', () => {
+    const result = runCli(['--version']);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toMatch(/\d+\.\d+\.\d+/);
+  });
+
+  it('shows help with --help', () => {
+    const result = runCli(['--help']);
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('start');
+    expect(result.stdout).toContain('convert');
+    expect(result.stdout).toContain('finalize');
+    expect(result.stdout).toContain('set-threshold');
+    expect(result.stdout).toContain('training-status');
+    expect(result.stdout).toContain('graduate');
+  });
+
+  it('errors when start is missing --game', () => {
+    const result = runCli(['start', '--source', 'https://example.com']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/required option.*game/i);
+  });
+
+  it('errors when start is missing --source', () => {
+    const result = runCli(['start', '--game', 'Test Game']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/required option.*source/i);
+  });
+});
+
+describe('CLI — training threshold commands', () => {
+  let workdir: string;
+  let dbPath: string;
+
+  beforeEach(() => {
+    workdir = join(tmpdir(), `cli-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    mkdirSync(join(workdir, 'tools', 'intake'), { recursive: true });
+    dbPath = join(workdir, 'tools', 'intake', 'training-data.json');
+  });
+
+  afterEach(() => {
+    if (existsSync(workdir)) rmSync(workdir, { recursive: true, force: true });
+  });
+
+  it('set-threshold persists value to training-data.json', () => {
+    const result = runCli(['set-threshold', '50'], { cwd: workdir });
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('50');
+    expect(existsSync(dbPath)).toBe(true);
+    const db = JSON.parse(readFileSync(dbPath, 'utf-8'));
+    expect(db.graduation_threshold).toBe(50);
+  });
+
+  it('set-threshold supports 100', () => {
+    const result = runCli(['set-threshold', '100'], { cwd: workdir });
+    expect(result.status).toBe(0);
+    const db = JSON.parse(readFileSync(dbPath, 'utf-8'));
+    expect(db.graduation_threshold).toBe(100);
+  });
+
+  it('set-threshold rejects zero / negative', () => {
+    const result = runCli(['set-threshold', '0'], { cwd: workdir });
+    expect(result.status).not.toBe(0);
+  });
+
+  it('training-status reports current configuration', () => {
+    writeFileSync(dbPath, JSON.stringify({
+      examples: [], graduation_status: 'training',
+      walkthroughs_processed: 3, graduation_threshold: 50,
+    }));
+    const result = runCli(['training-status'], { cwd: workdir });
+    expect(result.status).toBe(0);
+    expect(result.stdout).toContain('training');
+    expect(result.stdout).toMatch(/50/);
+    expect(result.stdout).toMatch(/3/);
+  });
+
+  it('training-status reflects INTAKE_GRADUATION_THRESHOLD env var', () => {
+    writeFileSync(dbPath, JSON.stringify({
+      examples: [], graduation_status: 'training',
+      walkthroughs_processed: 0, graduation_threshold: 10,
+    }));
+    const result = runCli(['training-status'], {
+      cwd: workdir,
+      env: { INTAKE_GRADUATION_THRESHOLD: '100' },
+    });
+    expect(result.status).toBe(0);
+    expect(result.stdout).toMatch(/100/);
+  });
+
+  it('graduate refuses early without --force', () => {
+    writeFileSync(dbPath, JSON.stringify({
+      examples: [], graduation_status: 'training',
+      walkthroughs_processed: 1, graduation_threshold: 50,
+    }));
+    const result = runCli(['graduate'], { cwd: workdir });
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toMatch(/not eligible|force/i);
+    // Status should be unchanged
+    const db = JSON.parse(readFileSync(dbPath, 'utf-8'));
+    expect(db.graduation_status).toBe('training');
+  });
+
+  it('graduate --force overrides the threshold check', () => {
+    writeFileSync(dbPath, JSON.stringify({
+      examples: [], graduation_status: 'training',
+      walkthroughs_processed: 1, graduation_threshold: 50,
+    }));
+    const result = runCli(['graduate', '--force'], { cwd: workdir });
+    expect(result.status).toBe(0);
+    const db = JSON.parse(readFileSync(dbPath, 'utf-8'));
+    expect(db.graduation_status).toBe('graduated');
+  });
+
+  it('graduate succeeds when threshold is met', () => {
+    writeFileSync(dbPath, JSON.stringify({
+      examples: [], graduation_status: 'training',
+      walkthroughs_processed: 50, graduation_threshold: 50,
+    }));
+    const result = runCli(['graduate'], { cwd: workdir });
+    expect(result.status).toBe(0);
+    const db = JSON.parse(readFileSync(dbPath, 'utf-8'));
+    expect(db.graduation_status).toBe('graduated');
+  });
+});
+
+describe('CLI — start command', () => {
+  let workdir: string;
+
+  beforeEach(() => {
+    workdir = join(tmpdir(), `cli-start-${Date.now()}`);
+    mkdirSync(workdir, { recursive: true });
+  });
+
+  afterEach(() => {
+    if (existsSync(workdir)) rmSync(workdir, { recursive: true, force: true });
+  });
+
+  it('creates the walkthrough directory and session.json', async () => {
+    // Use a random port and kill the process quickly — we just want to verify
+    // the side effects (directories + session file) happened before the server
+    // started listening.
+    const proc = spawnSync(RUNNER[0],
+      [...RUNNER.slice(1), 'start', '--game', 'Test Game', '--source', 'https://example.com', '--port', '0'],
+      { cwd: workdir, encoding: 'utf-8', timeout: 3000, shell: process.platform === 'win32' },
+    );
+    // Process is killed by timeout — we don't care about exit code, only side effects.
+    const sessionPath = join(workdir, 'walkthroughs', 'test-game', '.intake', 'session.json');
+    expect(existsSync(sessionPath)).toBe(true);
+    const session = JSON.parse(readFileSync(sessionPath, 'utf-8'));
+    expect(session.game).toBe('Test Game');
+    expect(session.slug).toBe('test-game');
+    expect(session.state).toBe('capturing');
+  });
+});
+```
+
+---
+
+### Test File: `tools/intake-extension/tests/content.test.js`
+
+The extension uses the browser globals `Readability`, `TurndownService`, and
+`chrome.runtime`. We test `content.js` under JSDOM with those globals mocked.
+
+Add to `tools/intake-extension/package.json`:
+
+```json
+{
+  "name": "@walkthrough-app/intake-extension",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.5",
+    "@vitest/coverage-v8": "^4.1.5"
+  }
+}
+```
+
+```javascript
+// @vitest-environment jsdom
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const contentScript = readFileSync(join(__dirname, '..', 'content.js'), 'utf-8');
+
+// Stub the chrome.runtime API used by the extension.
+function setupChromeMock() {
+  let messageListener = null;
+  globalThis.chrome = {
+    runtime: {
+      onMessage: {
+        addListener: (fn) => { messageListener = fn; },
+      },
+    },
+  };
+  return {
+    triggerMessage(request) {
+      return new Promise((resolve) => {
+        messageListener(request, {}, resolve);
+      });
+    },
+  };
+}
+
+// Minimal Readability stub returning predictable article content.
+function setupReadabilityMock(article) {
+  globalThis.Readability = vi.fn(function (doc) {
+    this.doc = doc;
+    this.parse = () => article;
+  });
+}
+
+// Minimal TurndownService stub — passes HTML through with a marker so we can
+// verify our custom rules ran without depending on the real implementation.
+function setupTurndownMock() {
+  const rules = new Map();
+  globalThis.TurndownService = vi.fn(function () {
+    this.addRule = (name, rule) => rules.set(name, rule);
+    this.turndown = (html) => {
+      // Very rough conversion — strip tags but keep table rule output.
+      const tableMatch = html.match(/<table[^>]*>[\s\S]*?<\/table>/);
+      if (tableMatch && rules.has('tables')) {
+        const doc = new DOMParser().parseFromString(tableMatch[0], 'text/html');
+        const tableNode = doc.querySelector('table');
+        const replacement = rules.get('tables').replacement('', tableNode);
+        html = html.replace(tableMatch[0], replacement);
+      }
+      return html.replace(/<\/?[^>]+>/g, '').trim();
+    };
+  });
+  return rules;
+}
+
+describe('intake-extension content script', () => {
+  let chromeMock;
+  beforeEach(() => {
+    document.documentElement.innerHTML = '<html><body><article><h1>Test Article</h1><p>Hello world</p></article></body></html>';
+    chromeMock = setupChromeMock();
+    setupReadabilityMock({
+      title: 'Test Article',
+      content: '<h1>Test Article</h1><p>Hello world</p>',
+      byline: 'Author Name',
+    });
+    setupTurndownMock();
+    // Re-execute the content script to (re)register the listener with mocks in place.
+    eval(contentScript);
+  });
+
+  it('registers a chrome.runtime onMessage listener', () => {
+    expect(chrome.runtime.onMessage.addListener).toBeDefined();
+  });
+
+  it('responds to extract with article title, url, and markdown', async () => {
+    const response = await chromeMock.triggerMessage({ action: 'extract' });
+    expect(response.success).toBe(true);
+    expect(response.title).toBe('Test Article');
+    expect(response.url).toBe(window.location.href);
+    expect(response.markdown).toContain('Hello world');
+  });
+
+  it('passes byline through when available', async () => {
+    const response = await chromeMock.triggerMessage({ action: 'extract' });
+    expect(response.byline).toBe('Author Name');
+  });
+
+  it('returns success:false with error message when Readability fails', async () => {
+    setupReadabilityMock(null);
+    eval(contentScript);
+    const response = await chromeMock.triggerMessage({ action: 'extract' });
+    expect(response.success).toBe(false);
+    expect(response.error).toMatch(/could not extract/i);
+  });
+
+  it('ignores messages with unknown action', async () => {
+    const response = await chromeMock.triggerMessage({ action: 'unknown' });
+    expect(response).toBeUndefined();
+  });
+
+  it('converts HTML tables to markdown table format', async () => {
+    document.documentElement.innerHTML = `
+      <html><body><article>
+        <table>
+          <tr><th>Name</th><th>HP</th></tr>
+          <tr><td>Boss</td><td>5000</td></tr>
+        </table>
+      </article></body></html>
+    `;
+    setupReadabilityMock({
+      title: 'Boss',
+      content: '<table><tr><th>Name</th><th>HP</th></tr><tr><td>Boss</td><td>5000</td></tr></table>',
+    });
+    setupTurndownMock();
+    eval(contentScript);
+
+    const response = await chromeMock.triggerMessage({ action: 'extract' });
+    expect(response.success).toBe(true);
+    expect(response.markdown).toContain('| Name | HP |');
+    expect(response.markdown).toContain('| --- | --- |');
+    expect(response.markdown).toContain('| Boss | 5000 |');
+  });
+});
+```
+
+---
+
+### Test File: `tools/intake-extension/tests/popup.test.js`
+
+```javascript
+// @vitest-environment jsdom
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const popupScript = readFileSync(join(__dirname, '..', 'popup.js'), 'utf-8');
+const popupHtml = readFileSync(join(__dirname, '..', 'popup.html'), 'utf-8');
+
+function setupFetchMock(routes) {
+  globalThis.fetch = vi.fn(async (url, opts = {}) => {
+    const path = url.replace('http://localhost:3847', '');
+    const key = `${opts.method || 'GET'} ${path}`;
+    const handler = routes[key];
+    if (!handler) {
+      return { ok: false, status: 404, json: async () => ({ error: 'Not found' }) };
+    }
+    return handler;
+  });
+}
+
+function setupChromeTabsMock() {
+  let extractResponse = { success: true, title: 'P1', url: 'https://example.com/p1', markdown: '## P1\n\nText' };
+  globalThis.chrome = {
+    tabs: {
+      query: vi.fn(async () => [{ id: 1 }]),
+      sendMessage: vi.fn((tabId, msg, cb) => {
+        cb(extractResponse);
+      }),
+    },
+  };
+  return {
+    setExtractResponse(resp) { extractResponse = resp; },
+  };
+}
+
+describe('intake-extension popup', () => {
+  let chromeMock;
+
+  beforeEach(() => {
+    // Render the popup HTML and inject the script.
+    document.body.innerHTML = popupHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i)[1];
+    chromeMock = setupChromeTabsMock();
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('loads session info on startup', async () => {
+    setupFetchMock({
+      'GET /api/session': { ok: true, json: async () => ({ game: 'Test Game', pages_captured: 2 }) },
+      'GET /api/pages': { ok: true, json: async () => [
+        { page_number: 1, title: 'Prologue' },
+        { page_number: 2, title: 'Act 1' },
+      ] },
+    });
+    eval(popupScript);
+    await new Promise(r => setTimeout(r, 10));
+
+    const status = document.getElementById('status');
+    expect(status.textContent).toContain('Test Game');
+    expect(status.textContent).toContain('2');
+    const items = document.querySelectorAll('#pageList li');
+    expect(items.length).toBe(2);
+    expect(items[0].textContent).toContain('Prologue');
+  });
+
+  it('shows error when server is unreachable', async () => {
+    globalThis.fetch = vi.fn(async () => { throw new Error('ECONNREFUSED'); });
+    eval(popupScript);
+    await new Promise(r => setTimeout(r, 10));
+    const status = document.getElementById('status');
+    expect(status.textContent).toMatch(/cannot connect/i);
+    expect(status.className).toContain('error');
+  });
+
+  it('shows error when no active session', async () => {
+    setupFetchMock({
+      'GET /api/session': { ok: false, json: async () => ({ error: 'No session' }) },
+      'GET /api/pages': { ok: true, json: async () => [] },
+    });
+    eval(popupScript);
+    await new Promise(r => setTimeout(r, 10));
+    const status = document.getElementById('status');
+    expect(status.textContent).toMatch(/no active session/i);
+  });
+
+  it('captureBtn extracts page and POSTs to /api/intake', async () => {
+    const intakePost = vi.fn(async () => ({
+      ok: true, json: async () => ({ success: true, page_number: 3 }),
+    }));
+    setupFetchMock({
+      'GET /api/session': { ok: true, json: async () => ({ game: 'G', pages_captured: 0 }) },
+      'GET /api/pages': { ok: true, json: async () => [] },
+      'POST /api/intake': intakePost(),
+    });
+    eval(popupScript);
+    await new Promise(r => setTimeout(r, 10));
+
+    document.getElementById('captureBtn').click();
+    await new Promise(r => setTimeout(r, 50));
+
+    expect(chrome.tabs.sendMessage).toHaveBeenCalled();
+    expect(document.getElementById('status').textContent).toContain('Page 3 captured');
+  });
+
+  it('captureBtn surfaces extension extraction failure', async () => {
+    chromeMock.setExtractResponse({ success: false, error: 'Could not extract' });
+    setupFetchMock({
+      'GET /api/session': { ok: true, json: async () => ({ game: 'G', pages_captured: 0 }) },
+      'GET /api/pages': { ok: true, json: async () => [] },
+    });
+    eval(popupScript);
+    await new Promise(r => setTimeout(r, 10));
+
+    document.getElementById('captureBtn').click();
+    await new Promise(r => setTimeout(r, 50));
+
+    const status = document.getElementById('status');
+    expect(status.textContent).toMatch(/could not extract/i);
+    expect(status.className).toContain('error');
+  });
+
+  it('doneBtn POSTs to /api/convert and reports result', async () => {
+    setupFetchMock({
+      'GET /api/session': { ok: true, json: async () => ({ game: 'G', pages_captured: 1 }) },
+      'GET /api/pages': { ok: true, json: async () => [{ page_number: 1, title: 'P1' }] },
+      'POST /api/convert': { ok: true, json: async () => ({ success: true, sections: 3, total_blocks: 27 }) },
+    });
+    eval(popupScript);
+    await new Promise(r => setTimeout(r, 10));
+
+    document.getElementById('doneBtn').click();
+    await new Promise(r => setTimeout(r, 50));
+
+    const status = document.getElementById('status');
+    expect(status.textContent).toContain('3 sections');
+    expect(status.textContent).toContain('27 blocks');
+  });
+});
+```
+
+---
+
+### Test File: `tools/intake-extension/tests/manifest.test.js`
+
+A small sanity check on the Manifest V3 file — surprisingly easy to break and
+catches silly errors before they reach the browser.
+
+```javascript
+import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const manifest = JSON.parse(readFileSync(join(__dirname, '..', 'manifest.json'), 'utf-8'));
+
+describe('intake-extension manifest.json', () => {
+  it('is Manifest V3', () => {
+    expect(manifest.manifest_version).toBe(3);
+  });
+
+  it('has required name, version, and description', () => {
+    expect(manifest.name).toBeTruthy();
+    expect(manifest.version).toMatch(/^\d+\.\d+\.\d+$/);
+    expect(manifest.description).toBeTruthy();
+  });
+
+  it('declares only activeTab permission (least-privilege)', () => {
+    expect(manifest.permissions).toEqual(['activeTab']);
+  });
+
+  it('limits host_permissions to the local intake server', () => {
+    expect(manifest.host_permissions).toEqual(['http://localhost:3847/*']);
+  });
+
+  it('declares popup action with HTML file', () => {
+    expect(manifest.action.default_popup).toBe('popup.html');
+  });
+
+  it('registers content.js as a content script', () => {
+    const scripts = manifest.content_scripts || [];
+    const cs = scripts.find(s => (s.js || []).includes('content.js'));
+    expect(cs).toBeDefined();
+    expect(cs.run_at).toBe('document_idle');
+  });
+});
+```
+
+---
+
 ## `.gitignore` Addition
 
 Add to the root `.gitignore`:
@@ -2869,11 +3410,15 @@ And to `tests/converter/detect-blocks.test.ts`:
 
 | Component | Test File | Coverage |
 |-----------|-----------|----------|
-| Markdown parser | `tests/converter/markdown-parser.test.ts` | Token parsing, tables, line numbers, mixed content |
-| Section detection | `tests/converter/detect-sections.test.ts` | H2 splitting, slug generation, intro section |
-| Block detection | `tests/converter/detect-blocks.test.ts` | All 7 block types (incl. event), missable quest detection, confidence scoring, training override |
-| Checkpoint detection | `tests/converter/detect-checkpoints.test.ts` | H3 extraction, ID generation |
-| Training DB | `tests/training/rules-db.test.ts` | CRUD, persistence, graduation logic, configurable threshold (constructor / env / file precedence) |
-| Server API | `tests/server.test.ts` | All endpoints, error cases, integration flow |
+| Markdown parser | `tools/intake/tests/converter/markdown-parser.test.ts` | Token parsing, tables, line numbers, mixed content |
+| Section detection | `tools/intake/tests/converter/detect-sections.test.ts` | H2 splitting, slug generation, intro section |
+| Block detection | `tools/intake/tests/converter/detect-blocks.test.ts` | All 7 block types (incl. event), missable quest detection, confidence scoring, training override |
+| Checkpoint detection | `tools/intake/tests/converter/detect-checkpoints.test.ts` | H3 extraction, ID generation |
+| Training DB | `tools/intake/tests/training/rules-db.test.ts` | CRUD, persistence, graduation logic, configurable threshold (constructor / env / file precedence) |
+| Server API | `tools/intake/tests/server.test.ts` | All endpoints, error cases, integration flow |
+| CLI | `tools/intake/tests/cli.test.ts` | Arg parsing, threshold commands (set/status/graduate), env var, --force override, start side effects |
+| Extension content script | `tools/intake-extension/tests/content.test.js` | Message listener, Readability extraction, Turndown table conversion, error paths |
+| Extension popup | `tools/intake-extension/tests/popup.test.js` | Session load, capture flow, convert flow, server-down + no-session error paths |
+| Extension manifest | `tools/intake-extension/tests/manifest.test.js` | Manifest V3 sanity, least-privilege permissions, popup + content script wiring |
 
-**Target:** >90% line coverage on converter and training modules.
+**Target:** >90% line coverage on converter and training modules; >80% on CLI and extension scripts.
