@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { width: 320px; padding: 16px; font-family: system-ui, sans-serif; font-size: 14px; }
+    h2 { margin: 0 0 12px; font-size: 16px; }
+    .page-list { list-style: none; padding: 0; margin: 8px 0; }
+    .page-list li { padding: 4px 0; }
+    .page-list li::before { content: "✓ "; color: #22c55e; }
+    button { width: 100%; padding: 10px; margin: 4px 0; border: none; border-radius: 6px;
+             cursor: pointer; font-size: 14px; font-weight: 500; }
+    .capture-btn { background: #3b82f6; color: white; }
+    .capture-btn:hover { background: #2563eb; }
+    .done-btn { background: #22c55e; color: white; }
+    .done-btn:hover { background: #16a34a; }
+    .status { margin: 8px 0; padding: 8px; border-radius: 4px; background: #f0fdf4; color: #166534; }
+    .error { background: #fef2f2; color: #991b1b; }
+  </style>
+</head>
+<body>
+  <h2>Walkthrough Intake</h2>
+  <div id="status"></div>
+  <ul class="page-list" id="pageList"></ul>
+  <button class="capture-btn" id="captureBtn">Capture This Page</button>
+  <button class="done-btn" id="doneBtn">Done — Start Conversion</button>
+  <script src="popup.js"></script>
+</body>
+</html>
