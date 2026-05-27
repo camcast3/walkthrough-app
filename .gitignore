@@ -16,3 +16,7 @@ server/*.exe
 .DS_Store
 Thumbs.db
 server/client-config.json
+
+# Intake working directories
+walkthroughs/**/.intake/
+tools/intake/training-data.json

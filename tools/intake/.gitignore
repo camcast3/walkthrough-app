@@ -1,0 +1,4 @@
+dist/
+node_modules/
+training-data.json
+coverage/
