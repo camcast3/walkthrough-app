@@ -3227,13 +3227,189 @@ tools/intake/training-data.json
 
 ## Implementation Order
 
-1. **Phase 1 — Core converter** (`tools/intake/src/converter/` + types)
-2. **Phase 2 — Training system** (`tools/intake/src/training/`)
-3. **Phase 3 — Server** (`tools/intake/src/server.ts`)
-4. **Phase 4 — CLI** (`tools/intake/src/cli.ts`)
-5. **Phase 5 — Browser extension** (`tools/intake-extension/`)
-6. **Phase 6 — Integration testing** (end-to-end with sample data)
-7. **Phase 7 — Spoiler support** (see "Planned Enhancement" below — design only, not implemented yet)
+Each phase ships implementation **and** its tests together — no phase is "done"
+until its tests are green. This keeps the system shippable at every checkpoint
+and prevents test debt from accumulating. Phases are ordered so each one
+depends only on phases above it.
+
+### Phase 1 — Types & markdown parser
+
+**Goal:** Establish the shared type contract and parse markdown into structural tokens. No classification yet — just structure.
+
+**Implementation**
+- `tools/intake/src/types.ts` — all block types, `IntakeSession`, `PageCapture`, `ConvertedSection`, `TrainingExample`, `TrainingDatabase`
+- `tools/intake/src/converter/markdown-parser.ts` — `parseMarkdown()` + `parseTable()`
+- `tools/intake/package.json`, `tools/intake/tsconfig.json`
+
+**Tests (must pass before phase 2)**
+- `tools/intake/tests/converter/markdown-parser.test.ts`
+  - Heading parsing (all levels)
+  - Paragraph grouping across blank lines
+  - Tables, blockquotes, ordered/unordered lists
+  - Fenced code blocks, horizontal rules
+  - Line number tracking
+  - Mixed content sequences
+  - `parseTable` header + row extraction, empty-table handling
+
+**Done when:** `npm test -- markdown-parser` is green and types compile with `tsc --noEmit`.
+
+---
+
+### Phase 2 — Section & checkpoint detection
+
+**Goal:** Split a parsed document into walkthrough sections and auto-generate checkpoints.
+
+**Implementation**
+- `tools/intake/src/converter/detect-sections.ts`
+- `tools/intake/src/converter/detect-checkpoints.ts`
+
+**Tests (must pass before phase 3)**
+- `tools/intake/tests/converter/detect-sections.test.ts`
+  - H2 splitting, slugified IDs, intro-section fallback, single-section docs, token preservation
+- `tools/intake/tests/converter/detect-checkpoints.test.ts`
+  - H3 extraction, non-H3 ignored, empty docs, slug normalization
+
+**Done when:** both test files pass and a sample multi-page Cold Steel markdown produces the expected section breakdown.
+
+---
+
+### Phase 3 — Block detection & training-aware classifier
+
+**Goal:** Classify each token into one of the 7 block types with confidence scores. Training corrections are honored when present.
+
+**Implementation**
+- `tools/intake/src/converter/detect-blocks.ts` — `detectBlockType`, `buildBlock`, all detection helpers
+- `tools/intake/src/converter/index.ts` — `convertPages()` orchestrator
+
+**Tests (must pass before phase 4)**
+- `tools/intake/tests/converter/detect-blocks.test.ts`
+  - All 7 block types (prose, encounter, quest, event, table, checklist, callout)
+  - Missable quest detection (explicit + inferred)
+  - Bonding event detection with trigger/availability extraction
+  - "Missable side quest" stays a quest, not an event
+  - Training override beats default rules
+  - Heading-context-driven classification
+
+**Done when:** running `convertPages` on a fixture Cold Steel page produces the expected block sequence.
+
+---
+
+### Phase 4 — Training database
+
+**Goal:** Persist corrections, manage the configurable graduation threshold.
+
+**Implementation**
+- `tools/intake/src/training/rules-db.ts` — `RulesDB` class, `resolveThreshold`, `DEFAULT_GRADUATION_THRESHOLD`
+
+**Tests (must pass before phase 5)**
+- `tools/intake/tests/training/rules-db.test.ts`
+  - CRUD + persistence
+  - Default threshold (10), constructor override, env var, file value precedence
+  - `shouldGraduate` at 50 and 100
+  - `setGraduationThreshold` validation (rejects 0/negatives/non-integers)
+  - Invalid env values fall through gracefully
+  - `resetGraduation` preserves examples
+
+**Done when:** switching the threshold via CLI, env var, or constructor works end-to-end.
+
+---
+
+### Phase 5 — Intake server
+
+**Goal:** Expose the HTTP API the extension and CLI consume.
+
+**Implementation**
+- `tools/intake/src/server.ts` — all `/api/*` endpoints
+
+**Tests (must pass before phase 6)**
+- `tools/intake/tests/server.test.ts`
+  - `GET /api/session`, `POST /api/intake` (success + validation), `GET /api/pages` (ordering)
+  - `POST /api/convert` (success + no-pages error)
+  - `GET /api/sections`, `GET /api/sections/:id`, `PUT /api/sections/:id/blocks/:index`
+  - `POST /api/approve/:id`
+  - `POST /api/finalize` writes `main-walkthrough.json`
+
+**Done when:** all server tests pass via supertest and a manual `curl` round-trip works.
+
+---
+
+### Phase 6 — CLI
+
+**Goal:** Wire the user-facing commands.
+
+**Implementation**
+- `tools/intake/src/cli.ts` — `start`, `convert`, `finalize`, `set-threshold`, `training-status`, `graduate`
+
+**Tests (must pass before phase 7)**
+- `tools/intake/tests/cli.test.ts`
+  - `--version` / `--help`
+  - Missing required flags surface clear errors
+  - `set-threshold 50` and `set-threshold 100` persist to `training-data.json`
+  - `set-threshold 0` is rejected
+  - `training-status` reflects file + env var
+  - `graduate` refuses early, `--force` overrides, succeeds at threshold
+  - `start` creates `session.json` + directory structure
+
+**Done when:** CLI tests green; manual `npx intake start` boots a server and the extension can connect.
+
+---
+
+### Phase 7 — Browser extension
+
+**Goal:** Capture pages from the user's browser into the intake server.
+
+**Implementation**
+- `tools/intake-extension/manifest.json` (Manifest V3)
+- `tools/intake-extension/popup.html` + `popup.js`
+- `tools/intake-extension/content.js`
+- `tools/intake-extension/lib/readability.js`, `lib/turndown.js` (bundled)
+- `tools/intake-extension/package.json`
+
+**Tests (must pass before phase 8)**
+- `tools/intake-extension/tests/manifest.test.js`
+  - Manifest V3, least-privilege permissions, popup + content-script wiring
+- `tools/intake-extension/tests/content.test.js`
+  - `chrome.runtime` listener registration
+  - Successful extract returns title/url/markdown/byline
+  - Readability failure → `success:false` + error
+  - HTML tables convert to markdown table format
+- `tools/intake-extension/tests/popup.test.js`
+  - Session info renders on load
+  - Server-unreachable + no-session error states
+  - `captureBtn` flow (extract → POST → success message)
+  - Extraction failure surfaces error
+  - `doneBtn` triggers convert and reports counts
+
+**Done when:** all extension tests pass and a manual capture round-trip writes a page to disk.
+
+---
+
+### Phase 8 — End-to-end validation (Cold Steel II)
+
+**Goal:** Prove the full pipeline by redoing Trails of Cold Steel II from scratch.
+
+**Implementation**
+- No new modules — exercise the full system.
+- Capture all 12 Neoseeker pages via the extension
+- Run the converter, review section-by-section in CLI
+- Compare resulting `main-walkthrough.json` against the existing AI-generated one
+- Verify webapp dev mode renders correctly with gamepad navigation
+
+**Tests**
+- `tools/intake/tests/e2e/cold-steel-ii.test.ts` (new) — runs the converter against the captured page fixtures and asserts on:
+  - Expected number of sections (12)
+  - At least one encounter per Act
+  - All checkpoints have unique IDs
+  - Output validates against `walkthroughs/walkthrough.schema.json`
+- Manual webapp smoke test (documented, not automated)
+
+**Done when:** the finalized walkthrough validates against the schema, renders in the webapp, and is ready to commit.
+
+---
+
+### Phase 9 — Spoiler support (deferred — see "Planned Enhancement" below)
+
+Design only in this proposal. Lands as a follow-up PR with its own implementation + test pairing.
 
 ---
 
