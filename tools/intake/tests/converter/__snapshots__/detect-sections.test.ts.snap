@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`detectSections — Cold Steel II snapshot > produces stable section breakdown for page1.md 1`] = `
+[
+  {
+    "id": "introduction",
+    "title": "Introduction",
+    "tokenCount": 1,
+  },
+]
+`;
