@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Walkthrough Intake",
+  "version": "1.0.0",
+  "description": "Capture walkthrough pages for the local intake system",
+  "permissions": ["activeTab"],
+  "host_permissions": ["http://localhost:3847/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["lib/readability.js", "lib/turndown.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
