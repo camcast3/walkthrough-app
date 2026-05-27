@@ -3225,193 +3225,270 @@ tools/intake/training-data.json
 
 ---
 
-## Implementation Order
+## Implementation Order (one PR per phase)
 
-Each phase ships implementation **and** its tests together — no phase is "done"
-until its tests are green. This keeps the system shippable at every checkpoint
-and prevents test debt from accumulating. Phases are ordered so each one
-depends only on phases above it.
+Each phase is delivered as a **separate, independently mergeable PR**. To make
+that work, every PR must satisfy:
 
-### Phase 1 — Types & markdown parser
+1. **Builds standalone.** `npm install && tsc --noEmit` succeeds with only this
+   PR (and its declared predecessors) on `main`.
+2. **Tests green.** `npm test` passes — no skipped specs, no TODO tests.
+3. **Doesn't break `main`.** Existing webapp/server tests still pass.
+4. **No forward references.** A PR never imports a symbol that doesn't exist yet.
+5. **Reviewable size.** Target ≤500 lines of changed code (excl. bundled
+   vendor libs like readability.js / turndown.js).
 
-**Goal:** Establish the shared type contract and parse markdown into structural tokens. No classification yet — just structure.
+PRs are ordered by dependency. The diagram below shows what each PR needs
+already merged. Phases on the same row can be developed in parallel.
 
-**Implementation**
-- `tools/intake/src/types.ts` — all block types, `IntakeSession`, `PageCapture`, `ConvertedSection`, `TrainingExample`, `TrainingDatabase`
-- `tools/intake/src/converter/markdown-parser.ts` — `parseMarkdown()` + `parseTable()`
-- `tools/intake/package.json`, `tools/intake/tsconfig.json`
+```
+                        ┌─── PR 1 (types + parser) ───┐
+                        │                              │
+              ┌─────────┴────────┐          ┌─────────┴──────────┐
+              ▼                  ▼          ▼                    ▼
+       PR 2 (sections)     PR 4 (training DB)         PR 7 (extension)
+              │                  │                    (no TS deps; parallelizable)
+              ▼                  │
+       PR 3 (block detect) ──────┤
+              │                  │
+              └──────┬───────────┘
+                     ▼
+              PR 5 (server)
+                     │
+                     ▼
+              PR 6 (CLI)
+                     │
+                     ▼
+              PR 8 (E2E Cold Steel II)
+                     │
+                     ▼
+              PR 9 (spoilers — follow-up)
+```
 
-**Tests (must pass before phase 2)**
-- `tools/intake/tests/converter/markdown-parser.test.ts`
-  - Heading parsing (all levels)
-  - Paragraph grouping across blank lines
-  - Tables, blockquotes, ordered/unordered lists
-  - Fenced code blocks, horizontal rules
-  - Line number tracking
-  - Mixed content sequences
-  - `parseTable` header + row extraction, empty-table handling
-
-**Done when:** `npm test -- markdown-parser` is green and types compile with `tsc --noEmit`.
+> **Branch naming:** `camcast/intake-phase-N-<slug>`, e.g. `camcast/intake-phase-1-types-parser`.
+> **Base branch:** every PR targets `main`. We do NOT stack PRs on each other —
+> each PR must merge cleanly into `main` after its predecessors land. This
+> avoids the "stuck stack" problem when an upstream PR needs revisions.
 
 ---
 
-### Phase 2 — Section & checkpoint detection
+### PR 1 — Types & markdown parser
 
-**Goal:** Split a parsed document into walkthrough sections and auto-generate checkpoints.
+- **Branch:** `camcast/intake-phase-1-types-parser`
+- **Base:** `main`
+- **Depends on:** _(nothing)_
+- **Parallelizable with:** _(none — foundational)_
+- **Est. size:** ~500 lines (incl. tests)
 
-**Implementation**
+**Scope (files added)**
+- `tools/intake/package.json`
+- `tools/intake/tsconfig.json`
+- `tools/intake/.gitignore` (ignores `dist/`, `node_modules/`, `training-data.json`)
+- `tools/intake/src/types.ts` — full type contract for every later phase
+- `tools/intake/src/converter/markdown-parser.ts` — `parseMarkdown()` + `parseTable()`
+- `tools/intake/tests/converter/markdown-parser.test.ts`
+
+**Acceptance criteria**
+- `cd tools/intake && npm install && npm test` is green
+- `tsc --noEmit` clean
+- Types include every block type used by later phases — adding types now means
+  later PRs only add behavior, never re-shape the contract
+
+**Rationale for landing first:** every other PR imports from `types.ts`. Land
+this even before any consumer exists — it's a small, low-risk foundation PR.
+
+---
+
+### PR 2 — Section & checkpoint detection
+
+- **Branch:** `camcast/intake-phase-2-section-detect`
+- **Base:** `main` (after PR 1 merged)
+- **Depends on:** PR 1
+- **Parallelizable with:** PR 4, PR 7
+- **Est. size:** ~250 lines
+
+**Scope**
 - `tools/intake/src/converter/detect-sections.ts`
 - `tools/intake/src/converter/detect-checkpoints.ts`
-
-**Tests (must pass before phase 3)**
 - `tools/intake/tests/converter/detect-sections.test.ts`
-  - H2 splitting, slugified IDs, intro-section fallback, single-section docs, token preservation
 - `tools/intake/tests/converter/detect-checkpoints.test.ts`
-  - H3 extraction, non-H3 ignored, empty docs, slug normalization
 
-**Done when:** both test files pass and a sample multi-page Cold Steel markdown produces the expected section breakdown.
+**Acceptance criteria**
+- Both test files pass
+- A fixture from Cold Steel `page1.md` produces the expected section breakdown
+  (added as a snapshot test)
 
 ---
 
-### Phase 3 — Block detection & training-aware classifier
+### PR 3 — Block detection & converter orchestrator
 
-**Goal:** Classify each token into one of the 7 block types with confidence scores. Training corrections are honored when present.
+- **Branch:** `camcast/intake-phase-3-block-detect`
+- **Base:** `main` (after PR 1 + PR 2 merged)
+- **Depends on:** PR 1, PR 2
+- **Parallelizable with:** PR 4, PR 7
+- **Est. size:** ~700 lines
 
-**Implementation**
-- `tools/intake/src/converter/detect-blocks.ts` — `detectBlockType`, `buildBlock`, all detection helpers
+**Scope**
+- `tools/intake/src/converter/detect-blocks.ts`
 - `tools/intake/src/converter/index.ts` — `convertPages()` orchestrator
-
-**Tests (must pass before phase 4)**
 - `tools/intake/tests/converter/detect-blocks.test.ts`
-  - All 7 block types (prose, encounter, quest, event, table, checklist, callout)
-  - Missable quest detection (explicit + inferred)
-  - Bonding event detection with trigger/availability extraction
-  - "Missable side quest" stays a quest, not an event
-  - Training override beats default rules
-  - Heading-context-driven classification
 
-**Done when:** running `convertPages` on a fixture Cold Steel page produces the expected block sequence.
+**Note on training dependency:** this PR takes a `TrainingDatabase | null`
+argument. The `TrainingDatabase` _type_ is from PR 1; the `RulesDB` _class_
+lands in PR 4. PR 3 only needs the type, so it's independent of PR 4.
+
+**Acceptance criteria**
+- All 7 block types classified correctly (prose, encounter, quest, event, table, checklist, callout)
+- Missable quest + bonding event detection passes
+- Training-override test passes with a hand-built `TrainingDatabase` literal
+  (no need for `RulesDB`)
 
 ---
 
-### Phase 4 — Training database
+### PR 4 — Training database
 
-**Goal:** Persist corrections, manage the configurable graduation threshold.
+- **Branch:** `camcast/intake-phase-4-training-db`
+- **Base:** `main` (after PR 1 merged)
+- **Depends on:** PR 1
+- **Parallelizable with:** PR 2, PR 3, PR 7
+- **Est. size:** ~400 lines
 
-**Implementation**
-- `tools/intake/src/training/rules-db.ts` — `RulesDB` class, `resolveThreshold`, `DEFAULT_GRADUATION_THRESHOLD`
-
-**Tests (must pass before phase 5)**
+**Scope**
+- `tools/intake/src/training/rules-db.ts`
 - `tools/intake/tests/training/rules-db.test.ts`
-  - CRUD + persistence
-  - Default threshold (10), constructor override, env var, file value precedence
-  - `shouldGraduate` at 50 and 100
-  - `setGraduationThreshold` validation (rejects 0/negatives/non-integers)
-  - Invalid env values fall through gracefully
-  - `resetGraduation` preserves examples
 
-**Done when:** switching the threshold via CLI, env var, or constructor works end-to-end.
+**Acceptance criteria**
+- CRUD + persistence
+- Configurable graduation threshold (constructor / env / file / default precedence)
+- All edge cases from `rules-db.test.ts` pass
+
+**Parallelizable with PRs 2 and 3** because none of them import from each other —
+they all only import from PR 1's types.
 
 ---
 
-### Phase 5 — Intake server
+### PR 5 — Intake server
 
-**Goal:** Expose the HTTP API the extension and CLI consume.
+- **Branch:** `camcast/intake-phase-5-server`
+- **Base:** `main` (after PR 3 + PR 4 merged)
+- **Depends on:** PR 1, PR 3, PR 4
+- **Parallelizable with:** PR 7
+- **Est. size:** ~600 lines
 
-**Implementation**
-- `tools/intake/src/server.ts` — all `/api/*` endpoints
-
-**Tests (must pass before phase 6)**
+**Scope**
+- `tools/intake/src/server.ts`
 - `tools/intake/tests/server.test.ts`
-  - `GET /api/session`, `POST /api/intake` (success + validation), `GET /api/pages` (ordering)
-  - `POST /api/convert` (success + no-pages error)
-  - `GET /api/sections`, `GET /api/sections/:id`, `PUT /api/sections/:id/blocks/:index`
-  - `POST /api/approve/:id`
-  - `POST /api/finalize` writes `main-walkthrough.json`
+- Adds `supertest` to devDependencies (small `package.json` bump)
 
-**Done when:** all server tests pass via supertest and a manual `curl` round-trip works.
+**Acceptance criteria**
+- All endpoints pass via supertest
+- Manual `curl` round-trip writes a page and produces converted sections
+- Existing repo tests still pass
 
 ---
 
-### Phase 6 — CLI
+### PR 6 — CLI
 
-**Goal:** Wire the user-facing commands.
+- **Branch:** `camcast/intake-phase-6-cli`
+- **Base:** `main` (after PR 5 merged)
+- **Depends on:** PR 4, PR 5
+- **Parallelizable with:** PR 7
+- **Est. size:** ~400 lines
 
-**Implementation**
-- `tools/intake/src/cli.ts` — `start`, `convert`, `finalize`, `set-threshold`, `training-status`, `graduate`
-
-**Tests (must pass before phase 7)**
+**Scope**
+- `tools/intake/src/cli.ts`
 - `tools/intake/tests/cli.test.ts`
-  - `--version` / `--help`
-  - Missing required flags surface clear errors
-  - `set-threshold 50` and `set-threshold 100` persist to `training-data.json`
-  - `set-threshold 0` is rejected
-  - `training-status` reflects file + env var
-  - `graduate` refuses early, `--force` overrides, succeeds at threshold
-  - `start` creates `session.json` + directory structure
+- Adds `commander`, `chalk`, `inquirer` to deps
 
-**Done when:** CLI tests green; manual `npx intake start` boots a server and the extension can connect.
+**Acceptance criteria**
+- All CLI tests pass
+- Manual `npx intake start --game "Test" --source "https://example.com"`
+  boots a server on port 3847
+- `set-threshold 50` / `100` round-trips through the file
 
 ---
 
-### Phase 7 — Browser extension
+### PR 7 — Browser extension
 
-**Goal:** Capture pages from the user's browser into the intake server.
+- **Branch:** `camcast/intake-phase-7-extension`
+- **Base:** `main`
+- **Depends on:** _(nothing — runtime contract with server is HTTP only)_
+- **Parallelizable with:** PRs 2, 3, 4, 5, 6
+- **Est. size:** ~600 lines (excl. bundled readability.js / turndown.js)
 
-**Implementation**
-- `tools/intake-extension/manifest.json` (Manifest V3)
+**Scope**
+- `tools/intake-extension/manifest.json`
+- `tools/intake-extension/package.json`
 - `tools/intake-extension/popup.html` + `popup.js`
 - `tools/intake-extension/content.js`
-- `tools/intake-extension/lib/readability.js`, `lib/turndown.js` (bundled)
-- `tools/intake-extension/package.json`
-
-**Tests (must pass before phase 8)**
+- `tools/intake-extension/lib/readability.js`, `lib/turndown.js` (vendored, excluded from line count)
 - `tools/intake-extension/tests/manifest.test.js`
-  - Manifest V3, least-privilege permissions, popup + content-script wiring
 - `tools/intake-extension/tests/content.test.js`
-  - `chrome.runtime` listener registration
-  - Successful extract returns title/url/markdown/byline
-  - Readability failure → `success:false` + error
-  - HTML tables convert to markdown table format
 - `tools/intake-extension/tests/popup.test.js`
-  - Session info renders on load
-  - Server-unreachable + no-session error states
-  - `captureBtn` flow (extract → POST → success message)
-  - Extraction failure surfaces error
-  - `doneBtn` triggers convert and reports counts
 
-**Done when:** all extension tests pass and a manual capture round-trip writes a page to disk.
+**Why this can ship before the server PR:** the extension's tests mock `fetch`,
+so they don't need a live server. The first time a user actually loads the
+extension and clicks Capture, they'll get a "cannot connect" error message
+(which is also tested) — that's acceptable until PR 5 lands.
 
----
-
-### Phase 8 — End-to-end validation (Cold Steel II)
-
-**Goal:** Prove the full pipeline by redoing Trails of Cold Steel II from scratch.
-
-**Implementation**
-- No new modules — exercise the full system.
-- Capture all 12 Neoseeker pages via the extension
-- Run the converter, review section-by-section in CLI
-- Compare resulting `main-walkthrough.json` against the existing AI-generated one
-- Verify webapp dev mode renders correctly with gamepad navigation
-
-**Tests**
-- `tools/intake/tests/e2e/cold-steel-ii.test.ts` (new) — runs the converter against the captured page fixtures and asserts on:
-  - Expected number of sections (12)
-  - At least one encounter per Act
-  - All checkpoints have unique IDs
-  - Output validates against `walkthroughs/walkthrough.schema.json`
-- Manual webapp smoke test (documented, not automated)
-
-**Done when:** the finalized walkthrough validates against the schema, renders in the webapp, and is ready to commit.
+**Acceptance criteria**
+- All 3 extension test files pass under JSDOM
+- Loading the unpacked extension in Chrome/Edge shows the popup without console errors
+- The "cannot connect" error state renders correctly when the server is down
 
 ---
 
-### Phase 9 — Spoiler support (deferred — see "Planned Enhancement" below)
+### PR 8 — End-to-end validation (Cold Steel II redo)
 
-Design only in this proposal. Lands as a follow-up PR with its own implementation + test pairing.
+- **Branch:** `camcast/intake-phase-8-cold-steel-e2e`
+- **Base:** `main` (after PRs 1–7 merged)
+- **Depends on:** PRs 1–7
+- **Parallelizable with:** _(none — this is the integration gate)_
+- **Est. size:** mostly data + one new test file
+
+**Scope**
+- `tools/intake/tests/e2e/cold-steel-ii.test.ts`
+- `tools/intake/tests/fixtures/cold-steel-ii/` — captured page markdown fixtures
+- Replacement `walkthroughs/trails-of-cold-steel-ii/main-walkthrough.json`
+- Initial seed of `tools/intake/training-data.json` from the review session
+  (committed so future converter runs benefit from the learned rules)
+
+**Acceptance criteria**
+- E2E test asserts: 12 sections, ≥1 encounter per Act, unique checkpoint IDs,
+  output validates against `walkthroughs/walkthrough.schema.json`
+- Manual webapp smoke test (gamepad nav, section switching, checkpoints) passes
+- Reviewer can diff the new `main-walkthrough.json` against the old one and
+  verify quality has improved (no AI hallucinations / dropped content)
 
 ---
+
+### PR 9 — Spoiler support (follow-up, deferred)
+
+- **Branch:** `camcast/intake-phase-9-spoilers`
+- **Base:** `main` (after PR 8 merged)
+- **Depends on:** PRs 1, 3, 7 (parser, block detector, extension pass-through)
+- **Status:** Design-only in this proposal — see "Planned Enhancement" below
+- **Est. size:** ~800 lines spanning intake + webapp
+
+**Scope (planned, not in this proposal)**
+- Parser changes for `||inline||` + `:::spoiler:::` syntax
+- Type updates: `SpoilerMeta` on every block
+- Webapp: `SpoilerWrapper.svelte`, `SpoilerInline.svelte`, settings toggle
+- Test coverage in `tests/converter/markdown-parser.test.ts` + new
+  `webapp/src/lib/blocks/SpoilerWrapper.test.ts`
+
+---
+
+### Suggested merge schedule
+
+If working solo: merge PRs 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 sequentially.
+
+If parallelizing across two sessions:
+- **Track A (foundational):** PR 1 → PR 2 → PR 3 → PR 5 → PR 6
+- **Track B (parallelizable):** PR 4 (after PR 1) → PR 7 (anytime)
+- Both tracks converge at PR 8.
+
+
 
 ## Planned Enhancement: Spoiler Support (Design Only — Not Yet Implemented)
 
