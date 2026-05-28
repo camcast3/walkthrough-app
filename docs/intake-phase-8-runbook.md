@@ -100,40 +100,44 @@ for ($i=1; $i -le 12; $i++) {
 curl -X POST http://localhost:3847/api/convert
 ```
 
-Expected output (counts will vary depending on source structure):
+PowerShell: `curl.exe -X POST http://localhost:3847/api/convert` or `Invoke-RestMethod -Method Post -Uri http://localhost:3847/api/convert`
+
+Example output:
 
 ```json
-{ "success": true, "sections": 12, "total_blocks": 312 }
+{ "success": true, "sections": 1, "total_blocks": 809 }
 ```
 
-**Important:** Sections are determined by `##` (H2) headings in the source markdown — **not** by page boundaries. If your 12 pages don't use H2 headings to delimit chapters/acts, the converter may produce fewer sections than you expect (even just 1). This is normal behavior, not a bug.
+**Understanding the section count:** The converter joins all captured pages into a single document and then runs `detect-sections.ts`, which splits on `##` (H2) heading boundaries. In practice the converter may not produce one section per page — it depends on how the combined document's heading structure is parsed. A single section with hundreds of blocks is a valid (and common) result for a first run.
 
-| You see | What it means | Action |
-|---|---|---|
-| `"sections": 12` | Each page (or logical chunk) had its own H2 | Ideal — proceed to Step 5 |
-| `"sections": 1` with many blocks | Source pages lack H2 headings, so everything landed in one section | See "Fixing section boundaries" below |
-| `"sections": 0` | No content was processed | Verify pages were captured (check `GET /api/pages`) |
+### Verifying pages were captured
 
-### Fixing section boundaries
+Before investigating section counts, confirm all 12 pages made it into the server:
 
-If the converter produces fewer sections than expected, the source pages likely use `#` (H1) or `###` (H3) for their main divisions instead of `##` (H2). Options:
+```bash
+curl -s http://localhost:3847/api/pages | jq 'length'
+```
 
-1. **Pre-process the pages** — before running convert, adjust the heading levels in the captured markdown so that chapter/act boundaries use `##`. You can PUT updated page content:
-   ```bash
-   # Fetch, fix headings, re-upload
-   curl -s http://localhost:3847/api/pages/1 | jq -r '.markdown' | \
-     sed 's/^# /## /' > /tmp/fixed.md
-   ```
+PowerShell: `(Invoke-RestMethod http://localhost:3847/api/pages).Count`
 
-2. **Accept the single-section output** and manually split during review (Step 5) if the walkthrough is short enough.
+If the count is less than 12, re-seed the missing pages (Step 3).
 
-3. **Check the detect-sections logic** in `tools/intake/src/converter/detect-sections.ts` — it splits on H2 by default. If your source consistently uses a different heading level, you may need to adjust the splitter.
-
-Inspect what was produced:
+### Inspecting the output
 
 ```bash
 curl -s http://localhost:3847/api/sections | jq '.[] | {id, title, blocks: (.blocks|length)}'
 ```
+
+If you get fewer sections than expected:
+
+1. **Check the source headings** — verify the page markdown actually has `## ` (H2) lines. Some capture methods (Readability/Turndown) may strip or downgrade headings.
+   ```bash
+   curl -s http://localhost:3847/api/pages/1 | jq -r '.markdown' | Select-String "^## "
+   ```
+
+2. **Section count ≠ page count** — the converter treats all pages as one document. A walkthrough with one long narrative and few H2 breaks will naturally produce fewer sections.
+
+3. **This is OK to proceed with** — even 1 section with 809 blocks is a valid starting point for the review workflow in Step 5. You can still approve and finalize.
 
 ## Step 5 — Review and correct sections
 
@@ -214,7 +218,7 @@ Verify:
 - No dropped sections, encounters, or quests
 - Block types match the patterns from Step 5
 - Section IDs are stable across runs (rerun convert+finalize, ensure same IDs)
-- 12 sections present, at least one encounter per Act
+- At least one encounter block present per major act/chapter
 
 > **Tip:** If you kept a backup of the old file elsewhere (e.g. in a prior git commit), you can still diff with `git show main:walkthroughs/trails-of-cold-steel-ii/main-walkthrough.json > /tmp/cs2-old.json` and compare.
 
@@ -228,7 +232,7 @@ npm run dev
 
 Navigate to the Cold Steel II walkthrough in the running webapp and verify:
 
-- All 12 sections appear and render
+- All sections appear and render (count should match Step 4 output)
 - Section switching works via mouse, keyboard, and gamepad (LB/RB on Xbox; L1/R1 on PlayStation)
 - Checkpoints appear in the sidebar and jump correctly
 - Encounter blocks show stats; quest blocks show quest_type badge; event blocks flag missables
