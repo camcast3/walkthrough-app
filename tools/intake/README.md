@@ -11,6 +11,8 @@ npm install
 
 Node 20+ recommended (developed against Node 24).
 
+> **Windows users:** PowerShell aliases `curl` to `Invoke-WebRequest`. Use `curl.exe` instead (ships with Windows 10+), or use `Invoke-RestMethod`, or run commands in Git Bash / WSL.
+
 ## Quick start
 
 ```bash
