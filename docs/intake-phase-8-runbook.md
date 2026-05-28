@@ -58,40 +58,24 @@ The server boots on `http://localhost:3847` and creates `walkthroughs/trails-of-
 
 ## Step 3 — Seed the captured pages
 
-The 12 Cold Steel II source pages already live at `walkthroughs/trails-of-cold-steel-ii/page1.md` … `page12.md`. POST each page directly to the server.
+The 12 Cold Steel II source pages already live at `walkthroughs/trails-of-cold-steel-ii/page1.md` … `page12.md`. Use the seed script to POST them all to the server.
 
-In a **second** terminal, **`cd` to the repo root first** (the paths below are relative to it):
+From the **repo root** in a second terminal:
 
 ```bash
-cd <repo-root>
-
-for i in $(seq 1 12); do
-  jq -Rs --arg n "$i" --arg t "Cold Steel II — Page $i" \
-    '{ title: $t, url: ("file://page" + $n + ".md"), markdown: . }' \
-    walkthroughs/trails-of-cold-steel-ii/page$i.md \
-  | curl -s -X POST http://localhost:3847/api/intake \
-      -H 'Content-Type: application/json' -d @-
-  echo
-done
-
-# Sanity check — should report 12 pages
-curl -s http://localhost:3847/api/pages | jq 'length'
+bash tools/intake/scripts/seed-pages.sh walkthroughs/trails-of-cold-steel-ii
 ```
 
-PowerShell (run from the repo root — e.g. `cd C:\Users\carlt\repos\walkthrough-app`):
+PowerShell:
 
 ```powershell
-cd C:\Users\carlt\repos\walkthrough-app   # adjust to your checkout path
-
-for ($i=1; $i -le 12; $i++) {
-  $md = Get-Content "walkthroughs\trails-of-cold-steel-ii\page$i.md" -Raw
-  $body = @{ title = "Cold Steel II — Page $i"; url = "file://page$i.md"; markdown = $md } | ConvertTo-Json
-  Invoke-RestMethod -Method Post -Uri http://localhost:3847/api/intake -ContentType 'application/json' -Body $body
-}
-(Invoke-RestMethod http://localhost:3847/api/pages).Count
+.\tools\intake\scripts\seed-pages.ps1 -Dir walkthroughs\trails-of-cold-steel-ii
 ```
 
-Confirm the page count is 12 before proceeding.
+The script finds all `pageN.md` files, sorts them numerically, and POSTs each to `localhost:3847`. It prints a count at the end — confirm it says 12 before proceeding.
+
+> The script accepts an optional second argument for a different server URL:
+> `bash tools/intake/scripts/seed-pages.sh walkthroughs/my-game http://localhost:4000`
 
 ## Step 4 — Run the converter
 
