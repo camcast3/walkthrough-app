@@ -60,9 +60,11 @@ The server boots on `http://localhost:3847` and creates `walkthroughs/trails-of-
 
 The 12 Cold Steel II source pages already live at `walkthroughs/trails-of-cold-steel-ii/page1.md` … `page12.md`. POST each page directly to the server.
 
-In a **second** terminal:
+In a **second** terminal, **`cd` to the repo root first** (the paths below are relative to it):
 
 ```bash
+cd <repo-root>
+
 for i in $(seq 1 12); do
   jq -Rs --arg n "$i" --arg t "Cold Steel II — Page $i" \
     '{ title: $t, url: ("file://page" + $n + ".md"), markdown: . }' \
@@ -76,11 +78,13 @@ done
 curl -s http://localhost:3847/api/pages | jq 'length'
 ```
 
-PowerShell:
+PowerShell (run from the repo root — e.g. `cd C:\Users\carlt\repos\walkthrough-app`):
 
 ```powershell
+cd C:\Users\carlt\repos\walkthrough-app   # adjust to your checkout path
+
 for ($i=1; $i -le 12; $i++) {
-  $md = Get-Content "walkthroughs/trails-of-cold-steel-ii/page$i.md" -Raw
+  $md = Get-Content "walkthroughs\trails-of-cold-steel-ii\page$i.md" -Raw
   $body = @{ title = "Cold Steel II — Page $i"; url = "file://page$i.md"; markdown = $md } | ConvertTo-Json
   Invoke-RestMethod -Method Post -Uri http://localhost:3847/api/intake -ContentType 'application/json' -Body $body
 }
