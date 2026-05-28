@@ -100,13 +100,36 @@ for ($i=1; $i -le 12; $i++) {
 curl -X POST http://localhost:3847/api/convert
 ```
 
-Expected output (counts will vary):
+Expected output (counts will vary depending on source structure):
 
 ```json
 { "success": true, "sections": 12, "total_blocks": 312 }
 ```
 
-The proposal's acceptance criterion is **12 sections, ≥1 encounter per Act**. If you see fewer than 12 sections, the source markdown might be inconsistent about H2 usage — inspect with:
+**Important:** Sections are determined by `##` (H2) headings in the source markdown — **not** by page boundaries. If your 12 pages don't use H2 headings to delimit chapters/acts, the converter may produce fewer sections than you expect (even just 1). This is normal behavior, not a bug.
+
+| You see | What it means | Action |
+|---|---|---|
+| `"sections": 12` | Each page (or logical chunk) had its own H2 | Ideal — proceed to Step 5 |
+| `"sections": 1` with many blocks | Source pages lack H2 headings, so everything landed in one section | See "Fixing section boundaries" below |
+| `"sections": 0` | No content was processed | Verify pages were captured (check `GET /api/pages`) |
+
+### Fixing section boundaries
+
+If the converter produces fewer sections than expected, the source pages likely use `#` (H1) or `###` (H3) for their main divisions instead of `##` (H2). Options:
+
+1. **Pre-process the pages** — before running convert, adjust the heading levels in the captured markdown so that chapter/act boundaries use `##`. You can PUT updated page content:
+   ```bash
+   # Fetch, fix headings, re-upload
+   curl -s http://localhost:3847/api/pages/1 | jq -r '.markdown' | \
+     sed 's/^# /## /' > /tmp/fixed.md
+   ```
+
+2. **Accept the single-section output** and manually split during review (Step 5) if the walkthrough is short enough.
+
+3. **Check the detect-sections logic** in `tools/intake/src/converter/detect-sections.ts` — it splits on H2 by default. If your source consistently uses a different heading level, you may need to adjust the splitter.
+
+Inspect what was produced:
 
 ```bash
 curl -s http://localhost:3847/api/sections | jq '.[] | {id, title, blocks: (.blocks|length)}'

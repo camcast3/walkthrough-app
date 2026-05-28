@@ -181,4 +181,5 @@ tools/intake/
 | Port 3847 already in use | Pass `--port <other>` to `start`; update `SERVER` in `tools/intake-extension/popup.js` to match |
 | `set-threshold` errors with ENOENT | Run from the repo root, not from inside `tools/intake/` |
 | Convert outputs zero sections | Source pages probably lack `##` headings — the section detector splits on H2 |
+| Convert outputs only 1 section despite multiple pages | Pages ≠ sections. The converter splits on `##` (H2) boundaries in the content, not page boundaries. If pages use `#` or `###` instead, pre-process to add H2 dividers or adjust `detect-sections.ts` |
 | Encounter table classified as plain table | Add `HP`, `Weakness`, `Level`, `EXP`, `Mira`, or `Drops` column header to the source — those are the encounter-stat triggers |
