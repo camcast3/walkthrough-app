@@ -86,14 +86,15 @@ foreach ($page in $pages) {
   $num = $page.BaseName -replace 'page',''
 
   if ($mode -eq "json") {
-    $body = Get-Content $page.FullName -Raw
+    $body = [System.IO.File]::ReadAllBytes($page.FullName)
   } else {
     $md = Get-Content $page.FullName -Raw
-    $body = @{
+    $jsonStr = @{
       title    = "Page $num"
       url      = "file://$($page.Name)"
       markdown = $md
     } | ConvertTo-Json
+    $body = [System.Text.Encoding]::UTF8.GetBytes($jsonStr)
   }
 
   Invoke-RestMethod -Method Post -Uri "$Server/api/intake" -ContentType 'application/json' -Body $body | Out-Null
