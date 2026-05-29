@@ -8,19 +8,48 @@ import { detectSections } from './detect-sections.js';
 import { detectBlockType, buildBlock } from './detect-blocks.js';
 import { detectCheckpoints } from './detect-checkpoints.js';
 import { ConvertedSection, ClassifiedBlock, TrainingDatabase, BlockType } from '../types.js';
+import slugify from 'slugify';
+
+/** Strip common site-name suffixes like " - Game Title Walkthrough" from page titles. */
+function stripSiteSuffix(title: string | undefined): string | undefined {
+  if (!title) return undefined;
+  // Remove everything after " - " that looks like a site/game suffix
+  const dashIdx = title.indexOf(' - ');
+  return dashIdx > 0 ? title.slice(0, dashIdx).trim() : title.trim();
+}
 
 export interface ConvertOptions {
   training: TrainingDatabase | null;
   source_site?: string;
 }
 
-export function convertPages(pages: string[], options: ConvertOptions): ConvertedSection[] {
+export interface PageInput {
+  markdown: string;
+  title?: string;
+}
+
+export function convertPages(pages: PageInput[], options: ConvertOptions): ConvertedSection[] {
   // Combine all pages into one markdown document
-  const combined = pages.join('\n\n---\n\n');
+  const combined = pages.map(p => p.markdown).join('\n\n---\n\n');
   const tokens = parseMarkdown(combined);
   const rawSections = detectSections(tokens);
 
-  return rawSections.map(section => {
+  // If H2-based detection yields only 1 section but we have multiple pages,
+  // fall back to treating each page as its own section.
+  const usePerPage = rawSections.length === 1 && pages.length > 1;
+  const finalSections = usePerPage
+    ? pages.map((page, i) => {
+        const pageTokens = parseMarkdown(page.markdown);
+        const title = stripSiteSuffix(page.title) || `Page ${i + 1}`;
+        return {
+          id: slugify(title, { lower: true, strict: true }),
+          title,
+          tokens: pageTokens,
+        };
+      })
+    : rawSections;
+
+  return finalSections.map(section => {
     const blocks: ClassifiedBlock[] = [];
     let headingAbove: string | undefined;
     let headingLevel: number | undefined;

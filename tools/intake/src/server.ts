@@ -110,7 +110,7 @@ export function createServer(workingDir: string) {
     const pages = files
       .map(f => JSON.parse(readFileSync(join(pagesDir, f), 'utf-8')) as PageCapture)
       .sort((a, b) => a.page_number - b.page_number)
-      .map(p => p.markdown);
+      .map(p => ({ markdown: p.markdown, title: p.title }));
 
     const rulesDb = new RulesDB(trainingDbPath);
     const sections = convertPages(pages, {
