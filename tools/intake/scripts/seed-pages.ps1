@@ -1,13 +1,17 @@
 <#
 .SYNOPSIS
-  POST local markdown pages to the intake server.
+  POST local page files to the intake server.
 
 .DESCRIPTION
-  Finds all pageN.md files in the given walkthrough directory and POSTs
-  each one to the running intake server.
+  Finds all page*.md or page*.json files in the given walkthrough directory
+  and POSTs each one to the running intake server.
+
+  - page*.md files: read as raw markdown, title derived from filename.
+  - page*.json files: expected to have { title, url, markdown } fields,
+    POSTed directly as-is.
 
 .PARAMETER Dir
-  Path to the walkthrough directory containing page*.md files.
+  Path to the walkthrough directory containing page files.
 
 .PARAMETER Server
   Intake server URL. Defaults to http://localhost:3847.
@@ -34,23 +38,40 @@ if (-not (Test-Path $Dir -PathType Container)) {
   exit 1
 }
 
-$pages = Get-ChildItem -Path $Dir -Filter "page*.md" |
+# Look for .json pages first, fall back to .md
+$pages = Get-ChildItem -Path $Dir -Filter "page*.json" |
   Sort-Object { [int]($_.BaseName -replace 'page','') }
 
+if ($pages.Count -gt 0) {
+  $mode = "json"
+} else {
+  $pages = Get-ChildItem -Path $Dir -Filter "page*.md" |
+    Sort-Object { [int]($_.BaseName -replace 'page','') }
+  $mode = "md"
+}
+
 if ($pages.Count -eq 0) {
-  Write-Error "No page*.md files found in '$Dir'."
+  Write-Error "No page*.json or page*.md files found in '$Dir'."
   exit 1
 }
+
+Write-Host "Found $($pages.Count) $mode page files in $Dir"
+Write-Host ""
 
 $count = 0
 foreach ($page in $pages) {
   $num = $page.BaseName -replace 'page',''
-  $md = Get-Content $page.FullName -Raw
-  $body = @{
-    title    = "Page $num"
-    url      = "file://$($page.Name)"
-    markdown = $md
-  } | ConvertTo-Json
+
+  if ($mode -eq "json") {
+    $body = Get-Content $page.FullName -Raw
+  } else {
+    $md = Get-Content $page.FullName -Raw
+    $body = @{
+      title    = "Page $num"
+      url      = "file://$($page.Name)"
+      markdown = $md
+    } | ConvertTo-Json
+  }
 
   Invoke-RestMethod -Method Post -Uri "$Server/api/intake" -ContentType 'application/json' -Body $body | Out-Null
 
