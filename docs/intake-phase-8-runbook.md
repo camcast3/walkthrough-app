@@ -58,24 +58,39 @@ The server boots on `http://localhost:3847` and creates `walkthroughs/trails-of-
 
 ## Step 3 — Seed the captured pages
 
-The 12 Cold Steel II source pages already live at `walkthroughs/trails-of-cold-steel-ii/page1.md` … `page12.md`. Use the seed script to POST them all to the server.
+The 12 Cold Steel II source pages are stored as JSON files in `.intake/pages/`. The source uses `###` (H3) headings internally but has no `##` (H2) headings — and the converter splits sections on H2. To get proper section boundaries, inject each page's title as an H2 before seeding.
 
 From the **repo root** in a second terminal:
 
-```bash
-bash tools/intake/scripts/seed-pages.sh walkthroughs/trails-of-cold-steel-ii
-```
-
-PowerShell:
-
 ```powershell
-.\tools\intake\scripts\seed-pages.ps1 -Dir walkthroughs\trails-of-cold-steel-ii
+# Seed pages with H2 headings injected from page titles
+$pagesDir = "walkthroughs\trails-of-cold-steel-ii\.intake\pages"
+$pages = Get-ChildItem $pagesDir -Filter "page*.json" | Sort-Object { [int]($_.BaseName -replace 'page','') }
+foreach ($page in $pages) {
+  $json = Get-Content $page.FullName -Raw | ConvertFrom-Json
+  # Strip the trailing " - The Legend of Heroes..." suffix from the title
+  $sectionTitle = $json.title -replace ' - The Legend of Heroes.*$',''
+  $json.markdown = "## $sectionTitle`n`n$($json.markdown)"
+  $body = [System.Text.Encoding]::UTF8.GetBytes(($json | ConvertTo-Json -Depth 10))
+  Invoke-RestMethod -Method Post -Uri http://localhost:3847/api/intake -ContentType 'application/json' -Body $body | Out-Null
+  Write-Host "  OK: $($page.Name) -> ## $sectionTitle"
+}
+(Invoke-RestMethod http://localhost:3847/api/pages).Count  # should be 12
 ```
 
-The script finds all `pageN.md` files, sorts them numerically, and POSTs each to `localhost:3847`. It prints a count at the end — confirm it says 12 before proceeding.
+Bash equivalent:
 
-> The script accepts an optional second argument for a different server URL:
-> `bash tools/intake/scripts/seed-pages.sh walkthroughs/my-game http://localhost:4000`
+```bash
+for f in walkthroughs/trails-of-cold-steel-ii/.intake/pages/page*.json; do
+  # Inject page title as H2 at the start of the markdown
+  jq '.markdown = "## " + (.title | sub(" - The Legend of Heroes.*$";"")) + "\n\n" + .markdown' "$f" \
+  | curl -s -X POST http://localhost:3847/api/intake \
+      -H 'Content-Type: application/json' -d @-
+done
+curl -s http://localhost:3847/api/pages | jq 'length'  # should be 12
+```
+
+Confirm the page count is 12 before proceeding.
 
 ## Step 4 — Run the converter
 
@@ -83,13 +98,13 @@ The script finds all `pageN.md` files, sorts them numerically, and POSTs each to
 curl -X POST http://localhost:3847/api/convert
 ```
 
-Output:
+Expected output:
 
 ```json
-{ "success": true, "sections": 1, "total_blocks": 809 }
+{ "success": true, "sections": 12, "total_blocks": 808 }
 ```
 
-The converter joins all 12 pages into a single document and splits on `##` (H2) heading boundaries. In practice this produces a single section containing all 809 blocks. This is expected — the review and finalize steps work the same regardless of section count.
+The converter joins all pages into a single document and splits on the injected `##` boundaries, producing 12 sections (one per page: Prologue, Act 1 Part 1, Act 1 Part 2, etc.).
 
 Inspect the result:
 
