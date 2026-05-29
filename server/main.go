@@ -253,6 +253,7 @@ func main() {
 	mux.HandleFunc("GET /api/walkthroughs/{id}", h.GetWalkthrough)
 	mux.HandleFunc("GET /api/progress/{id}", h.GetProgress)
 	mux.HandleFunc("PUT /api/progress/{id}", h.PutProgress)
+	mux.HandleFunc("GET /api/progress/{id}/history", h.GetProgressHistory)
 	mux.HandleFunc("GET /api/checkouts", h.ListCheckouts)
 	mux.HandleFunc("PUT /api/checkouts/{id}", h.PutCheckout)
 	mux.HandleFunc("DELETE /api/checkouts/{id}", h.DeleteCheckout)

@@ -119,6 +119,8 @@ export type CheckedSteps = Set<string>;
 export interface ProgressRecord {
 	walkthroughId: string;
 	checkedSteps: string[];
+	/** Per-step timestamps recording when each step was last toggled (ISO strings). */
+	stepTimestamps?: Record<string, string>;
 	updatedAt: string; // ISO timestamp
 }
 

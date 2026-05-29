@@ -15,6 +15,8 @@
 
 	// ── State ──────────────────────────────────────────────────────────────────
 	let checkedSteps = $state<Set<string>>(new Set());
+	/** Per-step timestamps: tracks when each step was last toggled (ISO strings). */
+	let stepTimestamps = $state<Record<string, string>>({});
 	let currentSectionIdx = $state(0);
 	let focusedStepIdx = $state(0);
 	let syncStatus = $state<SyncStatus>({ online: false, lastSynced: null, stale: false, remoteUpdatedAt: null });
@@ -171,7 +173,8 @@
 		if (next.has(stepId)) next.delete(stepId);
 		else next.add(stepId);
 		checkedSteps = next;
-		const record = await saveProgress(wt.id, checkedSteps);
+		const record = await saveProgress(wt.id, checkedSteps, stepTimestamps, stepId);
+		stepTimestamps = record.stepTimestamps ?? {};
 		// Background sync — non-blocking
 		syncProgress(wt.id, record).then((status) => {
 			syncStatus = status;
@@ -188,7 +191,8 @@
 		if (next.has(cpId)) next.delete(cpId);
 		else next.add(cpId);
 		checkedSteps = next;
-		const record = await saveProgress(wt.id, checkedSteps);
+		const record = await saveProgress(wt.id, checkedSteps, stepTimestamps, cpId);
+		stepTimestamps = record.stepTimestamps ?? {};
 		syncProgress(wt.id, record).then((status) => {
 			syncStatus = status;
 			if (status.stale && status.remoteUpdatedAt) {
@@ -275,7 +279,8 @@
 		const remote = await pullProgress(wt.id);
 		if (remote) {
 			checkedSteps = new Set(remote.checkedSteps);
-			await saveProgress(wt.id, checkedSteps);
+			stepTimestamps = remote.stepTimestamps ?? {};
+			await saveProgress(wt.id, checkedSteps, stepTimestamps);
 		}
 		showStalePrompt = false;
 	}
@@ -806,7 +811,10 @@
 
 	onMount(async () => {
 		const record = await loadProgress(wt.id);
-		if (record) checkedSteps = new Set(record.checkedSteps);
+		if (record) {
+			checkedSteps = new Set(record.checkedSteps);
+			stepTimestamps = record.stepTimestamps ?? {};
+		}
 
 		// Async background sync
 		syncProgress(wt.id, record).then((status) => {

@@ -122,7 +122,9 @@ func (ps *ProgressSync) MarkDirty(walkthroughID string) {
 }
 
 // PullAll fetches progress for checked-out walkthroughs from the remote server
-// and updates local state if the remote is newer. Called on startup.
+// and merges remote state into local state using per-step timestamps (rsync-like).
+// Steps where the remote has a newer timestamp take the remote's checked state;
+// steps where local is newer (or equal) keep the local state.
 // When IsCheckedOutFn is set, only walkthroughs that are currently checked out are pulled.
 func (ps *ProgressSync) PullAll(ctx context.Context, walkthroughIDs []string) {
 	for _, id := range walkthroughIDs {
@@ -138,10 +140,14 @@ func (ps *ProgressSync) PullAll(ctx context.Context, walkthroughIDs []string) {
 		}
 
 		local, _ := ps.DB.GetProgress(id)
-		if local == nil || remote.UpdatedAt.After(local.UpdatedAt) {
-			if err := ps.DB.PutProgress(remote); err != nil {
-				log.Printf("[upstream-sync] failed to save pulled progress for %s: %v", id, err)
-			}
+		var merged *store.ProgressRecord
+		if local != nil {
+			merged = store.MergeProgress(local, remote)
+		} else {
+			merged = remote
+		}
+		if err := ps.DB.PutProgress(merged); err != nil {
+			log.Printf("[upstream-sync] failed to save pulled progress for %s: %v", id, err)
 		}
 	}
 }
@@ -210,9 +216,16 @@ func (ps *ProgressSync) flush(ctx context.Context) {
 }
 
 func (ps *ProgressSync) pushRemote(ctx context.Context, record *store.ProgressRecord) error {
+	// Encode step timestamps as RFC3339 strings for JSON transport.
+	rawTS := make(map[string]string, len(record.StepTimestamps))
+	for k, v := range record.StepTimestamps {
+		rawTS[k] = v.UTC().Format(time.RFC3339)
+	}
+
 	body, err := json.Marshal(map[string]any{
-		"checkedSteps": record.CheckedSteps,
-		"updatedAt":    record.UpdatedAt.UTC().Format(time.RFC3339),
+		"checkedSteps":   record.CheckedSteps,
+		"stepTimestamps": rawTS,
+		"updatedAt":      record.UpdatedAt.UTC().Format(time.RFC3339),
 	})
 	if err != nil {
 		return err
