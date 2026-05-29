@@ -47,18 +47,17 @@ foreach ($page in $pages) {
   $num = $page.BaseName -replace 'page',''
   $md = Get-Content $page.FullName -Raw
   $body = @{
-    title = "Page $num"
-    url   = "file://$($page.Name)"
+    title    = "Page $num"
+    url      = "file://$($page.Name)"
     markdown = $md
   } | ConvertTo-Json
 
-  Invoke-RestMethod -Method Post -Uri "$Server/api/intake" `
-    -ContentType 'application/json' -Body $body | Out-Null
+  Invoke-RestMethod -Method Post -Uri "$Server/api/intake" -ContentType 'application/json' -Body $body | Out-Null
 
   $count++
-  Write-Host "  ✓ $($page.Name) (page $num)"
+  Write-Host "  OK: $($page.Name) (page $num)"
 }
 
 Write-Host ""
 Write-Host "Seeded $count pages to $Server"
-Write-Host "Verify: (Invoke-RestMethod $Server/api/pages).Count"
+Write-Host "Verify: (Invoke-RestMethod $($Server)/api/pages).Count"
