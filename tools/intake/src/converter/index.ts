@@ -13,9 +13,17 @@ import slugify from 'slugify';
 /** Strip common site-name suffixes like " - Game Title Walkthrough" from page titles. */
 function stripSiteSuffix(title: string | undefined): string | undefined {
   if (!title) return undefined;
-  // Remove everything after " - " that looks like a site/game suffix
-  const dashIdx = title.indexOf(' - ');
-  return dashIdx > 0 ? title.slice(0, dashIdx).trim() : title.trim();
+  // Split on " - " and remove trailing segments that look like site suffixes
+  const parts = title.split(' - ');
+  while (parts.length > 1) {
+    const last = parts[parts.length - 1];
+    if (/walkthrough|wiki|guide|faq/i.test(last)) {
+      parts.pop();
+    } else {
+      break;
+    }
+  }
+  return parts.join(' - ').trim();
 }
 
 export interface ConvertOptions {
