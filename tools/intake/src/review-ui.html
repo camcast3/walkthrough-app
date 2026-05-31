@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intake Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #e0e0e0; display: flex; height: 100vh; }
+
+  /* Sidebar */
+  .sidebar { width: 240px; background: #16213e; border-right: 1px solid #0f3460; overflow-y: auto; padding: 12px 0; flex-shrink: 0; }
+  .sidebar h2 { padding: 0 14px 10px; font-size: 12px; color: #7ec8e3; text-transform: uppercase; letter-spacing: 1px; }
+  .section-item { padding: 8px 14px; cursor: pointer; border-left: 3px solid transparent; transition: all 0.15s; }
+  .section-item:hover { background: #1a2744; }
+  .section-item.active { background: #1a2744; border-left-color: #7ec8e3; }
+  .section-item .title { font-size: 12px; font-weight: 600; }
+  .section-item .meta { font-size: 10px; color: #888; margin-top: 2px; }
+  .section-item .approved-badge { color: #4caf50; }
+
+  /* Main area */
+  .main { flex: 1; overflow-y: auto; padding: 20px; }
+  .toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap; }
+  .toolbar h1 { font-size: 20px; color: #fff; }
+  .section-meta { font-size: 12px; color: #888; margin-bottom: 16px; }
+  .stats-bar { display: flex; gap: 12px; font-size: 11px; color: #888; margin-bottom: 16px; flex-wrap: wrap; }
+  .stats-bar span { display: flex; align-items: center; gap: 4px; }
+
+  /* Block card — split pane */
+  .block-card { background: #16213e; border: 1px solid #0f3460; border-radius: 8px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .block-card.approved { border-left: 3px solid #4caf50; }
+  .block-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 1px solid #0f3460; background: #141e33; }
+  .block-type { font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 7px; border-radius: 3px; }
+  .block-type.prose { background: #2d3748; color: #a0aec0; }
+  .block-type.encounter { background: #742a2a; color: #feb2b2; }
+  .block-type.quest { background: #744210; color: #fefcbf; }
+  .block-type.table { background: #1a365d; color: #90cdf4; }
+  .block-type.event { background: #553c9a; color: #d6bcfa; }
+  .block-type.checklist { background: #22543d; color: #9ae6b4; }
+  .block-type.callout { background: #5a3e1b; color: #fbd38d; }
+  .block-confidence { font-size: 10px; color: #666; }
+  .block-index { font-size: 10px; color: #555; margin-left: auto; }
+
+  .block-split { display: flex; min-height: 80px; }
+  .block-raw { flex: 1; padding: 12px; border-right: 1px solid #0f3460; overflow: auto; max-height: 300px; }
+  .block-raw pre { font-family: 'Fira Code', 'Cascadia Code', monospace; font-size: 11px; line-height: 1.5; color: #a0aec0; white-space: pre-wrap; word-break: break-word; }
+  .block-rendered { flex: 1; padding: 12px 16px; overflow: auto; max-height: 300px; background: #1e1e2e; }
+
+  /* Rendered markdown styles */
+  .block-rendered h1, .block-rendered h2, .block-rendered h3, .block-rendered h4 { color: #fff; margin: 8px 0 4px; }
+  .block-rendered h3 { font-size: 15px; }
+  .block-rendered h4 { font-size: 13px; color: #ccc; }
+  .block-rendered p { font-size: 13px; line-height: 1.6; color: #d0d0d0; margin: 6px 0; }
+  .block-rendered ul, .block-rendered ol { margin: 6px 0 6px 20px; font-size: 13px; line-height: 1.6; color: #d0d0d0; }
+  .block-rendered li { margin: 2px 0; }
+  .block-rendered strong { color: #fff; }
+  .block-rendered em { color: #b0b0b0; font-style: italic; }
+  .block-rendered a { color: #7ec8e3; text-decoration: underline; }
+  .block-rendered code { background: #2d3748; padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+  .block-rendered table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12px; }
+  .block-rendered th, .block-rendered td { border: 1px solid #0f3460; padding: 4px 8px; text-align: left; }
+  .block-rendered th { background: #1a365d; color: #90cdf4; font-weight: 600; }
+  .block-rendered hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
+  .block-rendered blockquote { border-left: 3px solid #7ec8e3; padding-left: 12px; margin: 8px 0; color: #aaa; font-style: italic; }
+
+  /* Encounter/quest/event special rendering */
+  .rendered-encounter { border: 1px solid #742a2a; border-radius: 6px; padding: 10px; background: #2d1515; }
+  .rendered-encounter .enc-name { font-size: 15px; font-weight: 700; color: #feb2b2; margin-bottom: 6px; }
+  .rendered-encounter .enc-stats { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: #ccc; margin-bottom: 6px; }
+  .rendered-encounter .enc-stat { background: #742a2a; padding: 2px 8px; border-radius: 3px; }
+  .rendered-quest { border: 1px solid #744210; border-radius: 6px; padding: 10px; background: #2d2010; }
+  .rendered-quest .quest-name { font-size: 15px; font-weight: 700; color: #fefcbf; margin-bottom: 4px; }
+  .rendered-quest .quest-badge { font-size: 11px; padding: 2px 6px; border-radius: 3px; background: #744210; color: #fefcbf; }
+  .rendered-quest .quest-badge.missable { background: #9b2c2c; color: #fed7d7; }
+  .rendered-event { border: 1px solid #553c9a; border-radius: 6px; padding: 10px; background: #1e1535; }
+  .rendered-event .event-name { font-size: 15px; font-weight: 700; color: #d6bcfa; margin-bottom: 4px; }
+  .rendered-event .event-badge { font-size: 11px; padding: 2px 6px; border-radius: 3px; background: #553c9a; color: #d6bcfa; }
+  .rendered-callout { border: 1px solid #5a3e1b; border-radius: 6px; padding: 10px; background: #2d2510; }
+  .rendered-callout::before { content: '💡 '; }
+
+  .block-actions { display: flex; gap: 8px; padding: 8px 14px; border-top: 1px solid #0f3460; background: #141e33; }
+  .btn { font-size: 11px; padding: 4px 10px; border-radius: 4px; border: 1px solid #0f3460; background: #1a2744; color: #7ec8e3; cursor: pointer; transition: all 0.15s; }
+  .btn:hover { background: #0f3460; }
+  .btn.approve { border-color: #4caf50; color: #4caf50; }
+  .btn.approve:hover { background: #1b3d2a; }
+  .btn.approve-all { background: #4caf50; color: #fff; border-color: #4caf50; padding: 6px 14px; font-size: 12px; }
+  .btn.approve-all:hover { background: #388e3c; }
+  .type-select { font-size: 11px; padding: 3px 6px; border-radius: 4px; border: 1px solid #0f3460; background: #1a2744; color: #e0e0e0; }
+  .loading { text-align: center; padding: 60px; color: #666; font-size: 16px; }
+  .pane-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 6px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+  <h2>Sections</h2>
+  <div id="section-list"></div>
+</div>
+<div class="main" id="main">
+  <div class="loading">Loading sections...</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+const API = '';
+let sections = [];
+let activeSection = null;
+
+// Configure marked for our use case
+marked.setOptions({ breaks: true, gfm: true });
+
+async function load() {
+  const res = await fetch(`${API}/api/sections`);
+  if (!res.ok) { document.getElementById('main').innerHTML = '<div class="loading">No sections found. Run POST /api/convert first.</div>'; return; }
+  sections = await res.json();
+  renderSidebar();
+  if (sections.length > 0) selectSection(sections[0].id);
+}
+
+function renderSidebar() {
+  const list = document.getElementById('section-list');
+  list.innerHTML = sections.map(s => {
+    const approved = s.approved ? ' <span class="approved-badge">✓</span>' : '';
+    const approvedCount = s.blocks.filter(b => b.approved).length;
+    return `<div class="section-item" data-id="${s.id}" onclick="selectSection('${s.id}')">
+      <div class="title">${escHtml(s.title)}${approved}</div>
+      <div class="meta">${s.blocks.length} blocks · ${approvedCount} approved</div>
+    </div>`;
+  }).join('');
+}
+
+function selectSection(id) {
+  activeSection = id;
+  document.querySelectorAll('.section-item').forEach(el => el.classList.toggle('active', el.dataset.id === id));
+  renderSection(sections.find(s => s.id === id));
+}
+
+function renderSection(section) {
+  if (!section) return;
+  const typeCounts = {};
+  section.blocks.forEach(b => { typeCounts[b.block.type] = (typeCounts[b.block.type] || 0) + 1; });
+  const statsHtml = Object.entries(typeCounts).map(([t, c]) => `<span><span class="block-type ${t}">${t}</span> ${c}</span>`).join('');
+
+  const blocksHtml = section.blocks.map((b, i) => {
+    const block = b.block;
+    const rawJson = JSON.stringify(block, null, 2);
+    const rendered = renderBlock(block);
+
+    return `<div class="block-card${b.approved ? ' approved' : ''}" data-index="${i}">
+      <div class="block-header">
+        <span class="block-type ${block.type}">${block.type}</span>
+        <span class="block-confidence">${(b.confidence * 100).toFixed(0)}%</span>
+        <span class="block-index">#${i}</span>
+      </div>
+      <div class="block-split">
+        <div class="block-raw">
+          <div class="pane-label">Raw JSON</div>
+          <pre>${escHtml(rawJson)}</pre>
+        </div>
+        <div class="block-rendered">
+          <div class="pane-label">Preview</div>
+          ${rendered}
+        </div>
+      </div>
+      <div class="block-actions">
+        <button class="btn approve" onclick="approveBlock('${section.id}', ${i})">✓ Approve</button>
+        <select class="type-select" onchange="changeType('${section.id}', ${i}, this.value)">
+          ${['prose','encounter','quest','event','table','checklist','callout'].map(t => `<option value="${t}"${t===block.type?' selected':''}>${t}</option>`).join('')}
+        </select>
+      </div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('main').innerHTML = `
+    <div class="toolbar">
+      <h1>${escHtml(section.title)}</h1>
+      <button class="btn approve-all" onclick="approveSection('${section.id}')">✓ Approve All</button>
+    </div>
+    <div class="section-meta">${section.blocks.length} blocks · ${section.checkpoints?.length || 0} checkpoints · ID: ${section.id}</div>
+    <div class="stats-bar">${statsHtml}</div>
+    ${blocksHtml}
+  `;
+}
+
+function renderBlock(block) {
+  let heading = '';
+  if (block.heading) {
+    heading = `<h3 style="color:#fff;margin-bottom:8px;">${escHtml(block.heading)}</h3>`;
+  }
+  switch (block.type) {
+    case 'encounter': return heading + renderEncounter(block);
+    case 'quest': return heading + renderQuest(block);
+    case 'event': return heading + renderEvent(block);
+    case 'callout': return heading + `<div class="rendered-callout">${renderMarkdown(block.content || '')}</div>`;
+    case 'table': return heading + renderTable(block);
+    case 'checklist': return heading + renderChecklist(block);
+    default: return heading + renderMarkdown(block.content || '');
+  }
+}
+
+function renderEncounter(block) {
+  let html = '<div class="rendered-encounter">';
+  html += `<div class="enc-name">⚔️ ${escHtml(block.name || 'Unknown Encounter')}</div>`;
+  if (block.stats) {
+    html += '<div class="enc-stats">';
+    for (const [k, v] of Object.entries(block.stats)) {
+      html += `<span class="enc-stat"><strong>${escHtml(k)}:</strong> ${escHtml(String(v))}</span>`;
+    }
+    html += '</div>';
+  }
+  if (block.content) html += renderMarkdown(block.content);
+  html += '</div>';
+  return html;
+}
+
+function renderQuest(block) {
+  let html = '<div class="rendered-quest">';
+  html += `<div class="quest-name">📋 ${escHtml(block.name || block.content?.slice(0,60) || 'Quest')}</div>`;
+  if (block.quest_type) {
+    html += `<span class="quest-badge${block.missable ? ' missable' : ''}">${block.quest_type}${block.missable ? ' · MISSABLE' : ''}</span>`;
+  }
+  if (block.content) html += renderMarkdown(block.content);
+  html += '</div>';
+  return html;
+}
+
+function renderEvent(block) {
+  let html = '<div class="rendered-event">';
+  html += `<div class="event-name">🎭 ${escHtml(block.name || block.content?.slice(0,60) || 'Event')}</div>`;
+  if (block.event_type) {
+    html += `<span class="event-badge">${block.event_type}${block.missable ? ' · MISSABLE' : ''}</span>`;
+  }
+  if (block.content) html += renderMarkdown(block.content);
+  html += '</div>';
+  return html;
+}
+
+function renderChecklist(block) {
+  if (block.items && Array.isArray(block.items)) {
+    const items = block.items.map(it => `<li>☐ ${escHtml(typeof it === 'string' ? it : it.text || JSON.stringify(it))}</li>`).join('');
+    return `<ul style="list-style:none;padding-left:0;">${items}</ul>`;
+  }
+  return renderMarkdown(block.content || '');
+}
+
+function renderTable(block) {
+  if (block.columns && block.rows) {
+    let html = '<table>';
+    html += '<tr>' + block.columns.map(c => `<th>${escHtml(c)}</th>`).join('') + '</tr>';
+    for (const row of block.rows) {
+      html += '<tr>' + row.map(cell => `<td>${escHtml(String(cell))}</td>`).join('') + '</tr>';
+    }
+    html += '</table>';
+    return html;
+  }
+  return renderMarkdown(block.content || '');
+}
+
+// Use marked library for proper markdown rendering
+function renderMarkdown(md) {
+  if (!md) return '';
+  return marked.parse(md);
+}
+
+function escHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function approveBlock(sectionId, index) {
+  await fetch(`${API}/api/sections/${sectionId}/blocks/${index}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ approved: true }) });
+  const res = await fetch(`${API}/api/sections`);
+  sections = await res.json();
+  renderSidebar();
+  renderSection(sections.find(s => s.id === sectionId));
+}
+
+async function approveSection(sectionId) {
+  await fetch(`${API}/api/approve/${sectionId}`, { method: 'POST' });
+  const res = await fetch(`${API}/api/sections`);
+  sections = await res.json();
+  renderSidebar();
+  renderSection(sections.find(s => s.id === sectionId));
+}
+
+async function changeType(sectionId, index, newType) {
+  const section = sections.find(s => s.id === sectionId);
+  const block = { ...section.blocks[index].block, type: newType };
+  await fetch(`${API}/api/sections/${sectionId}/blocks/${index}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ block }) });
+  const res = await fetch(`${API}/api/sections`);
+  sections = await res.json();
+  renderSection(sections.find(s => s.id === sectionId));
+}
+
+load();
+</script>
+</body>
+</html>

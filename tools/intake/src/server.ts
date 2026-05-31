@@ -5,14 +5,24 @@
 
 import express from 'express';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { convertPages } from './converter/index.js';
 import { IntakeSession, PageCapture, ConvertedSection } from './types.js';
 import { RulesDB } from './training/rules-db.js';
+import { downloadAndRewriteImages } from './images.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export function createServer(workingDir: string) {
   const app = express();
   app.use(express.json({ limit: '10mb' }));
+
+  // Serve review UI at root
+  app.get('/', (_req, res) => {
+    res.sendFile(join(__dirname, 'review-ui.html'));
+  });
 
   const intakeDir = join(workingDir, '.intake');
   const pagesDir = join(intakeDir, 'pages');
@@ -207,13 +217,23 @@ export function createServer(workingDir: string) {
   });
 
   // POST /api/finalize — write to main-walkthrough.json
-  app.post('/api/finalize', (req, res) => {
+  app.post('/api/finalize', async (req, res) => {
     const sections = getSections();
     const session = getSession();
     if (!sections || !session) {
       res.status(400).json({ error: 'No session or sections' });
       return;
     }
+
+    // Download images and rewrite URLs for offline use
+    const walkthroughBlocks = sections.map(s => ({
+      blocks: s.blocks.map(b => b.block as unknown as Record<string, unknown>),
+    }));
+    const imgResult = await downloadAndRewriteImages(
+      walkthroughBlocks,
+      workingDir,
+      (msg) => console.log(`  [images] ${msg}`),
+    );
 
     const walkthrough = {
       id: session.slug,
@@ -223,10 +243,10 @@ export function createServer(workingDir: string) {
       source_url: session.source_url,
       attribution: `Based on walkthrough from ${session.source_url}`,
       created_at: new Date().toISOString().split('T')[0],
-      sections: sections.map(s => ({
+      sections: sections.map((s, i) => ({
         id: s.id,
         title: s.title,
-        blocks: s.blocks.map(b => b.block),
+        blocks: walkthroughBlocks[i].blocks,
         checkpoints: s.checkpoints,
       })),
     };
@@ -239,7 +259,7 @@ export function createServer(workingDir: string) {
       saveSession(session);
     }
 
-    res.json({ success: true, output: outputPath });
+    res.json({ success: true, output: outputPath, images: imgResult });
   });
 
   // DELETE /api/session — reset
