@@ -60,6 +60,8 @@
   .block-rendered table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 12px; }
   .block-rendered th, .block-rendered td { border: 1px solid #0f3460; padding: 4px 8px; text-align: left; }
   .block-rendered th { background: #1a365d; color: #90cdf4; font-weight: 600; }
+  .block-rendered table.headerless td:first-child { color: #90cdf4; }
+  .block-rendered table.headerless tr:nth-child(even) { background: rgba(26, 54, 93, 0.3); }
   .block-rendered hr { border: none; border-top: 1px solid #333; margin: 10px 0; }
   .block-rendered blockquote { border-left: 3px solid #7ec8e3; padding-left: 12px; margin: 8px 0; color: #aaa; font-style: italic; }
 
@@ -243,11 +245,22 @@ function renderChecklist(block) {
 }
 
 function renderTable(block) {
-  if (block.columns && block.rows) {
+  if (block.columns && block.columns.length > 0 && block.rows) {
     let html = '<table>';
     html += '<tr>' + block.columns.map(c => `<th>${escHtml(c)}</th>`).join('') + '</tr>';
     for (const row of block.rows) {
       html += '<tr>' + row.map(cell => `<td>${escHtml(String(cell))}</td>`).join('') + '</tr>';
+    }
+    html += '</table>';
+    return html;
+  }
+  if (block.rows && block.rows.length > 0) {
+    // Headerless table — render as a clean data grid with first column bold
+    let html = '<table class="headerless">';
+    for (const row of block.rows) {
+      html += '<tr>' + row.map((cell, ci) =>
+        ci === 0 ? `<td><strong>${escHtml(String(cell))}</strong></td>` : `<td>${escHtml(String(cell))}</td>`
+      ).join('') + '</tr>';
     }
     html += '</table>';
     return html;

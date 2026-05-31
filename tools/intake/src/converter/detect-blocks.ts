@@ -318,6 +318,18 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
     case 'table': {
       const table = parseTable(token.content);
+      // Detect if "headers" are actually data (no real column names)
+      const headersAreData = table.headers.length > 0 && table.headers.some(h =>
+        /\d{2,}|,\s|x\s*\d|\.\s*$/.test(h) || h.length > 40
+      );
+      if (headersAreData) {
+        return {
+          type: 'table',
+          heading: context.heading_above,
+          columns: [],
+          rows: [table.headers, ...table.rows],
+        };
+      }
       return {
         type: 'table',
         heading: context.heading_above,

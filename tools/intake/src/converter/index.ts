@@ -298,17 +298,15 @@ function makeTableToken(lines: string[], lineOffset: number, firstRowIsHeader: b
     };
   }
 
-  // No header detected — synthesize generic column names based on cell count
+  // No header detected — the first data row becomes "headers" in parseTable,
+  // but we still need a separator line for parseTable to skip correctly.
+  // Insert separator after line[0] so all remaining lines become data rows.
   const firstRowCells = lines[0].split('|').slice(1, -1);
-  const colCount = firstRowCells.length;
-  const syntheticHeader = '|' + Array.from({ length: colCount }, (_, i) =>
-    ` Column ${i + 1} `
-  ).join('|') + '|';
   const separator = '|' + firstRowCells.map(() => ' --- ').join('|') + '|';
-  const withHeader = [syntheticHeader, separator, ...lines];
+  const withSeparator = [lines[0], separator, ...lines.slice(1)];
   return {
     type: 'table',
-    content: withHeader.join('\n'),
+    content: withSeparator.join('\n'),
     line_start: lineOffset,
     line_end: lineOffset + lines.length - 1,
   };
