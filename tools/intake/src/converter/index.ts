@@ -7,7 +7,7 @@ import { parseMarkdown, MarkdownToken } from './markdown-parser.js';
 import { detectSections } from './detect-sections.js';
 import { detectBlockType, buildBlock } from './detect-blocks.js';
 import { detectCheckpoints } from './detect-checkpoints.js';
-import { ConvertedSection, ClassifiedBlock, TrainingDatabase, BlockType } from '../types.js';
+import { ConvertedSection, ClassifiedBlock, TrainingDatabase, BlockType, WalkthroughBlock } from '../types.js';
 import slugify from 'slugify';
 
 /** Strip common site-name suffixes like " - Game Title Walkthrough" from page titles. */
@@ -97,6 +97,60 @@ function splitCompoundTables(tokens: MarkdownToken[]): MarkdownToken[] {
     for (const chunk of subTables) {
       if (chunk.length === 0) continue;
 
+      // Check for internal multi-cell separator rows (| --- | --- | --- |)
+      // that indicate a new table header+separator embedded within the chunk.
+      // Split at those points first.
+      const subChunks = splitAtInternalHeaders(chunk);
+
+      for (const subChunk of subChunks) {
+        if (subChunk.length === 0) continue;
+        emitTableChunk(subChunk, lineOffset, result);
+        lineOffset += subChunk.length;
+      }
+
+      lineOffset += 2; // account for separator rows between main chunks
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Split a chunk at internal multi-cell separator rows (| --- | --- | --- |).
+ * These indicate a new table starting mid-chunk.
+ */
+function splitAtInternalHeaders(chunk: string[]): string[][] {
+  const subChunks: string[][] = [];
+  let current: string[] = [];
+
+  for (let i = 0; i < chunk.length; i++) {
+    const line = chunk[i];
+    const cells = line.split('|').slice(1, -1).map(c => c.trim());
+    const isMultiCellSeparator = cells.length >= 3 &&
+      cells.every(c => /^-+$/.test(c) || /^:?-+:?$/.test(c));
+
+    if (isMultiCellSeparator && i > 1) {
+      // This is an internal table separator — the line BEFORE it is the header
+      // of a new table. Split: everything before the header goes to one chunk,
+      // the header + separator + rest go to a new chunk.
+      const headerLine = current.pop(); // pull out the header (last line of current)
+      if (current.length > 0) {
+        subChunks.push(current);
+      }
+      // Start new chunk with header + separator
+      current = headerLine ? [headerLine, line] : [line];
+    } else {
+      current.push(line);
+    }
+  }
+  if (current.length > 0) {
+    subChunks.push(current);
+  }
+  return subChunks.length > 0 ? subChunks : [chunk];
+}
+
+/** Emit a single table chunk as the appropriate token type. */
+function emitTableChunk(chunk: string[], lineOffset: number, result: MarkdownToken[]): void {
       // Determine if this chunk looks like a proper table (has |---|---| separator)
       const hasTableSeparator = chunk.length >= 2 &&
         /^\s*\|[\s\-:|]+\|/.test(chunk[1]);
@@ -155,10 +209,12 @@ function splitCompoundTables(tokens: MarkdownToken[]): MarkdownToken[] {
             });
           }
         } else {
-          // Check if first row looks like a header (all short text, no numbers at start)
+          // Check if first row looks like a header (short generic labels, not data)
           const firstRowLooksLikeHeader = firstRow.length >= 2 &&
-            firstRow.every(c => c.length < 30) &&
-            !firstRow[0].match(/^\d/);
+            firstRow.every(c => c.length < 25) &&
+            !firstRow[0].match(/^\d/) &&
+            // Data rows tend to have periods, commas in numbers, or long phrases
+            !firstRow.some(c => /\d{2,}|,\s|x\s*\d|\.\s*$/.test(c));
 
           // Separate prose rows from table rows
           const proseLines: string[] = [];
@@ -204,12 +260,6 @@ function splitCompoundTables(tokens: MarkdownToken[]): MarkdownToken[] {
           }
         }
       }
-
-      lineOffset += chunk.length + 2; // +2 for the separator rows skipped
-    }
-  }
-
-  return result;
 }
 
 /** Build a table token, optionally inserting a synthetic separator after the first line. */
@@ -226,9 +276,18 @@ function makeTableToken(lines: string[], lineOffset: number, firstRowIsHeader: b
       line_end: lineOffset + lines.length - 1,
     };
   }
+
+  // No header detected — synthesize generic column names based on cell count
+  const firstRowCells = lines[0].split('|').slice(1, -1);
+  const colCount = firstRowCells.length;
+  const syntheticHeader = '|' + Array.from({ length: colCount }, (_, i) =>
+    ` Column ${i + 1} `
+  ).join('|') + '|';
+  const separator = '|' + firstRowCells.map(() => ' --- ').join('|') + '|';
+  const withHeader = [syntheticHeader, separator, ...lines];
   return {
     type: 'table',
-    content: lines.join('\n'),
+    content: withHeader.join('\n'),
     line_start: lineOffset,
     line_end: lineOffset + lines.length - 1,
   };
@@ -279,6 +338,11 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       const { block_type, confidence } = detectBlockType(token, context, options.training);
       const block = buildBlock(token, block_type, context);
 
+      // Prune junk blocks: ads and empty tables
+      if (isJunkBlock(block)) {
+        continue;
+      }
+
       blocks.push({
         block,
         confidence,
@@ -303,4 +367,30 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       approved: false,
     };
   });
+}
+
+const AD_PATTERNS = [
+  /^\s*\\?-?\s*advertisement\s*-?\s*$/i,
+  /^\s*\[?\s*ad\s*\]?\s*$/i,
+  /^\s*sponsored\s*/i,
+];
+
+/** Returns true for blocks that are junk: ads, empty tables, whitespace-only content. */
+function isJunkBlock(block: WalkthroughBlock): boolean {
+  // Empty tables (no columns, no rows)
+  if (block.type === 'table') {
+    const cols = (block as { columns?: string[] }).columns || [];
+    const rows = (block as { rows?: string[][] }).rows || [];
+    if (cols.length === 0 && rows.length === 0) return true;
+  }
+
+  // Advertisement prose
+  if (block.type === 'prose' || block.type === 'callout') {
+    const content = (block as { content?: string }).content || '';
+    const trimmed = content.trim();
+    if (trimmed === '' || trimmed === '* * *') return true;
+    if (AD_PATTERNS.some(p => p.test(trimmed))) return true;
+  }
+
+  return false;
 }

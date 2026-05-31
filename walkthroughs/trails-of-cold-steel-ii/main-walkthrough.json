@@ -14,10 +14,6 @@
         {
           "type": "prose",
           "heading": "Prologue Part A: November 29",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Start a new game and select the game's difficulty level. If you plan on getting the Platinum trophy, you will need at least two playthroughs. If you have a save data from Trails of Cold Steel, you can transfer your save file over. This will let you start a new game with some extra bonuses."
         },
         {
@@ -51,35 +47,47 @@
           ]
         },
         {
-          "type": "prose",
-          "content": "\\- Advertisement -"
-        },
-        {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Rean's Level",
+              "Bonus"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Level 69 or lower.",
-            "Sepith x 100 (All Colors), Attack 1, Zeram Powder"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
+              "Level 69 or lower.",
+              "Sepith x 100 (All Colors), Attack 1, Zeram Powder"
+            ],
+            [
+              "Level 70 - 79",
+              "Sepith x 300 (All Colors), Attack 1, Soul Blur, Zeram Powder"
+            ],
+            [
               "Level 80 or higher.",
               "Sepith x 500 (All Colors), Attack 1, Soul Blur, Saintly Force, Zeram Powder"
-            ],
-            [
-              "Rean's Rank",
-              "Bonus",
-              "Status"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Rean's Rank",
+            "Bonus",
+            "Status"
+          ],
+          "rows": [
             [
               "A0",
               "Golden Emblem",
@@ -207,11 +215,6 @@
         {
           "type": "prose",
           "content": "The first boss battle will be pretty basic. All the boss does is it attacks with its sword. Use Flame Strike to hurt the boss, this ability has a chance to inflict Burn, this will help you expedite his demise. Heal when Rean is under 3000 HP with either Tear or Teara Balm. If the boss gets 2 turns in a row, use a Teara Balm immediately. As soon as you've brought it under 15000 HP the battle will end."
-        },
-        {
-          "type": "prose",
-          "heading": "Prologue Part B: November 30",
-          "content": "* * *"
         },
         {
           "type": "prose",
@@ -381,15 +384,7 @@
         {
           "type": "prose",
           "heading": "December 1st",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "As soon as you gain control of Rean, you'll notice the addition of the ability to **Quick Travel** under the navigation menu. Your first task is to head to the general store and speak to Raio, the shopkeeper on the right. The game will introduce you to weapon synthesis and the process of unlocking Orbment Slots. The Orbment system involves upgrading slots to equip more potent types of Quartz."
-        },
-        {
-          "type": "prose",
-          "content": "\\- Advertisement -"
         },
         {
           "type": "prose",
@@ -619,10 +614,6 @@
         {
           "type": "prose",
           "heading": "Celdic",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![Trails of cold steel ii celdic.png](./images/856da786-Trails_of_cold_steel_ii_celdic.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:Trails_of_cold_steel_ii_celdic.png)"
         },
         {
@@ -685,8 +676,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Treasure",
+              "Location"
+            ]
+          ]
         },
         {
           "type": "table",
@@ -766,10 +765,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Munch no More",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to East Celdic Highway 2 and find the quest monster located at the northeast corner of the map. After defeating the monster, you will be given the choice to either instantly return to Celdic or stay where you are."
         },
         {
@@ -796,8 +791,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Reward and AP",
+              "Detection, 1500 Mira, 4 AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -806,10 +809,6 @@
         {
           "type": "prose",
           "heading": "[![StoryquestCS2.png](./images/5f31ce89-StoryquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:StoryquestCS2.png) Story Quest: Herbal Remedies",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to the Celdic Chapel and speak to Father Zirbel behind the altar. Then go to the Grand Market and speak to Flint by the stall on the northwest side. Afterward, leave town by going to West Celdic Highway. Continue north until you reach near the Lunaria Nature Park Entrance. Speak to Johnson, the NPC near the gate. Enter [Lunaria Nature Park](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/walkthrough/Act_1_Part_1#Lunaria_Nature_Park \"walkthrough/Act 1 Part 1\") and find the Cure Herb located at the northeast corner of the map near a treasure chest. Once you pick up the herb, you will be given the option to either instantly return to Celdic or stay where you are. Choose to return to Celdic and give the Cure Herb to Father Zirbel to complete the quest."
         },
         {
@@ -866,10 +865,53 @@
         {
           "type": "table",
           "columns": [
-            "Sepith Mass x100",
-            "East Celdic Highway 3"
+            "Monster Name",
+            "Item Drop 1",
+            "Item Drop 2"
           ],
           "rows": [
+            [
+              "Flying Feline",
+              "Red Beast Flesh",
+              "Globby Fat"
+            ],
+            [
+              "Eerie Bug",
+              "Clear Gelatin",
+              "Hearty Powder"
+            ],
+            [
+              "Axebird",
+              "Red Beast Flesh",
+              "U-Material"
+            ],
+            [
+              "Bear Mole",
+              "Red Beast Flesh",
+              "U-Material"
+            ],
+            [
+              "Scary Dinosaur",
+              "White Beast Flesh",
+              "Chitinous Shell"
+            ],
+            [
+              "Treasure",
+              "Location"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Sepith Mass x100",
+              "East Celdic Highway 3"
+            ],
             [
               "Celestial Balm"
             ],
@@ -886,12 +928,8 @@
           ]
         },
         {
-          "type": "prose",
-          "heading": "Twin Dragons Bridge",
-          "content": "* * *"
-        },
-        {
           "type": "table",
+          "heading": "Twin Dragons Bridge",
           "columns": [
             "Recipe: Cheese Omelet",
             "Morize: Twin Dragons Bridge - Waiting Lounge"
@@ -910,14 +948,10 @@
           "content": "Watch the Key event, and head to the waiting lounge which is located the north side of the map. When you're inside, speak to the girl **Morize** on the northwest corner, she will teach you the **Cheese Omelet** recipe. Now exit out of the building and then go near the bridge to trigger an event scene with a **merchant arguing with a soldier**. After this, you can do a hidden quest."
         },
         {
-          "type": "prose",
-          "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: A Cry For Help",
-          "content": "* * *"
-        },
-        {
           "type": "quest",
+          "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: A Cry For Help",
           "quest_type": "hidden",
-          "name": "Unknown Quest",
+          "name": "[![QuesticonCS2.gif](https://cdn.staticneo.com/ew/c/c1/QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: A Cry For Help",
           "content": "To start this hidden quest, you need to leave Twin Dragons Bridge after witnessing the event where Merchant Albel argues with the soldier. Head north until you're close to Celdic East Highway 2, and an event scene will trigger."
         },
         {
@@ -1029,56 +1063,22 @@
             ],
             [
               "Reaper"
-            ],
-            [
-              "Trial Chest Boss",
-              "HP",
-              "Elemental Efficacy",
-              "Item Drop",
-              "Slash",
-              "Trust",
-              "Pierce",
-              "Strike"
-            ],
-            [
-              "---",
-              "---",
-              "---",
-              "---",
-              "---",
-              "---",
-              "---",
-              "---"
-            ],
-            [
-              "Queen Bee",
-              "22419 (Normal)",
-              "110, 60, 180, 110",
-              "Luminous Ray R",
-              "★★☆☆",
-              "☆☆☆☆",
-              "★★★★",
-              "☆☆☆☆"
-            ],
-            [
-              "Thunder Bee x2",
-              "4836 (Normal)",
-              "110, 60, 180, 110",
-              "Red Beast Flesh, U-Material",
-              "★★☆☆",
-              "☆☆☆☆",
-              "★★★★",
-              "☆☆☆☆"
-            ],
-            [
-              "Boss Skills",
-              "Sting. Single, can inflict poison."
             ]
           ]
         },
         {
-          "type": "prose",
-          "content": "Have Fie use Sweep every turn until trash mobs are dead, then switch to Scud Reaper. Than have Elliot use his Resounding Beat on Fie every time it fades. Than have Eliot use his Holy Song if Fie's HP is low. When no healing is needed, use Heatwave."
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Trial Chest Boss": "Queen Bee",
+            "HP": "22419 (Normal)",
+            "Elemental Efficacy": "110, 60, 180, 110",
+            "Item Drop": "Luminous Ray R",
+            "Slash": "★★☆☆",
+            "Trust": "☆☆☆☆",
+            "Pierce": "★★★★",
+            "Strike": "☆☆☆☆"
+          }
         },
         {
           "type": "prose",
@@ -1216,21 +1216,39 @@
           }
         },
         {
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Boss": "Drakkhen (Sword)",
+            "HP": "95000 (Normal)",
+            "Elemental Efficacy": "100, 120, 120, 100",
+            "Item Drop": "N/A",
+            "Idle Stance": "B:★★★★",
+            "Attack Stance": "H:★☆☆☆"
+          }
+        },
+        {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3"
+          ],
+          "rows": [
+            [
+              "Book",
+              "Book: Gambler Jack II - Chapter 2",
+              "Arbekker: Garrelia Proving Ground - Resting Area"
+            ]
+          ]
         },
         {
           "type": "prose",
           "content": "When you can control Rean again, head to the Resting Area which is the building located at the north side of the map. Speak to Arbekker and he will give you a copy of [![TrailsbookiconZ.png](./images/20a18a0b-TrailsbookiconZ.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:TrailsbookiconZ.png) **Gambler Jack II - Chapter II**. You can also find Monica (General Store) and Munk (Dining tables Southeast) on this map. Speaking to them doesn't add a character note, but it will put their profiles into your notebook. When you all ready to go examine Valimar and pick the first choice to advance the story."
         },
         {
-          "type": "prose",
-          "heading": "December 4",
-          "content": "* * *"
-        },
-        {
           "type": "table",
+          "heading": "December 4",
           "columns": [
             "Recipe: Tomato Jelly",
             "Purchase the Tomato Jelly Recipe Book from the General Store."
@@ -1258,26 +1276,42 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
-        },
-        {
-          "type": "table",
           "columns": [
-            "Machias [Page 1]",
-            "Attend Machias' Bonding Event."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
               "Character",
-              "Location",
-              "Notes"
+              "Requirements"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Machias [Page 1]",
+              "Attend Machias' Bonding Event."
             ],
             [
-              "---",
-              "---",
-              "---"
-            ],
+              "Claire [Page 1]",
+              "Attend Claire's Bonding Event."
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Location",
+            "Notes"
+          ],
+          "rows": [
             [
               "Claire",
               "Near Station",
@@ -1314,10 +1348,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Leaf it to Me",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "To initiate this quest, interact with either Alf or Kiki, they're the two kids near the station. Choose the first dialogue option to offer your assistance. After accepting the quest, exit out of town and head to Ymir Valley."
         },
         {
@@ -1343,8 +1373,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Reward and AP",
+              "Mishy Plushie, 1500 Mira, 4 AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -1423,19 +1461,11 @@
         {
           "type": "prose",
           "heading": "December 5th",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Leave town through **Ymir Valley**. Select two members from Class VII, and one guest character (Claire or Toval) to bring with you. You won't have the option to select your party member after the decision is set, so make sure you chose your ideal team."
         },
         {
           "type": "prose",
           "content": "**Nord Highlands - South, Part: A**"
-        },
-        {
-          "type": "prose",
-          "content": "\\- Advertisement -"
         },
         {
           "type": "prose",
@@ -1528,10 +1558,18 @@
         {
           "type": "table",
           "columns": [
-            "Recipe: Hot Milk Tea",
-            "Old Lady Jedah: Lake Lacrima - Elder's Camp"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Recipe: Hot Milk Tea",
+              "Old Lady Jedah: Lake Lacrima - Elder's Camp"
+            ],
+            [
+              "Book: Gambler Jack II - Chapter 3",
+              "San: Lake Lacrima - Doctor's Camp"
+            ],
             [
               "Book: Gambler Jack Reprint #3",
               "General Store - Kilte's Store(Lake Lacrima)"
@@ -1674,10 +1712,14 @@
         {
           "type": "table",
           "columns": [
-            "Floral Bottle",
-            "Nord Highlands - Northeast"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Floral Bottle",
+              "Nord Highlands - Northeast"
+            ],
             [
               "Harvest",
               "Nord Highlands - Northeast (North Area)"
@@ -1713,21 +1755,43 @@
         {
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Highlands Hunt",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "Highlands Hunt / 高原に放たれた軍用魔獣"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "After you have received the quest list from the Nord Elder. Leave Lake Lacrima and go to Nord Highlands - North. There will be three cougar type monsters marked on the map with a red circle.Enemy NameItem Drop 1Item Drop 2Galion CougarRed Beast FleshU-MaterialAfter you have defeated the three groups, return to Lake Lacrima and report to the elder to finish the quest.",
-            "Enemy Name",
-            "Item Drop 1",
-            "Item Drop 2",
-            "Galion Cougar",
-            "Red Beast Flesh",
-            "U-Material"
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7"
           ],
           "rows": [
+            [
+              "After you have received the quest list from the Nord Elder. Leave Lake Lacrima and go to Nord Highlands - North. There will be three cougar type monsters marked on the map with a red circle.Enemy NameItem Drop 1Item Drop 2Galion CougarRed Beast FleshU-MaterialAfter you have defeated the three groups, return to Lake Lacrima and report to the elder to finish the quest.",
+              "Enemy Name",
+              "Item Drop 1",
+              "Item Drop 2",
+              "Galion Cougar",
+              "Red Beast Flesh",
+              "U-Material"
+            ],
+            [
+              "Enemy Name",
+              "Item Drop 1",
+              "Item Drop 2"
+            ],
             [
               "Galion Cougar",
               "Red Beast Flesh",
@@ -1746,33 +1810,67 @@
         {
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Foaling Around",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "Foaling Around / 子馬の捜索"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "At Lake Lacrima, go and speak to Sheeda, who is located in the northwest area near the group of sheep. Leave town and go to Nord Highlands - Northeast. You will find the foal at the southeast corner of the map. Once you approach near it, the foal will move to another location. The next location will be at the northeast end of the map. After this, you will find the foal at the Nord Settlement. You will automatically return to Lake Lacrima and the quest will end.Enemy NameItem Drop 1Item Drop 2Golden OwlFresh EggHearty PowderGrass MoleRed Beast FleshGlobby FatDiving AnantaWhite Beast FleshGlobby FatStony CroakerWhite Beast FleshChitinous ShellStone GolemChitinous ShellU-Material",
-            "Enemy Name",
-            "Item Drop 1",
-            "Item Drop 2",
-            "Golden Owl",
-            "Fresh Egg",
-            "Hearty Powder",
-            "Grass Mole",
-            "Red Beast Flesh",
-            "Globby Fat",
-            "Diving Ananta",
-            "White Beast Flesh",
-            "Globby Fat",
-            "Stony Croaker",
-            "White Beast Flesh",
-            "Chitinous Shell",
-            "Stone Golem",
-            "Chitinous Shell",
-            "U-Material"
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8",
+            "Column 9",
+            "Column 10",
+            "Column 11",
+            "Column 12",
+            "Column 13",
+            "Column 14",
+            "Column 15",
+            "Column 16",
+            "Column 17",
+            "Column 18",
+            "Column 19"
           ],
           "rows": [
+            [
+              "At Lake Lacrima, go and speak to Sheeda, who is located in the northwest area near the group of sheep. Leave town and go to Nord Highlands - Northeast. You will find the foal at the southeast corner of the map. Once you approach near it, the foal will move to another location. The next location will be at the northeast end of the map. After this, you will find the foal at the Nord Settlement. You will automatically return to Lake Lacrima and the quest will end.Enemy NameItem Drop 1Item Drop 2Golden OwlFresh EggHearty PowderGrass MoleRed Beast FleshGlobby FatDiving AnantaWhite Beast FleshGlobby FatStony CroakerWhite Beast FleshChitinous ShellStone GolemChitinous ShellU-Material",
+              "Enemy Name",
+              "Item Drop 1",
+              "Item Drop 2",
+              "Golden Owl",
+              "Fresh Egg",
+              "Hearty Powder",
+              "Grass Mole",
+              "Red Beast Flesh",
+              "Globby Fat",
+              "Diving Ananta",
+              "White Beast Flesh",
+              "Globby Fat",
+              "Stony Croaker",
+              "White Beast Flesh",
+              "Chitinous Shell",
+              "Stone Golem",
+              "Chitinous Shell",
+              "U-Material"
+            ],
+            [
+              "Enemy Name",
+              "Item Drop 1",
+              "Item Drop 2"
+            ],
             [
               "Golden Owl",
               "Fresh Egg",
@@ -1954,10 +2052,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Zats Amore",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Speak to Zats or Manning near the store area of Zender Gates. Accept their request and then head to Nord [Nord Highlands - South](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/walkthrough/Act_1_Part_2#Nord_Highlands_South \"walkthrough/Act 1 Part 2\"). You'll need to examine the wreckage of each tank marked on the map with a green exclamation mark. In each wreckage, you'll find a shiny object to collect. When you examine the object in the 4th wreckage, you'll discover a pendant. Return to Zender Gate and give the pendant to Zats."
         },
         {
@@ -2059,86 +2153,64 @@
             [
               "EP Charge II",
               "Watchtower 4F"
-            ],
-            [
-              "Boss",
-              "HP",
-              "Elemental Efficacy",
-              "Item Drop",
-              "Slash",
-              "Trust",
-              "Pierce",
-              "Strike"
-            ],
-            [
-              "---",
-              "---",
-              "---",
-              "---",
-              "---",
-              "---",
-              "---",
-              "---"
-            ],
-            [
-              "Bleublanc",
-              "80869 (Normal)",
-              "90, 90, 90, 90",
-              "N/A",
-              "★☆☆☆",
-              "☆☆☆☆",
-              "☆☆☆☆",
-              "★☆☆☆"
-            ],
-            [
-              "Atina",
-              "80869 (Normal)",
-              "90, 90, 90, 90",
-              "N/A",
-              "★☆☆☆",
-              "★☆☆☆",
-              "☆☆☆☆",
-              "☆☆☆☆"
             ]
           ]
-        },
-        {
-          "type": "prose",
-          "content": "This is similar to the boss fight against Xeno and Leonidas. You need to defeat the boss within 40 turns to get the bonus AP. The best way to to unlock that bonus condition is to come in with a full CP party and then use all your buffs and unleash all of your S-Craft at full strength. Once you have used up your S-Craft, have Alisa use her Heavenly Gift to give the entire party a CP regen buff. Then unleash your S-Craft again when it's full. When Bleublanc summons additional mobs, defeat them immediately so they don't take up your turns. Atina can also use her Black Barrier skill which will block a single physical attack, make sure you have someone hit her, to nullify that shield so you don't waste a turn on them. If Bleublanc attacks, he will usually use his cards which can deal a ton of damage and inflict nightmare on one of your characters."
         },
         {
           "type": "encounter",
           "name": "Unknown Encounter",
           "stats": {
-            "Boss": "---",
-            "HP": "---",
-            "Elemental Efficacy": "---",
-            "Item Drop": "---",
-            "Idle Stance": "---",
-            "Attack Stance": "---"
+            "Boss": "Bleublanc",
+            "HP": "80869 (Normal)",
+            "Elemental Efficacy": "90, 90, 90, 90",
+            "Item Drop": "N/A",
+            "Slash": "★☆☆☆",
+            "Trust": "☆☆☆☆",
+            "Pierce": "☆☆☆☆",
+            "Strike": "★☆☆☆"
           }
         },
         {
-          "type": "prose",
-          "content": "This is just like your previous mech battle, just focus on defeating one unit at a time. When your co-pilot`s turn is up, I suggest you use a status buff such as Fie`s speed buff to have extra turns. Once you have defeated one mech, the commander unit will come and take it`s place. Since this battle is gonna drag on for while, make sure you have your co-pilot use Shinki to heal yourself, if you ran out of EP, then have your co-pilot use Charge to fully restore your CP. For the Spiegel unit, the best part to hit is the body regardless of it's stance."
-        },
-        {
-          "type": "prose",
-          "heading": "December 8",
-          "content": "* * *"
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Boss": "Drakkhen (Sword)",
+            "HP": "95000 (Normal)",
+            "Elemental Efficacy": "100, 120, 120, 100",
+            "Item Drop": "N/A",
+            "Idle Stance": "B:★★★★",
+            "Attack Stance": "H:★☆☆☆"
+          }
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "heading": "December 8",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Onion Soup",
+              "Purchase the Onion Soup Recipe Book from the General Store."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Imperial Chronicle Issue #3",
-            "Purchase from the General Store."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Imperial Chronicle Issue #3",
+              "Purchase from the General Store."
+            ],
+            [
+              "Book: Gambler Jack II - Chapter 5",
+              "Masha: Ymir Residence (Southeast house)"
+            ],
             [
               "Quest: Azuki's Adventure",
               "Speak to Camilla at the General Store."
@@ -2160,30 +2232,46 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Character",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Claire [Page 2]",
-            "Speak to Claire, southeast of the Baron's Mansion."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
+              "Claire [Page 2]",
+              "Speak to Claire, southeast of the Baron's Mansion."
+            ],
+            [
+              "Sharon [Page 1]",
+              "Attend Sharon's Bonding Event."
+            ],
+            [
               "Toval [Page 2]",
               "Attend Toval's Bonding Event."
-            ],
-            [
-              "Character",
-              "Location",
-              "Notes"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Location",
+            "Notes"
+          ],
+          "rows": [
             [
               "Alisa",
               "General Store",
@@ -2219,10 +2307,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Azuki's Adventure",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Speak to Camilla at the General Store, and accept her request by choosing the first option. To complete the quest, you'll need to talk to the following four NPCs:"
         },
         {
@@ -2311,15 +2395,7 @@
         {
           "type": "prose",
           "heading": "December 9",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Select your party members. By now, if you've been fishing, you should have ranked up. You can obtain a **new fishing rod from Annabelle**, who is at the general store. Make your preparations and exit town via Ymir Valley. Choose two members from Class VII and one guest character (Claire, Sharon, or Toval) to accompany you. Once the decision is made, you won't have the option to change your party members. This is the only segment in the game where you can use Sharon. If you don't bring her along, you'll miss this chance until you start a new playthrough."
-        },
-        {
-          "type": "prose",
-          "content": "\\- Advertisement -"
         },
         {
           "type": "prose",
@@ -2438,16 +2514,32 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Book: Gamber Jack Reprint #4",
+              "Purchase from the General Store."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack II - Chapter 6",
-            "Weiber: Aprikoze Inn"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Gambler Jack II - Chapter 6",
+              "Weiber: Aprikoze Inn"
+            ],
+            [
+              "Recipe: Seafood Pilaf",
+              "Bem: Aprikoze Inn - Backdoor"
+            ],
             [
               "Nightmare Tip"
             ]
@@ -2456,10 +2548,19 @@
         {
           "type": "table",
           "columns": [
-            "Stacking",
-            "From this point onward, it becomes possible to do Parameter Stacking. Depending on the bosses you are to fight, different combinations will be used. For detailed references, check the Advance Strategy - Stacking (In-Depth) part of the Nightmare Strategies Section at the end of this guide."
+            "Column 1",
+            "Column 2"
           ],
-          "rows": []
+          "rows": [
+            [
+              "Stacking",
+              "From this point onward, it becomes possible to do Parameter Stacking. Depending on the bosses you are to fight, different combinations will be used. For detailed references, check the Advance Strategy - Stacking (In-Depth) part of the Nightmare Strategies Section at the end of this guide."
+            ],
+            [
+              "Task Equipment",
+              "With Stacking available, you must begin keeping at all times specific pieces of armor/boots to fulfill particular purposes. In this case, keeping 1 or 2 Jackets for both genders and some Breeze and Cloud Shoes (all of them bought at Lake Lacrima), will begin to help you build your Task Equipment."
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -2484,22 +2585,159 @@
         {
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Arseid School Bout 2",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "Arseid School Bout 2 / 続 - 門下生との手合わせ"
+            ]
+          ]
         },
         {
-          "type": "encounter",
-          "name": "Unknown Encounter",
-          "stats": {
-            "Go to the Arseid School Training Hall and speak to Klaus or Gaveli at the arena. Members of the Arseid School wants a rematch. Select the first choice to fight them in a duel. Rean and Laura will be automatically included in your party. Select two other members to bring with you. Note: *You cannot use guest characters for this fight.BossHPElemental EfficacyItem DropSlashTrustPierceStrikeFritz36352 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆Ares27440 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆Gaveli36707 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆Datt27440 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆This boss fight can be easy or tough. Each student is very weak against status ailments, Laura has a good chance of causing faint on them and with Rean's Gale, you pretty much Seal them to prevent them from doing any action. The students are also easily blind. So if you have some way of inflicting those status ailments, then use it on them. If the student HP gets low, they will be starting using this buff that will heal them and boost their strength greatly. During this phase, it can get really dangerous if they use their area skills it can do over 5000 damage. You could be instantly K.O.if you multiple students using the same skill on you. You can cheese through this fight by using your S-Craft with everyone, but you might want to drag this battle out if you intend on analyzing them.Afterwards you will be rewarded with a Heal quartz.": "Fritz",
-            "Boss": "36352 (Normal)",
-            "HP": "100, 100, 100, 100",
-            "Elemental Efficacy": "N/A",
-            "Item Drop": "★★☆☆",
-            "Slash": "★★☆☆",
-            "Trust": "★★☆☆",
-            "Pierce": "★★☆☆"
-          }
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8",
+            "Column 9",
+            "Column 10",
+            "Column 11",
+            "Column 12",
+            "Column 13",
+            "Column 14",
+            "Column 15",
+            "Column 16",
+            "Column 17",
+            "Column 18",
+            "Column 19",
+            "Column 20",
+            "Column 21",
+            "Column 22",
+            "Column 23",
+            "Column 24",
+            "Column 25",
+            "Column 26",
+            "Column 27",
+            "Column 28",
+            "Column 29",
+            "Column 30",
+            "Column 31",
+            "Column 32",
+            "Column 33",
+            "Column 34",
+            "Column 35",
+            "Column 36",
+            "Column 37",
+            "Column 38",
+            "Column 39",
+            "Column 40",
+            "Column 41",
+            "Column 42"
+          ],
+          "rows": [
+            [
+              "Go to the Arseid School Training Hall and speak to Klaus or Gaveli at the arena. Members of the Arseid School wants a rematch. Select the first choice to fight them in a duel. Rean and Laura will be automatically included in your party. Select two other members to bring with you. Note: *You cannot use guest characters for this fight.BossHPElemental EfficacyItem DropSlashTrustPierceStrikeFritz36352 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆Ares27440 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆Gaveli36707 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆Datt27440 (Normal)100, 100, 100, 100N/A★★☆☆★★☆☆★★☆☆★★☆☆This boss fight can be easy or tough. Each student is very weak against status ailments, Laura has a good chance of causing faint on them and with Rean's Gale, you pretty much Seal them to prevent them from doing any action. The students are also easily blind. So if you have some way of inflicting those status ailments, then use it on them. If the student HP gets low, they will be starting using this buff that will heal them and boost their strength greatly. During this phase, it can get really dangerous if they use their area skills it can do over 5000 damage. You could be instantly K.O.if you multiple students using the same skill on you. You can cheese through this fight by using your S-Craft with everyone, but you might want to drag this battle out if you intend on analyzing them.Afterwards you will be rewarded with a Heal quartz.",
+              "Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike",
+              "Fritz",
+              "36352 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "Ares",
+              "27440 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "Gaveli",
+              "36707 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "Datt",
+              "27440 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "This boss fight can be easy or tough. Each student is very weak against status ailments, Laura has a good chance of causing faint on them and with Rean's Gale, you pretty much Seal them to prevent them from doing any action. The students are also easily blind. So if you have some way of inflicting those status ailments, then use it on them. If the student HP gets low, they will be starting using this buff that will heal them and boost their strength greatly. During this phase, it can get really dangerous if they use their area skills it can do over 5000 damage. You could be instantly K.O.if you multiple students using the same skill on you. You can cheese through this fight by using your S-Craft with everyone, but you might want to drag this battle out if you intend on analyzing them."
+            ],
+            [
+              "Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike"
+            ],
+            [
+              "Fritz",
+              "36352 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆"
+            ],
+            [
+              "Ares",
+              "27440 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆"
+            ],
+            [
+              "Gaveli",
+              "36707 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆"
+            ],
+            [
+              "Datt",
+              "27440 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆",
+              "★★☆☆"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -2508,30 +2746,114 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Gaveli"
+            "Column 1",
+            "Column 2"
           ],
-          "rows": []
+          "rows": [
+            [
+              "Client",
+              "Gaveli"
+            ],
+            [
+              "Reward",
+              "Heal, 1500 Mira, 4 AP"
+            ]
+          ]
         },
         {
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Ebel Rebel",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "Ebel Rebel / エベル街道の手配魔獣"
+            ]
+          ]
         },
         {
-          "type": "encounter",
-          "name": "Unknown Encounter",
-          "stats": {
-            "Head town through Ebel Highway. You will find the quest monster located at Ebel Highway 2 at the very north area near the entrance of Ebel Highway 3. Before you fight this boss, it is highly recommended you are all equipped with a faint resistant accessory before you start this fight.BossHPElemental EfficacyItem DropSlashTrustPierceStrikeGordi Schnarr G98467 (Normal)120, 100, 140, 100, 100, 100, 100N/A★★☆☆★☆☆☆★☆☆☆★☆☆☆Boss SkillsSlam. Area (M). Inflicts Faint.Roar. Heal + Str/Spd 50%.Charge Slam. Takes 2 turns to activate. Inflicts Faint. Can be Cancelled.Suggested FormationSpread 1, Spread 2This boss has a ton of HP, it is also crazy strong. The boss will use a skill called drumming which will heal itself and greatly buff it's attack, defense, and speed. Allowing it to strike you multiple times, this means the boss can wipe your party fast. Not only does it hit hard, but it can also cause faint on your party with each attack. The worst part is when the bosses buff is about to expire it will use a skill called Hard Hit which can deal nearly 7000 damage to each member which makes this boss harder than anything you have encountered so far. The most effective way of killing this boss is to rely on flame type arts. It does the most amount of damage without using Crafts. You can also use Overdrive for an instant magic cast. Once you take out about half its HP, you can have your party spam their S-Craft before the boss has a chance to heal itself from its buff.When you defeat the boss, the game will give you the option to instantly go back to Legram to report the status. Go back and report to Miles at the Bracer Guild to finish the quest.": "Gordi Schnarr G",
-            "Boss": "98467 (Normal)",
-            "HP": "120, 100, 140, 100, 100, 100, 100",
-            "Elemental Efficacy": "N/A",
-            "Item Drop": "★★☆☆",
-            "Slash": "★☆☆☆",
-            "Trust": "★☆☆☆",
-            "Pierce": "★☆☆☆"
-          }
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8",
+            "Column 9",
+            "Column 10",
+            "Column 11",
+            "Column 12",
+            "Column 13",
+            "Column 14",
+            "Column 15",
+            "Column 16",
+            "Column 17",
+            "Column 18",
+            "Column 19",
+            "Column 20",
+            "Column 21",
+            "Column 22"
+          ],
+          "rows": [
+            [
+              "Head town through Ebel Highway. You will find the quest monster located at Ebel Highway 2 at the very north area near the entrance of Ebel Highway 3. Before you fight this boss, it is highly recommended you are all equipped with a faint resistant accessory before you start this fight.BossHPElemental EfficacyItem DropSlashTrustPierceStrikeGordi Schnarr G98467 (Normal)120, 100, 140, 100, 100, 100, 100N/A★★☆☆★☆☆☆★☆☆☆★☆☆☆Boss SkillsSlam. Area (M). Inflicts Faint.Roar. Heal + Str/Spd 50%.Charge Slam. Takes 2 turns to activate. Inflicts Faint. Can be Cancelled.Suggested FormationSpread 1, Spread 2This boss has a ton of HP, it is also crazy strong. The boss will use a skill called drumming which will heal itself and greatly buff it's attack, defense, and speed. Allowing it to strike you multiple times, this means the boss can wipe your party fast. Not only does it hit hard, but it can also cause faint on your party with each attack. The worst part is when the bosses buff is about to expire it will use a skill called Hard Hit which can deal nearly 7000 damage to each member which makes this boss harder than anything you have encountered so far. The most effective way of killing this boss is to rely on flame type arts. It does the most amount of damage without using Crafts. You can also use Overdrive for an instant magic cast. Once you take out about half its HP, you can have your party spam their S-Craft before the boss has a chance to heal itself from its buff.When you defeat the boss, the game will give you the option to instantly go back to Legram to report the status. Go back and report to Miles at the Bracer Guild to finish the quest.",
+              "Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike",
+              "Gordi Schnarr G",
+              "98467 (Normal)",
+              "120, 100, 140, 100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "Boss Skills",
+              "Slam. Area (M). Inflicts Faint.Roar. Heal + Str/Spd 50%.Charge Slam. Takes 2 turns to activate. Inflicts Faint. Can be Cancelled.",
+              "Suggested Formation",
+              "Spread 1, Spread 2",
+              "This boss has a ton of HP, it is also crazy strong. The boss will use a skill called drumming which will heal itself and greatly buff it's attack, defense, and speed. Allowing it to strike you multiple times, this means the boss can wipe your party fast. Not only does it hit hard, but it can also cause faint on your party with each attack. The worst part is when the bosses buff is about to expire it will use a skill called Hard Hit which can deal nearly 7000 damage to each member which makes this boss harder than anything you have encountered so far. The most effective way of killing this boss is to rely on flame type arts. It does the most amount of damage without using Crafts. You can also use Overdrive for an instant magic cast. Once you take out about half its HP, you can have your party spam their S-Craft before the boss has a chance to heal itself from its buff."
+            ],
+            [
+              "Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike"
+            ],
+            [
+              "Gordi Schnarr G",
+              "98467 (Normal)",
+              "120, 100, 140, 100, 100, 100, 100",
+              "N/A",
+              "★★☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆"
+            ],
+            [
+              "Boss Skills",
+              "Slam. Area (M). Inflicts Faint.Roar. Heal + Str/Spd 50%.Charge Slam. Takes 2 turns to activate. Inflicts Faint. Can be Cancelled."
+            ],
+            [
+              "Suggested Formation",
+              "Spread 1, Spread 2"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -2540,10 +2862,19 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Receptionist Miles"
+            "Column 1",
+            "Column 2"
           ],
-          "rows": []
+          "rows": [
+            [
+              "Client",
+              "Receptionist Miles"
+            ],
+            [
+              "Reward",
+              "Sepith Mass x300, 1500 Mira, 4 AP"
+            ]
+          ]
         },
         {
           "type": "quest",
@@ -2565,8 +2896,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Treasure",
+              "Location"
+            ]
+          ]
         },
         {
           "type": "table",
@@ -2767,16 +3106,32 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Book: Gambler Jack Reprint #5, 6",
+              "Purchase from Fortnum Books (Christie's Galleria 2F)"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack II - Chapter 7",
-            "Saffron: Station Street (Near Christie's Galleria)"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Gambler Jack II - Chapter 7",
+              "Saffron: Station Street (Near Christie's Galleria)"
+            ],
+            [
+              "Book: Black Records #3",
+              "Underground Waterway, after defeating the Abyss Drome. (Second Playthrough only)"
+            ],
             [
               "Recipe: Fluffy Pancake",
               "Calmin: Sorciere Restaurant."
@@ -2815,10 +3170,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Missin' Kitten",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![Trails of cold steel ii missin kitten eva.jpg](./images/7bc3417e-Trails_of_cold_steel_ii_missin_kitten_eva.jpg)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:Trails_of_cold_steel_ii_missin_kitten_eva.jpg)"
         },
         {
@@ -2877,10 +3228,14 @@
         {
           "type": "table",
           "columns": [
-            "U-Material x5",
-            "North Kreuzen Highway 1"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "U-Material x5",
+              "North Kreuzen Highway 1"
+            ],
             [
               "Petrify"
             ]
@@ -2910,22 +3265,123 @@
         {
           "type": "table",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: St. Veronica's Tears",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "St. Veronica's Tears / 聖女像の調査 [Hidden Quest]"
+            ]
+          ]
         },
         {
-          "type": "encounter",
-          "name": "Unknown Encounter",
-          "stats": {
-            "Go to the Central Plaza part of town and enter the Bareahard Cathedral at the north end. Speak to Sister Tatiana, she's located in the west room. Select the first choice to help her. Leave the Cathedral and examine the statue at the center. Then go to Station Street and take the stairs on the east area to the entrance of the Underground Waterway.Follow the east path, and go all the way to the northwest corner. You will find a Green Pendulum in a treasure chest, and a switch. Press the switch to unlock the gate near the entrance. Go there to Underground Waterway 2. Go directly north to find some Sepith in a treasure chest. Then take the west path to the center of the map for a boss fight.BossHPElemental EfficacyItem DropSlashTrustPierceStrikeAbyss Drome88111 (Normal)100, 160, 160, 180, 80, 180, 160Clear Gelatin, Curia Balm★★★★☆☆☆☆☆☆☆☆☆☆☆☆Sludge Drome x76264 (Normal)100, 160, 160, 180, 80, 180, 160Clear Gelatin, Curia Balm★★★★☆☆☆☆☆☆☆☆☆☆☆☆There is a ton of Dromes here and they all can cast magic that deals a ton of damage. This is one of the easiest to spot to farm Tactical Bonus by canceling each of the Drome's spell casting by using a craft with the Impede function (Rean, Machias, Alisa, Fie), allowing you to get the Tactician trophy. If you find the situation too dangerous, then wipe out the smaller Dromes with your S-Craft or an area spell. The main boss will mostly use a skill that weakens your ADF so it can deal a ton of damage with its spells, just cancel the boss' arts before that happens.TreasureLocationGreen PendulumUnderground Waterway 1Sepith x100Underground Waterway 2Black Records 3Underground Waterway 2 (Second Playthrough only)Sister Tatiana will give you an Holy Sphere accessory. If this is your second playthrough or later, go back to the same area where you fought the Abyss Drome, you will find a copy of Black Records #3.": "Abyss Drome",
-            "Boss": "88111 (Normal)",
-            "HP": "100, 160, 160, 180, 80, 180, 160",
-            "Elemental Efficacy": "Clear Gelatin, Curia Balm",
-            "Item Drop": "★★★★",
-            "Slash": "☆☆☆☆",
-            "Trust": "☆☆☆☆",
-            "Pierce": "☆☆☆☆"
-          }
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8",
+            "Column 9",
+            "Column 10",
+            "Column 11",
+            "Column 12",
+            "Column 13",
+            "Column 14",
+            "Column 15",
+            "Column 16",
+            "Column 17",
+            "Column 18",
+            "Column 19",
+            "Column 20",
+            "Column 21",
+            "Column 22",
+            "Column 23",
+            "Column 24",
+            "Column 25",
+            "Column 26",
+            "Column 27",
+            "Column 28",
+            "Column 29",
+            "Column 30",
+            "Column 31",
+            "Column 32",
+            "Column 33",
+            "Column 34"
+          ],
+          "rows": [
+            [
+              "Go to the Central Plaza part of town and enter the Bareahard Cathedral at the north end. Speak to Sister Tatiana, she's located in the west room. Select the first choice to help her. Leave the Cathedral and examine the statue at the center. Then go to Station Street and take the stairs on the east area to the entrance of the Underground Waterway.Follow the east path, and go all the way to the northwest corner. You will find a Green Pendulum in a treasure chest, and a switch. Press the switch to unlock the gate near the entrance. Go there to Underground Waterway 2. Go directly north to find some Sepith in a treasure chest. Then take the west path to the center of the map for a boss fight.BossHPElemental EfficacyItem DropSlashTrustPierceStrikeAbyss Drome88111 (Normal)100, 160, 160, 180, 80, 180, 160Clear Gelatin, Curia Balm★★★★☆☆☆☆☆☆☆☆☆☆☆☆Sludge Drome x76264 (Normal)100, 160, 160, 180, 80, 180, 160Clear Gelatin, Curia Balm★★★★☆☆☆☆☆☆☆☆☆☆☆☆There is a ton of Dromes here and they all can cast magic that deals a ton of damage. This is one of the easiest to spot to farm Tactical Bonus by canceling each of the Drome's spell casting by using a craft with the Impede function (Rean, Machias, Alisa, Fie), allowing you to get the Tactician trophy. If you find the situation too dangerous, then wipe out the smaller Dromes with your S-Craft or an area spell. The main boss will mostly use a skill that weakens your ADF so it can deal a ton of damage with its spells, just cancel the boss' arts before that happens.TreasureLocationGreen PendulumUnderground Waterway 1Sepith x100Underground Waterway 2Black Records 3Underground Waterway 2 (Second Playthrough only)Sister Tatiana will give you an Holy Sphere accessory. If this is your second playthrough or later, go back to the same area where you fought the Abyss Drome, you will find a copy of Black Records #3.",
+              "Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike",
+              "Abyss Drome",
+              "88111 (Normal)",
+              "100, 160, 160, 180, 80, 180, 160",
+              "Clear Gelatin, Curia Balm",
+              "★★★★",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "Sludge Drome x7",
+              "6264 (Normal)",
+              "100, 160, 160, 180, 80, 180, 160",
+              "Clear Gelatin, Curia Balm",
+              "★★★★",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "There is a ton of Dromes here and they all can cast magic that deals a ton of damage. This is one of the easiest to spot to farm Tactical Bonus by canceling each of the Drome's spell casting by using a craft with the Impede function (Rean, Machias, Alisa, Fie), allowing you to get the Tactician trophy. If you find the situation too dangerous, then wipe out the smaller Dromes with your S-Craft or an area spell. The main boss will mostly use a skill that weakens your ADF so it can deal a ton of damage with its spells, just cancel the boss' arts before that happens.",
+              "Treasure",
+              "Location",
+              "Green Pendulum",
+              "Underground Waterway 1",
+              "Sepith x100",
+              "Underground Waterway 2",
+              "Black Records 3",
+              "Underground Waterway 2 (Second Playthrough only)"
+            ],
+            [
+              "Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike"
+            ],
+            [
+              "Abyss Drome",
+              "88111 (Normal)",
+              "100, 160, 160, 180, 80, 180, 160",
+              "Clear Gelatin, Curia Balm",
+              "★★★★",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "☆☆☆☆"
+            ],
+            [
+              "Sludge Drome x7",
+              "6264 (Normal)",
+              "100, 160, 160, 180, 80, 180, 160",
+              "Clear Gelatin, Curia Balm",
+              "★★★★",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "☆☆☆☆"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -2934,10 +3390,18 @@
         {
           "type": "table",
           "columns": [
-            "Treasure",
-            "Location"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Treasure",
+              "Location"
+            ],
+            [
+              "Green Pendulum",
+              "Underground Waterway 1"
+            ],
             [
               "Sepith x100",
               "Underground Waterway 2"
@@ -3050,24 +3514,32 @@
         {
           "type": "prose",
           "heading": "December 12",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Character",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Alisa [Page 1]",
-            "Attend Alisa's Bonding Event."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Alisa [Page 1]",
+              "Attend Alisa's Bonding Event."
+            ],
             [
               "Emma [Page 1]",
               "Attend Emma's Bonding Event."
@@ -3087,17 +3559,17 @@
             [
               "Sharon [Page 2]",
               "Attend Sharon's Bonding Event."
-            ],
-            [
-              "Character",
-              "Location",
-              "Notes"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Location",
+            "Notes"
+          ],
+          "rows": [
             [
               "Alisa",
               "Baron's Mansion 2F",
@@ -3211,10 +3683,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Stranger than Fishin",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to the Tavern and speak to Gerald behind the counter. Accept his request and leave town by going to Ymir Valley, keep going until you reach Ymir Valley 2. Speak to Annabelle who is located at the center of the map. Now fish at the bridge, once you successfully catch the fish, there will be a boss battle."
         },
         {
@@ -3360,10 +3828,6 @@
           "content": "After you have spoken to all the everyone listed above, move to the second floor and go north to the guest room. Knock on the door. Watch the event, after this scene, Rean will get the **Spirit Unification** ability. Head downstairs and go to your room (South Area, Southwest corner). Examine the air ducts by the flower vase. Go all the way to the end, after this, you will be facing a few battles."
         },
         {
-          "type": "prose",
-          "content": "\\- Advertisement -"
-        },
-        {
           "type": "encounter",
           "name": "Unknown Encounter",
           "stats": {
@@ -3472,10 +3936,6 @@
         },
         {
           "type": "prose",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Last edited by Zoelius on Oct 8, 23 6:34pm"
         },
         {
@@ -3496,10 +3956,6 @@
         {
           "type": "prose",
           "content": "Watch the opening sequence, the guest character with the **highest Link EXP (Must be level 3)** will give you an powerful accessory."
-        },
-        {
-          "type": "prose",
-          "content": "\\- Advertisement -"
         },
         {
           "type": "table",
@@ -3544,10 +4000,6 @@
         {
           "type": "prose",
           "heading": "December 15",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "**Courageous**"
         },
         {
@@ -3650,16 +4102,20 @@
         {
           "type": "prose",
           "heading": "Searching for Friends (Garrelia Section)",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Tomato Burger",
+              "Speak to Officer Virginie by the truck on the center of the Camp."
+            ]
+          ]
         },
         {
           "type": "table",
@@ -3697,10 +4153,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Without Leave",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to the Garrelia Camp Headquarters (East Building). Speak to General Craig and pick the first choice to accept his request. Leave the building and gather some information. Speak to the NPCs marked with a green exclamation mark. There is one by the lunch table on the southeast corner, the clerks at the resting area and the store area. After you have spoken to those three NPCs, speak to the soldier near the gate exit to the west. Then head out to Garrelia Fortress - Ruins.  \nSpeak to the Soldiers near the tank at the western side near the Garrelia Byroad exit. Then head to the east end of the map, near the crater, an event will automatically occur and the quest will end."
         },
         {
@@ -3730,8 +4182,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Treasure List",
+              "Location"
+            ]
+          ]
         },
         {
           "type": "table",
@@ -3781,30 +4241,43 @@
         {
           "type": "prose",
           "heading": "Searching for Friends (Legram Section)",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Book: Imperial Chronicle Issue #4",
+              "Purchase from Watteau's Store."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack Reprint #8",
-            "Purchase from Watteau's Store."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
-              "---",
-              "---",
-              "---",
-              "---"
-            ],
+              "Book: Gambler Jack Reprint #8",
+              "Purchase from Watteau's Store."
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Date",
+            "Character",
+            "Requirements",
+            "Role in Courageous"
+          ],
+          "rows": [
             [
               "December 15",
               "Caspar [Page 1]",
@@ -3829,14 +4302,10 @@
           "content": "[![Trails of cold steel ii legram.png](./images/fcbef3dc-Trails_of_cold_steel_ii_legram.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:Trails_of_cold_steel_ii_legram.png)"
         },
         {
-          "type": "prose",
-          "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Badass in Danger!!!",
-          "content": "* * *"
-        },
-        {
           "type": "quest",
+          "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Badass in Danger!!!",
           "quest_type": "side",
-          "name": "Unknown Quest",
+          "name": "[![SubquestCS2.png](https://cdn.staticneo.com/ew/3/3d/SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Badass in Danger!!!",
           "content": "Head to Aprikoze Inn and speak to the boy with the green hair. To finish the quest, you need to find Patiry who is all the way in Ymir. Patiry is speaking to Luke, the station guard by the pub. Now return to the Courageous and travel to Ymir(Northern section of the map). Once there, go and speak to Patiry near the station guard to finish the side quest"
         },
         {
@@ -3859,10 +4328,6 @@
         {
           "type": "prose",
           "heading": "Ymir",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
@@ -3887,40 +4352,51 @@
         {
           "type": "prose",
           "heading": "Searching for Friends (Nord Section)",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Book: Gambler Jack II Chapter - 8",
+              "Hoover: Zender Gate"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack Reprint #7",
-            "General Store - Kilte's Store (Lake Lacrima)"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
+              "Book: Gambler Jack Reprint #7",
+              "General Store - Kilte's Store (Lake Lacrima)"
+            ],
+            [
+              "Book: Black Records #1",
+              "Ancient Quarry (Boss Area), after defeating Ginosha-Zanak (Second Playthrough only)"
+            ],
+            [
               "Recipe: Hearty Milk Hotpot",
               "Sheeda: General Store - Kilte's Store."
-            ],
-            [
-              "Date",
-              "Character",
-              "Requirements",
-              "Role in Courageous"
-            ],
-            [
-              "---",
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Date",
+            "Character",
+            "Requirements",
+            "Role in Courageous"
+          ],
+          "rows": [
             [
               "December 15",
               "Mint [Page 1]",
@@ -3946,10 +4422,6 @@
         {
           "type": "prose",
           "heading": "[![StoryquestCS2.png](./images/5f31ce89-StoryquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:StoryquestCS2.png) Story Quest: Find Our First Years",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "To finish this quest, you need to find the following students from Thors and convince them to join Courageous."
         },
         {
@@ -3984,10 +4456,6 @@
         {
           "type": "prose",
           "heading": "[![StoryquestCS2.png](./images/5f31ce89-StoryquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:StoryquestCS2.png) Story Quest: Monster Madness",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to the Cabin at Lake Lacrima and speak to Elder Ivan or Gwen. Then head to Nord Highlands - North, you will find the quest monster near the fishing spot by the northeast area of the map."
         },
         {
@@ -4151,10 +4619,6 @@
         {
           "type": "prose",
           "heading": "December 17",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Select your party members, **Eliot and Sara will be mandatory members**. Once you set your party members, there is no turning back. Watch the event scene, you will face a mech battle."
         },
         {
@@ -4277,38 +4741,50 @@
         {
           "type": "prose",
           "heading": "December 18",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Comforting Cappuccino",
+              "Gibson: First shop at the Grand Market."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack Reprint #10",
-            "Cornette's General Goods (Grand Market, center)"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
+              "Book: Gambler Jack Reprint #10",
+              "Cornette's General Goods (Grand Market, center)"
+            ],
+            [
+              "Book: Gambler Jack II - Chapter 9",
+              "Marco: Grand Market (Shop at the west end)"
+            ],
+            [
               "2 AP",
               "Recruit Becky to Courageous. (She's located in the house on the west end of town.)"
-            ],
-            [
-              "Character",
-              "Requirements",
-              "Notes"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Requirements",
+            "Notes"
+          ],
+          "rows": [
             [
               "Becky [Page 1]",
               "Recruit Becky onto Courageous.",
@@ -4337,17 +4813,17 @@
             [
               "Instructor Thomas [Page 1]",
               "Automatic."
-            ],
-            [
-              "Character",
-              "Location",
-              "Notes"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Location",
+            "Notes"
+          ],
+          "rows": [
             [
               "Alfin",
               "Market Manager's House",
@@ -4522,15 +4998,7 @@
         {
           "type": "prose",
           "heading": "December 19",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Read the quest list on the computer terminal. Afterwards, select your party members, Millium will be a mandatory member of this Act. If you have recruited Becky from earlier, she lets you exchange items, this is similar to the pawnshop feature from the previous Cold Steel. At the start of the Act, it is advisable to sacrifice one Attack 2 and one Action 2 quartz together with 20 U-Materials to get the corresponding Ex-Orb for Valimar. This Act has 2 rather tough Mech battles and this way you can benefit from Stacking Ex Spheres with Valimar"
-        },
-        {
-          "type": "prose",
-          "content": "\\- Advertisement -"
         },
         {
           "type": "table",
@@ -4572,10 +5040,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Creeping for Creeps",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Speak to Baggins at The Phoenix Wings and accept his request. Afterwards, you will end up in the snowboard mini game chasing after the two snow sheep. Catch them both to get **2 bonus AP**. If you fail to do so, you can retry until you catch the two sheep. Just don't give up. After this, a mini boss will pop in."
         },
         {
@@ -4594,8 +5058,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Reward and AP",
+              "Sepith Mass x500, 3500 Mira, 3(+2) AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -4604,31 +5076,44 @@
         {
           "type": "prose",
           "heading": "December 20",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Seafood Salad",
+              "Colonel Gaul: Twin Dragons Bridge - Office"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Bike Colour: Hot Colour",
-            "Examine the bookshelf on Twin Dragons Bridge - Office"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
             [
-              "---",
-              "---",
-              "---",
-              "---",
-              "---"
-            ],
+              "Bike Colour: Hot Colour",
+              "Examine the bookshelf on Twin Dragons Bridge - Office"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Date",
+            "Character",
+            "Requirements",
+            "Location",
+            "Role in Courageous"
+          ],
+          "rows": [
             [
               "December 19 - 20",
               "Munk [Page 1]",
@@ -4699,10 +5184,6 @@
         {
           "type": "prose",
           "heading": "[![StoryquestCS2.png](./images/5f31ce89-StoryquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:StoryquestCS2.png) Story Quest: I'll Make a Mech Out of You",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Once you've accepted Major Neithardt's offer, you will face him in a mech duel. If you manage to beat him, you will **2 extra AP**. If not, then reload the save file from earlier and try again."
         },
         {
@@ -4717,8 +5198,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Reward and AP",
+              "Skill Handbook, Add Page 1 to Major Neithardt's Character Profile, 3500 Mira, 3(+2) AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -4730,16 +5219,32 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Treasure List",
+              "Location"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Flare Bomb",
-            "Twin Dragons Bridge - Central Area"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Flare Bomb",
+              "Twin Dragons Bridge - Central Area"
+            ],
+            [
+              "Yellow Pendulum",
+              "Twin Dragons Bridge - Garrelia Side"
+            ],
             [
               "Sepith Mass x500"
             ]
@@ -4770,10 +5275,6 @@
         {
           "type": "prose",
           "heading": "[![StoryquestCS2.png](./images/5f31ce89-StoryquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:StoryquestCS2.png) Story Quest: Just Getting Wormed Up",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Defeat the monster located at the southwest corner of Garrelia Byroad 2."
         },
         {
@@ -4792,8 +5293,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Reward and AP",
+              "Poison 2, 2500 Mira, 4 AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -4904,10 +5413,6 @@
         {
           "type": "prose",
           "heading": "December 21",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Select your party members, Alisa and Rean will be mandatory members. You won't able to switch your team once the decision is set. There is three trial chest in the upcoming part of the game, and you can only access two at most with the right party setup."
         },
         {
@@ -5358,24 +5863,36 @@
         {
           "type": "prose",
           "heading": "December 22",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Book: Imperial Chronicle Issue #5",
+              "Purchase from the General Store.."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack II - Chapter 10",
-            "Factory Worker Logg: he is running the counter at Dvance Diner."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Gambler Jack II - Chapter 10",
+              "Factory Worker Logg: he is running the counter at Dvance Diner."
+            ],
+            [
+              "Recipe: Sweet Blue",
+              "Grand: Diner Bar F"
+            ],
             [
               "Bike Colour: Dark Colour",
               "Examine the shelf near Alfin at RF Building 24F."
@@ -5389,10 +5906,14 @@
         {
           "type": "table",
           "columns": [
-            "Alisa [Page 2]",
-            "Attend Alisa Bonding Event."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Alisa [Page 2]",
+              "Attend Alisa Bonding Event."
+            ],
             [
               "Alfin [Page 2]",
               "Attend Alfin's Bonding Event."
@@ -5408,17 +5929,17 @@
             [
               "Instructor Mary [Page 1]",
               "Speak to Instructor Mary in Roer Residence #1."
-            ],
-            [
-              "Character",
-              "Location",
-              "Notes"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Location",
+            "Notes"
+          ],
+          "rows": [
             [
               "Alisa",
               "RF Building 24F",
@@ -5578,24 +6099,36 @@
         {
           "type": "prose",
           "heading": "December 23",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Rich Carbonara",
+              "Purchase the Pasta Recipe Book from the General Store (Ymir) or from Dorothee."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Recipe: Tomato Stew",
-            "Farlan: Schwarz Drache Barrier."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Recipe: Tomato Stew",
+              "Farlan: Schwarz Drache Barrier."
+            ],
+            [
+              "Book: Gambler Jack II - Chapter 11",
+              "Rex: Schwarz Drache Barrier."
+            ],
             [
               "Book: Black Records #4",
               "Norton: Roer Airport, after clearing \"Gone Air\" quest. (Second Playthrough only)"
@@ -5603,21 +6136,29 @@
           ]
         },
         {
-          "type": "prose",
-          "content": "\\- Advertisement -"
-        },
-        {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Angelica [Page 1]",
-            "Automatic."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Angelica [Page 1]",
+              "Automatic."
+            ],
             [
               "Angelica [Page 2]",
               "Speak to Angelica at Courageous 1F - Workshop."
@@ -5645,19 +6186,18 @@
             [
               "Rex [Page 1]",
               "Speak to Rex at Schwarz Drache Barrier."
-            ],
-            [
-              "Character",
-              "Requirements",
-              "Location",
-              "Role in Courageous"
-            ],
-            [
-              "---",
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Requirements",
+            "Location",
+            "Role in Courageous"
+          ],
+          "rows": [
             [
               "Hibelle [Page 1]",
               "Finished the \"Gone Air\" Quest",
@@ -5708,10 +6248,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: The Sweetest of Challenges",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "When the quest starts, Class VII will gather at the meeting room. Listen to everyone's opinion and then repeat it again. After that, you will need to select the Culprit. Pick the 2nd choice, Machias it will give you 2 extra AP."
         },
         {
@@ -5773,10 +6309,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Gone Air",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Watch the event scene, you automatically fight two Jaegers to start. After that, you will end up in the same airship from the end of Chapter 1. Pick up the Freeze Quartz from the treasure chest in the Northwest corner, if you forgot it from the previous chapter. Take the southwest entrance to enter the lobby room. You will fight another group of Jaegers. Defeat them and visit the room located northwest. Defeat the single Jaeger to get a Card Key 1 from him. Examine the Bridge door to the north then visit the 3rd floor by taking the southeast entrance. You will fight four more Jaegers. Defeat them to get Card Key 2. Go to the south end entrance to the 4th floor. Defeat the five Jaegers to finish the quest. Klein and Hibelle will also join Courageous."
         },
         {
@@ -5832,10 +6364,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Kreuzen for a Bruisin'",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "You will find the quest monster located at the southwest end of North Kreuzen Highway."
         },
         {
@@ -5858,11 +6386,6 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
-        },
-        {
-          "type": "table",
           "columns": [
             "Client",
             "Prince Olivert"
@@ -5881,10 +6404,6 @@
         {
           "type": "prose",
           "heading": "Shrine Trials Part A",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "For the main story, you will need to revisit all the Shrines again. There will be a new Trial area that you can access. You will need to bring **Emma** to your party to access these new areas. All the Shrines are highlighted with a red exclamation mark on the world map. Select one of the four Shrines, once you clear one of the four there will be a story event that interrupts you. You will eventually finish the remaining three shrines later."
         },
         {
@@ -5941,10 +6460,17 @@
         {
           "type": "table",
           "columns": [
-            "Earth Sepith x1000",
-            "Terra Shrine - Proving Grounds"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Earth Sepith x1000",
+              "Terra Shrine - Proving Grounds"
+            ],
+            [
+              "Ancient Glyph"
+            ],
             [
               "Tear All Balm"
             ],
@@ -6046,10 +6572,14 @@
         {
           "type": "table",
           "columns": [
-            "Ragna Vortex",
-            "Aria Shrine - Proving Grounds"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Ragna Vortex",
+              "Aria Shrine - Proving Grounds"
+            ],
             [
               "Wind Bell"
             ],
@@ -6165,10 +6695,14 @@
         {
           "type": "table",
           "columns": [
-            "Maelstrom",
-            "Aqua Shrine - Proving Grounds"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Maelstrom",
+              "Aqua Shrine - Proving Grounds"
+            ],
             [
               "Yaksha"
             ],
@@ -6272,10 +6806,17 @@
         {
           "type": "table",
           "columns": [
-            "Fire Sepith x1000",
-            "Ignis Shrine - Proving Grounds"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Fire Sepith x1000",
+              "Ignis Shrine - Proving Grounds"
+            ],
+            [
+              "Purgatorial Flame"
+            ],
             [
               "Fire Bell"
             ],
@@ -6323,10 +6864,6 @@
         {
           "type": "prose",
           "heading": "End of 1st Shrine",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "At the end of the first Shrine, you will end up fighting Magic Knight Dire Wolf."
         },
         {
@@ -6346,24 +6883,36 @@
         {
           "type": "prose",
           "heading": "December 24 & 25",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Linde [Page 2]",
-            "Speak to Linde at Courageous 5F - Bridge."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Linde [Page 2]",
+              "Speak to Linde at Courageous 5F - Bridge."
+            ],
+            [
+              "Loggins [Page 1]",
+              "Speak to Loggins at Courageous 4F - Sword Training Facility."
+            ],
             [
               "Fiedelio [Page 2]",
               "Speak to Fiedelio at Courageous 2F - Computer Room."
@@ -6534,24 +7083,36 @@
         {
           "type": "prose",
           "heading": "December 26",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Fruit Parfait",
+              "Giolamo: Alouette Inn."
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack II - Chapter 12",
-            "Maicel: Alouette Inn."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Gambler Jack II - Chapter 12",
+              "Maicel: Alouette Inn."
+            ],
+            [
+              "Bike Colour: Windy Colour",
+              "Drawer in Jusis' room (Duke's Mansion)."
+            ],
             [
               "Name",
               "Requirements"
@@ -6561,10 +7122,14 @@
         {
           "type": "table",
           "columns": [
-            "Fie [Page 2]",
-            "Attend Fie's Bonding Event."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Fie [Page 2]",
+              "Attend Fie's Bonding Event."
+            ],
             [
               "Gaius [Page 3]",
               "Attend Gaius' Bonding Event."
@@ -6576,17 +7141,17 @@
             [
               "Towa [Page 2]",
               "Attend Towa's Bonding Event"
-            ],
-            [
-              "Character",
-              "Location",
-              "Notes"
-            ],
-            [
-              "---",
-              "---",
-              "---"
-            ],
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Character",
+            "Location",
+            "Notes"
+          ],
+          "rows": [
             [
               "Alisa",
               "Central Plaza",
@@ -6741,16 +7306,20 @@
         {
           "type": "prose",
           "heading": "December 27",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Spicy Curry",
+              "Purchase the Curry Recipe Book from the General Store."
+            ]
+          ]
         },
         {
           "type": "table",
@@ -6782,21 +7351,29 @@
           ]
         },
         {
-          "type": "prose",
-          "content": "\\- Advertisement -"
-        },
-        {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Toval [Page 3]",
-            "Automatically."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Toval [Page 3]",
+              "Automatically."
+            ],
             [
               "Emma [Page 3]",
               "Automatically."
@@ -6868,10 +7445,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Mist Opportunity",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Accept the request, and then go to the port area and speak to Klaus. You will need Emma in your party or else Klaus won't let you go to Lohengrin Castle. Go to the top of the hill to enter Lohengrin Castle."
         },
         {
@@ -6902,10 +7475,56 @@
         {
           "type": "table",
           "columns": [
-            "Chakravarti Gem",
-            "Lohengrin Castle - Entrance Hall"
+            "Enemy List",
+            "Item Drop 1",
+            "Item Drop 2"
           ],
           "rows": [
+            [
+              "Shadow Spirit",
+              "EP Charge I",
+              "Curia Balm"
+            ],
+            [
+              "Wandering Armor",
+              "Teara Balm",
+              "U-Material"
+            ],
+            [
+              "Wandering Sword",
+              "Reviving Balme",
+              "U-Material"
+            ],
+            [
+              "Dark Canine",
+              "Red Beast Flesh",
+              "Globby Fat"
+            ],
+            [
+              "Death Slugger",
+              "Chitinous Shell",
+              "U-Material"
+            ],
+            [
+              "Treasure List",
+              "Location"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Chakravarti Gem",
+              "Lohengrin Castle - Entrance Hall"
+            ],
+            [
+              "EP Charge IV"
+            ],
             [
               "Dark Emblem",
               "Lohengrin Castle - Left Wing"
@@ -6918,8 +7537,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Reward and AP",
+              "Youkai Gem, 4000 Mira, 4 AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -6954,10 +7581,48 @@
         {
           "type": "table",
           "columns": [
-            "U-Material x8",
-            "North Kreuzen Highway 2"
+            "Enemy List",
+            "Item Drop 1",
+            "Item Drop 2"
           ],
           "rows": [
+            [
+              "Mad Weed",
+              "Crisp Onion",
+              "Globby Fat"
+            ],
+            [
+              "Egg Viper",
+              "Clear Gelatin",
+              "Chitinous Shell"
+            ],
+            [
+              "Were Falena",
+              "Hearty Powder",
+              "Curia Balm"
+            ],
+            [
+              "Cursed Roses",
+              "Globby Fat",
+              "U-Material"
+            ],
+            [
+              "Treasure List",
+              "Location"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "U-Material x8",
+              "North Kreuzen Highway 2"
+            ],
             [
               "Golden Bell"
             ],
@@ -7026,10 +7691,14 @@
         {
           "type": "table",
           "columns": [
-            "Sepith x200",
-            "Aurochs Canyon 1"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Sepith x200",
+              "Aurochs Canyon 1"
+            ],
             [
               "Celestial Balm EX",
               "Aurochs Canyon 2"
@@ -7072,10 +7741,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Canyon, or CAN'Tyon?",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "You can find the quest monster at the **southeast corner of Aurochs Canyon 3.**"
         },
         {
@@ -7130,10 +7795,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Hearts in Harmony",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Speak to Rosine with Elliot in your party. If you do not have Elliot, Rosine won't talk you. Accept her request. You will need to find people that are proficient with music for her. The people are:"
         },
         {
@@ -7170,10 +7831,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Fathers Pocket Watch",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Take Alisa to your party and accept the request from Jackass. To complete this quest, you'll need to talk to four sets of NPCs."
         },
         {
@@ -7208,10 +7865,6 @@
         {
           "type": "prose",
           "heading": "Shrine Trials Part B",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "You will need to clear the other three Shrines. Read the [Shrine Trials Part A](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/walkthrough/Act_2_Part_3#Shrine_Trials_Part_A \"walkthrough/Act 2 Part 3\") for navigating through the Shrines. When you reach to the end of the second Shrine Trial, you will fight **Magic Knight Heavy Ruby**."
         },
         {
@@ -7275,10 +7928,6 @@
         {
           "type": "prose",
           "heading": "December 30",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
@@ -7449,24 +8098,36 @@
         {
           "type": "prose",
           "heading": "December 30 Night Time",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Recipe: Tomato Pot",
+              "Lotte: Upper Dorm Entrance"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Book: Gambler Jack II - Chapter 14",
-            "Karol: Thors Library"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Gambler Jack II - Chapter 14",
+              "Karol: Thors Library"
+            ],
+            [
+              "Zemurian Ore",
+              "Vice Principal Heinrich: Kirsche's Cafe & Inn (Requires all 14 Gambler Jack II)"
+            ],
             [
               "Bike Colour: Fiery Colour",
               "Examine the bookshelf on Trista House (Northeast of Trista)"
@@ -7474,21 +8135,29 @@
           ]
         },
         {
-          "type": "prose",
-          "content": "\\- Advertisement -"
-        },
-        {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Crow [Page 2]",
-            "Automatically."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Crow [Page 2]",
+              "Automatically."
+            ],
             [
               "Butler Celestin [Page 1]",
               "Main Building Entrance"
@@ -7546,10 +8215,18 @@
         {
           "type": "table",
           "columns": [
-            "Friedel [Page 1]",
-            "Near the entrance of Kirsche's Cafe & Inn"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Friedel [Page 1]",
+              "Near the entrance of Kirsche's Cafe & Inn"
+            ],
+            [
+              "Instructor Thomas [Page 2]",
+              "Kirsche's Cafe & Inn"
+            ],
             [
               "Vice Principal Heinrich [Page 1]",
               "Kirsche's Cafe & Inn"
@@ -7566,8 +8243,14 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1"
+          ],
+          "rows": [
+            [
+              "CHOSEN PARTNER EVENT"
+            ]
+          ]
         },
         {
           "type": "table",
@@ -7597,32 +8280,49 @@
         {
           "type": "prose",
           "heading": "December 31st",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "[![ReverieimpostexCS5.png](./images/decd49d2-ReverieimpostexCS5.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:ReverieimpostexCS5.png)"
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
-        },
-        {
-          "type": "table",
           "columns": [
-            "Quest: Absentee Father",
-            "Speak to Zirbel at Trista's Chapel."
-          ],
-          "rows": []
-        },
-        {
-          "type": "table",
-          "columns": [
-            "George [Page 2]",
-            "Automatically."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Imperial Chronicle Issue #6",
+              "Any book store."
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest: Absentee Father",
+              "Speak to Zirbel at Trista's Chapel."
+            ],
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "George [Page 2]",
+              "Automatically."
+            ],
             [
               "Mint [Page 2]",
               "Speak to Mint at Courageous 5F - Bridge"
@@ -7877,10 +8577,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: My Jormungand Don't Want None",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to the end of East Celdic Highway 3, you will find the quest monster on the northeast end where Point D used to be."
         },
         {
@@ -7921,10 +8617,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Sachsen Violence",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Have Courageous land on Sachsen Iron Mines, then go to Sachsen Mountain Path 2, you will find the quest monster at the northeast area near the fishing spot."
         },
         {
@@ -7965,10 +8657,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Nord by Nord-east",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Go to Nord Highlands - Northeast, you will find the quest monster at the center area."
         },
         {
@@ -8009,10 +8697,6 @@
         {
           "type": "prose",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Ymir, Far, Wherever You Are",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to **Ymir Valley - End**, you will find the quest monster on the left side."
         },
         {
@@ -8057,14 +8741,10 @@
           "content": "Return to Courageous and use the Zemurian Ore Shards to create another ultimate weapon. Now go Trista, there will be some side activities you can still do. Speak to **Beatrix** at the Main Building Infirmary, this will update her character profile. Then speak to the head priest at Trista's Chapel. Accept the request to start a hidden quest."
         },
         {
-          "type": "prose",
-          "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Absentee Father",
-          "content": "* * *"
-        },
-        {
           "type": "quest",
-          "quest_type": "story",
-          "name": "Unknown Quest",
+          "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Absentee Father",
+          "quest_type": "hidden",
+          "name": "[![QuesticonCS2.gif](https://cdn.staticneo.com/ew/c/c1/QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Absentee Father",
           "content": "Accept the request from Father Paulo. Then, speak to the head priest in each major town or city. If you bring **Sara and Gaius** with you, there will be some slight changes in the final scene. You will need to speak to the priests in this order to complete the quest:"
         },
         {
@@ -8217,10 +8897,6 @@
         {
           "type": "prose",
           "heading": "Final Mission",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Select your party members, Machias will be mandatory for this part."
         },
         {
@@ -8310,12 +8986,8 @@
           "content": "After the fight and following cutscene, if you have received all the Medals from Princess Alfin, the Emperor will award you with the **Grand Cordon** accessory. This powerful accessory gives +100 STR/DEF/ATS/ADF and +10% Critical Up."
         },
         {
-          "type": "prose",
-          "heading": "Infernal Castle",
-          "content": "* * *"
-        },
-        {
           "type": "table",
+          "heading": "Infernal Castle",
           "columns": [
             "Nightmare Tip"
           ],
@@ -8394,10 +9066,17 @@
         {
           "type": "table",
           "columns": [
-            "Tear All Balm",
-            "Infernal Castle - Layer 1 (Section 1)"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Tear All Balm",
+              "Infernal Castle - Layer 1 (Section 1)"
+            ],
+            [
+              "Virgo Boots"
+            ],
             [
               "Sepith x500",
               "Infernal Castle - Layer 1 (Section 2)"
@@ -8501,10 +9180,17 @@
         {
           "type": "table",
           "columns": [
-            "Sirius Boots",
-            "Infernal Castle - Layer 2 (Section 1)"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Sirius Boots",
+              "Infernal Castle - Layer 2 (Section 1)"
+            ],
+            [
+              "Sepith Mass x1000"
+            ],
             [
               "Celestial Balm EX"
             ],
@@ -8599,10 +9285,17 @@
         {
           "type": "table",
           "columns": [
-            "EP Charge IV",
-            "Infernal Castle - Layer 3 (Section 1)"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "EP Charge IV",
+              "Infernal Castle - Layer 3 (Section 1)"
+            ],
+            [
+              "U-Material x15"
+            ],
             [
               "Celestial Armor"
             ],
@@ -8687,10 +9380,14 @@
         {
           "type": "table",
           "columns": [
-            "Chaos",
-            "Infernal Castle - Pinnacle"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Chaos",
+              "Infernal Castle - Pinnacle"
+            ],
             [
               "Zeram Capsule"
             ]
@@ -8786,10 +9483,6 @@
         {
           "type": "prose",
           "content": "Because you only have two party members for this entire chapter, with no shops and the bosses are rather hard. It is **crucial** for you to level up your party and gather as much sepith and quartz as you can. Getting good quartz for this part is extremely crucial. Gathering all this quartz is going to be your major issue here. **Defense 3**, **Hit 2**, and the **Water quartz** are the easiest to farm and by the end you'll probably have a lot of Defense 3. For this part you should exploit Lloyd's S-Craft, Raging Sun, and **DO NOT SKIP THE ANIMATION**, during Sepith-Up turns to farm sepith faster. Don't worry about CP since our good Investigator has both Lv 5 Force MQ and a True Gladiator Belt equipped. The quartz you need will be farm will be **Impede 1-2**, **Action 3**, **Hit 2**, **HP 2**, and **Attack 3**"
-        },
-        {
-          "type": "prose",
-          "content": "\\- Advertisement -"
         },
         {
           "type": "prose",
@@ -8902,8 +9595,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Treasure List",
+              "Location"
+            ]
+          ]
         },
         {
           "type": "table",
@@ -8944,8 +9645,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Treasure List",
+              "Location"
+            ]
+          ]
         },
         {
           "type": "table",
@@ -9005,30 +9714,47 @@
       "title": "Epilogue",
       "blocks": [
         {
-          "type": "prose",
+          "type": "table",
           "heading": "March 12",
-          "content": "* * *"
-        },
-        {
-          "type": "table",
-          "columns": [],
-          "rows": []
-        },
-        {
-          "type": "table",
           "columns": [
-            "Book: Imperial Chronicle Issue #7",
-            "Purchase from the General Store at the student union building."
-          ],
-          "rows": []
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Rean [Page 3]",
-            "Automatic."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Book: Decoding Report",
+              "Speak to Instructor Thomas after collecting all five Black Records Books. (Second Playthrough only)"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Book: Imperial Chronicle Issue #7",
+              "Purchase from the General Store at the student union building."
+            ],
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Rean [Page 3]",
+              "Automatic."
+            ],
             [
               "George [Page 3]",
               "Automatic."
@@ -9120,16 +9846,28 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Sharon [Page 3]",
-            "Automatic."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Sharon [Page 3]",
+              "Automatic."
+            ],
             [
               "Alisa [Page 3]",
               "Speak to Alisa in her room."
@@ -9161,28 +9899,40 @@
           ]
         },
         {
-          "type": "prose",
-          "heading": "March 13 Free Day",
-          "content": "* * *"
-        },
-        {
           "type": "quest",
+          "heading": "March 13 Free Day",
           "quest_type": "side",
-          "name": "Unknown Quest",
+          "name": "March 13 Free Day",
           "content": "Read the task assignments. Unlike the original game, you will have to report to Towa to claim the reward from each quest you have finished. Before you do the task assignments, you speak to the following people to update their profiles. **Sariffa** at the park, and **Edel** near the Gardening shop. Then speak to **Lotte** near the Upper Class Dorm. **Munk** by the entrance of the Lower Class Dorm and **Klein** inside the dorm. Then go to Thors, and go the Auditorium building and speak to **Hugo**. Then speak to **Linde** at the garden (North end of Thors). Then go inside the Student Union Building and speak to **Loggins** at the first floor, and then go upstairs and speak to **Stefan** at the Chess Club, and **Beryl** at the Occul Research Club. Afterwards, work on the task assignments (Side Quest)."
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Sariffa [Page 2]",
-            "Speak to Sariffa at Trista's Park."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Sariffa [Page 2]",
+              "Speak to Sariffa at Trista's Park."
+            ],
+            [
+              "Edel [Page 2]",
+              "Speak to Edel near the Gardening Shop."
+            ],
             [
               "Lotte [Page 1]",
               "Speak to Lotte near the entrance of the Upper Class Dorm."
@@ -9236,10 +9986,18 @@
         {
           "type": "table",
           "columns": [
-            "Instructor Beatrix [Page 2]",
-            "Finish the \"Class Warfare\" quest."
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Instructor Beatrix [Page 2]",
+              "Finish the \"Class Warfare\" quest."
+            ],
+            [
+              "Princess Alfin [Page 3]",
+              "Automatic."
+            ],
             [
               "Quest: Swimming Lessons: The Return",
               "Speak to Neithardt at the Staff Room (Main Building 1F East) after finishing three quests."
@@ -9248,8 +10006,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Books: Gambler Jack Reprint, Imperial Chronicles",
+              "All missing books can be purchased from Keynes Bookstore. Micht's Pawnshop has a chance of selling Gambler Jack II"
+            ]
+          ]
         },
         {
           "type": "quest",
@@ -9259,8 +10025,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "Junk Wanted / フリーマーケットの出品物"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -9269,10 +10043,18 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Brandon"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Client",
+              "Brandon"
+            ],
+            [
+              "Reward",
+              "Food Ingredients, 3000 Mira, 1 + (1) AP"
+            ],
             [
               "Quest Name",
               "Let's Talk Trista / 新番組の立ち上げ"
@@ -9286,10 +10068,18 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Michael"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Client",
+              "Michael"
+            ],
+            [
+              "Reward",
+              "Celestial Balm EX x3, 3000 Mira, 1 + (1) AP"
+            ],
             [
               "Quest Name",
               "Angler Management / 釣り決闘！"
@@ -9303,10 +10093,19 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Kenneth"
+            "Column 1",
+            "Column 2"
           ],
-          "rows": []
+          "rows": [
+            [
+              "Client",
+              "Kenneth"
+            ],
+            [
+              "Reward",
+              "Groundbait x10, 3000 Mira, 1 AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -9315,10 +10114,6 @@
         {
           "type": "prose",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: Swimming Lessons: The Return",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Speak to Instructor Neithardt and accept his request to participate in the swimming mini-game. You'll have the option to choose two opponents, one boy and one girl of class VII, this choice will increase your Link EXP with them so try to pick someone you still need link levels with. This mini-game is the same one in the first Cold Steel game. If you're unfamiliar with it, you need to press the buttons prompt on the screen when the rings are highlighted to increase your swimming speed. **Beating your opponent in this mini-game will earn you a bonus of 1 AP as well**."
         },
         {
@@ -9341,10 +10136,6 @@
         {
           "type": "prose",
           "heading": "[![StoryquestCS2.png](./images/5f31ce89-StoryquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:StoryquestCS2.png) Story Quest: The Race to End All Races",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Head to the Engineering building and speak with either Angelica or George to begin the quest. You'll be challenged to a race against Angelica, and if you manage to defeat her, you'll earn a **bonus of 1 AP**. If you lose, don't worry – you can initiate a rematch for the AP bonus. Just keep trying, and that extra AP will be yours."
         },
         {
@@ -9370,58 +10161,331 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "Class Warfare / 実技テストの総仕上げ [Required]"
+            ]
+          ]
         },
         {
-          "type": "encounter",
-          "name": "Unknown Encounter",
-          "stats": {
-            "Talk to Patrick at the Academy Field. Once you have accepted the request, you will have to fight him in a 2 v 2 battle. Select the most suitable party member for this fight. If you manage to win all three fights, you will get a bonus 1 AP.Note: If you are playing the Japanese 1.00 version of the game, there is a chance of the game crashing when speaking to Patrick. Make sure you update the game to the latest version to avoid this problem.Trial Chest BossHPElemental EfficacyItem DropSlashTrustPierceStrikePatrick78390 (Normal)100, 100, 100, 100N/A★☆☆☆★☆☆☆★☆☆☆★☆☆☆Celestin82368 (Normal)100, 100, 100, 100N/A★☆☆☆☆☆☆☆★☆☆☆☆☆☆☆This is similar to the end battle of Chapter 2. Both enemies are pretty weak at this point. You can easily inflict Delay and all kinds of status deficits on them, making this a very easy fight. When the enemy's HP gets to critical condition, Celestin might cast Seraphic Ring, which will restore all their HP, making your work completely useless. If you use your S-Craft against them, you will start with a 100 CP for the next battle.After you have finished the battle with Patrick, another group will show up, this time it will be a 3 v 3 battle.Trial Chest BossHPElemental EfficacyItem DropSlashTrustPierceStrikeVincent78260 (Normal)100, 100, 100, 100N/A★☆☆☆☆☆☆☆★☆☆☆★☆☆☆Ferris76497 (Normal)100, 100, 100, 100N/A★☆☆☆★☆☆☆★☆☆☆★☆☆☆Sariffa81048 (Normal)100, 100, 100, 100N/A★☆☆☆☆☆☆☆★☆☆☆☆☆☆☆This one is a little bit harder than the previous battle. You want to focus on getting rid of Sariffa first, she has the ability to freeze or petrify you, also with the best evasion rate. Then Vincent is there as another source of damage. Ferris will mostly act as their support unit and will cast spells like Crescent Mirror to reflect arts against you. Anyways just use what you did against Patrick. Status ailments also work wonders on them.Trial Chest BossHPElemental EfficacyItem DropSlashTrustPierceStrikeVandyck221940 (Normal)100, 100, 100, 100N/A☆☆☆☆☆☆☆☆★☆☆☆☆☆☆☆Beatrice214936 (Normal)100, 100, 100, 100N/A★☆☆☆★☆☆☆☆☆☆☆☆☆☆☆This is the battle you want to be saving your S-Crafts and Overdrive for. Unlike the previous battles, these guys are immune to status deflects ailments. AT Delay still works wonders on them. Vandyck will be the main attacker of the group while Beatrice can also heal. Anyways they shouldn't be too hard if you use the same setups from the final battle. Just buff up and attack them full force. Vandyck will usually buff himself up before he will start attacking. Most of his attacks hit extremely hard and can be fatal. If you are hit by one of his attacks, you must heal immediately with Seraphic Ring. Anyways the main key is to use AT Delay and make sure Vandyck can't hit you.": "Patrick",
-            "Trial Chest Boss": "78390 (Normal)",
-            "HP": "100, 100, 100, 100",
-            "Elemental Efficacy": "N/A",
-            "Item Drop": "★☆☆☆",
-            "Slash": "★☆☆☆",
-            "Trust": "★☆☆☆",
-            "Pierce": "★☆☆☆"
-          }
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8",
+            "Column 9",
+            "Column 10",
+            "Column 11",
+            "Column 12",
+            "Column 13",
+            "Column 14",
+            "Column 15",
+            "Column 16",
+            "Column 17",
+            "Column 18",
+            "Column 19",
+            "Column 20",
+            "Column 21",
+            "Column 22",
+            "Column 23",
+            "Column 24",
+            "Column 25",
+            "Column 26",
+            "Column 27",
+            "Column 28",
+            "Column 29",
+            "Column 30",
+            "Column 31",
+            "Column 32",
+            "Column 33",
+            "Column 34",
+            "Column 35",
+            "Column 36",
+            "Column 37",
+            "Column 38",
+            "Column 39",
+            "Column 40",
+            "Column 41",
+            "Column 42",
+            "Column 43",
+            "Column 44",
+            "Column 45",
+            "Column 46",
+            "Column 47",
+            "Column 48",
+            "Column 49",
+            "Column 50",
+            "Column 51",
+            "Column 52",
+            "Column 53",
+            "Column 54",
+            "Column 55",
+            "Column 56",
+            "Column 57",
+            "Column 58",
+            "Column 59",
+            "Column 60",
+            "Column 61",
+            "Column 62",
+            "Column 63",
+            "Column 64",
+            "Column 65",
+            "Column 66",
+            "Column 67",
+            "Column 68",
+            "Column 69",
+            "Column 70",
+            "Column 71",
+            "Column 72",
+            "Column 73",
+            "Column 74",
+            "Column 75",
+            "Column 76",
+            "Column 77",
+            "Column 78",
+            "Column 79",
+            "Column 80",
+            "Column 81",
+            "Column 82",
+            "Column 83",
+            "Column 84"
+          ],
+          "rows": [
+            [
+              "Talk to Patrick at the Academy Field. Once you have accepted the request, you will have to fight him in a 2 v 2 battle. Select the most suitable party member for this fight. If you manage to win all three fights, you will get a bonus 1 AP.Note: If you are playing the Japanese 1.00 version of the game, there is a chance of the game crashing when speaking to Patrick. Make sure you update the game to the latest version to avoid this problem.Trial Chest BossHPElemental EfficacyItem DropSlashTrustPierceStrikePatrick78390 (Normal)100, 100, 100, 100N/A★☆☆☆★☆☆☆★☆☆☆★☆☆☆Celestin82368 (Normal)100, 100, 100, 100N/A★☆☆☆☆☆☆☆★☆☆☆☆☆☆☆This is similar to the end battle of Chapter 2. Both enemies are pretty weak at this point. You can easily inflict Delay and all kinds of status deficits on them, making this a very easy fight. When the enemy's HP gets to critical condition, Celestin might cast Seraphic Ring, which will restore all their HP, making your work completely useless. If you use your S-Craft against them, you will start with a 100 CP for the next battle.After you have finished the battle with Patrick, another group will show up, this time it will be a 3 v 3 battle.Trial Chest BossHPElemental EfficacyItem DropSlashTrustPierceStrikeVincent78260 (Normal)100, 100, 100, 100N/A★☆☆☆☆☆☆☆★☆☆☆★☆☆☆Ferris76497 (Normal)100, 100, 100, 100N/A★☆☆☆★☆☆☆★☆☆☆★☆☆☆Sariffa81048 (Normal)100, 100, 100, 100N/A★☆☆☆☆☆☆☆★☆☆☆☆☆☆☆This one is a little bit harder than the previous battle. You want to focus on getting rid of Sariffa first, she has the ability to freeze or petrify you, also with the best evasion rate. Then Vincent is there as another source of damage. Ferris will mostly act as their support unit and will cast spells like Crescent Mirror to reflect arts against you. Anyways just use what you did against Patrick. Status ailments also work wonders on them.Trial Chest BossHPElemental EfficacyItem DropSlashTrustPierceStrikeVandyck221940 (Normal)100, 100, 100, 100N/A☆☆☆☆☆☆☆☆★☆☆☆☆☆☆☆Beatrice214936 (Normal)100, 100, 100, 100N/A★☆☆☆★☆☆☆☆☆☆☆☆☆☆☆This is the battle you want to be saving your S-Crafts and Overdrive for. Unlike the previous battles, these guys are immune to status deflects ailments. AT Delay still works wonders on them. Vandyck will be the main attacker of the group while Beatrice can also heal. Anyways they shouldn't be too hard if you use the same setups from the final battle. Just buff up and attack them full force. Vandyck will usually buff himself up before he will start attacking. Most of his attacks hit extremely hard and can be fatal. If you are hit by one of his attacks, you must heal immediately with Seraphic Ring. Anyways the main key is to use AT Delay and make sure Vandyck can't hit you.",
+              "Trial Chest Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike",
+              "Patrick",
+              "78390 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "Celestin",
+              "82368 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "This is similar to the end battle of Chapter 2. Both enemies are pretty weak at this point. You can easily inflict Delay and all kinds of status deficits on them, making this a very easy fight. When the enemy's HP gets to critical condition, Celestin might cast Seraphic Ring, which will restore all their HP, making your work completely useless. If you use your S-Craft against them, you will start with a 100 CP for the next battle.",
+              "Trial Chest Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike",
+              "Vincent",
+              "78260 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "Ferris",
+              "76497 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "Sariffa",
+              "81048 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "This one is a little bit harder than the previous battle. You want to focus on getting rid of Sariffa first, she has the ability to freeze or petrify you, also with the best evasion rate. Then Vincent is there as another source of damage. Ferris will mostly act as their support unit and will cast spells like Crescent Mirror to reflect arts against you. Anyways just use what you did against Patrick. Status ailments also work wonders on them.",
+              "Trial Chest Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike",
+              "Vandyck",
+              "221940 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "Beatrice",
+              "214936 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "This is the battle you want to be saving your S-Crafts and Overdrive for. Unlike the previous battles, these guys are immune to status deflects ailments. AT Delay still works wonders on them. Vandyck will be the main attacker of the group while Beatrice can also heal. Anyways they shouldn't be too hard if you use the same setups from the final battle. Just buff up and attack them full force. Vandyck will usually buff himself up before he will start attacking. Most of his attacks hit extremely hard and can be fatal. If you are hit by one of his attacks, you must heal immediately with Seraphic Ring. Anyways the main key is to use AT Delay and make sure Vandyck can't hit you."
+            ],
+            [
+              "Trial Chest Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike"
+            ],
+            [
+              "Patrick",
+              "78390 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆"
+            ],
+            [
+              "Celestin",
+              "82368 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆"
+            ]
+          ]
         },
         {
           "type": "prose",
           "content": "This is similar to the end battle of Chapter 2. Both enemies are pretty weak at this point. You can easily inflict Delay and all kinds of status deficits on them, making this a very easy fight. When the enemy's HP gets to critical condition, Celestin might cast Seraphic Ring, which will restore all their HP, making your work completely useless. If you use your S-Craft against them, you will start with a 100 CP for the next battle."
         },
         {
-          "type": "encounter",
-          "name": "Unknown Encounter",
-          "stats": {
-            "Trial Chest Boss": "Ferris",
-            "HP": "76497 (Normal)",
-            "Elemental Efficacy": "100, 100, 100, 100",
-            "Item Drop": "N/A",
-            "Slash": "★☆☆☆",
-            "Trust": "★☆☆☆",
-            "Pierce": "★☆☆☆",
-            "Strike": "★☆☆☆"
-          }
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8"
+          ],
+          "rows": [
+            [
+              "Trial Chest Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike"
+            ],
+            [
+              "Vincent",
+              "78260 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆"
+            ],
+            [
+              "Ferris",
+              "76497 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆",
+              "★☆☆☆"
+            ],
+            [
+              "Sariffa",
+              "81048 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆"
+            ]
+          ]
         },
         {
           "type": "prose",
           "content": "This one is a little bit harder than the previous battle. You want to focus on getting rid of Sariffa first, she has the ability to freeze or petrify you, also with the best evasion rate. Then Vincent is there as another source of damage. Ferris will mostly act as their support unit and will cast spells like Crescent Mirror to reflect arts against you. Anyways just use what you did against Patrick. Status ailments also work wonders on them."
         },
         {
-          "type": "encounter",
-          "name": "Unknown Encounter",
-          "stats": {
-            "Trial Chest Boss": "Beatrice",
-            "HP": "214936 (Normal)",
-            "Elemental Efficacy": "100, 100, 100, 100",
-            "Item Drop": "N/A",
-            "Slash": "★☆☆☆",
-            "Trust": "★☆☆☆",
-            "Pierce": "☆☆☆☆",
-            "Strike": "☆☆☆☆"
-          }
+          "type": "table",
+          "columns": [
+            "Column 1",
+            "Column 2",
+            "Column 3",
+            "Column 4",
+            "Column 5",
+            "Column 6",
+            "Column 7",
+            "Column 8"
+          ],
+          "rows": [
+            [
+              "Trial Chest Boss",
+              "HP",
+              "Elemental Efficacy",
+              "Item Drop",
+              "Slash",
+              "Trust",
+              "Pierce",
+              "Strike"
+            ],
+            [
+              "Vandyck",
+              "221940 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "☆☆☆☆",
+              "☆☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆"
+            ],
+            [
+              "Beatrice",
+              "214936 (Normal)",
+              "100, 100, 100, 100",
+              "N/A",
+              "★☆☆☆",
+              "★☆☆☆",
+              "☆☆☆☆",
+              "☆☆☆☆"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -9430,10 +10494,19 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Patrick"
+            "Column 1",
+            "Column 2"
           ],
-          "rows": []
+          "rows": [
+            [
+              "Client",
+              "Patrick"
+            ],
+            [
+              "Reward",
+              "Albion Garb, Tear All Balm x3, Link Exp +200, 3000 Mira, 1 + (1) AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -9442,24 +10515,36 @@
         {
           "type": "prose",
           "heading": "Final Dungeon",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Now before you explore the final dungeon, there is a list of things you need to do first. Speak to **Elise** to update her bio. Then talk to **Claire** and **Alfin** for a short scene. If you want to speak to your party members, you must put them out of your party to speak to them. Leave the final dungeon. There is some NPC you need to talk to, this will update their character bio. Starting with **Makarov** at the Main Building 1F - Faculty Lounge. Then head upstairs and speak to **Margarita** at the Home Economics Room (Southeast). Now go to the auditorium (Southwest of Thors) and speak to **Becky** and **Colette**. Then go to the 2nd floor of the Student Union Building. Speak to **Dorothee** at the Literature Club and **Rex** at the Photography Club. Now go to the Gymnasium and speak to **Casper** at the Pool. After this, head to Trista and speak to **Lotte** by the entrance of the Upper Class Dorm. Then go inside and speak to **Celestin**. If you're missing any of the character notes, use the list below as a reference."
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Name",
+              "Requirements"
+            ]
+          ]
         },
         {
           "type": "table",
           "columns": [
-            "Elise [Page 3]",
-            "Speak to Elise at the Reverie Corridor"
+            "Column 1",
+            "Column 2"
           ],
           "rows": [
+            [
+              "Elise [Page 3]",
+              "Speak to Elise at the Reverie Corridor"
+            ],
+            [
+              "Instructor Makarov [Page 2]",
+              "Speak to Makarov at the Main Building 1F - Staff Room."
+            ],
             [
               "Margarita [Page 3]",
               "Speak to Margarita at the Home Economics Room (Main Building 2F, Southeast Room)."
@@ -9510,8 +10595,16 @@
         },
         {
           "type": "table",
-          "columns": [],
-          "rows": []
+          "columns": [
+            "Column 1",
+            "Column 2"
+          ],
+          "rows": [
+            [
+              "Quest Name",
+              "To Sharon, With Love / シャロンさんに愛を込めて [Hidden]"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -9520,10 +10613,19 @@
         {
           "type": "table",
           "columns": [
-            "Client",
-            "Anton"
+            "Column 1",
+            "Column 2"
           ],
-          "rows": []
+          "rows": [
+            [
+              "Client",
+              "Anton"
+            ],
+            [
+              "Reward",
+              "Nine Lives Puppet, 3000 Mira, 1 + (2) AP"
+            ]
+          ]
         },
         {
           "type": "prose",
@@ -9663,10 +10765,6 @@
         {
           "type": "prose",
           "heading": "New Game +",
-          "content": "* * *"
-        },
-        {
-          "type": "prose",
           "content": "Each time you beat the game, you will get **5 NG+ Points** to spend on bonuses for New Game +. In order to purchase everything, you will need a total of 15 points which requires you to beat the game three times. Playing a second playthrough will allow you to collect the Black Records books, there is a trophy related to this item. You can fight a bonus optional super boss at a location called Glacia Shrine."
         },
         {
