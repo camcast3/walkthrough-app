@@ -250,6 +250,15 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
               if (table.rows[0][i]) stats[h] = table.rows[0][i];
             });
           }
+          // Extract real boss name from boss-type labels in stats
+          const bossLabels = ['Trial Chest Boss', 'Boss', 'Enemy', 'Mini-Boss', 'Mini Boss', 'Field Boss'];
+          for (const label of bossLabels) {
+            if (stats[label]) {
+              name = stats[label];
+              delete stats[label];
+              break;
+            }
+          }
         } else {
           // Compound table split: rows contain key-value pairs like "HP: 45225"
           // First row typically has the boss name + HP + Item Drop
@@ -262,7 +271,7 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
           for (const row of allRows) {
             for (const cell of row) {
               const kvMatch = cell.match(/^(.+?):\s*(.+)$/);
-              if (kvMatch && kvMatch[1] !== name) {
+              if (kvMatch) {
                 stats[kvMatch[1].trim()] = kvMatch[2].trim();
               }
             }
@@ -276,25 +285,35 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
               }
             }
           }
+
+          // Extract real boss name from boss-type labels in stats
+          const bossLabels = ['Trial Chest Boss', 'Boss', 'Enemy', 'Mini-Boss', 'Mini Boss', 'Field Boss'];
+          for (const label of bossLabels) {
+            if (stats[label]) {
+              name = stats[label];
+              delete stats[label];
+              break;
+            }
+          }
         }
 
         return {
           type: 'encounter',
-          heading: context.heading_above,
+          heading: context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined,
           name,
           stats: Object.keys(stats).length > 0 ? stats : undefined,
           strategy,
         };
       }
       const name = extractEncounterName(token, context);
-      return { type: 'encounter', heading: context.heading_above, name, strategy: token.content };
+      return { type: 'encounter', heading: context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined, name, strategy: token.content };
     }
 
     case 'quest': {
       const questName = extractQuestName(token, context);
       return {
         type: 'quest',
-        heading: context.heading_above,
+        heading: context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined,
         quest_type: detectQuestType(token.content, context),
         name: questName,
         content: token.content,
@@ -377,20 +396,43 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
 function extractEncounterName(token: MarkdownToken, context: DetectionContext): string {
   if (context.heading_above) {
-    const match = context.heading_above.match(/boss:\s*(.+)/i) ||
-                  context.heading_above.match(/battle:\s*(.+)/i) ||
-                  context.heading_above.match(/encounter:\s*(.+)/i);
+    const cleaned = stripMarkdownImages(context.heading_above);
+    const match = cleaned.match(/boss:\s*(.+)/i) ||
+                  cleaned.match(/battle:\s*(.+)/i) ||
+                  cleaned.match(/encounter:\s*(.+)/i);
     if (match) return match[1].trim();
-    return context.heading_above;
+    if (cleaned.trim()) return cleaned.trim();
   }
-  return 'Unknown Encounter';
+  // Try to extract name from stats-style table content (e.g. "Trial Chest Boss: Senior Bear Mole")
+  const bossMatch = token.content.match(/(?:trial chest boss|boss|enemy|name):\s*(.+)/i);
+  if (bossMatch) return bossMatch[1].trim().split('|')[0].trim();
+  // Try first cell of the table if it's not a stat key-value
+  const firstLine = token.content.split('\n')[0];
+  const firstCell = firstLine.replace(/^\|?\s*/, '').split('|')[0].trim();
+  if (firstCell && !firstCell.includes(':') && firstCell.length < 60) return firstCell;
+  return 'Encounter';
 }
 
 function extractQuestName(token: MarkdownToken, context: DetectionContext): string {
   const match = token.content.match(/(?:quest|side quest):\s*(.+)/i);
-  if (match) return match[1].trim();
-  if (context.heading_above) return context.heading_above;
-  return 'Unknown Quest';
+  if (match) return stripMarkdownImages(match[1]).trim();
+  if (context.heading_above) {
+    const cleaned = stripMarkdownImages(context.heading_above);
+    if (cleaned.trim()) return cleaned.trim();
+  }
+  // Try to extract from content first sentence
+  const firstSentence = token.content.split(/[.\n]/)[0];
+  if (firstSentence && firstSentence.length < 80) return stripMarkdownImages(firstSentence).trim();
+  return 'Quest';
+}
+
+/** Strips markdown image syntax [![alt](url)](url) and ![alt](url) from text */
+function stripMarkdownImages(text: string): string {
+  // [![alt](imgUrl)](linkUrl)
+  text = text.replace(/\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)/g, '');
+  // ![alt](url)
+  text = text.replace(/!\[[^\]]*\]\([^)]*\)/g, '');
+  return text.trim();
 }
 
 function detectQuestType(
@@ -423,14 +465,19 @@ function detectEventType(
 
 function extractEventName(token: MarkdownToken, context: DetectionContext): string {
   if (context.heading_above) {
-    // Strip common prefixes like "Bonding Event: " to leave the name.
-    return context.heading_above
-      .replace(/^(bonding event|bond event|optional event|missable event|conversation):\s*/i, '')
-      .trim();
+    const cleaned = stripMarkdownImages(context.heading_above);
+    if (cleaned.trim()) {
+      return cleaned
+        .replace(/^(bonding event|bond event|optional event|missable event|conversation):\s*/i, '')
+        .trim();
+    }
   }
   const match = token.content.match(/(?:bonding event|conversation|cutscene):\s*(.+)/i);
-  if (match) return match[1].trim();
-  return 'Unknown Event';
+  if (match) return stripMarkdownImages(match[1]).trim();
+  // Try to derive a name from the first meaningful sentence
+  const firstLine = token.content.split(/\n/)[0].trim();
+  if (firstLine && firstLine.length < 80) return stripMarkdownImages(firstLine).trim();
+  return 'Event';
 }
 
 function extractEventTrigger(content: string): string | undefined {
