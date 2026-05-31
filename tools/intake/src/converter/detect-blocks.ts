@@ -320,21 +320,27 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
       const table = parseTable(token.content);
       // Detect if "headers" are actually data (no real column names)
       const colCount = table.headers.length;
+      const allHeadersEmpty = table.headers.every(h => h.trim() === '');
       const headersAreData = colCount > 0 && (
+        // Headers are all empty or blank strings
+        allHeadersEmpty ||
         // Headers contain numeric/data patterns
         table.headers.some(h =>
           /\d{2,}|,\s|x\s*\d|\.\s*$/.test(h) || h.length > 40
         ) ||
-        // The FIRST data row has fewer cells than "headers" — strong signal
-        // (optional trailing cells in later rows are normal and don't count)
-        (table.rows.length > 0 && table.rows[0].length < colCount)
+        // Header/row cell count mismatch — rows have different width than headers
+        (table.rows.length > 0 && (
+          table.rows[0].length < colCount || table.rows[0].length > colCount
+        ))
       );
       if (headersAreData) {
+        // Don't include empty/blank headers as a data row
+        const extraRows = allHeadersEmpty ? [] : [table.headers];
         return {
           type: 'table',
           heading: context.heading_above,
           columns: [],
-          rows: [table.headers, ...table.rows],
+          rows: [...extraRows, ...table.rows],
         };
       }
       return {
