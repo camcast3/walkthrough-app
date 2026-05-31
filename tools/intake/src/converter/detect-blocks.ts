@@ -55,6 +55,38 @@ const QUEST_PATTERNS = [
   /missable quest/i,
 ];
 
+const QUEST_HEADING_PATTERNS = [
+  /story quest/i,
+  /hidden quest/i,
+  /side quest/i,
+  /main quest/i,
+  /^quest:/i,
+];
+
+/** Returns true if the block's primary focus IS a quest (not just a passing mention) */
+function isQuestFocused(content: string): boolean {
+  // If quest-related keyword appears in the first 60 chars, it's likely the focus
+  const start = content.slice(0, 60).toLowerCase();
+  if (/quest|objective|reward/.test(start)) return true;
+  // If "hidden quest" or "side quest" only appears at the tail end, it's a passing mention
+  const lastQuestIndex = Math.max(
+    content.toLowerCase().lastIndexOf('quest'),
+    content.toLowerCase().lastIndexOf('side quest'),
+  );
+  // If the quest mention is in the last 20% of the text, it's just a passing mention
+  if (lastQuestIndex > content.length * 0.8) return false;
+  return true;
+}
+
+const COLLECTIBLE_PATTERNS = [
+  /gambler jack/i,
+  /limited time.{0,30}(collect|obtain|buy|get)/i,
+  /very limited time frame/i,
+  /be sure to collect/i,
+  /collecting all.{0,20}(volumes|copies)/i,
+  /\breceipe\b.*\bmissable\b|\bmissable\b.*\brecipe\b/i,
+];
+
 // ── Event detection (bonding, missable conversations, time-limited cutscenes) ─
 
 const EVENT_HEADING_PATTERNS = [
@@ -159,9 +191,12 @@ function detectParagraphType(token: MarkdownToken, context: DetectionContext): D
     return { block_type: 'callout', confidence: 0.85 };
   }
 
+  // Check for collectible/missable item callouts
+  if (COLLECTIBLE_PATTERNS.some(p => p.test(token.content))) {
+    return { block_type: 'callout', confidence: 0.8 };
+  }
+
   // Check for event patterns (bonding events, missable conversations, etc.)
-  // — checked before quest patterns because "missable side quest" should still
-  //   classify as quest, but a "bonding event" heading should win.
   if (context.heading_above && EVENT_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
     return { block_type: 'event', confidence: 0.85 };
   }
@@ -169,8 +204,14 @@ function detectParagraphType(token: MarkdownToken, context: DetectionContext): D
     return { block_type: 'event', confidence: 0.75 };
   }
 
-  // Check for quest patterns
-  if (QUEST_PATTERNS.some(p => p.test(token.content))) {
+  // Check heading for quest designation (e.g. "Story Quest: Herbal Remedies")
+  if (context.heading_above && QUEST_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
+    return { block_type: 'quest', confidence: 0.85 };
+  }
+
+  // Check for quest patterns — only if the block's primary purpose IS the quest
+  // (not just a passing mention like "you can do a hidden quest")
+  if (QUEST_PATTERNS.some(p => p.test(token.content)) && isQuestFocused(token.content)) {
     return { block_type: 'quest', confidence: 0.75 };
   }
 
@@ -227,11 +268,14 @@ function mode(arr: BlockType[]): BlockType {
 // ── Block construction ──────────────────────────────────────────────────────
 
 export function buildBlock(token: MarkdownToken, blockType: BlockType, context: DetectionContext): WalkthroughBlock {
+  // Strip markdown image links from all headings
+  const heading = context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined;
+
   switch (blockType) {
     case 'prose':
       return {
         type: 'prose',
-        heading: context.heading_above,
+        heading,
         content: token.content,
       };
 
@@ -299,21 +343,21 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
         return {
           type: 'encounter',
-          heading: context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined,
+          heading,
           name,
           stats: Object.keys(stats).length > 0 ? stats : undefined,
           strategy,
         };
       }
       const name = extractEncounterName(token, context);
-      return { type: 'encounter', heading: context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined, name, strategy: token.content };
+      return { type: 'encounter', heading, name, strategy: token.content };
     }
 
     case 'quest': {
       const questName = extractQuestName(token, context);
       return {
         type: 'quest',
-        heading: context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined,
+        heading,
         quest_type: detectQuestType(token.content, context),
         name: questName,
         content: token.content,
@@ -324,7 +368,7 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
     case 'event': {
       return {
         type: 'event',
-        heading: context.heading_above,
+        heading,
         event_type: detectEventType(token.content, context),
         name: extractEventName(token, context),
         trigger: extractEventTrigger(token.content),
@@ -365,14 +409,14 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
         const extraRows = allHeadersEmpty ? [] : [table.headers];
         return {
           type: 'table',
-          heading: context.heading_above,
+          heading,
           columns: [],
           rows: [...extraRows, ...table.rows],
         };
       }
       return {
         type: 'table',
-        heading: context.heading_above,
+        heading,
         columns: table.headers,
         rows: table.rows,
       };
@@ -380,7 +424,7 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
     case 'checklist': {
       const items = parseChecklistItems(token.content);
-      return { type: 'checklist', heading: context.heading_above, items };
+      return { type: 'checklist', heading, items };
     }
 
     case 'callout':
