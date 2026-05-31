@@ -70,6 +70,7 @@
   .rendered-encounter .enc-name { font-size: 15px; font-weight: 700; color: #feb2b2; margin-bottom: 6px; }
   .rendered-encounter .enc-stats { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: #ccc; margin-bottom: 6px; }
   .rendered-encounter .enc-stat { background: #742a2a; padding: 2px 8px; border-radius: 3px; }
+  .rendered-encounter .enc-strategy { margin-top: 10px; padding: 8px 10px; background: #1a2332; border-left: 3px solid #4a90d9; font-size: 13px; line-height: 1.5; color: #cbd5e0; border-radius: 0 4px 4px 0; }
   .rendered-quest { border: 1px solid #744210; border-radius: 6px; padding: 10px; background: #2d2010; }
   .rendered-quest .quest-name { font-size: 15px; font-weight: 700; color: #fefcbf; margin-bottom: 4px; }
   .rendered-quest .quest-badge { font-size: 11px; padding: 2px 6px; border-radius: 3px; background: #744210; color: #fefcbf; }
@@ -209,6 +210,7 @@ function renderEncounter(block) {
     }
     html += '</div>';
   }
+  if (block.strategy) html += `<div class="enc-strategy">${renderMarkdown(block.strategy)}</div>`;
   if (block.content) html += renderMarkdown(block.content);
   html += '</div>';
   return html;
