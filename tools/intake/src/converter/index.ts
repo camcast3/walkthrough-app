@@ -73,6 +73,15 @@ function splitCompoundTables(tokens: MarkdownToken[]): MarkdownToken[] {
         cells.every(c => c === '' || /^-+$/.test(c));
 
       if (isSeparator) {
+        // If current has exactly 1 row and this separator has the same cell count
+        // as that row, it's the table's own header separator — keep it.
+        if (current.length === 1) {
+          const headerCells = current[0].split('|').slice(1, -1);
+          if (cells.length === headerCells.length || cells.every(c => /^-+$/.test(c))) {
+            current.push(line);
+            continue;
+          }
+        }
         if (current.length > 0) {
           subTables.push(current);
           current = [];
@@ -86,9 +95,21 @@ function splitCompoundTables(tokens: MarkdownToken[]): MarkdownToken[] {
       subTables.push(current);
     }
 
-    // If no splits found, keep the original token
+    // If no splits found, still check for internal header separators
     if (subTables.length <= 1) {
-      result.push(token);
+      // Even without visual dividers, there may be internal table header separators
+      const allLines = subTables.length === 1 ? subTables[0] : lines;
+      const subChunks = splitAtInternalHeaders(allLines);
+      if (subChunks.length <= 1) {
+        result.push(token);
+        continue;
+      }
+      let lineOffset = token.line_start;
+      for (const subChunk of subChunks) {
+        if (subChunk.length === 0) continue;
+        emitTableChunk(subChunk, lineOffset, result);
+        lineOffset += subChunk.length;
+      }
       continue;
     }
 
@@ -370,7 +391,7 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
 }
 
 const AD_PATTERNS = [
-  /^\s*\\?-?\s*advertisement\s*-?\s*$/i,
+  /^\s*\\?[-–—]?\s*advertisement\s*[-–—]?\s*$/i,
   /^\s*\[?\s*ad\s*\]?\s*$/i,
   /^\s*sponsored\s*/i,
 ];

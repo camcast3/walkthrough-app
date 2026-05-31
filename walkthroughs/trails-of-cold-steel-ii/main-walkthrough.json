@@ -49,21 +49,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Rean's Level",
-              "Bonus"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Rean's Level",
+            "Bonus"
           ],
           "rows": [
             [
@@ -677,23 +664,14 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Treasure",
+            "Location"
           ],
           "rows": [
             [
-              "Treasure",
-              "Location"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Silver Earring",
-            "East Celdic Highway 1"
-          ],
-          "rows": [
+              "Silver Earring",
+              "East Celdic Highway 1"
+            ],
             [
               "Tearal Balm"
             ],
@@ -1277,21 +1255,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Character",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Character",
+            "Requirements"
           ],
           "rows": [
             [
@@ -1756,26 +1721,8 @@
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Highlands Hunt",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Quest Name",
-              "Highlands Hunt / 高原に放たれた軍用魔獣"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7"
+            "Quest Name",
+            "Highlands Hunt / 高原に放たれた軍用魔獣"
           ],
           "rows": [
             [
@@ -1811,38 +1758,8 @@
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Foaling Around",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Quest Name",
-              "Foaling Around / 子馬の捜索"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8",
-            "Column 9",
-            "Column 10",
-            "Column 11",
-            "Column 12",
-            "Column 13",
-            "Column 14",
-            "Column 15",
-            "Column 16",
-            "Column 17",
-            "Column 18",
-            "Column 19"
+            "Quest Name",
+            "Foaling Around / 子馬の捜索"
           ],
           "rows": [
             [
@@ -2186,21 +2103,8 @@
           "type": "table",
           "heading": "December 8",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Recipe: Onion Soup",
-              "Purchase the Onion Soup Recipe Book from the General Store."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Onion Soup",
+            "Purchase the Onion Soup Recipe Book from the General Store."
           ],
           "rows": [
             [
@@ -2233,21 +2137,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Character",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Character",
+            "Requirements"
           ],
           "rows": [
             [
@@ -2515,21 +2406,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Gamber Jack Reprint #4",
-              "Purchase from the General Store."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Gamber Jack Reprint #4",
+            "Purchase from the General Store."
           ],
           "rows": [
             [
@@ -2586,61 +2464,8 @@
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Arseid School Bout 2",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Quest Name",
-              "Arseid School Bout 2 / 続 - 門下生との手合わせ"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8",
-            "Column 9",
-            "Column 10",
-            "Column 11",
-            "Column 12",
-            "Column 13",
-            "Column 14",
-            "Column 15",
-            "Column 16",
-            "Column 17",
-            "Column 18",
-            "Column 19",
-            "Column 20",
-            "Column 21",
-            "Column 22",
-            "Column 23",
-            "Column 24",
-            "Column 25",
-            "Column 26",
-            "Column 27",
-            "Column 28",
-            "Column 29",
-            "Column 30",
-            "Column 31",
-            "Column 32",
-            "Column 33",
-            "Column 34",
-            "Column 35",
-            "Column 36",
-            "Column 37",
-            "Column 38",
-            "Column 39",
-            "Column 40",
-            "Column 41",
-            "Column 42"
+            "Quest Name",
+            "Arseid School Bout 2 / 続 - 門下生との手合わせ"
           ],
           "rows": [
             [
@@ -2736,20 +2561,10 @@
               "★★☆☆",
               "★★☆☆",
               "★★☆☆"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "This boss fight can be easy or tough. Each student is very weak against status ailments, Laura has a good chance of causing faint on them and with Rean's Gale, you pretty much Seal them to prevent them from doing any action. The students are also easily blind. So if you have some way of inflicting those status ailments, then use it on them. If the student HP gets low, they will be starting using this buff that will heal them and boost their strength greatly. During this phase, it can get really dangerous if they use their area skills it can do over 5000 damage. You could be instantly K.O.if you multiple students using the same skill on you. You can cheese through this fight by using your S-Craft with everyone, but you might want to drag this battle out if you intend on analyzing them."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
+            ],
+            [
+              "This boss fight can be easy or tough. Each student is very weak against status ailments, Laura has a good chance of causing faint on them and with Rean's Gale, you pretty much Seal them to prevent them from doing any action. The students are also easily blind. So if you have some way of inflicting those status ailments, then use it on them. If the student HP gets low, they will be starting using this buff that will heal them and boost their strength greatly. During this phase, it can get really dangerous if they use their area skills it can do over 5000 damage. You could be instantly K.O.if you multiple students using the same skill on you. You can cheese through this fight by using your S-Craft with everyone, but you might want to drag this battle out if you intend on analyzing them."
+            ],
             [
               "Client",
               "Gaveli"
@@ -2764,41 +2579,8 @@
           "type": "table",
           "heading": "[![SubquestCS2.png](./images/3c3eb88a-SubquestCS2.png)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:SubquestCS2.png) Side Quest: Ebel Rebel",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Quest Name",
-              "Ebel Rebel / エベル街道の手配魔獣"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8",
-            "Column 9",
-            "Column 10",
-            "Column 11",
-            "Column 12",
-            "Column 13",
-            "Column 14",
-            "Column 15",
-            "Column 16",
-            "Column 17",
-            "Column 18",
-            "Column 19",
-            "Column 20",
-            "Column 21",
-            "Column 22"
+            "Quest Name",
+            "Ebel Rebel / エベル街道の手配魔獣"
           ],
           "rows": [
             [
@@ -2852,20 +2634,10 @@
             [
               "Suggested Formation",
               "Spread 1, Spread 2"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "This boss has a ton of HP, it is also crazy strong. The boss will use a skill called drumming which will heal itself and greatly buff it's attack, defense, and speed. Allowing it to strike you multiple times, this means the boss can wipe your party fast. Not only does it hit hard, but it can also cause faint on your party with each attack. The worst part is when the bosses buff is about to expire it will use a skill called Hard Hit which can deal nearly 7000 damage to each member which makes this boss harder than anything you have encountered so far. The most effective way of killing this boss is to rely on flame type arts. It does the most amount of damage without using Crafts. You can also use Overdrive for an instant magic cast. Once you take out about half its HP, you can have your party spam their S-Craft before the boss has a chance to heal itself from its buff."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
+            ],
+            [
+              "This boss has a ton of HP, it is also crazy strong. The boss will use a skill called drumming which will heal itself and greatly buff it's attack, defense, and speed. Allowing it to strike you multiple times, this means the boss can wipe your party fast. Not only does it hit hard, but it can also cause faint on your party with each attack. The worst part is when the bosses buff is about to expire it will use a skill called Hard Hit which can deal nearly 7000 damage to each member which makes this boss harder than anything you have encountered so far. The most effective way of killing this boss is to rely on flame type arts. It does the most amount of damage without using Crafts. You can also use Overdrive for an instant magic cast. Once you take out about half its HP, you can have your party spam their S-Craft before the boss has a chance to heal itself from its buff."
+            ],
             [
               "Client",
               "Receptionist Miles"
@@ -2897,23 +2669,14 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Treasure",
+            "Location"
           ],
           "rows": [
             [
-              "Treasure",
-              "Location"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Celestial Balm",
-            "Ebel Highway 3"
-          ],
-          "rows": [
+              "Celestial Balm",
+              "Ebel Highway 3"
+            ],
             [
               "Sepith x100"
             ],
@@ -3107,21 +2870,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Gambler Jack Reprint #5, 6",
-              "Purchase from Fortnum Books (Christie's Galleria 2F)"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Gambler Jack Reprint #5, 6",
+            "Purchase from Fortnum Books (Christie's Galleria 2F)"
           ],
           "rows": [
             [
@@ -3266,53 +3016,8 @@
           "type": "table",
           "heading": "[![QuesticonCS2.gif](./images/db324d4c-QuesticonCS2.gif)](https://www.neoseeker.com/the-legend-of-heroes-trails-of-cold-steel-ii/File:QuesticonCS2.gif) Hidden Quest: St. Veronica's Tears",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Quest Name",
-              "St. Veronica's Tears / 聖女像の調査 [Hidden Quest]"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8",
-            "Column 9",
-            "Column 10",
-            "Column 11",
-            "Column 12",
-            "Column 13",
-            "Column 14",
-            "Column 15",
-            "Column 16",
-            "Column 17",
-            "Column 18",
-            "Column 19",
-            "Column 20",
-            "Column 21",
-            "Column 22",
-            "Column 23",
-            "Column 24",
-            "Column 25",
-            "Column 26",
-            "Column 27",
-            "Column 28",
-            "Column 29",
-            "Column 30",
-            "Column 31",
-            "Column 32",
-            "Column 33",
-            "Column 34"
+            "Quest Name",
+            "St. Veronica's Tears / 聖女像の調査 [Hidden Quest]"
           ],
           "rows": [
             [
@@ -3380,20 +3085,10 @@
               "☆☆☆☆",
               "☆☆☆☆",
               "☆☆☆☆"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "There is a ton of Dromes here and they all can cast magic that deals a ton of damage. This is one of the easiest to spot to farm Tactical Bonus by canceling each of the Drome's spell casting by using a craft with the Impede function (Rean, Machias, Alisa, Fie), allowing you to get the Tactician trophy. If you find the situation too dangerous, then wipe out the smaller Dromes with your S-Craft or an area spell. The main boss will mostly use a skill that weakens your ADF so it can deal a ton of damage with its spells, just cancel the boss' arts before that happens."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
+            ],
+            [
+              "There is a ton of Dromes here and they all can cast magic that deals a ton of damage. This is one of the easiest to spot to farm Tactical Bonus by canceling each of the Drome's spell casting by using a craft with the Impede function (Rean, Machias, Alisa, Fie), allowing you to get the Tactician trophy. If you find the situation too dangerous, then wipe out the smaller Dromes with your S-Craft or an area spell. The main boss will mostly use a skill that weakens your ADF so it can deal a ton of damage with its spells, just cancel the boss' arts before that happens."
+            ],
             [
               "Treasure",
               "Location"
@@ -3519,21 +3214,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Character",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Character",
+            "Requirements"
           ],
           "rows": [
             [
@@ -4107,15 +3789,10 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Tomato Burger",
+            "Speak to Officer Virginie by the truck on the center of the Camp."
           ],
-          "rows": [
-            [
-              "Recipe: Tomato Burger",
-              "Speak to Officer Virginie by the truck on the center of the Camp."
-            ]
-          ]
+          "rows": []
         },
         {
           "type": "table",
@@ -4183,23 +3860,14 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Treasure List",
+            "Location"
           ],
           "rows": [
             [
-              "Treasure List",
-              "Location"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Adamant Shield",
-            "Garrelia Fortress"
-          ],
-          "rows": [
+              "Adamant Shield",
+              "Garrelia Fortress"
+            ],
             [
               "Sepith Mass x400"
             ],
@@ -4246,21 +3914,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Imperial Chronicle Issue #4",
-              "Purchase from Watteau's Store."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Imperial Chronicle Issue #4",
+            "Purchase from Watteau's Store."
           ],
           "rows": [
             [
@@ -4357,21 +4012,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Gambler Jack II Chapter - 8",
-              "Hoover: Zender Gate"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Gambler Jack II Chapter - 8",
+            "Hoover: Zender Gate"
           ],
           "rows": [
             [
@@ -4746,21 +4388,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Recipe: Comforting Cappuccino",
-              "Gibson: First shop at the Grand Market."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Comforting Cappuccino",
+            "Gibson: First shop at the Grand Market."
           ],
           "rows": [
             [
@@ -5081,21 +4710,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Recipe: Seafood Salad",
-              "Colonel Gaul: Twin Dragons Bridge - Office"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Seafood Salad",
+            "Colonel Gaul: Twin Dragons Bridge - Office"
           ],
           "rows": [
             [
@@ -5220,21 +4836,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Treasure List",
-              "Location"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Treasure List",
+            "Location"
           ],
           "rows": [
             [
@@ -5868,21 +5471,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Imperial Chronicle Issue #5",
-              "Purchase from the General Store.."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Imperial Chronicle Issue #5",
+            "Purchase from the General Store.."
           ],
           "rows": [
             [
@@ -6104,21 +5694,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Recipe: Rich Carbonara",
-              "Purchase the Pasta Recipe Book from the General Store (Ymir) or from Dorothee."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Rich Carbonara",
+            "Purchase the Pasta Recipe Book from the General Store (Ymir) or from Dorothee."
           ],
           "rows": [
             [
@@ -6138,21 +5715,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -6888,21 +6452,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -7088,21 +6639,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Recipe: Fruit Parfait",
-              "Giolamo: Alouette Inn."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Fruit Parfait",
+            "Giolamo: Alouette Inn."
           ],
           "rows": [
             [
@@ -7311,23 +6849,14 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Spicy Curry",
+            "Purchase the Curry Recipe Book from the General Store."
           ],
           "rows": [
             [
-              "Recipe: Spicy Curry",
-              "Purchase the Curry Recipe Book from the General Store."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Recipe: Mixed Grill",
-            "Josef: Arseid Mansion"
-          ],
-          "rows": [
+              "Recipe: Mixed Grill",
+              "Josef: Arseid Mansion"
+            ],
             [
               "Book: Gambler Jack Reprint #13",
               "Purchase from Fortnum Books (Christie's Galleria 2F) (Bareahard)"
@@ -7353,21 +6882,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -8006,6 +7522,20 @@
           }
         },
         {
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Team A Boss Battle": "Patrick",
+            "HP": "56613 (Normal)",
+            "Elemental Efficacy": "100, 100, 100, 100",
+            "Item Drop": "N/A",
+            "Slash": "★☆☆☆",
+            "Trust": "★☆☆☆",
+            "Pierce": "★☆☆☆",
+            "Strike": "★☆☆☆"
+          }
+        },
+        {
           "type": "prose",
           "content": "Afterwards, the game will accumulate all the AP you have earned through this chapter. If you acquire a total of **67 AP**, you will get a **S Rank**."
         },
@@ -8103,21 +7633,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Recipe: Tomato Pot",
-              "Lotte: Upper Dorm Entrance"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Recipe: Tomato Pot",
+            "Lotte: Upper Dorm Entrance"
           ],
           "rows": [
             [
@@ -8137,21 +7654,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -8244,28 +7748,25 @@
         {
           "type": "table",
           "columns": [
-            "Column 1"
+            "CHOSEN PARTNER EVENT"
           ],
           "rows": [
             [
-              "CHOSEN PARTNER EVENT"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "When you look at the map with Square button, you'll see a yellow '!' next to the character's icons if the following conditions have been met:Class VII MembersTowa and AlfinUnlocking ConditionsCharacter's Link Level is 6 or higher.Have seen their Bonding Event in Bareahard at the end of Act 3.Character has seen one of the 2 Key Bonding Events.Link Level must be 5 or higher.Finished all your side activities before you choose your partner. Speak to them and choose the 1st choice. You can still change your mind and change partner by talking and choosing 1st option with any other available character. Once done, go back to Class VII's dorm and choose to enter. You'll see your Chosen Partner Event. You'll get your corresponding Trophy. Also, if your partner reaches Link Level 7, you'll get the Link Master Trophy too.",
-            "",
-            "Class VII Members",
-            "Towa and Alfin",
-            "Unlocking Conditions",
-            "Character's Link Level is 6 or higher.",
-            "Have seen their Bonding Event in Bareahard at the end of Act 3.",
-            "Character has seen one of the 2 Key Bonding Events.",
-            "Link Level must be 5 or higher."
-          ],
-          "rows": [
+              "When you look at the map with Square button, you'll see a yellow '!' next to the character's icons if the following conditions have been met:Class VII MembersTowa and AlfinUnlocking ConditionsCharacter's Link Level is 6 or higher.Have seen their Bonding Event in Bareahard at the end of Act 3.Character has seen one of the 2 Key Bonding Events.Link Level must be 5 or higher.Finished all your side activities before you choose your partner. Speak to them and choose the 1st choice. You can still change your mind and change partner by talking and choosing 1st option with any other available character. Once done, go back to Class VII's dorm and choose to enter. You'll see your Chosen Partner Event. You'll get your corresponding Trophy. Also, if your partner reaches Link Level 7, you'll get the Link Master Trophy too.",
+              "",
+              "Class VII Members",
+              "Towa and Alfin",
+              "Unlocking Conditions",
+              "Character's Link Level is 6 or higher.",
+              "Have seen their Bonding Event in Bareahard at the end of Act 3.",
+              "Character has seen one of the 2 Key Bonding Events.",
+              "Link Level must be 5 or higher."
+            ],
+            [
+              "",
+              "Class VII Members",
+              "Towa and Alfin"
+            ],
             [
               "Unlocking Conditions",
               "Character's Link Level is 6 or higher.",
@@ -8285,21 +7786,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Imperial Chronicle Issue #6",
-              "Any book store."
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Imperial Chronicle Issue #6",
+            "Any book store."
           ],
           "rows": [
             [
@@ -9431,6 +8919,17 @@
           }
         },
         {
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Boss": "Divine Knight \"Ordine\"",
+            "HP": "350000 (Normal)",
+            "Elemental Efficacy": "100, 110, 100, 100",
+            "Idle Stance": "B:★★☆☆",
+            "Attack Stance (Quote: Arghh!)": "H:★☆☆☆"
+          }
+        },
+        {
           "type": "prose",
           "content": "Watch the event scene, afterwards the game will give you the option to save for the final boss. Assign your party members, there is several phase to the final boss fight, whoever you did not pick with start on the first round of the fight and whoever you assigned for your party will come at the second phase. Both phase are difficult boss fights, the first phase is overall harder, while the second phase hits harder but is also easier to deal with."
         },
@@ -9446,6 +8945,29 @@
             "Trust": "★☆☆☆",
             "Pierce": "★☆☆☆",
             "Strike": "★☆☆☆"
+          }
+        },
+        {
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Boss (Phase 2)": "Vermillion Apocalypse",
+            "HP": "393960 (Normal)",
+            "Elemental Efficacy": "100, 100, 100, 100, 100, 100, 100",
+            "Item Drop": "N/A",
+            "Slash": "★☆☆☆",
+            "Trust": "★☆☆☆",
+            "Pierce": "★☆☆☆",
+            "Strike": "★☆☆☆"
+          }
+        },
+        {
+          "type": "encounter",
+          "name": "Unknown Encounter",
+          "stats": {
+            "Boss (Phase 3)": "Vermillion Apocalypse",
+            "HP": "430000 (Normal)",
+            "Elemental Efficacy": "100, 110, 100, 100"
           }
         },
         {
@@ -9596,23 +9118,14 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Treasure List",
+            "Location"
           ],
           "rows": [
             [
-              "Treasure List",
-              "Location"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "EP Charge IV",
-            "Geofront E - Section 2"
-          ],
-          "rows": [
+              "EP Charge IV",
+              "Geofront E - Section 2"
+            ],
             [
               "Strega S"
             ],
@@ -9646,23 +9159,14 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Treasure List",
+            "Location"
           ],
           "rows": [
             [
-              "Treasure List",
-              "Location"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Pentagon",
-            "Geofront E - Section 3"
-          ],
-          "rows": [
+              "Pentagon",
+              "Geofront E - Section 3"
+            ],
             [
               "Zeram Capsule"
             ],
@@ -9717,21 +9221,8 @@
           "type": "table",
           "heading": "March 12",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Book: Decoding Report",
-              "Speak to Instructor Thomas after collecting all five Black Records Books. (Second Playthrough only)"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Book: Decoding Report",
+            "Speak to Instructor Thomas after collecting all five Black Records Books. (Second Playthrough only)"
           ],
           "rows": [
             [
@@ -9847,21 +9338,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -9908,21 +9386,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -10026,27 +9491,13 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Quest Name",
+            "Junk Wanted / フリーマーケットの出品物"
           ],
           "rows": [
             [
-              "Quest Name",
-              "Junk Wanted / フリーマーケットの出品物"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "Head to the general store and speak to Brandon. Accept the request, depending on what you to do, you can get an extra AP. First go to the Pawn shop and speak to Micht. Then head to Sara's room at the Class VII dorm. Then head to Kirsche's Cafe & Inn, and speak to Sara. You will end up with the Carnelia books. Now go to Thors, and speak to Janitor Gyler at the main building entrance. Then go inside the main building and speak to Clara at the art room (2F east). Then go to the Academy Field and speak to Lambert. Then go back to the Pawn shop and speak to Micht. Then speak to Brandon at the general store and turn in the items to finish the quest. You should get a bonus 1 AP if followed the steps from above."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
+              "Head to the general store and speak to Brandon. Accept the request, depending on what you to do, you can get an extra AP. First go to the Pawn shop and speak to Micht. Then head to Sara's room at the Class VII dorm. Then head to Kirsche's Cafe & Inn, and speak to Sara. You will end up with the Carnelia books. Now go to Thors, and speak to Janitor Gyler at the main building entrance. Then go inside the main building and speak to Clara at the art room (2F east). Then go to the Academy Field and speak to Lambert. Then go back to the Pawn shop and speak to Micht. Then speak to Brandon at the general store and turn in the items to finish the quest. You should get a bonus 1 AP if followed the steps from above."
+            ],
             [
               "Client",
               "Brandon"
@@ -10162,103 +9613,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Quest Name",
-              "Class Warfare / 実技テストの総仕上げ [Required]"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8",
-            "Column 9",
-            "Column 10",
-            "Column 11",
-            "Column 12",
-            "Column 13",
-            "Column 14",
-            "Column 15",
-            "Column 16",
-            "Column 17",
-            "Column 18",
-            "Column 19",
-            "Column 20",
-            "Column 21",
-            "Column 22",
-            "Column 23",
-            "Column 24",
-            "Column 25",
-            "Column 26",
-            "Column 27",
-            "Column 28",
-            "Column 29",
-            "Column 30",
-            "Column 31",
-            "Column 32",
-            "Column 33",
-            "Column 34",
-            "Column 35",
-            "Column 36",
-            "Column 37",
-            "Column 38",
-            "Column 39",
-            "Column 40",
-            "Column 41",
-            "Column 42",
-            "Column 43",
-            "Column 44",
-            "Column 45",
-            "Column 46",
-            "Column 47",
-            "Column 48",
-            "Column 49",
-            "Column 50",
-            "Column 51",
-            "Column 52",
-            "Column 53",
-            "Column 54",
-            "Column 55",
-            "Column 56",
-            "Column 57",
-            "Column 58",
-            "Column 59",
-            "Column 60",
-            "Column 61",
-            "Column 62",
-            "Column 63",
-            "Column 64",
-            "Column 65",
-            "Column 66",
-            "Column 67",
-            "Column 68",
-            "Column 69",
-            "Column 70",
-            "Column 71",
-            "Column 72",
-            "Column 73",
-            "Column 74",
-            "Column 75",
-            "Column 76",
-            "Column 77",
-            "Column 78",
-            "Column 79",
-            "Column 80",
-            "Column 81",
-            "Column 82",
-            "Column 83",
-            "Column 84"
+            "Quest Name",
+            "Class Warfare / 実技テストの総仕上げ [Required]"
           ],
           "rows": [
             [
@@ -10376,26 +9732,10 @@
               "☆☆☆☆",
               "★☆☆☆",
               "☆☆☆☆"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "This is similar to the end battle of Chapter 2. Both enemies are pretty weak at this point. You can easily inflict Delay and all kinds of status deficits on them, making this a very easy fight. When the enemy's HP gets to critical condition, Celestin might cast Seraphic Ring, which will restore all their HP, making your work completely useless. If you use your S-Craft against them, you will start with a 100 CP for the next battle."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8"
-          ],
-          "rows": [
+            ],
+            [
+              "This is similar to the end battle of Chapter 2. Both enemies are pretty weak at this point. You can easily inflict Delay and all kinds of status deficits on them, making this a very easy fight. When the enemy's HP gets to critical condition, Celestin might cast Seraphic Ring, which will restore all their HP, making your work completely useless. If you use your S-Craft against them, you will start with a 100 CP for the next battle."
+            ],
             [
               "Trial Chest Boss",
               "HP",
@@ -10435,26 +9775,10 @@
               "☆☆☆☆",
               "★☆☆☆",
               "☆☆☆☆"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "This one is a little bit harder than the previous battle. You want to focus on getting rid of Sariffa first, she has the ability to freeze or petrify you, also with the best evasion rate. Then Vincent is there as another source of damage. Ferris will mostly act as their support unit and will cast spells like Crescent Mirror to reflect arts against you. Anyways just use what you did against Patrick. Status ailments also work wonders on them."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2",
-            "Column 3",
-            "Column 4",
-            "Column 5",
-            "Column 6",
-            "Column 7",
-            "Column 8"
-          ],
-          "rows": [
+            ],
+            [
+              "This one is a little bit harder than the previous battle. You want to focus on getting rid of Sariffa first, she has the ability to freeze or petrify you, also with the best evasion rate. Then Vincent is there as another source of damage. Ferris will mostly act as their support unit and will cast spells like Crescent Mirror to reflect arts against you. Anyways just use what you did against Patrick. Status ailments also work wonders on them."
+            ],
             [
               "Trial Chest Boss",
               "HP",
@@ -10484,20 +9808,10 @@
               "★☆☆☆",
               "☆☆☆☆",
               "☆☆☆☆"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "This is the battle you want to be saving your S-Crafts and Overdrive for. Unlike the previous battles, these guys are immune to status deflects ailments. AT Delay still works wonders on them. Vandyck will be the main attacker of the group while Beatrice can also heal. Anyways they shouldn't be too hard if you use the same setups from the final battle. Just buff up and attack them full force. Vandyck will usually buff himself up before he will start attacking. Most of his attacks hit extremely hard and can be fatal. If you are hit by one of his attacks, you must heal immediately with Seraphic Ring. Anyways the main key is to use AT Delay and make sure Vandyck can't hit you."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
+            ],
+            [
+              "This is the battle you want to be saving your S-Crafts and Overdrive for. Unlike the previous battles, these guys are immune to status deflects ailments. AT Delay still works wonders on them. Vandyck will be the main attacker of the group while Beatrice can also heal. Anyways they shouldn't be too hard if you use the same setups from the final battle. Just buff up and attack them full force. Vandyck will usually buff himself up before he will start attacking. Most of his attacks hit extremely hard and can be fatal. If you are hit by one of his attacks, you must heal immediately with Seraphic Ring. Anyways the main key is to use AT Delay and make sure Vandyck can't hit you."
+            ],
             [
               "Client",
               "Patrick"
@@ -10520,21 +9834,8 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
-            [
-              "Name",
-              "Requirements"
-            ]
-          ]
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
+            "Name",
+            "Requirements"
           ],
           "rows": [
             [
@@ -10580,6 +9881,10 @@
             [
               "Quest: To Sharon, With Love",
               "Speak to Anton near Trista Station. Note: Sharon must not be in party."
+            ],
+            [
+              "---",
+              "---"
             ]
           ]
         },
@@ -10596,27 +9901,13 @@
         {
           "type": "table",
           "columns": [
-            "Column 1",
-            "Column 2"
+            "Quest Name",
+            "To Sharon, With Love / シャロンさんに愛を込めて [Hidden]"
           ],
           "rows": [
             [
-              "Quest Name",
-              "To Sharon, With Love / シャロンさんに愛を込めて [Hidden]"
-            ]
-          ]
-        },
-        {
-          "type": "prose",
-          "content": "Accept the request from Anton. You will need to talk to a NPC highlighted with a green exclamation mark. This could be Micht at the Pawn Shop or Becky at the Auditorium. When you have spoken to any of them, choose the second choice \"Let's think of another idea / まだ考えた方がいい\". Then speak to another NPC highlighted with a green exclamation mark. If you speak to Micht, select the first choice \"Brace for the Bracelet/ 木のブレスレットを勧める\", if you speak to Becky the pick the first choice \"Recommend the stone /不思議な石を勧める. If you pick the correct choices you will get 2 bonus AP.Note: Jane by the Gardening Shop is also part of this quest line, but speaking to her will cause you to fail and will only give you 1 AP. Do not speak to her."
-        },
-        {
-          "type": "table",
-          "columns": [
-            "Column 1",
-            "Column 2"
-          ],
-          "rows": [
+              "Accept the request from Anton. You will need to talk to a NPC highlighted with a green exclamation mark. This could be Micht at the Pawn Shop or Becky at the Auditorium. When you have spoken to any of them, choose the second choice \"Let's think of another idea / まだ考えた方がいい\". Then speak to another NPC highlighted with a green exclamation mark. If you speak to Micht, select the first choice \"Brace for the Bracelet/ 木のブレスレットを勧める\", if you speak to Becky the pick the first choice \"Recommend the stone /不思議な石を勧める. If you pick the correct choices you will get 2 bonus AP.Note: Jane by the Gardening Shop is also part of this quest line, but speaking to her will cause you to fail and will only give you 1 AP. Do not speak to her."
+            ],
             [
               "Client",
               "Anton"
