@@ -376,6 +376,22 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       headingLevel = undefined;
     }
 
+    // Post-process: merge consecutive encounters into a single multi-enemy fight
+    for (let i = blocks.length - 1; i >= 1; i--) {
+      const prev = blocks[i - 1].block;
+      const curr = blocks[i].block;
+      if (prev.type === 'encounter' && curr.type === 'encounter') {
+        const enc = prev as { adds?: Array<{ name: string; stats?: Record<string, string> }> };
+        if (!enc.adds) enc.adds = [];
+        enc.adds.push({ name: (curr as any).name, stats: (curr as any).stats });
+        // Carry over strategy if the merged one has it but primary doesn't
+        if ((curr as any).strategy && !(prev as any).strategy) {
+          (prev as any).strategy = (curr as any).strategy;
+        }
+        blocks.splice(i, 1);
+      }
+    }
+
     // Post-process: merge prose blocks that follow encounters as strategy text
     for (let i = blocks.length - 1; i >= 1; i--) {
       const prev = blocks[i - 1].block;
@@ -383,12 +399,33 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       if (
         prev.type === 'encounter' &&
         curr.type === 'prose' &&
-        !prev.strategy &&
+        !(prev as any).strategy &&
         curr.content.length > 80 &&
         looksLikeStrategy(curr.content)
       ) {
         (prev as { strategy?: string }).strategy = curr.content;
         blocks.splice(i, 1);
+      }
+    }
+
+    // Post-process: merge "Reward and AP" tables into preceding encounter
+    for (let i = blocks.length - 1; i >= 1; i--) {
+      const prev = blocks[i - 1].block;
+      const curr = blocks[i].block;
+      if (
+        prev.type === 'encounter' &&
+        curr.type === 'table' &&
+        !(prev as any).reward
+      ) {
+        const rows = (curr as any).rows as string[][] | undefined;
+        const cols = (curr as any).columns as string[] | undefined;
+        const firstCell = rows?.[0]?.[0] || cols?.[0] || '';
+        if (/reward|AP\b/i.test(firstCell)) {
+          // Extract reward text from table
+          const rewardText = (rows || []).map(r => r.join(', ')).join('; ');
+          (prev as { reward?: string }).reward = rewardText;
+          blocks.splice(i, 1);
+        }
       }
     }
 

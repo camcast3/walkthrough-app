@@ -11,6 +11,7 @@ export interface EncounterBlock {
   heading?: string;
   name: string;
   stats?: Record<string, string>;
+  adds?: Array<{ name: string; stats?: Record<string, string> }>;
   strategy?: string;
   reward?: string;
   drops?: string;
