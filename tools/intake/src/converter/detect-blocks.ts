@@ -318,9 +318,17 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
     case 'table': {
       const table = parseTable(token.content);
+      // Trim trailing empty cells from all rows
+      const trimRow = (row: string[]): string[] => {
+        let end = row.length;
+        while (end > 0 && row[end - 1].trim() === '') end--;
+        return end === row.length ? row : row.slice(0, end);
+      };
+      table.headers = trimRow(table.headers);
+      table.rows = table.rows.map(trimRow);
       // Detect if "headers" are actually data (no real column names)
       const colCount = table.headers.length;
-      const allHeadersEmpty = table.headers.every(h => h.trim() === '');
+      const allHeadersEmpty = colCount === 0 || table.headers.every(h => h.trim() === '');
       const headersAreData = colCount > 0 && (
         // Headers are all empty or blank strings
         allHeadersEmpty ||
