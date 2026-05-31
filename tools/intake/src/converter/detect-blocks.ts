@@ -319,8 +319,15 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
     case 'table': {
       const table = parseTable(token.content);
       // Detect if "headers" are actually data (no real column names)
-      const headersAreData = table.headers.length > 0 && table.headers.some(h =>
-        /\d{2,}|,\s|x\s*\d|\.\s*$/.test(h) || h.length > 40
+      const colCount = table.headers.length;
+      const headersAreData = colCount > 0 && (
+        // Headers contain numeric/data patterns
+        table.headers.some(h =>
+          /\d{2,}|,\s|x\s*\d|\.\s*$/.test(h) || h.length > 40
+        ) ||
+        // The FIRST data row has fewer cells than "headers" — strong signal
+        // (optional trailing cells in later rows are normal and don't count)
+        (table.rows.length > 0 && table.rows[0].length < colCount)
       );
       if (headersAreData) {
         return {
