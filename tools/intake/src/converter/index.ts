@@ -443,6 +443,46 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       }
     }
 
+    // Post-process: merge tables that immediately precede a bonding event into that event's details
+    for (let i = blocks.length - 1; i >= 1; i--) {
+      const prev = blocks[i - 1].block;
+      const curr = blocks[i].block;
+      if (
+        prev.type === 'table' &&
+        curr.type === 'event' &&
+        (curr as any).event_type === 'bonding'
+      ) {
+        const tbl = prev as { columns: string[]; rows: string[][] };
+        const evt = curr as { details?: Array<{ columns: string[]; rows: string[][] }> };
+        if (!evt.details) evt.details = [];
+        evt.details.unshift({ columns: tbl.columns, rows: tbl.rows });
+        blocks.splice(i - 1, 1);
+      }
+    }
+
+    // Post-process: merge consecutive bonding events into one
+    for (let i = blocks.length - 1; i >= 1; i--) {
+      const prev = blocks[i - 1].block;
+      const curr = blocks[i].block;
+      if (
+        prev.type === 'event' && (prev as any).event_type === 'bonding' &&
+        curr.type === 'event' && (curr as any).event_type === 'bonding'
+      ) {
+        // Append curr's content to prev
+        const prevEvt = prev as any;
+        const currEvt = curr as any;
+        if (currEvt.content) {
+          prevEvt.content = (prevEvt.content || '') + '\n\n' + currEvt.content;
+        }
+        // Merge details arrays
+        if (currEvt.details) {
+          if (!prevEvt.details) prevEvt.details = [];
+          prevEvt.details.push(...currEvt.details);
+        }
+        blocks.splice(i, 1);
+      }
+    }
+
     const checkpoints = detectCheckpoints(section.tokens, section.id);
 
     return {
