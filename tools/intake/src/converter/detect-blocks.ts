@@ -176,6 +176,11 @@ export function detectBlockType(
 function detectTableType(token: MarkdownToken, context: DetectionContext): DetectionResult {
   const table = parseTable(token.content);
 
+  // Check heading for quest designation — quest data often comes as tables
+  if (context.heading_above && QUEST_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
+    return { block_type: 'quest', confidence: 0.85 };
+  }
+
   // Check if this is an encounter stats table
   if (isEncounterTable(table.headers)) {
     return { block_type: 'encounter', confidence: 0.9 };
@@ -376,14 +381,25 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
     }
 
     case 'quest': {
+      // If this was originally a table token, extract quest data from rows
+      let questContent = token.content;
+      if (token.type === 'table') {
+        const table = parseTable(token.content);
+        const allRows = table.headers.length > 0 && !table.headers.every(h => h.trim() === '')
+          ? [table.headers, ...table.rows]
+          : table.rows;
+        // Extract named fields from KV-style rows (e.g. ["Quest Name", "Highlands Hunt"])
+        const kvRows = allRows.filter(r => r.length >= 2 && r[0].trim().length > 0);
+        questContent = kvRows.map(r => r.slice(1).join(', ')).join('\n');
+      }
       const questName = extractQuestName(token, context);
       return {
         type: 'quest',
         heading,
-        quest_type: detectQuestType(token.content, context),
+        quest_type: detectQuestType(questContent, context),
         name: questName,
-        content: token.content,
-        missable_window: extractMissableWindow(token.content),
+        content: questContent,
+        missable_window: extractMissableWindow(questContent),
       };
     }
 
