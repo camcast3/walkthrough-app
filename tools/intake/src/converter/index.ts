@@ -376,6 +376,50 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       headingLevel = undefined;
     }
 
+    // Post-process: reclassify callouts/prose mentioning bonding as bonding events
+    const BONDING_RECLASSIFY = /\bbonding (event|point)/i;
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i].block;
+      if ((b.type === 'callout' || b.type === 'prose') && BONDING_RECLASSIFY.test(b.content || '')) {
+        // Reclassify as a bonding event
+        (blocks[i] as any).block = {
+          type: 'event',
+          event_type: 'bonding',
+          name: 'Bonding Events',
+          missable: false,
+          content: b.content,
+        };
+      }
+    }
+
+    // Post-process: absorb Character tables adjacent to bonding events
+    // (tables immediately before or after a bonding event with Character columns)
+    const isBondingTable = (b: any): boolean => {
+      if (b.type !== 'table') return false;
+      const cols = (b.columns || []).map((c: string) => c.toLowerCase());
+      return cols.includes('character') || cols.includes('date');
+    };
+    for (let i = 0; i < blocks.length; i++) {
+      const b = blocks[i].block;
+      if (b.type === 'event' && (b as any).event_type === 'bonding') {
+        const evt = b as any;
+        if (!evt.details) evt.details = [];
+        // Absorb preceding bonding tables
+        while (i > 0 && isBondingTable(blocks[i - 1].block)) {
+          const tbl = blocks[i - 1].block as any;
+          evt.details.unshift({ columns: tbl.columns, rows: tbl.rows });
+          blocks.splice(i - 1, 1);
+          i--;
+        }
+        // Absorb following bonding tables
+        while (i + 1 < blocks.length && isBondingTable(blocks[i + 1].block)) {
+          const tbl = blocks[i + 1].block as any;
+          evt.details.push({ columns: tbl.columns, rows: tbl.rows });
+          blocks.splice(i + 1, 1);
+        }
+      }
+    }
+
     // Post-process: merge consecutive encounters into a single multi-enemy fight
     for (let i = blocks.length - 1; i >= 1; i--) {
       const prev = blocks[i - 1].block;
