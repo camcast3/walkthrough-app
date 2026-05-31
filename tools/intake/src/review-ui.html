@@ -271,7 +271,12 @@ function renderEvent(block) {
 
 function renderChecklist(block) {
   if (block.items && Array.isArray(block.items)) {
-    const items = block.items.map(it => `<li>☐ ${escHtml(typeof it === 'string' ? it : it.text || JSON.stringify(it))}</li>`).join('');
+    const items = block.items.map(it => {
+      if (typeof it === 'string') return `<li>☐ ${renderMarkdown(it)}</li>`;
+      const label = it.label || it.text || '';
+      const detailHtml = it.detail ? `<span style="color:#a0aec0;margin-left:8px;">— ${renderMarkdown(it.detail)}</span>` : '';
+      return `<li>☐ ${renderMarkdown(label)}${detailHtml}</li>`;
+    }).join('');
     return `<ul style="list-style:none;padding-left:0;">${items}</ul>`;
   }
   return renderMarkdown(block.content || '');
