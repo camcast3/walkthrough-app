@@ -63,6 +63,8 @@ export interface EventBlock {
   missable: boolean;
   content?: string;
   reward?: string;
+  /** Tables merged into this event (e.g. bonding requirements, character locations). */
+  details?: Array<{ columns: string[]; rows: string[][] }>;
 }
 
 export interface TableBlock {

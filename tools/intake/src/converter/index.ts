@@ -429,6 +429,20 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       }
     }
 
+    // Post-process: merge tables that immediately follow an event block into the event's details
+    for (let i = 0; i < blocks.length - 1; i++) {
+      if (blocks[i].block.type === 'event') {
+        const evt = blocks[i].block as { details?: Array<{ columns: string[]; rows: string[][] }> };
+        // Consume all consecutive tables following this event
+        while (i + 1 < blocks.length && blocks[i + 1].block.type === 'table') {
+          const tbl = blocks[i + 1].block as { columns: string[]; rows: string[][] };
+          if (!evt.details) evt.details = [];
+          evt.details.push({ columns: tbl.columns, rows: tbl.rows });
+          blocks.splice(i + 1, 1);
+        }
+      }
+    }
+
     const checkpoints = detectCheckpoints(section.tokens, section.id);
 
     return {

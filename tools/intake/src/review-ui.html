@@ -252,6 +252,19 @@ function renderEvent(block) {
     html += `<span class="event-badge">${block.event_type}${block.missable ? ' · MISSABLE' : ''}</span>`;
   }
   if (block.content) html += renderMarkdown(block.content);
+  if (block.details && block.details.length > 0) {
+    for (const tbl of block.details) {
+      let thtml = '<table style="margin-top:8px;">';
+      if (tbl.columns && tbl.columns.length > 0) {
+        thtml += '<tr>' + tbl.columns.map(c => `<th>${escHtml(c)}</th>`).join('') + '</tr>';
+      }
+      for (const row of (tbl.rows || [])) {
+        thtml += '<tr>' + row.map(cell => `<td>${escHtml(String(cell))}</td>`).join('') + '</tr>';
+      }
+      thtml += '</table>';
+      html += thtml;
+    }
+  }
   html += '</div>';
   return html;
 }
