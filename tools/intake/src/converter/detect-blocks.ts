@@ -118,14 +118,28 @@ const CHECKLIST_ITEM_PATTERNS = [
   /^\s*[-*]\s+.*\(.*location.*\)/i,
   /^\s*[-*]\s+\[[ x]\]/i,
   /^\s*\d+\.\s+.*—\s+/,
+  // Bullet with bold name (collectible, NPC, or location list)
+  /^\s*[-*]\s+\*\*[^*]+\*\*/,
+  // Bullet with "Name - Location" or "Name — Location" pattern
+  /^\s*[-*]\s+\S.+\s[-–—]\s+\S/,
+  // Numbered items with a dash/colon separator
+  /^\s*\d+\.\s+\S.+\s[-–—:]\s+\S/,
 ];
 
 function looksLikeChecklist(content: string): boolean {
-  const lines = content.split('\n');
-  const matchCount = lines.filter(line =>
-    CHECKLIST_ITEM_PATTERNS.some(p => p.test(line))
-  ).length;
-  return matchCount >= 3 || (matchCount / lines.length) > 0.5;
+  const lines = content.split('\n').filter(l => l.trim().length > 0);
+  // Must have at least 3 non-empty lines
+  if (lines.length < 3) return false;
+  const bulletLines = lines.filter(l => /^\s*[-*]\s+/.test(l) || /^\s*\d+\.\s+/.test(l));
+  // If most lines are bullets/numbered items, check patterns
+  if (bulletLines.length >= 3 && bulletLines.length / lines.length >= 0.6) {
+    // Check if items follow a consistent pattern (name-location, bold items, etc.)
+    const matchCount = bulletLines.filter(line =>
+      CHECKLIST_ITEM_PATTERNS.some(p => p.test(line))
+    ).length;
+    return matchCount >= 3 || (matchCount / bulletLines.length) > 0.5;
+  }
+  return false;
 }
 
 // ── Main detection ──────────────────────────────────────────────────────────
@@ -221,6 +235,11 @@ function detectParagraphType(token: MarkdownToken, context: DetectionContext): D
   // Check heading context for encounter
   if (context.heading_above && ENCOUNTER_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
     return { block_type: 'encounter', confidence: 0.7 };
+  }
+
+  // Check for structured bullet lists that should be checklists
+  if (looksLikeChecklist(token.content)) {
+    return { block_type: 'checklist', confidence: 0.75 };
   }
 
   return { block_type: 'prose', confidence: 0.9 };
@@ -562,11 +581,12 @@ function parseChecklistItems(content: string): Array<{ id: string; label: string
   const lines = content.split('\n').filter(l => /^\s*[-*+]\s/.test(l) || /^\s*\d+\.\s/.test(l));
   return lines.map((line, i) => {
     const text = line.replace(/^\s*[-*+]\s+/, '').replace(/^\s*\d+\.\s+/, '').trim();
-    const dashSplit = text.split(' — ');
+    // Split on " — ", " – ", or " - " (but not leading dash)
+    const dashSplit = text.split(/\s[-–—]\s/);
     return {
       id: `item-${i + 1}`,
       label: dashSplit[0].trim(),
-      detail: dashSplit[1]?.trim(),
+      detail: dashSplit.slice(1).join(' — ').trim() || undefined,
     };
   });
 }
