@@ -376,6 +376,22 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
       headingLevel = undefined;
     }
 
+    // Post-process: merge prose blocks that follow encounters as strategy text
+    for (let i = blocks.length - 1; i >= 1; i--) {
+      const prev = blocks[i - 1].block;
+      const curr = blocks[i].block;
+      if (
+        prev.type === 'encounter' &&
+        curr.type === 'prose' &&
+        !prev.strategy &&
+        curr.content.length > 80 &&
+        looksLikeStrategy(curr.content)
+      ) {
+        (prev as { strategy?: string }).strategy = curr.content;
+        blocks.splice(i, 1);
+      }
+    }
+
     const checkpoints = detectCheckpoints(section.tokens, section.id);
 
     return {
@@ -393,6 +409,13 @@ const AD_PATTERNS = [
   /^\s*\[?\s*ad\s*\]?\s*$/i,
   /^\s*sponsored\s*/i,
 ];
+
+const STRATEGY_KEYWORDS = /\b(attack|buff|heal|damage|HP|CP|EP|S-Craft|craft|boss|hit|phase|strategy|recommend|exploit|weak|defend|link attack|overdrive|stance)\b/i;
+
+/** Returns true if prose text looks like boss fight strategy. */
+function looksLikeStrategy(text: string): boolean {
+  return STRATEGY_KEYWORDS.test(text);
+}
 
 /** Returns true for blocks that are junk: ads, empty tables, whitespace-only content. */
 function isJunkBlock(block: WalkthroughBlock): boolean {
