@@ -189,7 +189,9 @@ function renderSection(section) {
 function renderBlock(block) {
   let heading = '';
   if (block.heading) {
-    heading = `<h3 style="color:#fff;margin-bottom:8px;">${escHtml(block.heading)}</h3>`;
+    // Strip markdown bold/italic markers from heading text
+    const cleanHeading = block.heading.replace(/\*{1,3}([^*]+)\*{1,3}/g, '$1').replace(/_{1,3}([^_]+)_{1,3}/g, '$1');
+    heading = `<h3 style="color:#fff;margin-bottom:8px;">${escHtml(cleanHeading)}</h3>`;
   }
   switch (block.type) {
     case 'encounter': return heading + renderEncounter(block);
