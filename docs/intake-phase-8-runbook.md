@@ -98,6 +98,8 @@ curl -s http://localhost:3847/api/sections | jq '.[] | {id, title, blocks: (.blo
 
 ## Step 5 — Review and correct blocks
 
+Open the review UI at **http://localhost:3847/** for a split-pane view (raw JSON on the left, rendered markdown preview on the right). You can also use the CLI:
+
 Walk through the section's blocks and verify the classifier got them right:
 
 ```bash
@@ -151,7 +153,7 @@ Use 5 for a quick graduation on future walkthroughs, or 50–100 for a serious t
 curl -X POST http://localhost:3847/api/finalize
 ```
 
-This writes `walkthroughs/trails-of-cold-steel-ii/main-walkthrough.json`. The session state flips to `finalized`. Stop the server (Ctrl+C in the first terminal).
+This writes `walkthroughs/trails-of-cold-steel-ii/main-walkthrough.json` and automatically downloads all images referenced in blocks to `walkthroughs/trails-of-cold-steel-ii/images/`. Image URLs in the JSON are rewritten to local `./images/<filename>` paths for offline use. The session state flips to `finalized`. Stop the server (Ctrl+C in the first terminal).
 
 ## Step 8 — Validate the generated walkthrough
 

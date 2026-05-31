@@ -29,9 +29,12 @@ npx tsx tools/intake/src/cli.ts start \
 # 3. Convert captured pages into classified sections
 curl -X POST http://localhost:3847/api/convert
 
-# 4. Review and approve sections (see "Review workflow" below)
+# 4. Review and approve sections
+#    Open http://localhost:3847/ in your browser for a visual review UI
+#    (split-pane: raw JSON left, rendered preview right)
 
 # 5. Finalize — writes walkthroughs/<slug>/main-walkthrough.json
+#    Also downloads all images to walkthroughs/<slug>/images/ for offline use
 curl -X POST http://localhost:3847/api/finalize
 ```
 
@@ -107,10 +110,11 @@ Invalid values (non-positive, non-integer, NaN) fall through to the next source 
 
 ## HTTP API
 
-The server listens on `http://localhost:3847` by default. All endpoints return JSON.
+The server listens on `http://localhost:3847` by default. All endpoints return JSON except `GET /` which serves the review UI.
 
 | Method | Path | Purpose |
 |---|---|---|
+| `GET`    | `/` | Visual review UI (split-pane: raw JSON + rendered preview) |
 | `GET`    | `/api/session` | Current session info |
 | `DELETE` | `/api/session` | Acknowledge reset (cleanup is caller-side) |
 | `POST`   | `/api/intake` | Save a captured page (`{ title, url, markdown, page_number? }`) |
@@ -121,7 +125,17 @@ The server listens on `http://localhost:3847` by default. All endpoints return J
 | `GET`    | `/api/sections/:id` | Fetch one section |
 | `PUT`    | `/api/sections/:id/blocks/:index` | Update a block (`{ block?, approved? }`) |
 | `POST`   | `/api/approve/:id` | Mark a whole section approved |
-| `POST`   | `/api/finalize` | Write `main-walkthrough.json` |
+| `POST`   | `/api/finalize` | Write `main-walkthrough.json` + download images |
+
+## Image downloading
+
+When you call `POST /api/finalize`, the server automatically:
+
+1. Extracts all remote image URLs from block `content` and `heading` fields
+2. Downloads them to `walkthroughs/<slug>/images/<hash>-<filename>`
+3. Rewrites the URLs in the JSON to local `./images/<filename>` paths
+
+This ensures the walkthrough works fully offline. Link targets (the outer `](href)` in `[![img](src)](href)` patterns) are left as remote URLs since they're navigation links, not embedded images.
 
 ## Review workflow
 
