@@ -132,6 +132,12 @@ function detectTableType(token: MarkdownToken, context: DetectionContext): Detec
     return { block_type: 'encounter', confidence: 0.9 };
   }
 
+  // Check if rows contain HP stats (compound table split — no proper header)
+  const allCells = [...table.rows.flat(), ...table.headers];
+  if (allCells.some(cell => /HP:\s*\d+/i.test(cell))) {
+    return { block_type: 'encounter', confidence: 0.85 };
+  }
+
   // Check if the heading above suggests an encounter
   if (context.heading_above && ENCOUNTER_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
     return { block_type: 'encounter', confidence: 0.8 };
@@ -230,17 +236,57 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
       };
 
     case 'encounter': {
-      const name = extractEncounterName(token, context);
       if (token.type === 'table') {
         const table = parseTable(token.content);
         const stats: Record<string, string> = {};
-        if (table.rows.length > 0) {
-          table.headers.forEach((h, i) => {
-            if (table.rows[0][i]) stats[h] = table.rows[0][i];
-          });
+        let name: string;
+        let strategy: string | undefined;
+
+        // Check if we have proper headers with stat columns
+        if (isEncounterTable(table.headers)) {
+          name = extractEncounterName(token, context);
+          if (table.rows.length > 0) {
+            table.headers.forEach((h, i) => {
+              if (table.rows[0][i]) stats[h] = table.rows[0][i];
+            });
+          }
+        } else {
+          // Compound table split: rows contain key-value pairs like "HP: 45225"
+          // First row typically has the boss name + HP + Item Drop
+          const allRows = table.headers.length > 0
+            ? [table.headers, ...table.rows]
+            : table.rows;
+
+          name = allRows[0]?.[0] || extractEncounterName(token, context);
+
+          for (const row of allRows) {
+            for (const cell of row) {
+              const kvMatch = cell.match(/^(.+?):\s*(.+)$/);
+              if (kvMatch && kvMatch[1] !== name) {
+                stats[kvMatch[1].trim()] = kvMatch[2].trim();
+              }
+            }
+            // Check for long prose rows (strategy text)
+            if (row.length === 1 && row[0].length > 150) {
+              strategy = row[0];
+            } else if (row.filter(c => c !== '').length === 1) {
+              const text = row.find(c => c !== '') || '';
+              if (text.length > 150) {
+                strategy = text;
+              }
+            }
+          }
         }
-        return { type: 'encounter', heading: context.heading_above, name, stats };
+
+        return {
+          type: 'encounter',
+          heading: context.heading_above,
+          name,
+          stats: Object.keys(stats).length > 0 ? stats : undefined,
+          strategy,
+        };
       }
+      const name = extractEncounterName(token, context);
       return { type: 'encounter', heading: context.heading_above, name, strategy: token.content };
     }
 
