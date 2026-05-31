@@ -85,6 +85,9 @@ const COLLECTIBLE_PATTERNS = [
   /be sure to collect/i,
   /collecting all.{0,20}(volumes|copies)/i,
   /\breceipe\b.*\bmissable\b|\bmissable\b.*\brecipe\b/i,
+  /purchase the\b.{0,40}\brecipe\b/i,
+  /\brecipe\b.{0,40}\bpurchase\b/i,
+  /\bhidden quest\b.{0,40}\bspeak to\b/i,
 ];
 
 // ── Event detection (bonding, missable conversations, time-limited cutscenes) ─
