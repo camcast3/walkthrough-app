@@ -37,6 +37,21 @@ function isEncounterTable(headers: string[]): boolean {
   return ENCOUNTER_STAT_COLUMNS.some(col => lowerHeaders.includes(col));
 }
 
+/** Infer column names for tables without headers based on row content patterns. */
+function inferColumnNames(colCount: number, rows: string[][]): string[] {
+  if (colCount === 0) return ['Item'];
+  if (colCount === 1) return ['Item'];
+  if (colCount === 2) {
+    // Check if second column looks like locations
+    const locationLike = rows.filter(r => r[1] && /highway|shrine|path|bridge|fort|castle|store|shop|cave|mountain|area|floor|entrance|section/i.test(r[1]));
+    if (locationLike.length > rows.length * 0.3) return ['Item', 'Location'];
+    return ['Item', 'Details'];
+  }
+  if (colCount === 3) return ['Item', 'Details', 'Location'];
+  // Generic fallback
+  return Array.from({ length: colCount }, (_, i) => `Column ${i + 1}`);
+}
+
 // ── Callout detection ───────────────────────────────────────────────────────
 
 const CALLOUT_PATTERNS = [
@@ -439,7 +454,20 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
       // Detect if "headers" are actually data (no real column names)
       const colCount = table.headers.length;
       const allHeadersEmpty = colCount === 0 || table.headers.every(h => h.trim() === '');
-      const headersAreData = colCount > 0 && (
+
+      // No headers at all — infer columns from row data
+      if (colCount === 0) {
+        const maxCols = table.rows.reduce((max, r) => Math.max(max, r.length), 0);
+        const inferredColumns = inferColumnNames(maxCols, table.rows);
+        return {
+          type: 'table',
+          heading,
+          columns: inferredColumns,
+          rows: table.rows,
+        };
+      }
+
+      const headersAreData = (
         // Headers are all empty or blank strings
         allHeadersEmpty ||
         // Headers contain numeric/data patterns
@@ -454,11 +482,15 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
       if (headersAreData) {
         // Don't include empty/blank headers as a data row
         const extraRows = allHeadersEmpty ? [] : [table.headers];
+        const dataRows = [...extraRows, ...table.rows];
+        // Generate column names from row width (schema requires minItems: 1)
+        const maxCols = dataRows.reduce((max, r) => Math.max(max, r.length), 0);
+        const inferredColumns = inferColumnNames(maxCols, dataRows);
         return {
           type: 'table',
           heading,
-          columns: [],
-          rows: [...extraRows, ...table.rows],
+          columns: inferredColumns,
+          rows: dataRows,
         };
       }
       return {
