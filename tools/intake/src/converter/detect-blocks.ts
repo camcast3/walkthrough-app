@@ -258,7 +258,7 @@ function checkTrainingRules(
   // Skip junk-like training examples (ad content that shouldn't inform classification)
   const JUNK_TRAINING_PATTERNS = [
     /ad-?block/i, /ad-free/i, /subscription/i, /support.*neoseeker/i,
-    /click here to upgrade/i, /advertisement/i,
+    /click here to upgrade/i, /advertisement/i, /^last edited by\b/i,
   ];
 
   // Find matching examples by context similarity

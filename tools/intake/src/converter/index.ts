@@ -554,6 +554,8 @@ export const AD_PATTERNS = [
   /support.*neoseeker/i,
   /enjoying the site ad\s*free/i,
   /site ad\s*free/i,
+  /^last edited by\b/i,
+  /^edited by\b.*\d{4}/i,
 ];
 
 const STRATEGY_KEYWORDS = /\b(attack|buff|heal|damage|HP|CP|EP|S-Craft|craft|boss|hit|phase|strategy|recommend|exploit|weak|defend|link attack|overdrive|stance)\b/i;
