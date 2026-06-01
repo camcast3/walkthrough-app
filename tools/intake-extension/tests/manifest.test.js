@@ -36,3 +36,13 @@ describe('intake-extension manifest.json', () => {
     expect(cs.run_at).toBe('document_idle');
   });
 });
+
+describe('intake-extension popup.html', () => {
+  const popupHtml = readFileSync(join(__dirname, '..', 'popup.html'), 'utf-8');
+
+  it('declares UTF-8 charset', () => {
+    // Must appear inside <head> so Chrome respects multi-byte characters
+    // (em-dash in "Done — Start Conversion", check mark "✓" in CSS).
+    expect(popupHtml).toMatch(/<meta\s+charset\s*=\s*["']?utf-?8["']?\s*\/?\s*>/i);
+  });
+});
