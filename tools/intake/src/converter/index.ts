@@ -551,6 +551,8 @@ const AD_PATTERNS = [
   /nplus.*subscription/i,
   /adblock-replacement/i,
   /utm_campaign=ad/i,
+  /support.*neoseeker.*ad\s*free/i,
+  /enjoying the site ad\s*free/i,
 ];
 
 const STRATEGY_KEYWORDS = /\b(attack|buff|heal|damage|HP|CP|EP|S-Craft|craft|boss|hit|phase|strategy|recommend|exploit|weak|defend|link attack|overdrive|stance)\b/i;
