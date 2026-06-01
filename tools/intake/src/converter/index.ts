@@ -543,6 +543,14 @@ const AD_PATTERNS = [
   /^\s*\\?[-–—]?\s*advertisement\s*[-–—]?\s*$/i,
   /^\s*\[?\s*ad\s*\]?\s*$/i,
   /^\s*sponsored\s*/i,
+  /ad-?block/i,
+  /turn off.*ad.?block/i,
+  /support our writers/i,
+  /ad-free subscription/i,
+  /click here to upgrade/i,
+  /nplus.*subscription/i,
+  /adblock-replacement/i,
+  /utm_campaign=ad/i,
 ];
 
 const STRATEGY_KEYWORDS = /\b(attack|buff|heal|damage|HP|CP|EP|S-Craft|craft|boss|hit|phase|strategy|recommend|exploit|weak|defend|link attack|overdrive|stance)\b/i;
