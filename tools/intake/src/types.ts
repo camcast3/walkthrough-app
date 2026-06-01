@@ -11,6 +11,7 @@ export interface EncounterBlock {
   heading?: string;
   name: string;
   stats?: Record<string, string>;
+  adds?: Array<{ name: string; stats?: Record<string, string> }>;
   strategy?: string;
   reward?: string;
   drops?: string;
@@ -62,6 +63,8 @@ export interface EventBlock {
   missable: boolean;
   content?: string;
   reward?: string;
+  /** Tables merged into this event (e.g. bonding requirements, character locations). */
+  details?: Array<{ columns: string[]; rows: string[][] }>;
 }
 
 export interface TableBlock {

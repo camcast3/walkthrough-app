@@ -5,14 +5,24 @@
 
 import express from 'express';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
-import { convertPages } from './converter/index.js';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { convertPages, isJunkContent } from './converter/index.js';
 import { IntakeSession, PageCapture, ConvertedSection } from './types.js';
 import { RulesDB } from './training/rules-db.js';
+import { downloadAndRewriteImages } from './images.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export function createServer(workingDir: string) {
   const app = express();
   app.use(express.json({ limit: '10mb' }));
+
+  // Serve review UI at root
+  app.get('/', (_req, res) => {
+    res.sendFile(join(__dirname, 'review-ui.html'));
+  });
 
   const intakeDir = join(workingDir, '.intake');
   const pagesDir = join(intakeDir, 'pages');
@@ -110,7 +120,7 @@ export function createServer(workingDir: string) {
     const pages = files
       .map(f => JSON.parse(readFileSync(join(pagesDir, f), 'utf-8')) as PageCapture)
       .sort((a, b) => a.page_number - b.page_number)
-      .map(p => p.markdown);
+      .map(p => ({ markdown: p.markdown, title: p.title }));
 
     const rulesDb = new RulesDB(trainingDbPath);
     const sections = convertPages(pages, {
@@ -178,7 +188,29 @@ export function createServer(workingDir: string) {
       return;
     }
 
+    const existing = section.blocks[blockIndex];
     const { block, approved } = req.body;
+
+    // Record training correction when block type changes, unless content is junk
+    if (block && block.type !== existing.block.type) {
+      const content = (existing.block as { content?: string }).content || '';
+      if (!isJunkContent(content)) {
+        const rulesDb = new RulesDB(trainingDbPath);
+        const session = getSession();
+        rulesDb.addCorrection({
+          source_pattern: content.slice(0, 200),
+          converter_guessed: existing.block.type as import('./types.js').BlockType,
+          user_corrected_to: block.type as import('./types.js').BlockType,
+          context: {
+            heading_above: (existing.block as { heading?: string }).heading || undefined,
+            source_site: session?.source_url,
+          },
+          game: session?.game || 'unknown',
+          timestamp: new Date().toISOString(),
+        });
+      }
+    }
+
     if (block) section.blocks[blockIndex].block = block;
     if (approved !== undefined) section.blocks[blockIndex].approved = approved;
 
@@ -207,13 +239,23 @@ export function createServer(workingDir: string) {
   });
 
   // POST /api/finalize — write to main-walkthrough.json
-  app.post('/api/finalize', (req, res) => {
+  app.post('/api/finalize', async (req, res) => {
     const sections = getSections();
     const session = getSession();
     if (!sections || !session) {
       res.status(400).json({ error: 'No session or sections' });
       return;
     }
+
+    // Download images and rewrite URLs for offline use
+    const walkthroughBlocks = sections.map(s => ({
+      blocks: s.blocks.map(b => b.block as unknown as Record<string, unknown>),
+    }));
+    const imgResult = await downloadAndRewriteImages(
+      walkthroughBlocks,
+      workingDir,
+      (msg) => console.log(`  [images] ${msg}`),
+    );
 
     const walkthrough = {
       id: session.slug,
@@ -223,10 +265,10 @@ export function createServer(workingDir: string) {
       source_url: session.source_url,
       attribution: `Based on walkthrough from ${session.source_url}`,
       created_at: new Date().toISOString().split('T')[0],
-      sections: sections.map(s => ({
+      sections: sections.map((s, i) => ({
         id: s.id,
         title: s.title,
-        blocks: s.blocks.map(b => b.block),
+        blocks: walkthroughBlocks[i].blocks,
         checkpoints: s.checkpoints,
       })),
     };
@@ -239,7 +281,7 @@ export function createServer(workingDir: string) {
       saveSession(session);
     }
 
-    res.json({ success: true, output: outputPath });
+    res.json({ success: true, output: outputPath, images: imgResult });
   });
 
   // DELETE /api/session — reset

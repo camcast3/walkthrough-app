@@ -20,3 +20,6 @@ server/client-config.json
 # Intake working directories
 walkthroughs/**/.intake/
 tools/intake/training-data.json
+walkthroughs/**/page*.json
+walkthroughs/**/.intake/
+tmp-*.json

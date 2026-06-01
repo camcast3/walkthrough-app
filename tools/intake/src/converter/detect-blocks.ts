@@ -37,6 +37,21 @@ function isEncounterTable(headers: string[]): boolean {
   return ENCOUNTER_STAT_COLUMNS.some(col => lowerHeaders.includes(col));
 }
 
+/** Infer column names for tables without headers based on row content patterns. */
+function inferColumnNames(colCount: number, rows: string[][]): string[] {
+  if (colCount === 0) return ['Item'];
+  if (colCount === 1) return ['Item'];
+  if (colCount === 2) {
+    // Check if second column looks like locations
+    const locationLike = rows.filter(r => r[1] && /highway|shrine|path|bridge|fort|castle|store|shop|cave|mountain|area|floor|entrance|section/i.test(r[1]));
+    if (locationLike.length > rows.length * 0.3) return ['Item', 'Location'];
+    return ['Item', 'Details'];
+  }
+  if (colCount === 3) return ['Item', 'Details', 'Location'];
+  // Generic fallback
+  return Array.from({ length: colCount }, (_, i) => `Column ${i + 1}`);
+}
+
 // ── Callout detection ───────────────────────────────────────────────────────
 
 const CALLOUT_PATTERNS = [
@@ -53,6 +68,41 @@ const QUEST_PATTERNS = [
   /hidden quest/i,
   /main quest/i,
   /missable quest/i,
+];
+
+const QUEST_HEADING_PATTERNS = [
+  /story quest/i,
+  /hidden quest/i,
+  /side quest/i,
+  /main quest/i,
+  /^quest:/i,
+];
+
+/** Returns true if the block's primary focus IS a quest (not just a passing mention) */
+function isQuestFocused(content: string): boolean {
+  // If quest-related keyword appears in the first 60 chars, it's likely the focus
+  const start = content.slice(0, 60).toLowerCase();
+  if (/quest|objective|reward/.test(start)) return true;
+  // If "hidden quest" or "side quest" only appears at the tail end, it's a passing mention
+  const lastQuestIndex = Math.max(
+    content.toLowerCase().lastIndexOf('quest'),
+    content.toLowerCase().lastIndexOf('side quest'),
+  );
+  // If the quest mention is in the last 20% of the text, it's just a passing mention
+  if (lastQuestIndex > content.length * 0.8) return false;
+  return true;
+}
+
+const COLLECTIBLE_PATTERNS = [
+  /gambler jack/i,
+  /limited time.{0,30}(collect|obtain|buy|get)/i,
+  /very limited time frame/i,
+  /be sure to collect/i,
+  /collecting all.{0,20}(volumes|copies)/i,
+  /\breceipe\b.*\bmissable\b|\bmissable\b.*\brecipe\b/i,
+  /purchase the\b.{0,40}\brecipe\b/i,
+  /\brecipe\b.{0,40}\bpurchase\b/i,
+  /\bhidden quest\b.{0,40}\bspeak to\b/i,
 ];
 
 // ── Event detection (bonding, missable conversations, time-limited cutscenes) ─
@@ -83,14 +133,28 @@ const CHECKLIST_ITEM_PATTERNS = [
   /^\s*[-*]\s+.*\(.*location.*\)/i,
   /^\s*[-*]\s+\[[ x]\]/i,
   /^\s*\d+\.\s+.*—\s+/,
+  // Bullet with bold name (collectible, NPC, or location list)
+  /^\s*[-*]\s+\*\*[^*]+\*\*/,
+  // Bullet with "Name - Location" or "Name — Location" pattern
+  /^\s*[-*]\s+\S.+\s[-–—]\s+\S/,
+  // Numbered items with a dash/colon separator
+  /^\s*\d+\.\s+\S.+\s[-–—:]\s+\S/,
 ];
 
 function looksLikeChecklist(content: string): boolean {
-  const lines = content.split('\n');
-  const matchCount = lines.filter(line =>
-    CHECKLIST_ITEM_PATTERNS.some(p => p.test(line))
-  ).length;
-  return matchCount >= 3 || (matchCount / lines.length) > 0.5;
+  const lines = content.split('\n').filter(l => l.trim().length > 0);
+  // Must have at least 3 non-empty lines
+  if (lines.length < 3) return false;
+  const bulletLines = lines.filter(l => /^\s*[-*]\s+/.test(l) || /^\s*\d+\.\s+/.test(l));
+  // If most lines are bullets/numbered items, check patterns
+  if (bulletLines.length >= 3 && bulletLines.length / lines.length >= 0.6) {
+    // Check if items follow a consistent pattern (name-location, bold items, etc.)
+    const matchCount = bulletLines.filter(line =>
+      CHECKLIST_ITEM_PATTERNS.some(p => p.test(line))
+    ).length;
+    return matchCount >= 3 || (matchCount / bulletLines.length) > 0.5;
+  }
+  return false;
 }
 
 // ── Main detection ──────────────────────────────────────────────────────────
@@ -127,9 +191,20 @@ export function detectBlockType(
 function detectTableType(token: MarkdownToken, context: DetectionContext): DetectionResult {
   const table = parseTable(token.content);
 
+  // Check heading for quest designation — quest data often comes as tables
+  if (context.heading_above && QUEST_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
+    return { block_type: 'quest', confidence: 0.85 };
+  }
+
   // Check if this is an encounter stats table
   if (isEncounterTable(table.headers)) {
     return { block_type: 'encounter', confidence: 0.9 };
+  }
+
+  // Check if rows contain HP stats (compound table split — no proper header)
+  const allCells = [...table.rows.flat(), ...table.headers];
+  if (allCells.some(cell => /HP:\s*\d+/i.test(cell))) {
+    return { block_type: 'encounter', confidence: 0.85 };
   }
 
   // Check if the heading above suggests an encounter
@@ -153,9 +228,12 @@ function detectParagraphType(token: MarkdownToken, context: DetectionContext): D
     return { block_type: 'callout', confidence: 0.85 };
   }
 
+  // Check for collectible/missable item callouts
+  if (COLLECTIBLE_PATTERNS.some(p => p.test(token.content))) {
+    return { block_type: 'callout', confidence: 0.8 };
+  }
+
   // Check for event patterns (bonding events, missable conversations, etc.)
-  // — checked before quest patterns because "missable side quest" should still
-  //   classify as quest, but a "bonding event" heading should win.
   if (context.heading_above && EVENT_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
     return { block_type: 'event', confidence: 0.85 };
   }
@@ -163,14 +241,25 @@ function detectParagraphType(token: MarkdownToken, context: DetectionContext): D
     return { block_type: 'event', confidence: 0.75 };
   }
 
-  // Check for quest patterns
-  if (QUEST_PATTERNS.some(p => p.test(token.content))) {
+  // Check heading for quest designation (e.g. "Story Quest: Herbal Remedies")
+  if (context.heading_above && QUEST_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
+    return { block_type: 'quest', confidence: 0.85 };
+  }
+
+  // Check for quest patterns — only if the block's primary purpose IS the quest
+  // (not just a passing mention like "you can do a hidden quest")
+  if (QUEST_PATTERNS.some(p => p.test(token.content)) && isQuestFocused(token.content)) {
     return { block_type: 'quest', confidence: 0.75 };
   }
 
   // Check heading context for encounter
   if (context.heading_above && ENCOUNTER_HEADING_PATTERNS.some(p => p.test(context.heading_above!))) {
     return { block_type: 'encounter', confidence: 0.7 };
+  }
+
+  // Check for structured bullet lists that should be checklists
+  if (looksLikeChecklist(token.content)) {
+    return { block_type: 'checklist', confidence: 0.75 };
   }
 
   return { block_type: 'prose', confidence: 0.9 };
@@ -181,8 +270,17 @@ function checkTrainingRules(
   context: DetectionContext,
   training: TrainingDatabase,
 ): DetectionResult | null {
+  // Skip junk-like training examples (ad content that shouldn't inform classification)
+  const JUNK_TRAINING_PATTERNS = [
+    /ad-?block/i, /ad-free/i, /subscription/i, /support.*neoseeker/i,
+    /click here to upgrade/i, /advertisement/i, /^last edited by\b/i,
+  ];
+
   // Find matching examples by context similarity
   const matches = training.examples.filter(ex => {
+    // Exclude junk examples that should never have been recorded
+    if (JUNK_TRAINING_PATTERNS.some(p => p.test(ex.source_pattern))) return false;
+
     if (context.heading_above && ex.context.heading_above) {
       return ENCOUNTER_HEADING_PATTERNS.some(p =>
         p.test(context.heading_above!) && p.test(ex.context.heading_above!)
@@ -221,45 +319,118 @@ function mode(arr: BlockType[]): BlockType {
 // ── Block construction ──────────────────────────────────────────────────────
 
 export function buildBlock(token: MarkdownToken, blockType: BlockType, context: DetectionContext): WalkthroughBlock {
+  // Strip markdown image links from all headings
+  const heading = context.heading_above ? stripMarkdownImages(context.heading_above) || undefined : undefined;
+
   switch (blockType) {
     case 'prose':
       return {
         type: 'prose',
-        heading: context.heading_above,
+        heading,
         content: token.content,
       };
 
     case 'encounter': {
-      const name = extractEncounterName(token, context);
       if (token.type === 'table') {
         const table = parseTable(token.content);
         const stats: Record<string, string> = {};
-        if (table.rows.length > 0) {
-          table.headers.forEach((h, i) => {
-            if (table.rows[0][i]) stats[h] = table.rows[0][i];
-          });
+        let name: string;
+        let strategy: string | undefined;
+
+        // Check if we have proper headers with stat columns
+        if (isEncounterTable(table.headers)) {
+          name = extractEncounterName(token, context);
+          if (table.rows.length > 0) {
+            table.headers.forEach((h, i) => {
+              if (table.rows[0][i]) stats[h] = table.rows[0][i];
+            });
+          }
+          // Extract real boss name from boss-type labels in stats
+          const bossLabels = ['Trial Chest Boss', 'Boss', 'Enemy', 'Mini-Boss', 'Mini Boss', 'Field Boss'];
+          for (const label of bossLabels) {
+            if (stats[label]) {
+              name = stats[label];
+              delete stats[label];
+              break;
+            }
+          }
+        } else {
+          // Compound table split: rows contain key-value pairs like "HP: 45225"
+          // First row typically has the boss name + HP + Item Drop
+          const allRows = table.headers.length > 0
+            ? [table.headers, ...table.rows]
+            : table.rows;
+
+          name = allRows[0]?.[0] || extractEncounterName(token, context);
+
+          for (const row of allRows) {
+            for (const cell of row) {
+              const kvMatch = cell.match(/^(.+?):\s*(.+)$/);
+              if (kvMatch) {
+                stats[kvMatch[1].trim()] = kvMatch[2].trim();
+              }
+            }
+            // Check for long prose rows (strategy text)
+            if (row.length === 1 && row[0].length > 150) {
+              strategy = row[0];
+            } else if (row.filter(c => c !== '').length === 1) {
+              const text = row.find(c => c !== '') || '';
+              if (text.length > 150) {
+                strategy = text;
+              }
+            }
+          }
+
+          // Extract real boss name from boss-type labels in stats
+          const bossLabels = ['Trial Chest Boss', 'Boss', 'Enemy', 'Mini-Boss', 'Mini Boss', 'Field Boss'];
+          for (const label of bossLabels) {
+            if (stats[label]) {
+              name = stats[label];
+              delete stats[label];
+              break;
+            }
+          }
         }
-        return { type: 'encounter', heading: context.heading_above, name, stats };
+
+        return {
+          type: 'encounter',
+          heading,
+          name,
+          stats: Object.keys(stats).length > 0 ? stats : undefined,
+          strategy,
+        };
       }
-      return { type: 'encounter', heading: context.heading_above, name, strategy: token.content };
+      const name = extractEncounterName(token, context);
+      return { type: 'encounter', heading, name, strategy: token.content };
     }
 
     case 'quest': {
+      // If this was originally a table token, extract quest data from rows
+      let questContent = token.content;
+      if (token.type === 'table') {
+        const table = parseTable(token.content);
+        const allRows = table.headers.length > 0 && !table.headers.every(h => h.trim() === '')
+          ? [table.headers, ...table.rows]
+          : table.rows;
+        // Extract named fields from KV-style rows (e.g. ["Quest Name", "Highlands Hunt"])
+        const kvRows = allRows.filter(r => r.length >= 2 && r[0].trim().length > 0);
+        questContent = kvRows.map(r => r.slice(1).join(', ')).join('\n');
+      }
       const questName = extractQuestName(token, context);
       return {
         type: 'quest',
-        heading: context.heading_above,
-        quest_type: detectQuestType(token.content, context),
+        heading,
+        quest_type: detectQuestType(questContent, context),
         name: questName,
-        content: token.content,
-        missable_window: extractMissableWindow(token.content),
+        content: questContent,
+        missable_window: extractMissableWindow(questContent),
       };
     }
 
     case 'event': {
       return {
         type: 'event',
-        heading: context.heading_above,
+        heading,
         event_type: detectEventType(token.content, context),
         name: extractEventName(token, context),
         trigger: extractEventTrigger(token.content),
@@ -272,9 +443,59 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
     case 'table': {
       const table = parseTable(token.content);
+      // Trim trailing empty cells from all rows
+      const trimRow = (row: string[]): string[] => {
+        let end = row.length;
+        while (end > 0 && row[end - 1].trim() === '') end--;
+        return end === row.length ? row : row.slice(0, end);
+      };
+      table.headers = trimRow(table.headers);
+      table.rows = table.rows.map(trimRow);
+      // Detect if "headers" are actually data (no real column names)
+      const colCount = table.headers.length;
+      const allHeadersEmpty = colCount === 0 || table.headers.every(h => h.trim() === '');
+
+      // No headers at all — infer columns from row data
+      if (colCount === 0) {
+        const maxCols = table.rows.reduce((max, r) => Math.max(max, r.length), 0);
+        const inferredColumns = inferColumnNames(maxCols, table.rows);
+        return {
+          type: 'table',
+          heading,
+          columns: inferredColumns,
+          rows: table.rows,
+        };
+      }
+
+      const headersAreData = (
+        // Headers are all empty or blank strings
+        allHeadersEmpty ||
+        // Headers contain numeric/data patterns
+        table.headers.some(h =>
+          /\d{2,}|,\s|x\s*\d|\.\s*$/.test(h) || h.length > 40
+        ) ||
+        // Header/row cell count mismatch — rows have different width than headers
+        (table.rows.length > 0 && (
+          table.rows[0].length < colCount || table.rows[0].length > colCount
+        ))
+      );
+      if (headersAreData) {
+        // Don't include empty/blank headers as a data row
+        const extraRows = allHeadersEmpty ? [] : [table.headers];
+        const dataRows = [...extraRows, ...table.rows];
+        // Generate column names from row width (schema requires minItems: 1)
+        const maxCols = dataRows.reduce((max, r) => Math.max(max, r.length), 0);
+        const inferredColumns = inferColumnNames(maxCols, dataRows);
+        return {
+          type: 'table',
+          heading,
+          columns: inferredColumns,
+          rows: dataRows,
+        };
+      }
       return {
         type: 'table',
-        heading: context.heading_above,
+        heading,
         columns: table.headers,
         rows: table.rows,
       };
@@ -282,7 +503,7 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
     case 'checklist': {
       const items = parseChecklistItems(token.content);
-      return { type: 'checklist', heading: context.heading_above, items };
+      return { type: 'checklist', heading, items };
     }
 
     case 'callout':
@@ -298,20 +519,43 @@ export function buildBlock(token: MarkdownToken, blockType: BlockType, context: 
 
 function extractEncounterName(token: MarkdownToken, context: DetectionContext): string {
   if (context.heading_above) {
-    const match = context.heading_above.match(/boss:\s*(.+)/i) ||
-                  context.heading_above.match(/battle:\s*(.+)/i) ||
-                  context.heading_above.match(/encounter:\s*(.+)/i);
+    const cleaned = stripMarkdownImages(context.heading_above);
+    const match = cleaned.match(/boss:\s*(.+)/i) ||
+                  cleaned.match(/battle:\s*(.+)/i) ||
+                  cleaned.match(/encounter:\s*(.+)/i);
     if (match) return match[1].trim();
-    return context.heading_above;
+    if (cleaned.trim()) return cleaned.trim();
   }
-  return 'Unknown Encounter';
+  // Try to extract name from stats-style table content (e.g. "Trial Chest Boss: Senior Bear Mole")
+  const bossMatch = token.content.match(/(?:trial chest boss|boss|enemy|name):\s*(.+)/i);
+  if (bossMatch) return bossMatch[1].trim().split('|')[0].trim();
+  // Try first cell of the table if it's not a stat key-value
+  const firstLine = token.content.split('\n')[0];
+  const firstCell = firstLine.replace(/^\|?\s*/, '').split('|')[0].trim();
+  if (firstCell && !firstCell.includes(':') && firstCell.length < 60) return firstCell;
+  return 'Encounter';
 }
 
 function extractQuestName(token: MarkdownToken, context: DetectionContext): string {
   const match = token.content.match(/(?:quest|side quest):\s*(.+)/i);
-  if (match) return match[1].trim();
-  if (context.heading_above) return context.heading_above;
-  return 'Unknown Quest';
+  if (match) return stripMarkdownImages(match[1]).trim();
+  if (context.heading_above) {
+    const cleaned = stripMarkdownImages(context.heading_above);
+    if (cleaned.trim()) return cleaned.trim();
+  }
+  // Try to extract from content first sentence
+  const firstSentence = token.content.split(/[.\n]/)[0];
+  if (firstSentence && firstSentence.length < 80) return stripMarkdownImages(firstSentence).trim();
+  return 'Quest';
+}
+
+/** Strips markdown image syntax [![alt](url)](url) and ![alt](url) from text */
+function stripMarkdownImages(text: string): string {
+  // [![alt](imgUrl)](linkUrl)
+  text = text.replace(/\[!\[[^\]]*\]\([^)]*\)\]\([^)]*\)/g, '');
+  // ![alt](url)
+  text = text.replace(/!\[[^\]]*\]\([^)]*\)/g, '');
+  return text.trim();
 }
 
 function detectQuestType(
@@ -344,14 +588,19 @@ function detectEventType(
 
 function extractEventName(token: MarkdownToken, context: DetectionContext): string {
   if (context.heading_above) {
-    // Strip common prefixes like "Bonding Event: " to leave the name.
-    return context.heading_above
-      .replace(/^(bonding event|bond event|optional event|missable event|conversation):\s*/i, '')
-      .trim();
+    const cleaned = stripMarkdownImages(context.heading_above);
+    if (cleaned.trim()) {
+      return cleaned
+        .replace(/^(bonding event|bond event|optional event|missable event|conversation):\s*/i, '')
+        .trim();
+    }
   }
   const match = token.content.match(/(?:bonding event|conversation|cutscene):\s*(.+)/i);
-  if (match) return match[1].trim();
-  return 'Unknown Event';
+  if (match) return stripMarkdownImages(match[1]).trim();
+  // Try to derive a name from the first meaningful sentence
+  const firstLine = token.content.split(/\n/)[0].trim();
+  if (firstLine && firstLine.length < 80) return stripMarkdownImages(firstLine).trim();
+  return 'Event';
 }
 
 function extractEventTrigger(content: string): string | undefined {
@@ -389,11 +638,12 @@ function parseChecklistItems(content: string): Array<{ id: string; label: string
   const lines = content.split('\n').filter(l => /^\s*[-*+]\s/.test(l) || /^\s*\d+\.\s/.test(l));
   return lines.map((line, i) => {
     const text = line.replace(/^\s*[-*+]\s+/, '').replace(/^\s*\d+\.\s+/, '').trim();
-    const dashSplit = text.split(' — ');
+    // Split on " — ", " – ", or " - " (but not leading dash)
+    const dashSplit = text.split(/\s[-–—]\s/);
     return {
       id: `item-${i + 1}`,
       label: dashSplit[0].trim(),
-      detail: dashSplit[1]?.trim(),
+      detail: dashSplit.slice(1).join(' — ').trim() || undefined,
     };
   });
 }

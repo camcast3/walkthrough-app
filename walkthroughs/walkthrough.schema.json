@@ -118,7 +118,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": ["prose", "encounter", "quest", "table", "checklist", "callout"]
+          "enum": ["prose", "encounter", "quest", "table", "checklist", "callout", "event"]
         }
       },
       "allOf": [
@@ -145,6 +145,10 @@
         {
           "if": { "properties": { "type": { "const": "callout" } } },
           "then": { "$ref": "#/$defs/block_callout" }
+        },
+        {
+          "if": { "properties": { "type": { "const": "event" } } },
+          "then": { "$ref": "#/$defs/block_event" }
         }
       ]
     },
@@ -201,6 +205,82 @@
         "drops": {
           "type": "string",
           "description": "Item drops from this enemy"
+        },
+        "adds": {
+          "type": "array",
+          "description": "Additional enemies in this encounter (e.g. minions, reinforcements)",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "description": "Enemy name" },
+              "stats": {
+                "type": "object",
+                "additionalProperties": { "type": "string" },
+                "description": "Key-value stat pairs for this add"
+              }
+            }
+          }
+        }
+      }
+    },
+    "block_event": {
+      "type": "object",
+      "required": ["type", "name"],
+      "additionalProperties": false,
+      "description": "Timed or missable event (bonding events, character conversations, limited-window activities).",
+      "properties": {
+        "type": { "const": "event" },
+        "heading": {
+          "type": "string",
+          "description": "Display heading for the event"
+        },
+        "event_type": {
+          "type": "string",
+          "description": "Category of event (e.g. 'bonding', 'conversation', 'timed')"
+        },
+        "name": {
+          "type": "string",
+          "description": "Event name or title"
+        },
+        "trigger": {
+          "type": "string",
+          "description": "What triggers this event"
+        },
+        "availability": {
+          "type": "string",
+          "description": "When/where this event is available"
+        },
+        "missable": {
+          "type": "boolean",
+          "description": "Whether this event can be permanently missed"
+        },
+        "content": {
+          "type": "string",
+          "description": "Event description text (Markdown supported)"
+        },
+        "details": {
+          "type": "array",
+          "description": "Associated data tables (e.g. items available during the event)",
+          "items": {
+            "type": "object",
+            "required": ["columns", "rows"],
+            "additionalProperties": false,
+            "properties": {
+              "columns": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "rows": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -217,7 +297,7 @@
         },
         "quest_type": {
           "type": "string",
-          "enum": ["main", "side", "hidden", "story"],
+          "enum": ["main", "side", "hidden", "story", "missable"],
           "description": "main=critical path, side=optional, hidden=secret/unmarked, story=required side content"
         },
         "name": {
