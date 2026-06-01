@@ -255,8 +255,17 @@ function checkTrainingRules(
   context: DetectionContext,
   training: TrainingDatabase,
 ): DetectionResult | null {
+  // Skip junk-like training examples (ad content that shouldn't inform classification)
+  const JUNK_TRAINING_PATTERNS = [
+    /ad-?block/i, /ad-free/i, /subscription/i, /support.*neoseeker/i,
+    /click here to upgrade/i, /advertisement/i,
+  ];
+
   // Find matching examples by context similarity
   const matches = training.examples.filter(ex => {
+    // Exclude junk examples that should never have been recorded
+    if (JUNK_TRAINING_PATTERNS.some(p => p.test(ex.source_pattern))) return false;
+
     if (context.heading_above && ex.context.heading_above) {
       return ENCOUNTER_HEADING_PATTERNS.some(p =>
         p.test(context.heading_above!) && p.test(ex.context.heading_above!)

@@ -7,7 +7,7 @@ import express from 'express';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { convertPages } from './converter/index.js';
+import { convertPages, isJunkContent } from './converter/index.js';
 import { IntakeSession, PageCapture, ConvertedSection } from './types.js';
 import { RulesDB } from './training/rules-db.js';
 import { downloadAndRewriteImages } from './images.js';
@@ -188,7 +188,29 @@ export function createServer(workingDir: string) {
       return;
     }
 
+    const existing = section.blocks[blockIndex];
     const { block, approved } = req.body;
+
+    // Record training correction when block type changes, unless content is junk
+    if (block && block.type !== existing.block.type) {
+      const content = (existing.block as { content?: string }).content || '';
+      if (!isJunkContent(content)) {
+        const rulesDb = new RulesDB(trainingDbPath);
+        const session = getSession();
+        rulesDb.addCorrection({
+          source_pattern: content.slice(0, 200),
+          converter_guessed: existing.block.type as import('./types.js').BlockType,
+          user_corrected_to: block.type as import('./types.js').BlockType,
+          context: {
+            heading_above: (existing.block as { heading?: string }).heading || undefined,
+            source_site: session?.source_url,
+          },
+          game: session?.game || 'unknown',
+          timestamp: new Date().toISOString(),
+        });
+      }
+    }
+
     if (block) section.blocks[blockIndex].block = block;
     if (approved !== undefined) section.blocks[blockIndex].approved = approved;
 

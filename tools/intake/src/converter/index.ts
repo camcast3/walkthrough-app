@@ -539,7 +539,7 @@ export function convertPages(pages: PageInput[], options: ConvertOptions): Conve
   });
 }
 
-const AD_PATTERNS = [
+export const AD_PATTERNS = [
   /^\s*\\?[-–—]?\s*advertisement\s*[-–—]?\s*$/i,
   /^\s*\[?\s*ad\s*\]?\s*$/i,
   /^\s*sponsored\s*/i,
@@ -551,8 +551,9 @@ const AD_PATTERNS = [
   /nplus.*subscription/i,
   /adblock-replacement/i,
   /utm_campaign=ad/i,
-  /support.*neoseeker.*ad\s*free/i,
+  /support.*neoseeker/i,
   /enjoying the site ad\s*free/i,
+  /site ad\s*free/i,
 ];
 
 const STRATEGY_KEYWORDS = /\b(attack|buff|heal|damage|HP|CP|EP|S-Craft|craft|boss|hit|phase|strategy|recommend|exploit|weak|defend|link attack|overdrive|stance)\b/i;
@@ -563,7 +564,7 @@ function looksLikeStrategy(text: string): boolean {
 }
 
 /** Returns true for blocks that are junk: ads, empty tables, whitespace-only content. */
-function isJunkBlock(block: WalkthroughBlock): boolean {
+export function isJunkBlock(block: WalkthroughBlock): boolean {
   // Empty tables (no columns, no rows)
   if (block.type === 'table') {
     const cols = (block as { columns?: string[] }).columns || [];
@@ -571,13 +572,20 @@ function isJunkBlock(block: WalkthroughBlock): boolean {
     if (cols.length === 0 && rows.length === 0) return true;
   }
 
-  // Advertisement prose
+  // Check any block with content for ad/site-promotion patterns
+  const content = (block as { content?: string }).content || '';
+  const trimmed = content.trim();
   if (block.type === 'prose' || block.type === 'callout') {
-    const content = (block as { content?: string }).content || '';
-    const trimmed = content.trim();
     if (trimmed === '' || trimmed === '* * *') return true;
-    if (AD_PATTERNS.some(p => p.test(trimmed))) return true;
   }
+  if (trimmed.length > 0 && AD_PATTERNS.some(p => p.test(trimmed))) return true;
 
   return false;
+}
+
+/** Returns true if raw text content matches junk/ad patterns (for training exclusion). */
+export function isJunkContent(text: string): boolean {
+  const trimmed = text.trim();
+  if (trimmed === '' || trimmed === '* * *') return true;
+  return AD_PATTERNS.some(p => p.test(trimmed));
 }
